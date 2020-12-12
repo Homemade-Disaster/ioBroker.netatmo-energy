@@ -1,0 +1,77 @@
+{
+	"common": {
+		"name": "netatmo-energy",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Netatmo Energy",
+		"titleLang": {
+			"en": "Netatmo Energy",
+			"de": "Netatmo Energy",
+			"ru": "Netatmo Energy",
+			"pt": "Energia Netatmo",
+			"nl": "Netatmo Energy",
+			"fr": "Netatmo Energy",
+			"it": "Netatmo Energy",
+			"es": "Energía Netatmo",
+			"pl": "Netatmo Energy",
+			"zh-cn": "耐特莫能源"
+		},
+		"desc": {
+			"en": "Get and set data using Netatmo Energy API",
+			"de": "Abrufen und Festlegen von Daten mithilfe der Netatmo Energy API",
+			"ru": "Получение и установка данных с помощью Netatmo Energy API",
+			"pt": "Obtenha e defina dados usando a API Netatmo Energy",
+			"nl": "Gegevens ophalen en instellen met Netatmo Energy API",
+			"fr": "Obtenez et définissez des données à l'aide de l'API Netatmo Energy",
+			"it": "Ottieni e imposta i dati utilizzando Netatmo Energy API",
+			"es": "Obtenga y configure datos usando la API de Netatmo Energy",
+			"pl": "Pobierz i ustaw dane za pomocą Netatmo Energy API",
+			"zh-cn": "使用Netatmo Energy API获取和设置数据"
+		},
+		"authors": [
+			"IoKlausi <nii@gmx.at>"
+		],
+		"keywords": [
+			"netatmo",
+			"energy"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "netatmo-energy.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png",
+		"readme": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "iot-systems",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}

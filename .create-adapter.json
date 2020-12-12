@@ -1,0 +1,38 @@
+{
+	"cli": true,
+	"adapterName": "netatmo-energy",
+	"title": "Netatmo Energy",
+	"description": "Get and set data using Netatmo Energy API",
+	"keywords": [
+		"netatmo",
+		"energy"
+	],
+	"expert": "yes",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "iot-systems",
+	"startMode": "daemon",
+	"connectionType": "cloud",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"language": "JavaScript",
+	"adminReact": "no",
+	"tools": [
+		"ESLint",
+		"type checking"
+	],
+	"indentation": "Tab",
+	"quotes": "single",
+	"es6class": "yes",
+	"authorName": "IoKlausi",
+	"authorGithub": "Homemade-Disaster",
+	"authorEmail": "nii@gmx.at",
+	"gitRemoteProtocol": "SSH",
+	"gitCommit": "yes",
+	"license": "MIT License",
+	"ci": "gh-actions",
+	"dependabot": "no",
+	"creatorVersion": "1.31.0"
+}
