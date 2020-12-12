@@ -30,19 +30,19 @@
 
 ## netatmo-energy adapter for ioBroker
 
-Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The offical documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
+Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
 
-It also creates some checkboxes in the folder "SpecialRequests" to triggr API request by yourself.
+It also creates some checkboxes in the folder "SpecialRequests" to trigger API request by yourself.
 1. homesdata_NAPlug      ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter)
-2. homestatus            ... get the status and the tecnicl informations of your valves assigned in your rooms
+2. homestatus            ... get the status and the technical informations of your valves assigned in your rooms
 3. setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)
 4. setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
 5. setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
 6. applychanges          ... transfer all manually changes of your valves to Netatmo Energy
 
-## Auto creation of objects
+### Auto creation of objects
 
-If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy settings. It will automaticaly built up the whole structure, and the actual status of your valves.
+If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy settings. It will automatically built up the whole structure, and the actual status of your valves.
 
 
 ## Changelog
@@ -51,7 +51,7 @@ If you start the adapter it will be generating the actual "homes"-environment of
 * (IoKlausi) initial release
 
 ### 0.0.2
-* (IoKlausi) Add API requests and automaticaly generation of home structure and documentation
+* (IoKlausi) Add API requests and automatically generation of home structure and documentation
 
 ## License
 MIT License
