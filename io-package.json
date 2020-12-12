@@ -14,6 +14,18 @@
 				"es": "Versión inicial",
 				"pl": "Pierwsze wydanie",
 				"zh-cn": "首次出版"
+			},
+			"0.0.2": {
+				"en": "API functionality realiced",
+				"de": "API Funktionalität realisiert",
+				"ru": "Реализована функциональность API",
+				"pt": "Funcionalidade API implementada",
+				"nl": "API-functionaliteit gerealiseerd",
+				"fr": "Fonctionnalité de l'API réalisée",
+				"it": "Funzionalità API riapplicata",
+				"es": "Funcionalidad API realizada",
+				"pl": "Urzeczywistniona funkcjonalność API",
+				"zh-cn": "实现API功能"
 			}
 		},
 		"title": "Netatmo Energy",
