@@ -10,10 +10,10 @@
 const utils = require('@iobroker/adapter-core');
 const fetch = require('fetch');
 
-const APIRequest_homesdata        = 'homesdata';
-const APIRequest_homesdata_NAPlug = 'NAPlug';
+const APIRequest_homesdata                = 'homesdata';
+const APIRequest_homesdata_NAPlug         = 'NAPlug';
 
-const APIRequest_homestatus = 'homestatus';
+const APIRequest_homestatus               = 'homestatus';
 
 const APIRequest_setroomthermpoint        = 'setroomthermpoint';
 const APIRequest_setroomthermpoint_manual = 'manual';
