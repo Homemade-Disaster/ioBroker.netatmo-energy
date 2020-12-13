@@ -76,7 +76,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.log.debug('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
 			});
 
-		if (!this.globalNetatmo_AccessToken || this.globalNetatmo_AccessToken != '') {
+		if (!this.globalNetatmo_AccessToken && this.globalNetatmo_AccessToken != '') {
 			await this.getAPIRequest(APIRequest,setpayload)
 				.then(response => {
 					globalresponse = response;
