@@ -53,6 +53,9 @@ If you start the adapter it will be generating the actual "homes"-environment of
 ### 0.0.2
 * (IoKlausi) Add API requests and automatically generation of home structure and documentation
 
+### 0.0.3
+* (IoKlausi) Translation and bugfixing
+
 ## License
 MIT License
 
