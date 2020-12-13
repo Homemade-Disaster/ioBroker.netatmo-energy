@@ -56,6 +56,9 @@ If you start the adapter it will be generating the actual "homes"-environment of
 ### 0.0.3
 * (IoKlausi) Translation and bugfixing
 
+### 0.0.4
+* (IoKlausi) Changed creation of API request folder
+
 ## License
 MIT License
 

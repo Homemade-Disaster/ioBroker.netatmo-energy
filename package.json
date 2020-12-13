@@ -1,6 +1,6 @@
 {
   "name": "iobroker.netatmo-energy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Get and set data using Netatmo Energy API",
   "author": {
     "name": "ioKlausi",

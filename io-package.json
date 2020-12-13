@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.0.3",
+		"version": "0.0.4",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -38,6 +38,18 @@
 				"es": "Conexión API probada",
 				"pl": "Testowane połączenie API",
 				"zh-cn": "经过测试的API连接"
+			},
+			"0.0.4": {
+				"en": "Changed creation of API request folder",
+				"de": "Erzeugung des Request-Folders geändert",
+				"ru": "Изменено создание папки запросов API",
+				"pt": "Criação alterada de pasta de solicitação de API",
+				"nl": "Aanmaak van API-verzoekmap gewijzigd",
+				"fr": "Modification de la création du dossier de demande d'API",
+				"it": "Modificata la creazione della cartella delle richieste API",
+				"es": "Se modificó la creación de la carpeta de solicitud de API",
+				"pl": "Zmieniono tworzenie folderu żądań API",
+				"zh-cn": "更改了API请求文件夹的创建"
 			}
 		},
 		"title": "Netatmo Energy",

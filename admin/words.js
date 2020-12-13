@@ -69,7 +69,7 @@ systemDictionary = {
 		'pt': 'Senha:',
 		'nl': 'Wachtwoord:',
 		'fr': 'Mot de passe:',
-		'it': 'Parola d'ordine:',
+		'it': 'Parola d ordine:',
 		'es': 'Contraseña:',
 		'pl': 'Hasło:',
 		'zh-cn': '密码：'
