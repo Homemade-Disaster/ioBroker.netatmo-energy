@@ -48,21 +48,21 @@ If you start the adapter it will be generating the actual "homes"-environment of
 ## Changelog
 
 ### 0.0.1
-* (IoKlausi) initial release
+* (ioKlausi) initial release
 
 ### 0.0.2
-* (IoKlausi) Add API requests and automatically generation of home structure and documentation
+* (ioKlausi) Add API requests and automatically generation of home structure and documentation
 
 ### 0.0.3
-* (IoKlausi) Translation and bugfixing
+* (ioKlausi) Translation and bugfixing
 
 ### 0.0.4
-* (IoKlausi) Changed creation of API request folder
+* (ioKlausi) Changed creation of API request folder
 
 ## License
 MIT License
 
-Copyright (c) 2020 IoKlausi <nii@gmx.at>
+Copyright (c) 2020 ioKlausi <nii@gmx.at>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
