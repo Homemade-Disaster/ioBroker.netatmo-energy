@@ -68,6 +68,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalNetatmo_AccessToken = tokenvalues.access_token;
 				this.globalNetatmo_ExpiresIn = tokenvalues.expires_in;
 				this.globalRefreshToken = tokenvalues.refresh_token;
+				this.log.debug('Token OK: ' + this.globalNetatmo_AccessToken);
 			})
 			.catch(error => {
 				this.globalNetatmo_AccessToken = '';
@@ -76,7 +77,8 @@ class NetatmoEnergy extends utils.Adapter {
 				this.log.debug('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
 			});
 
-		if (!this.globalNetatmo_AccessToken && this.globalNetatmo_AccessToken != '') {
+		if (this.globalNetatmo_AccessToken != '' || this.globalNetatmo_AccessToken) {
+			this.log.debug('Start Request: ' + APIRequest);
 			await this.getAPIRequest(APIRequest,setpayload)
 				.then(response => {
 					globalresponse = response;
