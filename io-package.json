@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.0.2",
+		"version": "0.0.3",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -26,6 +26,18 @@
 				"es": "Funcionalidad API realizada",
 				"pl": "Urzeczywistniona funkcjonalność API",
 				"zh-cn": "实现API功能"
+			},
+			"0.0.3": {
+				"en": "Getestete API Anbindung",
+				"de": "Tested API connection",
+				"ru": "Протестировано API-соединение",
+				"pt": "Conexão de API testada",
+				"nl": "Geteste API-verbinding",
+				"fr": "Connexion API testée",
+				"it": "Connessione API testata",
+				"es": "Conexión API probada",
+				"pl": "Testowane połączenie API",
+				"zh-cn": "经过测试的API连接"
 			}
 		},
 		"title": "Netatmo Energy",
