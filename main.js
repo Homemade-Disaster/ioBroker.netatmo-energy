@@ -50,6 +50,7 @@ class NetatmoEnergy extends utils.Adapter {
 	 */
 	async onReady() {
 		// Initialize adapter
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.HomeID', 'Netatmo APP - Home ID', this.config.HomeId,false,true);
 		this.log.info('API Request homesdata started');
 		await this.sendAPIRequest(APIRequest_homesdata, '&gateway_types=' + APIRequest_homesdata_NAPlug);
 		this.log.info('API Request homestatus started');

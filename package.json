@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Get and set data using Netatmo Energy API",
   "author": {
-    "name": "IoKlausi",
+    "name": "ioKlausi",
     "email": "nii@gmx.at"
   },
   "homepage": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy",
