@@ -70,28 +70,30 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalRefreshToken = tokenvalues.refresh_token;
 			})
 			.catch(error => {
+				this.globalNetatmo_AccessToken = '';
 				this.globalRefreshToken = '';
 				this.globalNetatmo_ExpiresIn = 0;
 				this.log.debug('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
 			});
 
-		await this.getAPIRequest(APIRequest,setpayload)
-			.then(response => {
-				globalresponse = response;
-			})
-			.catch(error => {
-				this.log.info('API request not OK: ' + error.error + ': ' + error.error_description);
-			});
-		if (globalresponse) {
-			if (APIRequest == APIRequest_homesdata || APIRequest == APIRequest_homestatus) {
-				await this.GetValuesFromNetatmo(APIRequest,globalresponse,'','',Netatmo_Path);
-			} else {
-				this.log.debug('API Changes applied' +  APIRequest);
+		if (!this.globalNetatmo_AccessToken || this.globalNetatmo_AccessToken != '') {
+			await this.getAPIRequest(APIRequest,setpayload)
+				.then(response => {
+					globalresponse = response;
+				})
+				.catch(error => {
+					this.log.info('API request not OK: ' + error.error + ': ' + error.error_description);
+				});
+			if (globalresponse) {
+				if (APIRequest == APIRequest_homesdata || APIRequest == APIRequest_homestatus) {
+					await this.GetValuesFromNetatmo(APIRequest,globalresponse,'','',Netatmo_Path);
+				} else {
+					this.log.debug('API Changes applied' +  APIRequest);
+				}
 			}
+			this.log.debug('API request finished' );
 		}
-		this.log.debug('API request finished' );
 	}
-
 	//get token from Netatmo
 	getToken(HomeId,ClientId,ClientSecretID,User,Password) {
 		this.globalNetatmo_AccessToken = '';
