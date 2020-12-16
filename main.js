@@ -22,6 +22,7 @@ const APIRequest_setthermmode_away        = 'away';
 
 const APIRequest_setthermmode             = 'setthermmode';
 
+
 class NetatmoEnergy extends utils.Adapter {
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
