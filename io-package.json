@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.0.4",
+		"version": "0.0.5",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -21,7 +21,7 @@
 				"ru": "Реализована функциональность API",
 				"pt": "Funcionalidade API implementada",
 				"nl": "API-functionaliteit gerealiseerd",
-				"fr": "Fonctionnalité de l'API réalisée",
+				"fr": "Fonctionnalité de l"API réalisée",
 				"it": "Funzionalità API riapplicata",
 				"es": "Funcionalidad API realizada",
 				"pl": "Urzeczywistniona funkcjonalność API",
@@ -45,12 +45,24 @@
 				"ru": "Изменено создание папки запросов API",
 				"pt": "Criação alterada de pasta de solicitação de API",
 				"nl": "Aanmaak van API-verzoekmap gewijzigd",
-				"fr": "Modification de la création du dossier de demande d'API",
+				"fr": "Modification de la création du dossier de demande d"API",
 				"it": "Modificata la creazione della cartella delle richieste API",
 				"es": "Se modificó la creación de la carpeta de solicitud de API",
 				"pl": "Zmieniono tworzenie folderu żądań API",
 				"zh-cn": "更改了API请求文件夹的创建"
-			}
+			},
+			"0.0.5": {
+		    "en": "Changed ack logic for adapter",
+		    "de": "Die Bestätigungslogik für den Adapter wurde geändert",
+		    "ru": "Изменена логика подтверждения для адаптера",
+		    "pt": "Lógica ack alterada para adaptador",
+		    "nl": "Ack-logica voor adapter gewijzigd",
+		    "fr": "Logique d'accusé de réception modifiée pour l'adaptateur",
+		    "it": "Logica di riconoscimento modificata per l'adattatore",
+		    "es": "Se modificó la lógica de ack para el adaptador.",
+		    "pl": "Zmieniono logikę potwierdzenia dla adaptera",
+		    "zh-cn": "更改了适配器的确认逻辑"
+		  }
 		},
 		"title": "Netatmo Energy",
 		"titleLang": {
@@ -71,7 +83,7 @@
 			"ru": "Получение и установка данных с помощью Netatmo Energy API",
 			"pt": "Obtenha e defina dados usando a API Netatmo Energy",
 			"nl": "Gegevens ophalen en instellen met Netatmo Energy API",
-			"fr": "Obtenez et définissez des données à l'aide de l'API Netatmo Energy",
+			"fr": "Obtenez et définissez des données à l"aide de l"API Netatmo Energy",
 			"it": "Ottieni e imposta i dati utilizzando Netatmo Energy API",
 			"es": "Obtenga y configure datos usando la API de Netatmo Energy",
 			"pl": "Pobierz i ustaw dane za pomocą Netatmo Energy API",
