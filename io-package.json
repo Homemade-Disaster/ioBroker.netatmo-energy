@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.0.5",
+		"version": "0.0.6",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -62,6 +62,18 @@
 		    "es": "Se modificó la lógica de ack para el adaptador.",
 		    "pl": "Zmieniono logikę potwierdzenia dla adaptera",
 		    "zh-cn": "更改了适配器的确认逻辑"
+		  },
+			"0.0.6": {
+		    "en": "Fixed adapter for last repository",
+		    "de": "Adapter für letztes Repository behoben",
+		    "ru": "Исправлен адаптер для последнего репозитория",
+		    "pt": "Adaptador fixo para o último repositório",
+		    "nl": "Vaste adapter voor laatste opslagplaats",
+		    "fr": "Adaptateur fixe pour le dernier référentiel",
+		    "it": "Adattatore fisso per l'ultimo repository",
+		    "es": "Adaptador fijo para el último repositorio",
+		    "pl": "Naprawiono adapter dla ostatniego repozytorium",
+		    "zh-cn": "上一个存储库的固定适配器"
 		  }
 		},
 		"title": "Netatmo Energy",
