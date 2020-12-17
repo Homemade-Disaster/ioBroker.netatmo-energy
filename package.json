@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:Homemade-Disaster/ioBroker.netatmo-energy.git"
+    "url": "git+https://@github.com:Homemade-Disaster/ioBroker.netatmo-energy.git"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0",
