@@ -139,13 +139,13 @@ class NetatmoEnergy extends utils.Adapter {
 		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + sendStatusRequest);
 		if (this.config.getchangesimmediately && sendStatusRequest) {
 			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + sendStatusRequest);
-			this.sendAPIRequest(APIRequest_homestatus, '');
+			await this.sendAPIRequest(APIRequest_homestatus, '');
 		}
 	}
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		const promisApply = new Promise(
+		const promiseApply = new Promise(
 			function(resolve,reject) {
 				const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
 				let extend_payload = '';
@@ -187,7 +187,7 @@ class NetatmoEnergy extends utils.Adapter {
 					reject({error:'NoChanges',error_description:'No changes made - nothing to do!'});
 				}
 			});
-		return  promisApply;
+		return  promiseApply;
 	}
 	//Apply single request to API for temp
 	async applysingleactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
