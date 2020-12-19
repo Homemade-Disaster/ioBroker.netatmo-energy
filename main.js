@@ -128,17 +128,19 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 	//Send Changes to API and create API status request
 	async ApplySingleAPIRequest (NetatmoRequest,mode) {
+		let sendStatusRequest = false;
 		await this.ApplyAPIRequest (NetatmoRequest,mode)
 			.then(changed => {
-				this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + changed);
-				if (this.config.getchangesimmediately && changed) {
-					this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + changed);
-					this.sendAPIRequest(APIRequest_homestatus, '');
-				}
+				sendStatusRequest = changed;
 			})
 			.catch(error => {
 				this.log.info('API Request: ' + error.error + ': ' + error.error_description);
 			});
+		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + sendStatusRequest);
+		if (this.config.getchangesimmediately && sendStatusRequest) {
+			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + sendStatusRequest);
+			this.sendAPIRequest(APIRequest_homestatus, '');
+		}
 	}
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
