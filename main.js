@@ -129,52 +129,66 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 	//Send Changes to API and create API status request
 	async ApplySingleAPIRequest (NetatmoRequest,mode) {
+		const that = this;
 		this.changesmade = false;
-		await this.ApplyAPIRequest (NetatmoRequest,mode);
-		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + this.changesmade);
-		if (this.config.getchangesimmediately && this.changesmade) {
-			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + this.changesmade);
-			await this.sendAPIRequest(APIRequest_homestatus, '');
-		}
+		await this.ApplyAPIRequest(NetatmoRequest,mode)
+			.then(success => {
+				that.log.debug('Changes made 1: ' + that.config.getchangesimmediately + ' - ' + that.changesmade);
+				if (that.config.getchangesimmediately && success) {
+					that.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + that.changesmade);
+					that.sendAPIRequest(APIRequest_homestatus, '');
+				}
+			});
 	}
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
-		let extend_payload = '';
+		that.changesmade = false;
+		const ApplyPrommise = new Promise(
+			function(resolve,reject) {
+				const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
+				let extend_payload = '';
 
-		switch (NetatmoRequest) {
-			case APIRequest_setroomthermpoint:
-				that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
-					for(const id in states) {
-						const adapterstates = await that.getStateAsync(id);
+				switch (NetatmoRequest) {
+					case APIRequest_setroomthermpoint:
+						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
+							for(const id in states) {
+								const adapterstates = await that.getStateAsync(id);
 
-						if (id.search(searchstring) >= 0) {
-							if (adapterstates && adapterstates.val === true) {
-								await that.setState(id, false, true);
+								if (id.search(searchstring) >= 0) {
+									if (adapterstates && adapterstates.val === true) {
+										await that.setState(id, false, true);
 
-								const actPath = id.substring(0,id.lastIndexOf('.'));
-								const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-								const newTemp = await that.getStateAsync(actPath + '.SetTemp');
-								if (newTemp) {
-									if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
-										that.changesmade = true;
-										that.log.debug('Change something: ' + that.changesmade);
+										const actPath = id.substring(0,id.lastIndexOf('.'));
+										const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
+										const newTemp = await that.getStateAsync(actPath + '.SetTemp');
+										if (newTemp) {
+											if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
+												that.changesmade = true;
+												that.log.debug('Change something: ' + that.changesmade);
+											}
+										}
 									}
 								}
+								if (that.changesmade) {
+									resolve(true);
+								} else {
+									reject(false);
+								}
 							}
-						}
-					}
-				});
-				break;
+						});
+						break;
 
-			case APIRequest_setthermmode:
-				that.changesmade = true;
-				extend_payload = '&mode=' + mode;
-				that.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
-				that.sendAPIRequest(NetatmoRequest, extend_payload);
-				break;
-		}
+					case APIRequest_setthermmode:
+						that.changesmade = true;
+						extend_payload = '&mode=' + mode;
+						that.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
+						that.sendAPIRequest(NetatmoRequest, extend_payload);
+						resolve(true);
+						break;
+				}
+			});
+		return  ApplyPrommise;
 	}
 	//Apply single request to API for temp
 	async applysingleactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
