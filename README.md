@@ -43,19 +43,30 @@ It also creates some checkboxes in the folder "SpecialRequests" to trigger API r
 ## Create objects automatically
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy settings. It will automatically built up the whole structure, and the actual status of your valves.
 
+
 ## Changelog
 
-### 0.0.1
-* (ioKlausi) initial release
+### 0.1.0
+* (ioKlausi) Bugfixing and publishing adapter  
 
-### 0.0.2
-* (ioKlausi) Add API requests and automatically generation of home structure and documentation
+### 0.0.6
+* (ioKlausi) Fixed adapter for latest repository
+
+### 0.0.5
+* (ioKlausi) ACK Logic changed
+
+### 0.0.4
+* (ioKlausi) Changed creation of API request folder
 
 ### 0.0.3
 * (ioKlausi) Translation and bugfixing
 
-### 0.0.4
-* (ioKlausi) Changed creation of API request folder
+### 0.0.2
+* (ioKlausi) Add API requests and automatically generation of home structure and documentation
+
+### 0.0.1
+* (ioKlausi) initial release
+
 
 ## License
 MIT License

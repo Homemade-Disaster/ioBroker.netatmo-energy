@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.0.6",
+		"version": "0.1.0",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -74,6 +74,18 @@
 		    "es": "Adaptador fijo para el último repositorio",
 		    "pl": "Naprawiono adapter dla ostatniego repozytorium",
 		    "zh-cn": "上一个存储库的固定适配器"
+		  },
+			"0.1.0": {
+		    "en": "Bugfixing and deployment of adapter",
+		    "de": "Bugfixing und Bereitstellung des Adapters",
+		    "ru": "Исправление ошибок и развертывание адаптера",
+		    "pt": "Correção de bugs e implantação do adaptador",
+		    "nl": "Bugfixing en implementatie van adapter",
+		    "fr": "Correction de bogues et déploiement de l'adaptateur",
+		    "it": "Correzione di bug e distribuzione dell'adattatore",
+		    "es": "Corrección de errores e implementación del adaptador",
+		    "pl": "Naprawianie błędów i wdrażanie adaptera",
+		    "zh-cn": "适配器的错误修复和部署"
 		  }
 		},
 		"title": "Netatmo Energy",
