@@ -135,6 +135,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		switch (NetatmoRequest) {
 			case APIRequest_setroomthermpoint:
+				changesmade = false;
 				this.getStates(this.name + '.' + this.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
 					for(const id in states) {
 						const adapterstates = await that.getStateAsync(id);
@@ -154,7 +155,9 @@ class NetatmoEnergy extends utils.Adapter {
 						}
 					}
 				});
+				that.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + changesmade);
 				if (this.config.getchangesimmediately && changesmade) {
+					that.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + changesmade);
 					this.sendAPIRequest(APIRequest_homestatus, '');
 				}
 				break;
