@@ -50,7 +50,7 @@ systemDictionary = {
 		"pl": "Client-Secret-ID:",
 		"zh-cn": "客户机密ID："
 	},
-	"Username": {
+	"Username:": {
 		"en": "Username:",
 		"de": "Benutzername:",
 		"ru": "Имя пользователя:",
@@ -157,5 +157,17 @@ systemDictionary = {
 		"es": "aplicar inmediatamente",
 		"pl": "zastosuj natychmiast",
 		"zh-cn": "立即申请"
-	}
+	},
+	"read API states immediately": {
+    "en": "read API states immediately",
+    "de": "API-Zustände sofort lesen",
+    "ru": "немедленно читать состояния API",
+    "pt": "leia os estados da API imediatamente",
+    "nl": "lees API-staten onmiddellijk",
+    "fr": "lire les états de l'API immédiatement",
+    "it": "leggere immediatamente gli stati dell'API",
+    "es": "leer los estados de la API inmediatamente",
+    "pl": "natychmiast odczytaj stany API",
+    "zh-cn": "立即读取API状态"
+  }
 };
