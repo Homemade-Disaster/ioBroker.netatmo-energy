@@ -133,9 +133,9 @@ class NetatmoEnergy extends utils.Adapter {
 		this.changesmade = false;
 		await this.ApplyAPIRequest(NetatmoRequest,mode)
 			.then(success => {
-				that.log.debug('Changes made 1: ' + that.config.getchangesimmediately + ' - ' + that.changesmade);
+				//that.log.debug('Changes made 1: ' + that.config.getchangesimmediately + ' - ' + that.changesmade);
 				if (that.config.getchangesimmediately && success) {
-					that.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + that.changesmade);
+					//that.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + that.changesmade);
 					that.sendAPIRequest(APIRequest_homestatus, '');
 				}
 			});
@@ -165,7 +165,7 @@ class NetatmoEnergy extends utils.Adapter {
 										if (newTemp) {
 											if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
 												that.changesmade = true;
-												that.log.debug('Change something: ' + that.changesmade);
+												//that.log.debug('Change something: ' + that.changesmade);
 											}
 										}
 									}
@@ -393,7 +393,7 @@ class NetatmoEnergy extends utils.Adapter {
 				role = 'state';
 			}
 		}
-		this.log.debug('Take rule: ' + role + ' for ' + object_name);
+		//this.log.debug('Take rule: ' + role + ' for ' + object_name);
 		await this.setObjectNotExistsAsync(id, {
 			type: 'state',
 			common: {

@@ -26,6 +26,8 @@
 			- copy it to your adapter config
 		- insert your user and password from Netatmo Cloud to your adapter config
 		- choose "generell settings options" and "Save and close" the adapter config
+			- apply immediately ... send API request after changing "SetTemp" object
+			- read API states immediately ... send API homestatus request after changing fields in API
 
 
 ## netatmo-energy adapter for ioBroker
@@ -45,6 +47,9 @@ If you start the adapter it will be generating the actual "homes"-environment of
 
 
 ## Changelog
+
+### 0.1.1
+* (ioKlausi) Send API homestatus request immediately  
 
 ### 0.1.0
 * (ioKlausi) Bugfixing and publishing adapter  

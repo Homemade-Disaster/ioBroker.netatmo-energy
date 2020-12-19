@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.0",
+		"version": "0.1.1",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -86,6 +86,18 @@
 		    "es": "Corrección de errores e implementación del adaptador",
 		    "pl": "Naprawianie błędów i wdrażanie adaptera",
 		    "zh-cn": "适配器的错误修复和部署"
+		  },
+			"0.1.1": {
+				"en": "Send API homestatus request immediately",
+		    "de": "API-Homestatus-Anfrage sofort senden",
+		    "ru": "Немедленно отправить запрос о домашнем статусе API",
+		    "pt": "Enviar solicitação de status homestatus da API imediatamente",
+		    "nl": "Verzend onmiddellijk een API-homestatusverzoek",
+		    "fr": "Envoyer immédiatement la demande de statut de l’API",
+		    "it": "Invia immediatamente la richiesta dello stato iniziale dell'API",
+		    "es": "Enviar solicitud de homestatus API inmediatamente",
+		    "pl": "Natychmiast wyślij żądanie homestatus API",
+		    "zh-cn": "立即发送API homestatus请求"
 		  }
 		},
 		"title": "Netatmo Energy",
