@@ -40,6 +40,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalRefreshToken = '';
 		this.globalNetatmo_ExpiresIn = 0;
 		this.globalNetatmo_AccessToken = '';
+		this.changesmade = false;
 	}
 
 	// Is called when databases are connected and adapter received configuration
@@ -128,73 +129,52 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 	//Send Changes to API and create API status request
 	async ApplySingleAPIRequest (NetatmoRequest,mode) {
-		let sendStatusRequest = false;
-		await this.ApplySinglePromiseAPIRequest (NetatmoRequest,mode)
-			.then(changed => {
-				sendStatusRequest = changed;
-			})
-			.catch(error => {
-				this.log.info('API Request: ' + error.error + ': ' + error.error_description);
-			});
-		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + sendStatusRequest);
-		if (this.config.getchangesimmediately && sendStatusRequest) {
-			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + sendStatusRequest);
+		this.changesmade = false;
+		await this.ApplySinglePromiseAPIRequest (NetatmoRequest,mode);
+		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + this.changesmade);
+		if (this.config.getchangesimmediately && this.changesmade) {
+			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + this.changesmade);
 			await this.sendAPIRequest(APIRequest_homestatus, '');
 		}
-	}
-	//Send Changes to API and create API status request
-	async ApplySinglePromiseAPIRequest (NetatmoRequest,mode) {
-		return await this.ApplyAPIRequest (NetatmoRequest,mode);
 	}
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		const promiseApply = new Promise(
-			function(resolve,reject) {
-				const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
-				let extend_payload = '';
-				let changed = false;
+		const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
+		let extend_payload = '';
 
-				switch (NetatmoRequest) {
-					case APIRequest_setroomthermpoint:
-						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
-							for(const id in states) {
-								const adapterstates = await that.getStateAsync(id);
+		switch (NetatmoRequest) {
+			case APIRequest_setroomthermpoint:
+				that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
+					for(const id in states) {
+						const adapterstates = await that.getStateAsync(id);
 
-								if (id.search(searchstring) >= 0) {
-									if (adapterstates && adapterstates.val === true) {
-										await that.setState(id, false, true);
+						if (id.search(searchstring) >= 0) {
+							if (adapterstates && adapterstates.val === true) {
+								await that.setState(id, false, true);
 
-										const actPath = id.substring(0,id.lastIndexOf('.'));
-										const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-										const newTemp = await that.getStateAsync(actPath + '.SetTemp');
-										if (newTemp) {
-											if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
-												changed = true;
-												that.log.debug('Change something: ' + changed);
-											}
-										}
+								const actPath = id.substring(0,id.lastIndexOf('.'));
+								const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
+								const newTemp = await that.getStateAsync(actPath + '.SetTemp');
+								if (newTemp) {
+									if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
+										that.changesmade = true;
+										that.log.debug('Change something: ' + that.changesmade);
 									}
 								}
 							}
-						});
-						break;
+						}
+					}
+				});
+				break;
 
-					case APIRequest_setthermmode:
-						changed = true;
-						extend_payload = '&mode=' + mode;
-						that.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
-						that.sendAPIRequest(NetatmoRequest, extend_payload);
-						break;
-				}
-				that.log.debug('Something changed? ' + changed);
-				if (changed) {
-					resolve(changed);
-				} else {
-					reject({error:'NoChanges',error_description:'No changes made - nothing to do!'});
-				}
-			});
-		return  promiseApply;
+			case APIRequest_setthermmode:
+				that.changesmade = true;
+				extend_payload = '&mode=' + mode;
+				that.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
+				that.sendAPIRequest(NetatmoRequest, extend_payload);
+				break;
+		}
 	}
 	//Apply single request to API for temp
 	async applysingleactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
