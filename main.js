@@ -128,54 +128,64 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 	//Send Changes to API and create API status request
 	async ApplySingleAPIRequest (NetatmoRequest,mode) {
-		const changed = await this.ApplyAPIRequest (NetatmoRequest,mode) ;
-		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + changed);
-		if (this.config.getchangesimmediately && changed) {
-			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + changed);
-			await this.sendAPIRequest(APIRequest_homestatus, '');
-		}
+		await this.ApplyAPIRequest (NetatmoRequest,mode)
+			.then(changed => {
+				this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + changed);
+				if (this.config.getchangesimmediately && changed) {
+					this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + changed);
+					this.sendAPIRequest(APIRequest_homestatus, '');
+				}
+			})
+			.catch(error => {
+				this.log.info('API Request: ' + error.error + ': ' + error.error_description);
+			});
 	}
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
-		let extend_payload = '';
-		let changed = false;
+		const promisApply = new Promise(
+			function(resolve,reject) {
+				const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
+				let extend_payload = '';
+				let changed = false;
 
-		switch (NetatmoRequest) {
-			case APIRequest_setroomthermpoint:
-				this.getStates(this.name + '.' + this.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
-					for(const id in states) {
-						const adapterstates = await that.getStateAsync(id);
+				switch (NetatmoRequest) {
+					case APIRequest_setroomthermpoint:
+						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
+							for(const id in states) {
+								const adapterstates = await that.getStateAsync(id);
 
-						if (id.search(searchstring) >= 0) {
-							if (adapterstates && adapterstates.val === true) {
-								await that.setState(id, false, true);
+								if (id.search(searchstring) >= 0) {
+									if (adapterstates && adapterstates.val === true) {
+										await that.setState(id, false, true);
 
-								const actPath = id.substring(0,id.lastIndexOf('.'));
-								const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-								const newTemp = await that.getStateAsync(actPath + '.SetTemp');
-								if (newTemp) {
-									await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode);
-									changed = true;
+										const actPath = id.substring(0,id.lastIndexOf('.'));
+										const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
+										const newTemp = await that.getStateAsync(actPath + '.SetTemp');
+										if (newTemp) {
+											await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode);
+											changed = true;
+										}
+									}
 								}
 							}
-						}
-					}
-				});
-				break;
+						});
+						break;
 
-			case APIRequest_setthermmode:
-				changed = true;
-				extend_payload = '&mode=' + mode;
-				//this.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
-				await this.sendAPIRequest(NetatmoRequest, extend_payload);
-				if (this.config.getchangesimmediately) {
-					this.sendAPIRequest(APIRequest_homestatus, '');
+					case APIRequest_setthermmode:
+						changed = true;
+						extend_payload = '&mode=' + mode;
+						//this.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
+						that.sendAPIRequest(NetatmoRequest, extend_payload);
+						break;
 				}
-				break;
-		}
-		return changed;
+				if (changed) {
+					resolve(changed);
+				} else {
+					reject({error:'NoChanges',error_description:'No changes made - nothing to do!'});
+				}
+			});
+		return  promisApply;
 	}
 	//Apply single request to API for temp
 	async applysingleactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
@@ -204,7 +214,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 			function(resolve,reject) {
 				if (!url) {
-					reject({error:'Invalid Parameter',error_description:'Url oder Payload wurde nicht übergeben!'});
+					reject({error:'Invalid Parameter',error_description:'Did not get url or payload!'});
 					return;
 				}
 				fetch.fetchUrl(url, {
