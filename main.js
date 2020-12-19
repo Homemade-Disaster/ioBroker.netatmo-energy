@@ -130,7 +130,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//Send Changes to API and create API status request
 	async ApplySingleAPIRequest (NetatmoRequest,mode) {
 		this.changesmade = false;
-		await this.ApplySinglePromiseAPIRequest (NetatmoRequest,mode);
+		await this.ApplyAPIRequest (NetatmoRequest,mode);
 		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + this.changesmade);
 		if (this.config.getchangesimmediately && this.changesmade) {
 			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + this.changesmade);
