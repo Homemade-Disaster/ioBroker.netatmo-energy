@@ -146,7 +146,7 @@ class NetatmoEnergy extends utils.Adapter {
 								const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
 								const newTemp = await that.getStateAsync(actPath + '.SetTemp');
 								if (newTemp) {
-									that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,extend_payload);
+									that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode);
 								}
 							}
 						}

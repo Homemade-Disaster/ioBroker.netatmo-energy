@@ -40,10 +40,8 @@ It also creates some checkboxes in the folder "SpecialRequests" to trigger API r
 5. setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
 6. applychanges          ... transfer all manually changes of your valves to Netatmo Energy
 
-### Auto creation of objects
-
+## Create objects automatically
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy settings. It will automatically built up the whole structure, and the actual status of your valves.
-
 
 ## Changelog
 
