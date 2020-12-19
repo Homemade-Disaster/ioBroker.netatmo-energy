@@ -156,6 +156,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 			case APIRequest_setthermmode:
 				extend_payload = '&mode=' + mode;
+				this.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
 				await this.sendAPIRequest(NetatmoRequest, extend_payload);
 				break;
 		}
@@ -165,7 +166,7 @@ class NetatmoEnergy extends utils.Adapter {
 		const roomnumber = await this.getStateAsync(actParent + '.id');
 		const actTemp = await this.getStateAsync(actParent + '.status.therm_setpoint_temperature');
 
-		this.log.debug('Check act/new - Temp: ' + actTemp + ' - ' + newTemp);
+		this.log.debug('Check act/new - Temp: ' + actTemp.val + ' - ' + newTemp.val);
 		if (roomnumber && actTemp && actTemp.val != newTemp.val) {
 			const extend_payload = '&room_id=' + roomnumber.val + '&mode=' + mode + '&temp=' + newTemp.val;
 			await this.sendAPIRequest(NetatmoRequest, extend_payload);
