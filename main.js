@@ -126,16 +126,24 @@ class NetatmoEnergy extends utils.Adapter {
 		const payload = 'access_token=' + this.globalNetatmo_AccessToken + '&home_id=' + this.config.HomeId + extend_payload;
 		return this.myFetch(Netatmo_APIrequest_URL + NetatmoRequest, payload);
 	}
+	//Send Changes to API and create API status request
+	async ApplySingleAPIRequest (NetatmoRequest,mode) {
+		const changed = await this.ApplyAPIRequest (NetatmoRequest,mode) ;
+		this.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + changed);
+		if (this.config.getchangesimmediately && changed) {
+			this.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + changed);
+			await this.sendAPIRequest(APIRequest_homestatus, '');
+		}
+	}
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
 		const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
 		let extend_payload = '';
-		let changesmade = false;
+		let changed = false;
 
 		switch (NetatmoRequest) {
 			case APIRequest_setroomthermpoint:
-				changesmade = false;
 				this.getStates(this.name + '.' + this.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
 					for(const id in states) {
 						const adapterstates = await that.getStateAsync(id);
@@ -149,20 +157,16 @@ class NetatmoEnergy extends utils.Adapter {
 								const newTemp = await that.getStateAsync(actPath + '.SetTemp');
 								if (newTemp) {
 									await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode);
-									changesmade = true;
+									changed = true;
 								}
 							}
 						}
 					}
 				});
-				that.log.debug('Changes made 1: ' + this.config.getchangesimmediately + ' - ' + changesmade);
-				if (this.config.getchangesimmediately && changesmade) {
-					that.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + changesmade);
-					this.sendAPIRequest(APIRequest_homestatus, '');
-				}
 				break;
 
 			case APIRequest_setthermmode:
+				changed = true;
 				extend_payload = '&mode=' + mode;
 				//this.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
 				await this.sendAPIRequest(NetatmoRequest, extend_payload);
@@ -171,6 +175,7 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 				break;
 		}
+		return changed;
 	}
 	//Apply single request to API for temp
 	async applysingleactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
@@ -490,7 +495,7 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							this.log.debug('API Request setthermpoint - manual: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.ApplyAPIRequest(APIRequest_setroomthermpoint, APIRequest_setroomthermpoint_manual);
+							this.ApplySingleAPIRequest(APIRequest_setroomthermpoint, APIRequest_setroomthermpoint_manual);
 							break;
 
 						// Set Therm Mode for Netatmo Energy
@@ -500,7 +505,7 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							this.log.debug('API Request setthermmode - schedule: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.ApplyAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_schedule);
+							this.ApplySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_schedule);
 							break;
 
 						// Set Therm Mode for Netatmo Energy
@@ -510,7 +515,7 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							this.log.debug('API Request setthermmode - hg: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.ApplyAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_hg);
+							this.ApplySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_hg);
 							break;
 
 						// Set Therm Mode for Netatmo Energy
@@ -520,7 +525,7 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							this.log.debug('API Request setthermmode - away: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.ApplyAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_away);
+							this.ApplySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_away);
 							break;
 
 					}
