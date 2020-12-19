@@ -165,8 +165,10 @@ class NetatmoEnergy extends utils.Adapter {
 										const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
 										const newTemp = await that.getStateAsync(actPath + '.SetTemp');
 										if (newTemp) {
-											await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode);
-											changed = true;
+											if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
+												changed = true;
+												that.log.debug('Change something: ' + changed);
+											}
 										}
 									}
 								}
@@ -177,10 +179,11 @@ class NetatmoEnergy extends utils.Adapter {
 					case APIRequest_setthermmode:
 						changed = true;
 						extend_payload = '&mode=' + mode;
-						//this.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
+						that.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
 						that.sendAPIRequest(NetatmoRequest, extend_payload);
 						break;
 				}
+				that.log.debug('Something changed? ' + changed);
 				if (changed) {
 					resolve(changed);
 				} else {
@@ -205,6 +208,9 @@ class NetatmoEnergy extends utils.Adapter {
 		if (roomnumber && actTemp && actTemp.val != newTemp.val) {
 			const extend_payload = '&room_id=' + roomnumber.val + '&mode=' + mode + '&temp=' + newTemp.val;
 			await this.sendAPIRequest(NetatmoRequest, extend_payload);
+			return true;
+		} else {
+			return false;
 		}
 	}
 	//fetch API request
