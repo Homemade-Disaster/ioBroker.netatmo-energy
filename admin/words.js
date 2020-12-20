@@ -147,16 +147,16 @@ systemDictionary = {
 		"zh-cn": "常规设置"
 	},
 	"apply immediately": {
-		"en": "apply immediately",
-		"de": "sofort anwenden",
-		"ru": "применить немедленно",
-		"pt": "aplique imediatamente",
-		"nl": "onmiddellijk toepassen",
-		"fr": "appliquer immédiatement",
-		"it": "applicare immediatamente",
-		"es": "aplicar inmediatamente",
-		"pl": "zastosuj natychmiast",
-		"zh-cn": "立即申请"
+		"en": "apply temperature immediately",
+		"de": "Temperatur sofort übertragen",
+		"ru": "немедленно применить температуру",
+		"pt": "aplique a temperatura imediatamente",
+		"nl": "breng de temperatuur onmiddellijk aan",
+		"fr": "appliquer la température immédiatement",
+		"it": "applicare immediatamente la temperatura",
+		"es": "aplicar temperatura inmediatamente",
+		"pl": "natychmiast zastosować temperaturę",
+		"zh-cn": "立即施加温度"
 	},
 	"read API states immediately": {
     "en": "read API states immediately",

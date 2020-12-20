@@ -16,12 +16,12 @@ const APIRequest_homestatus               = 'homestatus';
 const APIRequest_setroomthermpoint        = 'setroomthermpoint';
 const APIRequest_setroomthermpoint_manual = 'manual';
 
+const APIRequest_setthermmode             = 'setthermmode';
 const APIRequest_setthermmode_schedule    = 'schedule';
 const APIRequest_setthermmode_hg          = 'hg';
 const APIRequest_setthermmode_away        = 'away';
 
-const APIRequest_setthermmode             = 'setthermmode';
-
+const APIRequestsDevice                   = 'energyAPP';
 
 class NetatmoEnergy extends utils.Adapter {
 	/**
@@ -46,28 +46,33 @@ class NetatmoEnergy extends utils.Adapter {
 	// Is called when databases are connected and adapter received configuration
 	async onReady() {
 		// Initialize adapter
-		await this.createSpecialRequests();
+		await this.createenergyAPP();
 		this.log.info('API Request homesdata started');
 		await this.sendAPIRequest(APIRequest_homesdata, '&gateway_types=' + APIRequest_homesdata_NAPlug);
 		this.log.info('API Request homestatus started');
 		await this.sendAPIRequest(APIRequest_homestatus, '');
 	}
 
-	// Create Request Folder
-	async createSpecialRequests() {
-		await this.createMyChannel(this.name + '.' + this.instance + '.SpecialRequests', 'Requests für Netatmo Energy API');
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.SpecialRequests.applychanges', 'Änderungen in die Netatmo Cloud übertragen', false,true,'button',true,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.SpecialRequests.applychanges');
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_homestatus, 'homesstatus', false,true,'button',true,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_homestatus);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'SetThermMode_schedule', false,true,'button',true,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'SetThermMode_hg', false,true,'button',true,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.SpecialRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
+	// Create APP Requests device
+	async createenergyAPP() {
+		await this.createMyDevice(this.name + '.' + this.instance + '.' + APIRequestsDevice, 'Requests für Netatmo Energy API');
+
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests', 'Requests für Netatmo Energy API');
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homestatus, 'homesstatus', false,true,'button',true,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homestatus);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'SetThermMode_schedule', false,true,'button',true,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'SetThermMode_hg', false,true,'button',true,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
+
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger', 'Requests für Netatmo Energy API');
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges', 'Änderungen in die Netatmo Cloud übertragen', false,true,'button',true,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges');
+
 	}
 
 	// Send API inkluding tokenrequest
@@ -359,6 +364,17 @@ class NetatmoEnergy extends utils.Adapter {
 	//Delete leading .
 	getPrefixPath(path) {
 		return path.replace(/^\.+/, '');
+	}
+	// Create Device
+	async createMyDevice(path, name) {
+		//this.log.debug('Create Device: ' + name + ' - ' + path);
+		await this.setObjectNotExists(path, {
+			type: 'device',
+			common: {
+				name: name,
+			},
+			native: {},
+		});
 	}
 	// Create Channel
 	async createMyChannel(path, name) {

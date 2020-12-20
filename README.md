@@ -34,19 +34,31 @@
 
 Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
 
-It also creates some checkboxes in the folder "SpecialRequests" to trigger API request by yourself.
-1. homesdata_NAPlug      ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter)
-2. homestatus            ... get the status and the technical informations of your valves assigned in your rooms
-3. setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)
-4. setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
-5. setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
-6. applychanges          ... transfer all manually changes of your valves to Netatmo Energy
+It also creates a device called "energyAPP" including channels "API Requests" and "Trigger".
 
-## Create objects automatically
-If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy settings. It will automatically built up the whole structure, and the actual status of your valves.
+### API Requests
+* homesdata_NAPlug      ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter)
+* homestatus            ... get the status and the technical informations of your valves assigned in your rooms
+* setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)
+* setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
+* setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
+
+### Trigger
+* applychanges          ... transfer all manually changes of your valves to Netatmo Energy
+
+### Update requests
+* setroomthermpoint     ... depending of the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
+
+## Build structure
+If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
+It will automatically built up the whole homes-structure, and also the actual status of your valves.
+Depending an the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
 
 
 ## Changelog
+
+### 0.1.2
+* (ioKlausi) Changed "SpecialRequests" to Device "energyAPP" 
 
 ### 0.1.1
 * (ioKlausi) Send API homestatus request immediately  

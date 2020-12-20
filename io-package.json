@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.1",
+		"version": "0.1.2",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -98,6 +98,18 @@
 		    "es": "Enviar solicitud de homestatus API inmediatamente",
 		    "pl": "Natychmiast wyślij żądanie homestatus API",
 		    "zh-cn": "立即发送API homestatus请求"
+		  },
+			"0.1.2": {
+				"en": "Device for requests created",
+		    "de": "Gerät für erstellte Anfragen",
+		    "ru": "Создано устройство для запросов",
+		    "pt": "Dispositivo para solicitações criadas",
+		    "nl": "Apparaat voor aangemaakte verzoeken",
+		    "fr": "Appareil pour les demandes créées",
+		    "it": "Dispositivo per richieste create",
+		    "es": "Dispositivo para solicitudes creadas",
+		    "pl": "Utworzono urządzenie do żądań",
+		    "zh-cn": "创建请求的设备"
 		  }
 		},
 		"title": "Netatmo Energy",
