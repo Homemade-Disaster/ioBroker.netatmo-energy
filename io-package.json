@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.2",
+		"version": "0.1.3",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -110,6 +110,18 @@
 		    "es": "Dispositivo para solicitudes creadas",
 		    "pl": "Utworzono urządzenie do żądań",
 		    "zh-cn": "创建请求的设备"
+		  },
+			"0.1.3": {
+				"en": "Check README and delete unnecessary coding",
+		    "de": "Überprüfen Sie README und löschen Sie unnötige Codierungen",
+		    "ru": "Проверьте README и удалите ненужную кодировку",
+		    "pt": "Verifique o README e exclua códigos desnecessários",
+		    "nl": "Controleer README en verwijder onnodige codering",
+		    "fr": "Vérifiez README et supprimez le codage inutile",
+		    "it": "Controlla README ed elimina la codifica non necessaria",
+		    "es": "Marque README y elimine la codificación innecesaria",
+		    "pl": "Sprawdź README i usuń niepotrzebne kodowanie",
+		    "zh-cn": "检查自述文件并删除不必要的编码"
 		  }
 		},
 		"title": "Netatmo Energy",

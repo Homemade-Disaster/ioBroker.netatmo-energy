@@ -159,15 +159,15 @@ systemDictionary = {
 		"zh-cn": "立即施加温度"
 	},
 	"read API states immediately": {
-    "en": "read API states immediately",
-    "de": "API-Zustände sofort lesen",
-    "ru": "немедленно читать состояния API",
-    "pt": "leia os estados da API imediatamente",
-    "nl": "lees API-staten onmiddellijk",
-    "fr": "lire les états de l'API immédiatement",
-    "it": "leggere immediatamente gli stati dell'API",
-    "es": "leer los estados de la API inmediatamente",
-    "pl": "natychmiast odczytaj stany API",
-    "zh-cn": "立即读取API状态"
-  }
+		"en": "read API states immediately",
+		"de": "API-Zustände sofort lesen",
+		"ru": "немедленно читать состояния API",
+		"pt": "leia os estados da API imediatamente",
+		"nl": "lees API-staten onmiddellijk",
+		"fr": "lire les états de l'API immédiatement",
+		"it": "leggere immediatamente gli stati dell'API",
+		"es": "leer los estados de la API inmediatamente",
+		"pl": "natychmiast odczytaj stany API",
+		"zh-cn": "立即读取API状态"
+	}
 };

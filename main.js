@@ -40,23 +40,23 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalRefreshToken = '';
 		this.globalNetatmo_ExpiresIn = 0;
 		this.globalNetatmo_AccessToken = '';
-		this.changesmade = false;
 	}
 
 	// Is called when databases are connected and adapter received configuration
 	async onReady() {
 		// Initialize adapter
 		await this.createenergyAPP();
-		this.log.info('API Request homesdata started');
+		this.log.info('API Request homesdata sent to API');
 		await this.sendAPIRequest(APIRequest_homesdata, '&gateway_types=' + APIRequest_homesdata_NAPlug);
-		this.log.info('API Request homestatus started');
+		this.log.info('API Request homestatus sent to API');
 		await this.sendAPIRequest(APIRequest_homestatus, '');
 	}
 
 	// Create APP Requests device
 	async createenergyAPP() {
+		// Device energyAPP
 		await this.createMyDevice(this.name + '.' + this.instance + '.' + APIRequestsDevice, 'Requests für Netatmo Energy API');
-
+		// Channel APIRequests
 		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests', 'Requests für Netatmo Energy API');
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,false);
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
@@ -68,11 +68,10 @@ class NetatmoEnergy extends utils.Adapter {
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,false);
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
-
+		// Channel trigger
 		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger', 'Requests für Netatmo Energy API');
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges', 'Änderungen in die Netatmo Cloud übertragen', false,true,'button',true,false);
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges');
-
 	}
 
 	// Send API inkluding tokenrequest
@@ -80,7 +79,7 @@ class NetatmoEnergy extends utils.Adapter {
 		let globalresponse = null;
 		const Netatmo_Path = this.name + '.' + this.instance;
 
-		this.log.info('API Request: ' + APIRequest + '?' + setpayload);
+		this.log.info('Start Token-request: ' + APIRequest + ' ' + setpayload);
 		await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
 			.then(tokenvalues => {
 				this.globalNetatmo_AccessToken = tokenvalues.access_token;
@@ -97,7 +96,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		// only send API request if we get the token
 		if (this.globalNetatmo_AccessToken != '' || this.globalNetatmo_AccessToken) {
-			this.log.debug('Start Request: ' + APIRequest);
+			this.log.info('Start API-request: ' + APIRequest);
 			await this.getAPIRequest(APIRequest,setpayload)
 				.then(response => {
 					globalresponse = response;
@@ -115,6 +114,7 @@ class NetatmoEnergy extends utils.Adapter {
 			this.log.debug('API request finished' );
 		}
 	}
+
 	//get token from Netatmo
 	getToken(HomeId,ClientId,ClientSecretID,User,Password) {
 		this.globalNetatmo_AccessToken = '';
@@ -127,28 +127,28 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 		return this.myFetch(Netatmo_TokenRequest_URL,payload);
 	}
+
 	//API request main routine
 	getAPIRequest(NetatmoRequest, extend_payload) {
 		const payload = 'access_token=' + this.globalNetatmo_AccessToken + '&home_id=' + this.config.HomeId + extend_payload;
 		return this.myFetch(Netatmo_APIrequest_URL + NetatmoRequest, payload);
 	}
+
 	//Send Changes to API and create API status request
 	async ApplySingleAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		this.changesmade = false;
 		await this.ApplyAPIRequest(NetatmoRequest,mode)
 			.then(success => {
-				//that.log.debug('Changes made 1: ' + that.config.getchangesimmediately + ' - ' + that.changesmade);
 				if (that.config.getchangesimmediately && success) {
-					//that.log.debug('Changes made 2: ' + this.config.getchangesimmediately + ' - ' + that.changesmade);
 					that.sendAPIRequest(APIRequest_homestatus, '');
 				}
 			});
 	}
+
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		that.changesmade = false;
+		let changesmade = false;
 		const ApplyPrommise = new Promise(
 			function(resolve,reject) {
 				const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
@@ -169,13 +169,12 @@ class NetatmoEnergy extends utils.Adapter {
 										const newTemp = await that.getStateAsync(actPath + '.SetTemp');
 										if (newTemp) {
 											if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
-												that.changesmade = true;
-												//that.log.debug('Change something: ' + that.changesmade);
+												changesmade = true;
 											}
 										}
 									}
 								}
-								if (that.changesmade) {
+								if (changesmade) {
 									resolve(true);
 								} else {
 									reject(false);
@@ -185,16 +184,16 @@ class NetatmoEnergy extends utils.Adapter {
 						break;
 
 					case APIRequest_setthermmode:
-						that.changesmade = true;
+						changesmade = true;
 						extend_payload = '&mode=' + mode;
-						that.log.debug('Send API-: ' + NetatmoRequest + ' - ' + extend_payload);
 						that.sendAPIRequest(NetatmoRequest, extend_payload);
-						resolve(true);
+						resolve(changesmade);
 						break;
 				}
 			});
 		return  ApplyPrommise;
 	}
+
 	//Apply single request to API for temp
 	async applysingleactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
 		await this.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode);
@@ -202,12 +201,12 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(APIRequest_homestatus, '');
 		}
 	}
+
 	//Apply request to API for temp
 	async applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
 		const roomnumber = await this.getStateAsync(actParent + '.id');
 		const actTemp = await this.getStateAsync(actParent + '.status.therm_setpoint_temperature');
 
-		//this.log.debug('Check act/new - Temp: ' + actTemp.val + ' - ' + newTemp.val);
 		if (roomnumber && actTemp && actTemp.val != newTemp.val) {
 			const extend_payload = '&room_id=' + roomnumber.val + '&mode=' + mode + '&temp=' + newTemp.val;
 			await this.sendAPIRequest(NetatmoRequest, extend_payload);
@@ -216,10 +215,9 @@ class NetatmoEnergy extends utils.Adapter {
 			return false;
 		}
 	}
+
 	//fetch API request
 	myFetch(url, payload) {
-		this.log.debug('Fetch-Request: ' + url + '?' + payload);
-
 		const that = this;
 		const promiseobject = new Promise(
 
@@ -236,7 +234,7 @@ class NetatmoEnergy extends utils.Adapter {
 					payload: payload
 				},
 				function(error, meta, body) {
-					that.log.debug('Netatmo API Status:' + meta.status);
+					that.log.debug('Netatmo API status:' + meta.status);
 					if (meta.status == 200 ) {
 						resolve(JSON.parse(body));
 					} else {
@@ -246,7 +244,8 @@ class NetatmoEnergy extends utils.Adapter {
 			});
 		return  promiseobject;
 	}
-	//Parse values vrom Netatmo response
+
+	//Parse values from Netatmo response
 	async GetValuesFromNetatmo(API_Request,obj,obj_name,obj_selected,Netatmo_Path) {
 		const relevantTag = 'home\\.\\b(?:rooms|modules)\\.\\d+\\.id';
 		let myobj_selected = obj_name;
@@ -263,7 +262,6 @@ class NetatmoEnergy extends utils.Adapter {
 			if (API_Request === APIRequest_homestatus) {
 				const fullname = this.getPrefixPath(Netatmo_Path + '.') + object_name;
 				if (fullname.search(relevantTag) >= 0) {
-					//this.log.debug('Found Tag: ' + object_name);
 					await this.SearchRoom(obj[object_name], obj);
 				}
 			}
@@ -280,27 +278,25 @@ class NetatmoEnergy extends utils.Adapter {
 			}
 		}
 	}
-	// homestatus in himedata-Datenpunkte einfügen
+
+	// insert homestatus in homedata-rooms
 	async SearchRoom(statevalue,ObjStatus) {
 		const searchRooms = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
 		const searchModules = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
 		const that = this;
 		let adapterstates = null;
-
+		//status
 		this.getStates(this.name + '.' + this.instance + '.homes.*.rooms.*',async function(error, states) {
 			for(const id in states) {
-				//that.log.debug('Search Objects: ' + id + ' - ' + searchRooms);
-
 				if (id.search(searchRooms) >= 0) {
 					adapterstates = await that.getStateAsync(id);
 					if (adapterstates && adapterstates.val == statevalue) {
-						that.log.debug('Found room: ' + adapterstates.val + ' = ' + statevalue);
+						//that.log.debug('Found room: ' + adapterstates.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
 						await that.createMyChannel(myTargetName + '.status', 'Gerätestatus');
 
 						for(const objstat_name in ObjStatus) {
 							if(!(ObjStatus[objstat_name] instanceof Object) && objstat_name != 'id') {
-								that.log.debug('Found homestatus room ids: ' + objstat_name + ' / ' + ObjStatus[objstat_name]);
 								await that.CreateNetatmoStructure(myTargetName + '.status.' + objstat_name, objstat_name, ObjStatus[objstat_name],true,'',false,true);
 								switch(objstat_name) {
 									case 'therm_setpoint_temperature':
@@ -317,21 +313,18 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		});
-
+		//modules
 		this.getStates(this.name + '.' + this.instance + '.homes.*.modules.*',async function(error, states) {
 			for(const id in states) {
-				//that.log.debug('Search Objects: ' + id + ' - ' + searchModules);
-
 				if (id.search(searchModules) >= 0) {
 					adapterstates = await that.getStateAsync(id);
 					if (adapterstates && adapterstates.val == statevalue) {
-						that.log.debug('Found module: ' + adapterstates.val + ' = ' + statevalue);
+						//that.log.debug('Found module: ' + adapterstates.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
 						await that.createMyChannel(myTargetName + '.modulestatus', 'Gerätestatus');
 
 						for(const objstat_name in ObjStatus) {
 							if(!(ObjStatus[objstat_name] instanceof Object) && objstat_name != 'id') {
-								that.log.debug('Found homestatus module ids: ' + objstat_name + ' / ' + ObjStatus[objstat_name]);
 								await that.CreateNetatmoStructure(myTargetName + '.modulestatus.' + objstat_name, objstat_name, ObjStatus[objstat_name],true,'',false,true);
 							}
 						}
@@ -341,7 +334,8 @@ class NetatmoEnergy extends utils.Adapter {
 			}
 		});
 	}
-	//Nicht Relevante Tags hinterlegen
+
+	//insert not relevant tags
 	NetatmoTags(obj_name) {
 		switch(obj_name) {
 			case 'body':
@@ -352,7 +346,8 @@ class NetatmoEnergy extends utils.Adapter {
 				return true;
 		}
 	}
-	//Nicht Relevante Tags für Details hinterlegen
+
+	//inser not relevant tags for details
 	NetatmoTagsDetail(obj_name) {
 		switch(obj_name) {
 			case 'body':
@@ -361,13 +356,14 @@ class NetatmoEnergy extends utils.Adapter {
 				return true;
 		}
 	}
-	//Delete leading .
+
+	//Delete leading dots
 	getPrefixPath(path) {
 		return path.replace(/^\.+/, '');
 	}
+
 	// Create Device
 	async createMyDevice(path, name) {
-		//this.log.debug('Create Device: ' + name + ' - ' + path);
 		await this.setObjectNotExists(path, {
 			type: 'device',
 			common: {
@@ -376,9 +372,9 @@ class NetatmoEnergy extends utils.Adapter {
 			native: {},
 		});
 	}
+
 	// Create Channel
 	async createMyChannel(path, name) {
-		//this.log.debug('Create Channel: ' + name + ' - ' + path);
 		await this.setObjectNotExists(path, {
 			type: 'channel',
 			common: {
@@ -387,9 +383,9 @@ class NetatmoEnergy extends utils.Adapter {
 			native: {},
 		});
 	}
+
 	//dynamic creation of datapoints
 	async CreateNetatmoStructure (id,object_name,value, ack, role, write, read) {
-		//this.log.debug('Create State: ' + id + ' / ' + object_name + ' : ' + value);
 		const regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/;
 
 		if (!role) {
@@ -409,7 +405,7 @@ class NetatmoEnergy extends utils.Adapter {
 				role = 'state';
 			}
 		}
-		//this.log.debug('Take rule: ' + role + ' for ' + object_name);
+
 		await this.setObjectNotExistsAsync(id, {
 			type: 'state',
 			common: {
@@ -423,28 +419,23 @@ class NetatmoEnergy extends utils.Adapter {
 		});
 		await this.setState(id, value, ack);
 	}
+
 	//set trigger after comparing
 	async compareValues(id, state, idtoset) {
 		const adapterstates = await this.getStateAsync(id);
-		//this.log.debug('Compare: ' + adapterstates.val + ' = ' + state.val);
 		if(adapterstates.val != state.val ) {
 			this.setState(idtoset, true, true);
 		} else {
 			this.setState(idtoset, false, true);
 		}
 	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
 	onUnload(callback) {
 		try {
-			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
-			// clearInterval(interval1);
-
 			callback();
 		} catch (e) {
 			callback();
@@ -506,7 +497,6 @@ class NetatmoEnergy extends utils.Adapter {
 
 						// Set Therm Mode for Netatmo Energy
 						case 'SetTemp':
-							//this.log.debug('Start to check changes ' + state.val);
 							if (!isNaN(state.val)) {
 								if (this.config.applyimmediately) {
 									this.log.debug('SetTemp: Call API directly');
@@ -530,7 +520,7 @@ class NetatmoEnergy extends utils.Adapter {
 							this.ApplySingleAPIRequest(APIRequest_setroomthermpoint, APIRequest_setroomthermpoint_manual);
 							break;
 
-						// Set Therm Mode for Netatmo Energy
+						// Set thermmode for Netatmo Energy
 						case APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule:
 							if (state.val === false) {
 								break;
@@ -540,7 +530,7 @@ class NetatmoEnergy extends utils.Adapter {
 							this.ApplySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_schedule);
 							break;
 
-						// Set Therm Mode for Netatmo Energy
+						// Set thermmode for Netatmo Energy
 						case APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg:
 							if (state.val === false) {
 								break;
@@ -550,7 +540,7 @@ class NetatmoEnergy extends utils.Adapter {
 							this.ApplySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_hg);
 							break;
 
-						// Set Therm Mode for Netatmo Energy
+						// Set thermmode for Netatmo Energy
 						case APIRequest_setthermmode + '_' + APIRequest_setthermmode_away:
 							if (state.val === false) {
 								break;
