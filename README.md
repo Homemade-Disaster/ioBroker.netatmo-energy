@@ -54,10 +54,12 @@ It also creates a device called "energyAPP" including channels "API Requests" an
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
 It will automatically built up the whole homes-structure, and also the actual status of your valves.
 Depending an the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
-.
 
 
 ## Changelog
+
+### 0.1.5
+* (ioKlausi) Password encryption/decryption added
 
 ### 0.1.4
 * (ioKlausi) Publish new NPM version
@@ -91,7 +93,6 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 ### 0.0.1
 * (ioKlausi) initial release
-.
 
 
 ## License
