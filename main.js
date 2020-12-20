@@ -42,8 +42,36 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalNetatmo_AccessToken = '';
 	}
 
+	decrypt(key, value) {
+		let result = '';
+		for (let i = 0; i < value.length; ++i) {
+			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+		}
+		return result;
+	}
+
 	// Is called when databases are connected and adapter received configuration
 	async onReady() {
+		//Passwort decryption
+		this.getForeignObject('system.config', (err, obj) => {
+			if (!this.supportsFeature() || !this.supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
+				if (obj && obj.native && obj.native.secret) {
+					//noinspection JSUnresolvedVariable
+					this.config.Password = this.decrypt(obj.native.secret, this.config.Password);
+				}
+				else {
+					//noinspection JSUnresolvedVariable
+					this.config.Password = this.decrypt('Zgfr56gFe87jJOM', this.config.Password);
+				}
+			}
+			this.startAdapter();
+		});
+
+	}
+
+	// Start initialization
+	async startAdapter() {
+
 		// Initialize adapter
 		await this.createenergyAPP();
 		this.log.info('API Request homesdata sent to API');
