@@ -27,7 +27,7 @@
 			- copy it to your adapter config
 		- insert your user and password from Netatmo Cloud to your adapter config
 		- choose "generell settings options" and "Save and close" the adapter config
-			- apply immediately ... send API request after changing "SetTemp" object
+			- apply temperature immediately ... send API request after changing "SetTemp" object
 			- read API states immediately ... send API homestatus request after changing fields in API
 
 

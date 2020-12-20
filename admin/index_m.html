@@ -102,57 +102,95 @@
 	<div class="m adapter-container">
 
 		<div class="row">
-			<div class="col s12 m4 l2">
-				<img src="netatmo-energy.png" class="logo">
+			<div class="row">
+          <div class="input-field col s3">
+              <img src="netatmo-energy.png" class="logo">
+          </div>
+      </div>
+
+			<div class="row">
+
+				<div class="col s12">
+					<ul class="tabs" id="netatmoTabs">
+						<li class="tab col s2"><a href="#tabLogon" class="translate active">Logon information</a></li>
+						<li class="tab col s2"><a href="#tabAPI" class="translate">API settings</a></li>
+					</ul>
+				</div>
+
+				<!-- ++++++++++ TAB: Logon ++++++++++ -->
+	      <div id="tabLogon" class="col s12 page">
+					<div class="row">
+						<div class="col s12">
+							<h6 class="title translate">Logon information</h6>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="HomeId" size="30" />
+							<label for="HomeId" class="translate">Home-ID:</label>
+							<span class="translate">Home ID from your Netatmo Energy installation</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="ClientId" size="30" />
+							<label for="ClientId" class="translate">Client-ID:</label>
+							<span class="translate">Client ID from your Netatmo APP</span>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="ClientSecretID" size="30" />
+							<label for="ClientSecretID" class="translate">Client-Secret-ID:</label>
+							<span class="translate">Client Secret ID from your Netatmo APP</span>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="User" size="30" />
+							<label for="User" class="translate">Username:</label>
+							<span class="translate">Username from your Netatmo Account</span>
+						</div>
+						<div class="col s6 input-field">
+							<input type="password" class="value" id="Password" size="30" />
+							<label for="Password" class="translate">Password:</label>
+							<span class="translate">Password from your Netatmo Account</span>
+						</div>
+					</div>
+
+				</div>
 			</div>
+
+			<!-- ++++++++++ TAB: API settings ++++++++++ -->
+      <div id="tabAPI"    class="col s12 page">
+				<div class="row">
+					<div class="col s12">
+						<h6 class="title translate">General settings</h6>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col s6 input-field">
+						<input type="checkbox" class="value" id="applyimmediately" size="30" />
+						<label for="applyimmediately" class="translate">apply immediately</label>
+					</div>
+					<div class="col s6 input-field">
+						<input type="checkbox" class="value" id="getchangesimmediately" size="30" />
+						<label for="applyimmediately" class="translate">read API states immediately</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="input-field col s12 col-refreshstates">
+							<input class="value" type="number" id="refreshstates" />
+							<label class="translate" for="refreshstates">Refresh states every x seconds</label>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
-		<div class="row">
-			<div class="col s6 input-field">
-				<input type="text" class="value" id="HomeId" size="30" />
-				<label for="HomeId" class="translate">Home-ID:</label>
-				<span class="translate">Home ID from your Netatmo Energy installation</span>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s6 input-field">
-				<input type="text" class="value" id="ClientId" size="30" />
-				<label for="ClientId" class="translate">Client-ID:</label>
-				<span class="translate">Client ID from your Netatmo APP</span>
-			</div>
-			<div class="col s6 input-field">
-				<input type="text" class="value" id="ClientSecretID" size="30" />
-				<label for="ClientSecretID" class="translate">Client-Secret-ID:</label>
-				<span class="translate">Client Secret ID from your Netatmo APP</span>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s6 input-field">
-				<input type="text" class="value" id="User" size="30" />
-				<label for="User" class="translate">Username:</label>
-				<span class="translate">Username from your Netatmo Account</span>
-			</div>
-			<div class="col s6 input-field">
-				<input type="password" class="value" id="Password" size="30" />
-				<label for="Password" class="translate">Password:</label>
-				<span class="translate">Password from your Netatmo Account</span>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s12">
-				<h6 class="title translate">General settings</h6>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col s6 input-field">
-				<input type="checkbox" class="value" id="applyimmediately" size="30" />
-				<label for="applyimmediately" class="translate">apply immediately</label>
-			</div>
-			<div class="col s6 input-field">
-				<input type="checkbox" class="value" id="getchangesimmediately" size="30" />
-				<label for="applyimmediately" class="translate">read API states immediately</label>
-			</div>
-		</div>
 	</div>
 
 </body>

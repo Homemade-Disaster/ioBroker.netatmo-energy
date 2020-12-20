@@ -28,7 +28,7 @@ systemDictionary = {
 	},
 	"Client-ID:": {
 		"en": "Client-ID:",
-		"de": "Kunden ID:",
+		"de": "Client-ID:",
 		"ru": "ID клиента:",
 		"pt": "ID do Cliente:",
 		"nl": "Klant identificatie:",
@@ -88,7 +88,7 @@ systemDictionary = {
 	},
 	"Client ID from your Netatmo APP": {
 		"en": "Client ID from your Netatmo APP",
-		"de": "Client ID von Ihrer Netatmo APP",
+		"de": "Client ID von ihrer Netatmo APP",
 		"ru": "Идентификатор клиента из вашего приложения Netatmo",
 		"pt": "ID de cliente de seu aplicativo Netatmo",
 		"nl": "Client-ID van uw Netatmo-app",
@@ -100,7 +100,7 @@ systemDictionary = {
 	},
 	"Client Secret ID from your Netatmo APP": {
 		"en": "Client Secret ID from your Netatmo APP",
-		"de": "Client Secret ID von Ihrer Netatmo APP",
+		"de": "Client Secret ID von ihrer Netatmo APP",
 		"ru": "Идентификатор секрета клиента из вашего приложения Netatmo",
 		"pt": "ID secreta do cliente de seu aplicativo Netatmo",
 		"nl": "Client Secret ID van uw Netatmo APP",
@@ -112,7 +112,7 @@ systemDictionary = {
 	},
 	"Username from your Netatmo Account": {
 		"en": "Username from your Netatmo Account",
-		"de": "Benutzername von Ihrem Netatmo-Konto",
+		"de": "Benutzername von ihrem Netatmo-Konto",
 		"ru": "Имя пользователя из вашей учетной записи Netatmo",
 		"pt": "Nome de usuário da sua conta Netatmo",
 		"nl": "Gebruikersnaam van uw Netatmo-account",
@@ -124,7 +124,7 @@ systemDictionary = {
 	},
 	"Password from your Netatmo Account": {
 		"en": "Password from your Netatmo Account",
-		"de": "Passwort von Ihrem Netatmo-Konto",
+		"de": "Passwort von ihrem Netatmo-Konto",
 		"ru": "Пароль от вашей учетной записи Netatmo",
 		"pt": "Senha da sua conta Netatmo",
 		"nl": "Wachtwoord van uw Netatmo-account",
@@ -148,7 +148,7 @@ systemDictionary = {
 	},
 	"apply immediately": {
 		"en": "apply temperature immediately",
-		"de": "Temperatur sofort übertragen",
+		"de": "Temperaturänderung sofort übertragen",
 		"ru": "немедленно применить температуру",
 		"pt": "aplique a temperatura imediatamente",
 		"nl": "breng de temperatuur onmiddellijk aan",
@@ -160,7 +160,7 @@ systemDictionary = {
 	},
 	"read API states immediately": {
 		"en": "read API states immediately",
-		"de": "API-Zustände sofort lesen",
+		"de": "API-Zustände nach Änderung sofort lesen",
 		"ru": "немедленно читать состояния API",
 		"pt": "leia os estados da API imediatamente",
 		"nl": "lees API-staten onmiddellijk",
@@ -169,5 +169,53 @@ systemDictionary = {
 		"es": "leer los estados de la API inmediatamente",
 		"pl": "natychmiast odczytaj stany API",
 		"zh-cn": "立即读取API状态"
+	},
+	"refresh states after (sec):": {
+		"en": "refresh states after (sec):",
+		"de": "Aktualisierungszustände nach (Sek.):",
+		"ru": "обновить состояния через (сек):",
+		"pt": "atualizar estados após (segundos):",
+		"nl": "verversingsstatussen na (sec):",
+		"fr": "rafraîchir les états après (sec):",
+		"it": "stati di aggiornamento dopo (sec):",
+		"es": "actualizar estados después (seg):",
+		"pl": "odśwież stany po (sek.):",
+		"zh-cn": "在（秒）后刷新状态："
+	},
+	"Logon information": {
+		"en": "Logon information",
+		"de": "Anmeldeinformationen",
+		"ru": "Информация для входа",
+		"pt": "Informação de logon",
+		"nl": "Aanmeldingsgegevens",
+		"fr": "Informations de connexion",
+		"it": "Informazioni di accesso",
+		"es": "Información de inicio de sesión",
+		"pl": "Informacje logowania",
+		"zh-cn": "登录信息"
+	},
+	"API settings": {
+		"en": "API settings",
+		"de": "API-Einstellungen",
+		"ru": "Настройки API",
+		"pt": "Configurações de API",
+		"nl": "API-instellingen",
+		"fr": "Paramètres de l'API",
+		"it": "Impostazioni API",
+		"es": "Configuración de API",
+		"pl": "Ustawienia API",
+		"zh-cn": "API设定"
+	},
+	"Refresh states every x seconds": {
+		"en": "Refresh states every x seconds",
+		"de": "Aktualisierung der API-States alle x Sekunden",
+		"ru": "Обновлять состояния каждые x секунд",
+		"pt": "Atualizar estados a cada x segundos",
+		"nl": "Vernieuwingsstatussen elke x seconden",
+		"fr": "Actualiser les états toutes les x secondes",
+		"it": "Aggiorna stati ogni x secondi",
+		"es": "Actualizar estados cada x segundos",
+		"pl": "Odśwież stany co x sekund",
+		"zh-cn": "每x秒刷新一次状态"
 	}
 };
