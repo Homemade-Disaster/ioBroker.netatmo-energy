@@ -58,6 +58,9 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 ## Changelog
 
+### 0.1.6
+* (ioKlausi) Add schedule for refresh homestates and redesign config screen
+
 ### 0.1.5
 * (ioKlausi) Password encryption/decryption added
 

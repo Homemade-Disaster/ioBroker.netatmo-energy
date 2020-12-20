@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.5",
+		"version": "0.1.6",
 		"news": {
+			"0.1.6": {
+				"en": "Add schedule for refresh homestates and redesign config screen",
+				"de": "Fügen Sie einen Zeitplan für die Aktualisierung der homestates hinzu und gestalten Sie den Konfigurationsbildschirm neu",
+				"ru": "Добавьте расписание для обновления домашнего состояния и переделайте экран конфигурации",
+				"pt": "Adicionar programação para atualização de propriedades e tela de configuração de redesenho",
+				"nl": "Voeg een schema toe voor het vernieuwen van huizen en het herontwerp van het configuratiescherm",
+				"fr": "Ajouter un calendrier pour l'actualisation des homestates et la refonte de l'écran de configuration",
+				"it": "Aggiungi un programma per aggiornare le famiglie e riprogettare la schermata di configurazione",
+				"es": "Agregar horario para actualizar casas de familia y rediseñar la pantalla de configuración",
+				"pl": "Dodaj harmonogram odświeżania lokali mieszkalnych i przeprojektowania ekranu konfiguracji",
+				"zh-cn": "添加刷新状态的时间表并重新设计配置屏幕"
+			},
 			"0.1.5": {
 				"en": "Password encryption/decryption added",
 				"de": "Passwortverschlüsselung / -entschlüsselung hinzugefügt",
