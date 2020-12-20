@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.3",
+		"version": "0.1.4",
 		"news": {
 			"0.0.1": {
 				"en": "initial release",
@@ -122,6 +122,18 @@
 		    "es": "Marque README y elimine la codificación innecesaria",
 		    "pl": "Sprawdź README i usuń niepotrzebne kodowanie",
 		    "zh-cn": "检查自述文件并删除不必要的编码"
+		  },
+			"0.1.4": {
+				"en": "Publish new NPM version",
+		    "de": "Veröffentlichen Sie die neue NPM-Version",
+		    "ru": "Опубликовать новую версию NPM",
+		    "pt": "Publicar nova versão do NPM",
+		    "nl": "Publiceer een nieuwe NPM-versie",
+		    "fr": "Publier la nouvelle version de NPM",
+		    "it": "Pubblica nuova versione di NPM",
+		    "es": "Publicar nueva versión de NPM",
+		    "pl": "Opublikuj nową wersję NPM",
+		    "zh-cn": "发布新的NPM版本"
 		  }
 		},
 		"title": "Netatmo Energy",

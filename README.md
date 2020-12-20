@@ -58,6 +58,9 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 ## Changelog
 
+### 0.1.4
+* (ioKlausi) Publish new NPM version
+
 ### 0.1.3
 * (ioKlausi) Redesign coding
 
