@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.6",
+		"version": "0.1.7",
 		"news": {
+			"0.1.7": {
+				"en": "Change role logic",
+		    "de": "Rollenlogik ändern",
+		    "ru": "Изменить логику ролей",
+		    "pt": "Alterar a lógica do papel",
+		    "nl": "Verander de rollogica",
+		    "fr": "Changer la logique des rôles",
+		    "it": "Cambia la logica del ruolo",
+		    "es": "Cambiar la lógica del rol",
+		    "pl": "Zmień logikę roli",
+		    "zh-cn": "变更角色逻辑"
+		  },
 			"0.1.6": {
 				"en": "Add schedule for refresh homestates and redesign config screen",
 				"de": "Fügen Sie einen Zeitplan für die Aktualisierung der homestates hinzu und gestalten Sie den Konfigurationsbildschirm neu",

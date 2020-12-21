@@ -94,9 +94,9 @@ class NetatmoEnergy extends utils.Adapter {
 	// Create APP Requests device
 	async createenergyAPP() {
 		// Device energyAPP
-		await this.createMyDevice(this.name + '.' + this.instance + '.' + APIRequestsDevice, 'Requests für Netatmo Energy API');
+		await this.createMyDevice(this.name + '.' + this.instance + '.' + APIRequestsDevice, 'Netatmo Energy APP');
 		// Channel APIRequests
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests', 'Requests für Netatmo Energy API');
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests', 'Requests for Netatmo Energy API');
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,false,false);
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homestatus, 'homesstatus', false,true,'button',true,false,false);
@@ -108,7 +108,7 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,false,false);
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
 		// Channel trigger
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger', 'Requests für Netatmo Energy API');
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger', 'Trigger for Netatmo Energy API');
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges', 'Änderungen in die Netatmo Cloud übertragen', false,true,'button',true,false,false);
 		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges');
 	}
@@ -425,13 +425,15 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//dynamic creation of datapoints
 	async CreateNetatmoStructure (id,object_name,value, ack, role, write, read, norefresh) {
-		const regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/;
+		const regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
 
 		if (!role) {
-			if (object_name.indexOf('temperature') >= 0) {
+			if (object_name.indexOf('temperature') >= 0 || object_name.indexOf('temp') >= 0) {
 				role = 'level.temperature';
 			} else if (object_name.indexOf('timezone') >= 0) {
 				role = 'state';
+			} else if (object_name.indexOf('_date') >= 0) {
+				role = 'value.time';
 			} else if (object_name.indexOf('time') >= 0) {
 				role = 'value.time';
 			} else if (regex.test(value)) {
