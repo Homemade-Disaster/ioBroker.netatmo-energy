@@ -15,21 +15,21 @@
 ## Reqirements & configuration
 Netatmo Energy hardware (thermostat, valves)
 Account at Netatmo Cloud
-	* Adapter is working with admin => 3 and nodejs >= 10
-	* Create your own account at https://auth.netatmo.com/de-de/access/signup
-	* Login in site https://dev.netatmo.com/apidocumentation/energy
-	* Create your own APP by clicking your account (top left), and press button "Create"
-		* Fill out the form with your data
-		* Copy your own client ID and client secret to the adapter config
+* Adapter is working with admin => 3 and nodejs >= 10
+* Create your own account at https://auth.netatmo.com/de-de/access/signup
+* Login in site https://dev.netatmo.com/apidocumentation/energy
+* Create your own APP by clicking your account (top left), and press button "Create"
+    * Fill out the form with your data
+    * Copy your own client ID and client secret to the adapter config
 		* Go back to the Documentation of Netatmo Energy API https://dev.netatmo.com/apidocumentation/energy
 		* Select "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
-			* you will get a response including your home id
-			* copy it to your adapter config
+				* you will get a response including your home id
+				* copy it to your adapter config
 		* insert your user and password from Netatmo Cloud to your adapter config
 		* choose "generell settings options" and "Save and close" the adapter config
-			* apply temperature immediately ... send API request after changing "SetTemp" object
-			* read API states immediately ... send API homestatus request after changing fields in API
-			* Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
+				* apply temperature immediately ... send API request after changing "SetTemp" object
+				* read API states immediately ... send API homestatus request after changing fields in API
+				* Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
 
 ![settingsLogin](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png)
 
