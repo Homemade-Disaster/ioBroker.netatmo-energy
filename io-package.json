@@ -223,13 +223,8 @@
 				"js-controller": ">=2.0.0"
 			}
 		],
-		"docs": {
-      "en": [
-        "docs/en/readme.md"
-      ],
-      "de": [
-        "docs/de/readme.md"
-      ]
+		"docs": { "en": "docs/en/README.md",
+      				"de": "docs/de/README.md"
   	}
 	},
 	"native": {
