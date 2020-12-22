@@ -211,6 +211,9 @@
 		"enabled": true,
 		"extIcon": "https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png",
 		"readme": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/blob/master/README.md",
+		"docs": { "en": "docs/en/README.md",
+							"de": "docs/de/README.md"
+		},
 		"loglevel": "info",
 		"mode": "daemon",
 		"type": "iot-systems",
@@ -222,10 +225,7 @@
 			{
 				"js-controller": ">=2.0.0"
 			}
-		],
-		"docs": { "en": "docs/en/README.md",
-      				"de": "docs/de/README.md"
-  	}
+		]
 	},
 	"native": {
 		"option1": true,
