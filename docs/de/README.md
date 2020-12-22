@@ -15,21 +15,21 @@
 ## Voraussetzungen & Konfiguation
 Netatmo Energy hardware (Thermostat, Ventile)
 Konto bei Netatmo Cloud
-* Der Adapter arbeitet mit admin => 3 und nodejs >= 10
-* Erstelle dein eigenes Konto https://auth.netatmo.com/de-de/access/signup
-* Login in die API durchführen https://dev.netatmo.com/apidocumentation/energy
-* Erzeuge deine eigene APP durch anklicken deines Kontos (oben / links), und drücke den Knopf "Create"
-* Fülle das Formular aus und speichere es
-* Übernimm die erhaltene client ID und client secret in die Adapter Konfiguration
-* Gehen sie zur API Dokumentation https://dev.netatmo.com/apidocumentation/energy
-* Wählen sie "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
-* du wirst ein response erhalten in der du deine home id findest
-* Übernimm sie in die Adapter Konfiguration
-* gib deinen User und Passwort der Netatmo Cloud in die Adapter Konfiguration
-* Wähle die gewünschten Optionen in den "Allgemeinen Einstellungen" und speichern sie die Adapter Konfiguration
-* Temperaturänderungen sofort übertragen ... sofortiges übertragen der Temperaturänderungen in State "SetTemp" an die API
-* API Zustände nach Änderung sofort lesen ... API Daten mittels homestatus sofort nach Aktualisierung der API abholen
-* Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
+- Der Adapter arbeitet mit admin => 3 und nodejs >= 10
+- Erstelle dein eigenes Konto https://auth.netatmo.com/de-de/access/signup
+- Login in die API durchführen https://dev.netatmo.com/apidocumentation/energy
+- Erzeuge deine eigene APP durch anklicken deines Kontos (oben / links), und drücke den Knopf "Create"
+  - Fülle das Formular aus und speichere es
+  - Übernimm die erhaltene client ID und client secret in die Adapter Konfiguration
+  - Gehen sie zur API Dokumentation https://dev.netatmo.com/apidocumentation/energy
+  - Wählen sie "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
+    - du wirst ein response erhalten in der du deine home id findest
+    - Übernimm sie in die Adapter Konfiguration
+  - gib deinen User und Passwort der Netatmo Cloud in die Adapter Konfiguration
+  - Wähle die gewünschten Optionen in den "Allgemeinen Einstellungen" und speichern sie die Adapter Konfiguration
+    - Temperaturänderungen sofort übertragen ... sofortiges übertragen der Temperaturänderungen in State "SetTemp" an die API
+    - API Zustände nach Änderung sofort lesen ... API Daten mittels homestatus sofort nach Aktualisierung der API abholen
+    - Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
 
 ![settingsLogin](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_de.png)
 
