@@ -1,4 +1,4 @@
-![Logo](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/masteradmin/netatmo-energy.png)
+![Logo](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png)
 # ioBroker.netatmo-energy
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.netatmo-energy.svg)](https://www.npmjs.com/package/iobroker.netatmo-energy)
