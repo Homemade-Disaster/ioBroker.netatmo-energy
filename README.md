@@ -13,8 +13,8 @@
 **Tests:** ![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
 
 ## Reqirements & configuration
-	Netatmo Energy hardware (thermostat, valves)
-	Account at Netatmo Cloud
+Netatmo Energy hardware (thermostat, valves)
+Account at Netatmo Cloud
 	- Adapter is working with admin => 3 and nodejs >= 10
 	- Create your own account at https://auth.netatmo.com/de-de/access/signup
 	- Login in site https://dev.netatmo.com/apidocumentation/energy
@@ -29,11 +29,12 @@
 		- choose "generell settings options" and "Save and close" the adapter config
 			- apply temperature immediately ... send API request after changing "SetTemp" object
 			- read API states immediately ... send API homestatus request after changing fields in API
-	![settings](img/settings_login.png)
-	![settings](img/settings_api.png)
+
+![settingsLogin](img/settings_login.png)
+
+![settingsAPI](img/settings_api.png)
 
 ## netatmo-energy adapter for ioBroker
-
 Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
 
 It also creates a device called "energyAPP" including channels "API Requests" and "Trigger".
