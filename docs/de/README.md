@@ -12,116 +12,114 @@
 
 **Tests:** ![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
 
-## Reqirements & configuration
-Netatmo Energy hardware (thermostat, valves)
-Account at Netatmo Cloud
-	- Adapter is working with admin => 3 and nodejs >= 10
-	- Create your own account at https://auth.netatmo.com/de-de/access/signup
-	- Login in site https://dev.netatmo.com/apidocumentation/energy
-	- Create your own APP by clicking your account (top left), and press button "Create"
-		- Fill out the form with your data
-		- Copy your own client ID and client secret to the adapter config
-		- Go back to the Documentation of Netatmo Energy API https://dev.netatmo.com/apidocumentation/energy
-		- Select "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
-			- you will get a response including your home id
-			- copy it to your adapter config
-		- insert your user and password from Netatmo Cloud to your adapter config
-		- choose "generell settings options" and "Save and close" the adapter config
-			- apply temperature immediately ... send API request after changing "SetTemp" object
-			- read API states immediately ... send API homestatus request after changing fields in API
+## Voraussetzungen & Konfiguation
+Netatmo Energy hardware (Thermostat, Ventile)
+Konto bei Netatmo Cloud
+	- Der Adapter arbeitet mit admin => 3 und nodejs >= 10
+	- Erstelle dein eigenes Konto https://auth.netatmo.com/de-de/access/signup
+	- Login in die API durchführen https://dev.netatmo.com/apidocumentation/energy
+	- Erzeuge deine eigene APP durch anklicken deines Kontos (oben / links), und drücke den Knopf "Create"
+		- Fülle das Formular aus und speichere es
+		- Übernimm die erhaltene client ID und client secret in die Adapter Konfiguration
+		- Gehen sie zur API Dokumentation https://dev.netatmo.com/apidocumentation/energy
+		- Wählen sie "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
+			- du wirst ein response erhalten in der du deine home id findest
+			- Übernimm sie in die Adapter Konfiguration
+		- gib deinen User und Passwort der Netatmo Cloud in die Adapter Konfiguration
+		- Wähle die gewünschten Optionen in den "Allgemeinen Einstellungen" und speichern sie die Adapter Konfiguration
+			- Temperaturänderungen sofort übertragen ... sofortiges übertragen der Temperaturänderungen in State "SetTemp" an die API
+			- API Zustände nach Änderung sofort lesen ... API Daten mittels homestatus sofort nach Aktualisierung der API abholen
+			- Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
 
 ![settingsLogin](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_de.png)
 
 ![settingsAPI](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_api_de.png)
 
-## netatmo-energy adapter for ioBroker
-Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
+## netatmo-energy Adapter für ioBroker
+Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch request für den Datentransfer zur Netatmo Energy API. Offizielle Dokumentation der API: https://dev.netatmo.com/apidocumentation/energy.
 
-It also creates a device called "energyAPP" including channels "API Requests" and "Trigger".
+Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "API Requests" und "Trigger" beinhaltet.
 
 ### API Requests
-* homesdata_NAPlug      ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter)
-* homestatus            ... get the status and the technical informations of your valves assigned in your rooms
-* setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)
-* setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
-* setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
+* homesdata_NAPlug      ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wir der Parameter NAPlug verwendet)
+* homestatus            ... ermittelt und überträgt den Status und die technischen Informationen ihrer zugeordneten Ventile
+* setthermmode_schedule ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "Schedule" (standard)
+* setthermmode_hq       ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "hq" (Frostwächter)
+* setthermmode_away     ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "away" (nicht zu Hause)
 
 ### Trigger
-* applychanges          ... transfer all manually changes of your valves to Netatmo Energy
+* applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
 
-### Update requests
-* setroomthermpoint     ... depending of the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
+### Änderungs-Requests
+* setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen")
 
-## Build structure
-If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
-It will automatically built up the whole homes-structure, and also the actual status of your valves.
-Depending an the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
+## Strukturen aufbauen
+Beim Start des Adapters wird der aktuelle Status der gesamten Netatmo Energy APP aufgefrischt und der Status aller Ventile und Thermostate übertragen. Abhängig von den Allgemeinen Einstellungen (API Zustände nach Änderung sofort lesen) werden die Status der Ventile und Thermostate nach Änderung der API sofort wieder abgeholt (es wird sofort ein homestatus Request abgesetzt).
 
 
-## Changelog
+## Änderungsprotokoll
 
 ### 0.1.7
-* (ioKlausi) Change role logic
+* (ioKlausi) Rollen der States überarbeiten
 
 ### 0.1.6
-* (ioKlausi) Add schedule for refresh homestates and redesign config screen
+* (ioKlausi) homestates Request mittels Timer auslösen und Konfigurationsbildschirm überarbeitet
 
 ### 0.1.5
-* (ioKlausi) Password encryption/decryption added
+* (ioKlausi) Passwort Ver-/Entschlüsselung hinzugefügt
 
 ### 0.1.4
-* (ioKlausi) Publish new NPM version
+* (ioKlausi) Neue NPM Version erstellt
 
 ### 0.1.3
-* (ioKlausi) Redesign coding
+* (ioKlausi) Programm überarbeitet
 
 ### 0.1.2
-* (ioKlausi) Changed "SpecialRequests" to Device "energyAPP"
+* (ioKlausi) "SpecialRequests" auf Gerät "energyAPP" geändert
 
 ### 0.1.1
-* (ioKlausi) Send API homestatus request immediately  
+* (ioKlausi) API homestatus sofort nach Änderung auslösen
 
 ### 0.1.0
-* (ioKlausi) Bugfixing and publishing adapter  
+* (ioKlausi) Fehlerbehebung und Veröffentlichung des Adapters
 
 ### 0.0.6
-* (ioKlausi) Fixed adapter for latest repository
+* (ioKlausi) Vorgaben für Latest eingebaut
 
 ### 0.0.5
-* (ioKlausi) ACK Logic changed
+* (ioKlausi) ACK Logik verändert
 
 ### 0.0.4
-* (ioKlausi) Changed creation of API request folder
+* (ioKlausi) Änderung der API Ordner Erstellung
 
 ### 0.0.3
-* (ioKlausi) Translation and bugfixing
+* (ioKlausi) Übersetzung und Fehlerbehebung
 
 ### 0.0.2
-* (ioKlausi) Add API requests and automatically generation of home structure and documentation
+* (ioKlausi) API Requests und Strukturaufbau etabliert
 
 ### 0.0.1
-* (ioKlausi) initial release
+* (ioKlausi) Initiales Releas
 
 
 ## License
-MIT License
+MIT-Lizenz
 
 Copyright (c) 2020 ioKlausi <nii@gmx.at>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Hiermit wird jeder Person, die eine Kopie erhält, kostenlos die Erlaubnis erteilt
+diese Software und der dazugehörigen Dokumentationsdateien (die "Software") zu bearbeiten,
+in der Software ohne Einschränkung, einschließlich ohne Einschränkung der Rechte
+zu verwenden, zu kopieren, zu ändern, zusammenzuführen, zu veröffentlichen, zu verteilen, Unterlizenzen zu vergeben und / oder zu verkaufen, Kopien der Software und um Personen zuzulassen, für die die Software bestimmt ist
+dafür eingerichtet, unter folgenden Bedingungen:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Der oben genannte Copyright-Hinweis und dieser Erlaubnishinweis sind in allen enthalten
+Kopien oder wesentliche Teile der Software anzuführen.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+DIE SOFTWARE WIRD "WIE BESEHEN" OHNE JEGLICHE AUSDRÜCKLICHE ODER AUSDRÜCKLICHE GARANTIE ZUR VERFÜGUNG GESTELLT
+STILLSCHWEIGEND, EINSCHLIESSLICH, ABER NICHT BESCHRÄNKT AUF DIE GARANTIEN DER MARKTGÄNGIGKEIT,
+EIGNUNG FÜR EINEN BESTIMMTEN ZWECK UND NICHTVERLETZUNG. In keinem Fall wird das
+AUTOREN ODER COPYRIGHT-INHABER HAFTEN FÜR ANSPRÜCHE, SCHÄDEN ODER ANDERE
+HAFTUNG, OB BEI VERTRAGS-, TORT- ODER ANDERWEITIGEN MASSNAHMEN AUS,
+AUS ODER IM ZUSAMMENHANG MIT DER SOFTWARE ODER DER NUTZUNG ODER ANDEREN HANDELN IN DER
 SOFTWARE.

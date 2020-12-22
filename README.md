@@ -29,6 +29,7 @@ Account at Netatmo Cloud
 		- choose "generell settings options" and "Save and close" the adapter config
 			- apply temperature immediately ... send API request after changing "SetTemp" object
 			- read API states immediately ... send API homestatus request after changing fields in API
+			- Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
 
 ![settingsLogin](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png)
 
