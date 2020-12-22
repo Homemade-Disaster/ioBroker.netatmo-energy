@@ -5,6 +5,8 @@ const utils = require('@iobroker/adapter-core');
 const fetch = require('fetch');
 
 //Define global constants
+
+// Netatmo API requests
 const Netatmo_TokenRequest_URL            = 'https://api.netatmo.net/oauth2/token';
 const Netatmo_APIrequest_URL              = 'https://api.netatmo.com/api/';
 
@@ -21,9 +23,25 @@ const APIRequest_setthermmode_schedule    = 'schedule';
 const APIRequest_setthermmode_hg          = 'hg';
 const APIRequest_setthermmode_away        = 'away';
 
+// Energy APP Trigger
 const APIRequestsDevice                   = 'energyAPP';
+const Trigger_applychanges								= 'applychanges';
+const Trigger_SetTemp                     = 'SetTemp';
+
+// Energy APP Channels
+const Channel_APIRequests									= 'APIRequests';
+const Channel_status											= 'status';
+const Channel_trigger											= 'trigger';
+const Channel_settings										= 'settings';
+const Channel_modulestatus								= 'modulestatus';
+
+const State_TempChanged										= 'TempChanged';
+const State_therm_setpoint_temperature		= 'therm_setpoint_temperature';
+
+// Timer
 const adapterIntervals = {};
 
+// Main Class
 class NetatmoEnergy extends utils.Adapter {
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
@@ -43,6 +61,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalNetatmo_AccessToken = '';
 	}
 
+	// Decrypt password
 	decrypt(key, value) {
 		let result = '';
 		for (let i = 0; i < value.length; ++i) {
@@ -96,21 +115,21 @@ class NetatmoEnergy extends utils.Adapter {
 		// Device energyAPP
 		await this.createMyDevice(this.name + '.' + this.instance + '.' + APIRequestsDevice, 'Netatmo Energy APP');
 		// Channel APIRequests
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests', 'Requests for Netatmo Energy API');
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,false,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homestatus, 'homesstatus', false,true,'button',true,false,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_homestatus);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'SetThermMode_schedule', false,true,'button',true,false,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'SetThermMode_hg', false,true,'button',true,false,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,false,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.APIRequests.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests, 'Requests for Netatmo Energy API');
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,false,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_homestatus, 'homesstatus', false,true,'button',true,false,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_homestatus);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'SetThermMode_schedule', false,true,'button',true,false,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'SetThermMode_hg', false,true,'button',true,false,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,false,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
 		// Channel trigger
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger', 'Trigger for Netatmo Energy API');
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges', 'Änderungen in die Netatmo Cloud übertragen', false,true,'button',true,false,false);
-		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.trigger.applychanges');
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger, 'Trigger for Netatmo Energy API');
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger + '.' + Trigger_applychanges, 'Send changes to Netatmo Cloud', false,true,'button',true,false,false);
+		this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger + '.' + Trigger_applychanges);
 	}
 
 	// Send API inkluding tokenrequest
@@ -118,6 +137,7 @@ class NetatmoEnergy extends utils.Adapter {
 		let globalresponse = null;
 		const Netatmo_Path = this.name + '.' + this.instance;
 
+		//Send Token request to API
 		this.log.info('Start Token-request: ' + APIRequest + ' ' + setpayload);
 		await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
 			.then(tokenvalues => {
@@ -190,12 +210,12 @@ class NetatmoEnergy extends utils.Adapter {
 		let changesmade = false;
 		const ApplyPrommise = new Promise(
 			function(resolve,reject) {
-				const searchstring = 'rooms\\.\\d+\\.settings\\.TempChanged';
+				const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
 				let extend_payload = '';
 
 				switch (NetatmoRequest) {
 					case APIRequest_setroomthermpoint:
-						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.settings.TempChanged',async function(error, states) {
+						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
 							for(const id in states) {
 								const adapterstates = await that.getStateAsync(id);
 
@@ -205,7 +225,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 										const actPath = id.substring(0,id.lastIndexOf('.'));
 										const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-										const newTemp = await that.getStateAsync(actPath + '.SetTemp');
+										const newTemp = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
 										if (newTemp) {
 											if (await that.applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
 												changesmade = true;
@@ -244,7 +264,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//Apply request to API for temp
 	async applyactualtemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
 		const roomnumber = await this.getStateAsync(actParent + '.id');
-		const actTemp = await this.getStateAsync(actParent + '.status.therm_setpoint_temperature');
+		const actTemp = await this.getStateAsync(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature);
 
 		if (roomnumber && actTemp && actTemp.val != newTemp.val) {
 			const extend_payload = '&room_id=' + roomnumber.val + '&mode=' + mode + '&temp=' + newTemp.val;
@@ -332,17 +352,17 @@ class NetatmoEnergy extends utils.Adapter {
 					if (adapterstates && adapterstates.val == statevalue) {
 						//that.log.debug('Found room: ' + adapterstates.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
-						await that.createMyChannel(myTargetName + '.status', 'Gerätestatus');
+						await that.createMyChannel(myTargetName + '.' + Channel_status, 'Device status');
 
 						for(const objstat_name in ObjStatus) {
 							if(!(ObjStatus[objstat_name] instanceof Object) && objstat_name != 'id') {
-								await that.CreateNetatmoStructure(myTargetName + '.status.' + objstat_name, objstat_name, ObjStatus[objstat_name],true,'',false,true,false);
+								await that.CreateNetatmoStructure(myTargetName + '.' + Channel_status + '.' + objstat_name, objstat_name, ObjStatus[objstat_name],true,'',false,true,false);
 								switch(objstat_name) {
-									case 'therm_setpoint_temperature':
-										await that.createMyChannel(myTargetName + '.settings', 'Einstellungen verändern');
-										await that.CreateNetatmoStructure(myTargetName + '.settings.SetTemp', 'Temparatur manuell setzen', ObjStatus[objstat_name],true,'value.temperature',true,true,norefresh);
-										that.subscribeStates(myTargetName + '.settings.SetTemp');
-										await that.CreateNetatmoStructure(myTargetName + '.settings.TempChanged', 'Temparatur manuell geändert', false,true,'indicator',false,true,norefresh);
+									case State_therm_setpoint_temperature:
+										await that.createMyChannel(myTargetName + '.' + Channel_settings, 'Change settings');
+										await that.CreateNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp, 'set temperature manually', ObjStatus[objstat_name],true,'value.temperature',true,true,norefresh);
+										that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp);
+										await that.CreateNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged, 'temperature manually changed', false,true,'indicator',false,true,norefresh);
 										break;
 								}
 							}
@@ -360,11 +380,11 @@ class NetatmoEnergy extends utils.Adapter {
 					if (adapterstates && adapterstates.val == statevalue) {
 						//that.log.debug('Found module: ' + adapterstates.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
-						await that.createMyChannel(myTargetName + '.modulestatus', 'Gerätestatus');
+						await that.createMyChannel(myTargetName + '.' + Channel_modulestatus, 'Module status');
 
 						for(const objstat_name in ObjStatus) {
 							if(!(ObjStatus[objstat_name] instanceof Object) && objstat_name != 'id') {
-								await that.CreateNetatmoStructure(myTargetName + '.modulestatus.' + objstat_name, objstat_name, ObjStatus[objstat_name],true,'',false,true,false);
+								await that.CreateNetatmoStructure(myTargetName + '.' + Channel_modulestatus + '.' + objstat_name, objstat_name, ObjStatus[objstat_name],true,'',false,true,false);
 							}
 						}
 						break;
@@ -541,14 +561,14 @@ class NetatmoEnergy extends utils.Adapter {
 							break;
 
 						// Set Therm Mode for Netatmo Energy
-						case 'SetTemp':
+						case Trigger_SetTemp:
 							if (!isNaN(state.val)) {
 								if (this.config.applyimmediately) {
 									this.log.debug('SetTemp: Call API directly');
 									this.applysingleactualtemp(state,actPath,actParent,APIRequest_setroomthermpoint,APIRequest_setroomthermpoint_manual);
 								} else {
 									this.log.debug('SetTemp: Set TempChanged manually');
-									this.compareValues(actParent + '.status.therm_setpoint_temperature', state, actPath + '.TempChanged');
+									this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, state, actPath + '.' + State_TempChanged);
 								}
 							} else {
 								this.log.debug('SetTemp: No Number ' + state.val);
@@ -556,7 +576,7 @@ class NetatmoEnergy extends utils.Adapter {
 							break;
 
 						// Apply all changes to Netatmo Cloud
-						case 'applychanges':
+						case Trigger_applychanges:
 							if (state.val === false) {
 								break;
 							}

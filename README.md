@@ -29,7 +29,8 @@
 		- choose "generell settings options" and "Save and close" the adapter config
 			- apply temperature immediately ... send API request after changing "SetTemp" object
 			- read API states immediately ... send API homestatus request after changing fields in API
-
+	![settings](img/settings_login.png)
+	![settings](img/settings_api.png)
 
 ## netatmo-energy adapter for ioBroker
 
