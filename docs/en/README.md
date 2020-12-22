@@ -30,9 +30,9 @@ Account at Netatmo Cloud
 			- apply temperature immediately ... send API request after changing "SetTemp" object
 			- read API states immediately ... send API homestatus request after changing fields in API
 
-![settingsLogin](docs/img/settings_login_en.png)
+![settingsLogin](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png)
 
-![settingsAPI](docs/img/settings_api_en.png)
+![settingsAPI](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_api_en.png)
 
 ## netatmo-energy adapter for ioBroker
 Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
