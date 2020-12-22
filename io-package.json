@@ -222,7 +222,15 @@
 			{
 				"js-controller": ">=2.0.0"
 			}
-		]
+		],
+		"docs": {
+      "en": [
+        "docs/en/readme.md"
+      ],
+      "de": [
+        "docs/de/readme.md"
+      ]
+  	}
 	},
 	"native": {
 		"option1": true,
