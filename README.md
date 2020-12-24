@@ -46,7 +46,7 @@ It also creates a device called "energyAPP" including channels "APIRequests", "t
 * setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)
 * setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
 * setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
-* switchhomeschedule    ... set the schedule mode of all available schedule types. All possible requests are listed in channel schedule.
+* switchhomeschedule    ... set the schedule mode of all available schedule types. All possible requests are listed in channel switchhomeschedule.
 
 ### Trigger
 * applychanges          ... transfer all manually changes of your valves to Netatmo Energy
