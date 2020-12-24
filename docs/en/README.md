@@ -48,6 +48,7 @@ It also creates a device called "energyAPP" including channels "APIRequests", "t
 * setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
 * switchhomeschedule    ... set the schedule mode of all available schedule types. All possible requests are listed in channel switchhomeschedule.
 * synchomeschedule      ... set the thermostat schedule of a home. To edit a particular schedule, you need to enter the schedule_id, if you don't specify one, the modification will be applied to the current schedule. Please specify the parameters in the channel "parameters" (schedule_id is optional) and send the request using synchomeschedule.
+During the start of the adapter everything would be set to initial.
 
 ### Trigger
 * applychanges          ... transfer all manually changes of your valves to Netatmo Energy

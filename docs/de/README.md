@@ -59,6 +59,7 @@ Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und
 
 ## Strukturen aufbauen
 Beim Start des Adapters wird der aktuelle Status der gesamten Netatmo Energy APP aufgefrischt und der Status aller Ventile und Thermostate übertragen. Abhängig von den Allgemeinen Einstellungen (API Zustände nach Änderung sofort lesen) werden die Status der Ventile und Thermostate nach Änderung der API sofort wieder abgeholt (es wird sofort ein homestatus Request abgesetzt).
+Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
 
 ## Änderungsprotokoll
