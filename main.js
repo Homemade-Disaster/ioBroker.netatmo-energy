@@ -161,8 +161,8 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule, 'synchomeschedule', false,true,'button',true,true,false);
 		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule);
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_schedule_id, 'Id of the schedule', '',true,'text',true,true,'');
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_zones, 'Array of data used to define time periods to build a schedule. More info on the Thermostat page. id of zone | type of zone | Name of zone | Temperature', {},true,'list',true,true,false);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_timetable, 'SArray describing the timetable. More info on the Thermostat page. ID of the zone - offset in minutes since Monday 00:00:01', {},true,'list',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_zones, 'Array of data used to define time periods to build a schedule. More info on the Thermostat page. id of zone | type of zone | Name of zone | Temperature', '',true,'list',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_timetable, 'SArray describing the timetable. More info on the Thermostat page. ID of the zone - offset in minutes since Monday 00:00:01', '',true,'list',true,true,false);
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_hg_temp, 'Frost guard temperature value', 7,true,'number',true,true,false);
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_away_temp, 'Away temperature value', 12,true,'number',true,true,false);
 
@@ -190,7 +190,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalNetatmo_AccessToken = '';
 				this.globalRefreshToken = '';
 				this.globalNetatmo_ExpiresIn = 0;
-				this.log.debug('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
+				this.log.error('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
 			});
 
 		// only send API request if we get the token
@@ -201,7 +201,7 @@ class NetatmoEnergy extends utils.Adapter {
 					globalresponse = response;
 				})
 				.catch(error => {
-					this.log.info('API request not OK: ' + error.error + ': ' + error.error_description);
+					this.log.error('API request not OK: ' + error.error + ': ' + error.error_description);
 				});
 			if (globalresponse) {
 				if (APIRequest == APIRequest_homesdata || APIRequest == APIRequest_homestatus) {
@@ -262,7 +262,7 @@ class NetatmoEnergy extends utils.Adapter {
 			}
 			await this.sendAPIRequest(NetatmoRequest, syncmode, false);
 		} else {
-			this.log.info('API-synchomeschedule request is missing parameters');
+			this.log.error('API-synchomeschedule request is missing parameters');
 		}
 	}
 
@@ -547,7 +547,7 @@ class NetatmoEnergy extends utils.Adapter {
 			},
 			native: {},
 		});
-		this.log.info('MyChannel created: ' + path);
+		this.log.debug('MyChannel created: ' + path);
 	}
 
 	//dynamic creation of datapoints
@@ -583,7 +583,6 @@ class NetatmoEnergy extends utils.Adapter {
 				read: read,
 				write: write
 			},
-			MyID: '123',
 			native: {},
 		});
 		if (!norefresh) {
@@ -692,10 +691,10 @@ class NetatmoEnergy extends utils.Adapter {
 						case Trigger_SetTemp:
 							if (!isNaN(state.val)) {
 								if (this.config.applyimmediately) {
-									//this.log.debug('SetTemp: Call API directly');
+									this.log.debug('SetTemp: Call API directly');
 									this.applysingleactualtemp(state,actPath,actParent,APIRequest_setroomthermpoint,APIRequest_setroomthermpoint_manual);
 								} else {
-									//this.log.debug('SetTemp: Set TempChanged manually');
+									this.log.debug('SetTemp: Set TempChanged manually');
 									this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, state, actPath + '.' + State_TempChanged);
 								}
 							} else {
