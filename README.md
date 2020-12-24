@@ -55,6 +55,8 @@ It also creates a device called "energyAPP" including channels "APIRequests", "t
 ### Update requests
 * setroomthermpoint     ... depending of the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
 
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="70%"/>
+
 ## Build structure
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
 It will automatically built up the whole homes-structure, and also the actual status of your valves.
