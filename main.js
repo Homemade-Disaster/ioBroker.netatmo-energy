@@ -25,6 +25,8 @@ const APIRequest_setthermmode_away        = 'away';
 
 const APIRequest_switchhomeschedule       = 'switchhomeschedule';
 
+const APIRequest_synchomeschedule         = 'synchomeschedule';
+
 // Energy APP Trigger
 const APIRequestsDevice                   = 'energyAPP';
 const Trigger_applychanges								= 'applychanges';
@@ -40,6 +42,14 @@ const Channel_trigger											= 'trigger';
 const Channel_settings										= 'settings';
 const Channel_modulestatus								= 'modulestatus';
 const Channel_switchhomeschedule					= 'switchhomeschedule';
+const Channel_synchomeschedule						= 'synchomeschedule';
+const Channel_synchomeschedule_parameters	= 'parameters';
+const State_schedule_id										= 'schedule_id';
+const State_zones													= 'zones';
+const State_timetable											= 'timetable';
+const State_hg_temp												= 'hq_temp';
+const State_away_temp											= 'away_temp';
+
 const State_TempChanged										= 'TempChanged';
 const State_therm_setpoint_temperature		= 'therm_setpoint_temperature';
 
@@ -133,12 +143,23 @@ class NetatmoEnergy extends utils.Adapter {
 
 		// Channel setthermmode
 		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode, 'API setthermmode');
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'SetThermMode_schedule', false,true,'button',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'setthermmode_schedule', false,true,'button',true,true,false);
 		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'SetThermMode_hg', false,true,'button',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'setthermmode_hg', false,true,'button',true,true,false);
 		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
-		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'SetThermMode_away', false,true,'button',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'setthermmode_away', false,true,'button',true,true,false);
 		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
+
+		// Channel synchomeschedule
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule, 'API synchomeschedule');
+		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters, 'parameters');
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule, 'synchomeschedule', false,true,'button',true,true,false);
+		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_schedule_id, 'Id of the schedule', '',true,'text',true,true,'');
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_zones, 'Array of data used to define time periods to build a schedule. More info on the Thermostat page. id of zone | type of zone | Name of zone | Temperature', {},true,'list',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_timetable, 'SArray describing the timetable. More info on the Thermostat page. ID of the zone - offset in minutes since Monday 00:00:01', {},true,'list',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_hg_temp, 'Frost guard temperature value', 7,true,'number',true,true,false);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_away_temp, 'Away temperature value', 12,true,'number',true,true,false);
 
 		// Channel trigger
 		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger, 'API setroomthermpoint');
@@ -222,6 +243,24 @@ class NetatmoEnergy extends utils.Adapter {
 			});
 	}
 
+	// send
+	async ApplySyncAPIRequest (NetatmoRequest) {
+		const new_schedule_id = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_schedule_id);
+		const new_zones       = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_zones);
+		const new_timetable   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_timetable);
+		const new_hg_temp     = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_hg_temp);
+		const new_away_temp   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_synchomeschedule_parameters + '.' + State_away_temp);
+		if (new_zones && new_timetable && new_hg_temp && new_away_temp) {
+			let syncmode = '&zones=' + new_zones.val + '&timetable=' + new_timetable.val + '&hg_temp=' + new_hg_temp.val + '&away_temp=' + new_away_temp.val;
+			if (new_schedule_id && new_schedule_id.val != '') {
+				syncmode = '&schedule_id=' + new_schedule_id.val + syncmode;
+			}
+			await this.sendAPIRequest(NetatmoRequest, syncmode, false);
+		} else {
+			this.log.info('API-synchomeschedule request is missing parameters');
+		}
+	}
+
 	//Send Changes to API
 	async ApplyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
@@ -234,7 +273,9 @@ class NetatmoEnergy extends utils.Adapter {
 					await that.sendAPIRequest(NetatmoRequest, mode, false);
 					resolve(true);
 				};
-
+				const createAPIasync_syncrequest = async function(NetatmoRequest) {
+					await this.ApplySyncAPIRequest(NetatmoRequest);
+				};
 				switch (NetatmoRequest) {
 					case APIRequest_setroomthermpoint:
 						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
@@ -270,6 +311,10 @@ class NetatmoEnergy extends utils.Adapter {
 
 					case APIRequest_switchhomeschedule:
 						createAPIasync(NetatmoRequest, '&schedule_id=' + mode);
+						break;
+
+					case APIRequest_synchomeschedule:
+						createAPIasync_syncrequest(NetatmoRequest);
 						break;
 				}
 			});
@@ -671,6 +716,16 @@ class NetatmoEnergy extends utils.Adapter {
 							this.log.debug('API Request setthermmode - away: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.ApplySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_away);
+							break;
+
+						// Set synchomeschedule for Netatmo Energy
+						case APIRequest_synchomeschedule:
+							if (state.val === false) {
+								break;
+							}
+							this.log.debug('API Request synchomeschedule: ' + id + ' - ' + state.val);
+							this.setState(id, false, true);
+							this.ApplySyncAPIRequest(APIRequest_setthermmode);
 							break;
 					}
 

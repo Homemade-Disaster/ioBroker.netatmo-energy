@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.8",
+		"version": "0.1.9",
 		"news": {
+			"0.1.9": {
+				"en": "Add API request synchomeschedule for manual use",
+		    "de": "API-Request synchomeschedule für die manuelle Verwendung hinzugefügt",
+		    "ru": "Добавить расписание синхронизации запросов API для ручного использования",
+		    "pt": "Adicionar cronograma de sincronização de solicitação de API para uso manual",
+		    "nl": "Synchronisatieschema voor API-verzoeken toevoegen voor handmatig gebruik",
+		    "fr": "Ajouter une planification de synchronisation de demande d'API pour une utilisation manuelle",
+		    "it": "Aggiungi la pianificazione della sincronizzazione delle richieste API per l'uso manuale",
+		    "es": "Agregar programa de sincronización de solicitudes de API para uso manual",
+		    "pl": "Dodaj harmonogram synchronizacji żądań API do użytku ręcznego",
+		    "zh-cn": "添加用于手动使用的API请求synchomeschedule"
+			},
 			"0.1.8": {
 				"en": "Add API request switchhomeschedule",
 		    "de": "API-Request switchhomeschedule hinzugefügt",

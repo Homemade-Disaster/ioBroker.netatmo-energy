@@ -47,6 +47,7 @@ Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und
 * setthermmode_hq       ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "hq" (Frostwächter)
 * setthermmode_away     ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "away" (nicht zu Hause)
 * switchhomeschedule    ... Setzt den "schedule mode" der Netatmo Energy API. Alle möglichen Modi sind im Channel "switchhomeschedule" aufgelistet.
+* synchomeschedule      ... Setzt die Heizpläne deiner Netatmo Energy APP. Um einen spezifischen Heizplan zu ändern geben sie eine an. Andernfalls wird der aktuell eingestellte abgeändert. Bitte tragen sie die notwendigen Parameter im Please specify the parameters in the channel "parameters" ein (schedule_id ist optional) und lösen sie den synchomeschedule Request aus.
 
 ### Trigger
 * applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
@@ -59,6 +60,9 @@ Beim Start des Adapters wird der aktuelle Status der gesamten Netatmo Energy APP
 
 
 ## Änderungsprotokoll
+
+### 0.1.9
+* (ioKlausi) API Request synchomeschedule für manuelle Verwendung hinzugefügt
 
 ### 0.1.8
 * (ioKlausi) API Request switchhomeschedule und alle möglichen Requests hinzugefügt
