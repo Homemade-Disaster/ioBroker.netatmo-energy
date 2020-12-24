@@ -38,7 +38,7 @@ Konto bei Netatmo Cloud
 ## netatmo-energy Adapter für ioBroker
 Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch request für den Datentransfer zur Netatmo Energy API. Offizielle Dokumentation der API: https://dev.netatmo.com/apidocumentation/energy.
 
-Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "API Requests" und "Trigger" beinhaltet.
+Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und "trigger" beinhaltet.
 
 ### API Requests
 * homesdata_NAPlug      ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wir der Parameter NAPlug verwendet)
@@ -46,6 +46,7 @@ Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "API Requests" un
 * setthermmode_schedule ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "Schedule" (standard)
 * setthermmode_hq       ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "hq" (Frostwächter)
 * setthermmode_away     ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "away" (nicht zu Hause)
+* switchhomeschedule    ... Setzt den "schedule mode" der Netatmo Energy API. Alle möglichen Modi sind im Channel "switchhomeschedule" aufgelistet.
 
 ### Trigger
 * applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
@@ -58,6 +59,9 @@ Beim Start des Adapters wird der aktuelle Status der gesamten Netatmo Energy APP
 
 
 ## Änderungsprotokoll
+
+### 0.1.8
+* (ioKlausi) API Request switchhomeschedule und alle möglichen Requests hinzugefügt
 
 ### 0.1.7
 * (ioKlausi) Rollen der States überarbeiten

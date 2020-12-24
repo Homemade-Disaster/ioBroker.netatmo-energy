@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.7",
+		"version": "0.1.8",
 		"news": {
+			"0.1.8": {
+				"en": "Add API request switchhomeschedule",
+		    "de": "API-Request switchhomeschedule hinzugefügt",
+		    "ru": "Добавить расписание переключения запросов API",
+		    "pt": "Adicionar agenda de mudança de solicitação de API",
+		    "nl": "Voeg API-verzoek switchhomeschedule toe",
+		    "fr": "Ajouter une demande d'API switchhomeschedule",
+		    "it": "Aggiungi switchhomeschedule richiesta API",
+		    "es": "Agregar solicitud de API switchhomeschedule",
+		    "pl": "Dodaj harmonogram przełączania żądań API",
+		    "zh-cn": "添加API请求switchhomeschedule"
+		  },
 			"0.1.7": {
 				"en": "Change role logic",
 		    "de": "Rollenlogik ändern",
