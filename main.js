@@ -12,6 +12,8 @@ const Netatmo_APIrequest_URL              = 'https://api.netatmo.com/api/';
 
 const APIRequest_homesdata                = 'homesdata';
 const APIRequest_homesdata_NAPlug         = 'NAPlug';
+const APIRequest_homesdata_NATherm1       = 'NATherm1';
+const APIRequest_homesdata_NRV 						= 'NRV';
 
 const APIRequest_homestatus               = 'homestatus';
 
@@ -135,7 +137,10 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata, 'API homesdata');
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug, 'homesdata_NAPlug', false,true,'button',true,true,false);
 		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.' + APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug);
-
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NATherm1, 'homesdata_NATherm1', false,true,'button',true,true,false);
+		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.' + APIRequest_homesdata + '_' + APIRequest_homesdata_NATherm1);
+		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.'+ APIRequest_homesdata + '_' + APIRequest_homesdata_NRV, 'homesdata_NRV', false,true,'button',true,true,false);
+		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.' + APIRequest_homesdata + '_' + APIRequest_homesdata_NRV);
 		// Channel setthomestatus
 		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus, 'API homesstatus');
 		await this.CreateNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.' + APIRequest_homestatus, 'homesstatus', false,true,'button',true,true,false);
@@ -643,7 +648,7 @@ class NetatmoEnergy extends utils.Adapter {
 					const actPath = id.substring(0,id.lastIndexOf('.'));
 					const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
 					switch(actState) {
-						// Get Structure of your home
+						// Get Structure of your home (NAPlug)
 						case APIRequest_homesdata + '_' + APIRequest_homesdata_NAPlug:
 							if (state.val === false) {
 								break;
@@ -651,6 +656,26 @@ class NetatmoEnergy extends utils.Adapter {
 							this.log.debug('API Request homesdata - NAPlug: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.sendAPIRequest(APIRequest_homesdata, '&gateway_types=' + APIRequest_homesdata_NAPlug,false);
+							break;
+
+						// Get Structure of your home (NATherm1)
+						case APIRequest_homesdata + '_' + APIRequest_homesdata_NATherm1:
+							if (state.val === false) {
+								break;
+							}
+							this.log.debug('API Request homesdata - NATherm1: ' + id + ' - ' + state.val);
+							this.setState(id, false, true);
+							this.sendAPIRequest(APIRequest_homesdata, '&gateway_types=' + APIRequest_homesdata_NATherm1,false);
+							break;
+
+						// Get Structure of your home (NRV)
+						case APIRequest_homesdata + '_' + APIRequest_homesdata_NRV:
+							if (state.val === false) {
+								break;
+							}
+							this.log.debug('API Request homesdata - NRV: ' + id + ' - ' + state.val);
+							this.setState(id, false, true);
+							this.sendAPIRequest(APIRequest_homesdata, '&gateway_types=' + APIRequest_homesdata_NRV,false);
 							break;
 
 						// get actual homestatus
