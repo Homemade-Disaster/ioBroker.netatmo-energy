@@ -111,7 +111,7 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
 ### 0.0.1
 * (ioKlausi) Initiales Releas
-
+Adaptererstellung
 
 ## License
 MIT-Lizenz

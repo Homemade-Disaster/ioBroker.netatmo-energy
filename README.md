@@ -113,7 +113,7 @@ During the start of the adapter everything would be set to initial.
 
 ### 0.0.1
 * (ioKlausi) initial release
-
+Start to create the adapter.
 
 ## License
 MIT License

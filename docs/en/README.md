@@ -113,7 +113,7 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 ### 0.0.1
 * (ioKlausi) initial release
-
+Start to create the adapter.
 
 ## License
 MIT License
