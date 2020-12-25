@@ -41,14 +41,17 @@ Get and set data using Netatmo-Energy API. This adapter uses the fetch command t
 It also creates a device called "energyAPP" including channels "APIRequests", "trigger".
 
 ### API Requests
-* homesdata_NAPlug      ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter)
-* homestatus            ... get the status and the technical informations of your valves assigned in your rooms
-* setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)
+* homesdata             ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter as default).You can set specific parameters.
+* homestatus            ... get the status and the technical informations of your valves assigned in your rooms. If you want to get informations of a specific device type you can choose specific parameters.
+* getroommeasure        ... Retrieve data history of a room. The response of this request will be stored in the response field.
+* getmeasure            ... Retrieve boiler historycal data. The response of this request will be stored in the response field.
+* setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default).  
 * setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
 * setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
-* switchhomeschedule    ... set the schedule mode of all available schedule types. All possible requests are listed in channel switchhomeschedule.
-* synchomeschedule      ... set the thermostat schedule of a home. To edit a particular schedule, you need to enter the schedule_id, if you don't specify one, the modification will be applied to the current schedule. Please specify the parameters in the channel "parameters" (schedule_id is optional) and send the request using synchomeschedule.
-During the start of the adapter everything would be set to initial.
+* switchhomeschedule    ... set the schedule mode of all available schedule types. All possible combinations of the API request an its parameters are listed in channel switchhomeschedule as separate API requests.
+* synchomeschedule      ... set the thermostat schedule of a home. To edit a particular schedule, you need to enter the schedule_id, if you don't specify one, the modification will be applied to the current schedule. Please specify the necessary parameters and send the request using synchomeschedule.
+
+If a API request need Parameters you can find these in the channel "parameters" in the corresponding API request channel.
 
 ### Trigger
 * applychanges          ... transfer all manually changes of your valves to Netatmo Energy
@@ -57,6 +60,8 @@ During the start of the adapter everything would be set to initial.
 * setroomthermpoint     ... depending of the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
 
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="80%"/>
+
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP_measure.png" alt="settingsLogin" width="80%"/>
 
 ## Build structure
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
@@ -67,7 +72,7 @@ Depending an the adapter settings it will refresh theses data after sending an A
 ## Changelog
 
 ### 0.1.9
-* (ioKlausi) Add API request synchomeschedule for manual use
+* (ioKlausi) Add API request synchomeschedule, getmeasure, getroommeasure for manual use
 
 ### 0.1.8
 * (ioKlausi) Add API request switchhomeschedule dynamicly

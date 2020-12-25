@@ -41,13 +41,17 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und "trigger" beinhaltet.
 
 ### API Requests
-* homesdata_NAPlug      ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wir der Parameter NAPlug verwendet)
-* homestatus            ... ermittelt und überträgt den Status und die technischen Informationen ihrer zugeordneten Ventile
+* homesdata_NAPlug      ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wir der Parameter NAPlug verwendet). Sie können alle weiteren Parameter für manuelle Requests selbst auswählen.
+* homestatus            ... ermittelt und überträgt den Status und die technischen Informationen ihrer zugeordneten Ventile. Wenn sie Informationen zu einem spezifischen Geräteart möchten können sie diese selbst auswählen.
+* getroommeasure        ... Hiermit erhalten sie historische Daten ihrer Räume. Das Ergebnis wird in das "response" Feld eingetragen.
+* getmeasure            ... Hiermit erhalten sie die historischen Daten ihres Boilers. Das Ergebnis wird in das "response" Feld eingetragen.
 * setthermmode_schedule ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "Schedule" (standard)
 * setthermmode_hq       ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "hq" (Frostwächter)
 * setthermmode_away     ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "away" (nicht zu Hause)
 * switchhomeschedule    ... Setzt den "schedule mode" der Netatmo Energy API. Alle möglichen Modi sind im Channel "switchhomeschedule" aufgelistet.
-* synchomeschedule      ... Setzt die Heizpläne deiner Netatmo Energy APP. Um einen spezifischen Heizplan zu ändern geben sie eine an. Andernfalls wird der aktuell eingestellte abgeändert. Bitte tragen sie die notwendigen Parameter im Please specify the parameters in the channel "parameters" ein (schedule_id ist optional) und lösen sie den synchomeschedule Request aus.
+* synchomeschedule      ... Setzt die Heizpläne deiner Netatmo Energy APP. Um einen spezifischen Heizplan zu ändern geben sie eine an. Andernfalls wird der aktuell eingestellte abgeändert. Bitte tragen sie die notwendigen Parameter ein und lösen sie den synchomeschedule Request aus.
+
+If a API request need Parameters you can find these in the channel "parameters" in the corresponding API request channel.
 
 ### Trigger
 * applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
@@ -57,6 +61,7 @@ Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und
 
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="80%"/>
 
+
 ## Strukturen aufbauen
 Beim Start des Adapters wird der aktuelle Status der gesamten Netatmo Energy APP aufgefrischt und der Status aller Ventile und Thermostate übertragen. Abhängig von den Allgemeinen Einstellungen (API Zustände nach Änderung sofort lesen) werden die Status der Ventile und Thermostate nach Änderung der API sofort wieder abgeholt (es wird sofort ein homestatus Request abgesetzt).
 Beim Starten des Adapters wird die Initialisierung durchgeführt.
@@ -65,7 +70,7 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 ## Änderungsprotokoll
 
 ### 0.1.9
-* (ioKlausi) API Request synchomeschedule für manuelle Verwendung hinzugefügt
+* (ioKlausi) API Request synchomeschedule, getmeasure, getroommeasure für manuelle Verwendung hinzugefügt
 
 ### 0.1.8
 * (ioKlausi) API Request switchhomeschedule und alle möglichen Requests hinzugefügt
