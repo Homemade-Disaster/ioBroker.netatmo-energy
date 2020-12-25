@@ -69,8 +69,11 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
 ## Änderungsprotokoll
 
+### 0.1.10
+* (ioKlausi) API Requests getmeasure und getroommeasure für manuelle Verwendung hinzugefügt
+
 ### 0.1.9
-* (ioKlausi) API Request synchomeschedule, getmeasure, getroommeasure für manuelle Verwendung hinzugefügt
+* (ioKlausi) API Request synchomeschedule für manuelle Verwendung hinzugefügt
 
 ### 0.1.8
 * (ioKlausi) API Request switchhomeschedule und alle möglichen Requests hinzugefügt

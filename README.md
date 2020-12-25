@@ -71,8 +71,11 @@ During the start of the adapter everything would be set to initial.
 
 ## Changelog
 
+### 0.1.10
+* (ioKlausi) Add API requests getmeasure and getroommeasure for manual use
+
 ### 0.1.9
-* (ioKlausi) Add API request synchomeschedule, getmeasure, getroommeasure for manual use
+* (ioKlausi) Add API request synchomeschedule for manual use
 
 ### 0.1.8
 * (ioKlausi) Add API request switchhomeschedule dynamicly
