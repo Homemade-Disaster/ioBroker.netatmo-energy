@@ -11,6 +11,7 @@
 [![NPM](https://nodei.co/npm/iobroker.netatmo-energy.png?downloads=true)](https://nodei.co/npm/iobroker.netatmo-energy/)
 
 **Tests:** ![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
+**Dieser Adapter verwendet Sentry Bibliotheken um einen automatischen Report von Abbrüchen und Programmcode Fehlern an die Entwickler zu senden.** Für weitere Details und für Informationen zur Deaktivierung dieser Funktion beachten sie bitte [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting ist verfügbar ab js-controller 3.0.
 
 ## Voraussetzungen & Konfiguation
 Netatmo Energy hardware (Thermostat, Ventile)
@@ -41,7 +42,7 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und "trigger" beinhaltet.
 
 ### API Requests
-* homesdata_NAPlug      ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wir der Parameter NAPlug verwendet). Sie können alle weiteren Parameter für manuelle Requests selbst auswählen.
+* homesdata             ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wir der Parameter NAPlug verwendet). Sie können alle weiteren Parameter für manuelle Requests selbst auswählen.
 * homestatus            ... ermittelt und überträgt den Status und die technischen Informationen ihrer zugeordneten Ventile. Wenn sie Informationen zu einem spezifischen Geräteart möchten können sie diese selbst auswählen.
 * getroommeasure        ... Hiermit erhalten sie historische Daten ihrer Räume. Das Ergebnis wird in das "response" Feld eingetragen.
 * getmeasure            ... Hiermit erhalten sie die historischen Daten ihres Boilers. Das Ergebnis wird in das "response" Feld eingetragen.
@@ -51,7 +52,7 @@ Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und
 * switchhomeschedule    ... Setzt den "schedule mode" der Netatmo Energy API. Alle möglichen Modi sind im Channel "switchhomeschedule" aufgelistet.
 * synchomeschedule      ... Setzt die Heizpläne deiner Netatmo Energy APP. Um einen spezifischen Heizplan zu ändern geben sie eine an. Andernfalls wird der aktuell eingestellte abgeändert. Bitte tragen sie die notwendigen Parameter ein und lösen sie den synchomeschedule Request aus.
 
-If a API request need Parameters you can find these in the channel "parameters" in the corresponding API request channel.
+Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden Request Channel im Channel "parameters" finden.
 
 ### Trigger
 * applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
@@ -68,6 +69,9 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
 
 ## Änderungsprotokoll
+
+### 0.1.12
+* (ioKlausi) Coding überarbeiten, sentry einbinden, Token Gültigkeit prüfen
 
 ### 0.1.11
 * (ioKlausi) Adaptertyp geändert

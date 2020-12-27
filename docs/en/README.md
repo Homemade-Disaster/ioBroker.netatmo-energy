@@ -11,6 +11,7 @@
 [![NPM](https://nodei.co/npm/iobroker.netatmo-energy.png?downloads=true)](https://nodei.co/npm/iobroker.netatmo-energy/)
 
 **Tests:** ![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 ## Reqirements & configuration
 Netatmo Energy hardware (thermostat, valves)
@@ -69,6 +70,9 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 
 ## Changelog
+
+### 0.1.12
+* (ioKlausi) Redesign coding, add sentry, check token expiring
 
 ### 0.1.11
 * (ioKlausi) Type of adapter changed

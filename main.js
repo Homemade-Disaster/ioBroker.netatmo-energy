@@ -19,10 +19,6 @@ const APIRequest_getmeasure				        = 'getmeasure';
 
 const APIRequest_setroomthermpoint        = 'setroomthermpoint';
 const APIRequest_setroomthermpoint_manual = 'manual';
-const State_TempChanged										= 'TempChanged';
-const State_TempChanged_Mode							= 'mode';
-const State_TempChanged_Endtime						= 'endtime';
-const State_therm_setpoint_temperature		= 'therm_setpoint_temperature';
 
 const APIRequest_setthermmode             = 'setthermmode';
 const APIRequest_setthermmode_schedule    = 'schedule';
@@ -33,12 +29,13 @@ const APIRequest_switchhomeschedule       = 'switchhomeschedule';
 
 const APIRequest_synchomeschedule         = 'synchomeschedule';
 
-// Energy APP Trigger
-const APIRequestsDevice                   = 'energyAPP';
+// Energy APP
 const Trigger_applychanges								= 'applychanges';
 const Trigger_SetTemp                     = 'SetTemp';
 
 // Energy APP Channels / States
+const Device_APIRequests                  = 'energyAPP';
+
 const Channel_APIRequests									= 'APIRequests';
 const Channel_homesdata										= 'homesdata';
 const Channel_homestatus									= 'homestatus';
@@ -55,6 +52,10 @@ const Channel_status											= 'status';
 const Channel_settings										= 'settings';
 const Channel_modulestatus								= 'modulestatus';
 
+const State_TempChanged										= 'TempChanged';
+const State_TempChanged_Mode							= 'mode';
+const State_TempChanged_Endtime						= 'endtime';
+const State_therm_setpoint_temperature		= 'therm_setpoint_temperature';
 const State_schedule_id										= 'schedule_id';
 const State_zones													= 'zones';
 const State_timetable											= 'timetable';
@@ -72,8 +73,7 @@ const State_limit													= 'limit';
 const State_optimize											= 'optimize';
 const State_real_time											= 'real_time';
 const State_response											= 'response';
-
-const Time_Exec														= 'time_exec';
+const State_Time_Exec											= 'time_exec';
 
 //Value lists
 const List_mode														= '{"manual": "manual temperature", "max": "maximum temperature", "hq": "frost guardian temperature", "home": "home temperature" }';
@@ -101,16 +101,20 @@ class NetatmoEnergy extends utils.Adapter {
 		//this.on('objectChange', this.onObjectChange.bind(this));
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
-		this.globalRefreshToken = '';
-		this.globalNetatmo_ExpiresIn = 0;
-		this.globalNetatmo_AccessToken = '';
-		this.globalScheduleObjects = {};
-		this.globalScheduleList = {};
-		this.globalScheduleListArray = [];
-		this.globalRoomId = {};
-		this.globalRoomIdArray = [];
-		this.globalDeviceId = {};
-		this.globalDeviceIdArray = [];
+
+		this.globalDevice              = null;
+		this.globalAPIChannel          = null;
+		this.globalAPIChannelTrigger   = null;
+		this.globalRefreshToken        = null;
+		this.globalNetatmo_ExpiresIn   = 0;
+		this.globalNetatmo_AccessToken = null;
+		this.globalScheduleObjects     = {};
+		this.globalScheduleList        = {};
+		this.globalScheduleListArray   = [];
+		this.globalRoomId              = {};
+		this.globalRoomIdArray         = [];
+		this.globalDeviceId            = {};
+		this.globalDeviceIdArray       = [];
 	}
 
 	// Is called when databases are connected and adapter received configuration
@@ -119,11 +123,9 @@ class NetatmoEnergy extends utils.Adapter {
 		this.getForeignObject('system.config', (err, obj) => {
 			if (!this.supportsFeature() || !this.supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
 				if (obj && obj.native && obj.native.secret) {
-					//noinspection JSUnresolvedVariable
 					this.config.Password = this.decrypt(obj.native.secret, this.config.Password);
 				}
 				else {
-					//noinspection JSUnresolvedVariable
 					this.config.Password = this.decrypt('Zgfr56gFe87jJOM', this.config.Password);
 				}
 			}
@@ -133,99 +135,109 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// Start initialization
 	async startAdapter() {
-		// Set Intervall
-		const speed = this.config.refreshstates;
+		this.globalDevice              = this.name + '.' + this.instance + '.' + Device_APIRequests;
+		this.globalAPIChannel          = this.name + '.' + this.instance + '.' + Device_APIRequests + '.' + Channel_APIRequests;
+		this.globalAPIChannelTrigger   = this.name + '.' + this.instance + '.' + Device_APIRequests + '.' + Channel_trigger;
+		//Check adapter configuration
+		if (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password) {
+			this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
+			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
+		}
+
+		// Set polling intervall
+		const refreshtime = this.config.refreshstates;
 		const thattimer = this;
 		const updateAPIStatus = function () {
 			thattimer.log.debug('API Request homestatus sent to API each ' + thattimer.config.refreshstates + 'sec');
+			thattimer.sendAPIRequest(APIRequest_homesdata, '',true);
 			thattimer.sendAPIRequest(APIRequest_homestatus, '',true);
 		};
-		if (speed && speed > 0) {
+		if (refreshtime && refreshtime > 0) {
 			this.log.debug('Refresh homestatus interval ' + this.config.refreshstates * 1000);
-			adapterIntervals.updateAPI = setInterval(updateAPIStatus, speed * 1000);
+			adapterIntervals.updateAPI = setInterval(updateAPIStatus, refreshtime * 1000);
 		}
 
 		// Initialize adapter
-		await this.createenergyAPP();
+		await this.createEnergyAPP();
 		await this.sendAPIRequest(APIRequest_homesdata, '', false);
 		await this.sendAPIRequest(APIRequest_homestatus, '', false);
 	}
 
 	// Create APP Requests device
-	async createenergyAPP() {
+	async createEnergyAPP() {
 		// Device energyAPP
-		await this.createMyDevice(this.name + '.' + this.instance + '.' + APIRequestsDevice, 'Netatmo Energy APP');
+		await this.createMyDevice(this.globalDevice, 'Netatmo Energy APP');
 		// Channel APIRequests
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests, 'Requests for Netatmo Energy API');
+		await this.createMyChannel(this.globalAPIChannel, 'Requests for Netatmo Energy API');
 
 		// Channel setthomesdata
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata, 'API homesdata');
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.' + Channel_parameters, 'parameters');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.'+ APIRequest_homesdata, 'homesdata', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.' + APIRequest_homesdata);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homesdata + '.'+ Channel_parameters + '.' + State_gateway_types, 'gateway types', '', true, 'text', true, true, List_gateway_type, false, false);
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_homesdata, 'API homesdata');
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_homesdata + '.' + Channel_parameters, 'parameters');
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_homesdata + '.'+ APIRequest_homesdata, 'homesdata', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_homesdata + '.'+ Channel_parameters + '.' + State_gateway_types, 'gateway types', '', true, 'text', true, true, List_gateway_type, false, false);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_homesdata + '.' + APIRequest_homesdata);
 
 		// Channel setthomestatus
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus, 'API homesstatus');
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.' + Channel_parameters, 'parameters');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.'+ Channel_parameters + '.' + State_device_types, 'device types', '', true, 'text', true, true, List_device_types, false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.' + APIRequest_homestatus, 'homesstatus', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.' + APIRequest_homestatus);
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_homestatus, 'API homesstatus');
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_homestatus + '.' + Channel_parameters, 'parameters');
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_homestatus + '.'+ Channel_parameters + '.' + State_device_types, 'device types', '', true, 'text', true, true, List_device_types, false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_homestatus + '.' + APIRequest_homestatus, 'homesstatus', false, true, 'button', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_homestatus + '.' + APIRequest_homestatus);
 
 		// Channel setthermmode
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode, 'API setthermmode');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'setthermmode_schedule', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'setthermmode_hg', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'setthermmode_away', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_setthermmode, 'API setthermmode');
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_setthermmode + '.'+ APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule, 'setthermmode_schedule', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg, 'setthermmode_hg', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away, 'setthermmode_away', false, true, 'button', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_setthermmode + '.' + APIRequest_setthermmode + '_' + APIRequest_setthermmode_away);
 
 		// Channel synchomeschedule
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule, 'API synchomeschedule');
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters, 'parameters');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule, 'synchomeschedule', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones, 'Array of data used to define time periods to build a schedule. More info on the Thermostat page. id of zone | type of zone | Name of zone | Temperature', '', true, 'list', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable, 'Array describing the timetable. More info on the Thermostat page. ID of the zone - offset in minutes since Monday 00:00:01', '', true, 'list', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp, 'Frost guard temperature value', 7, true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp, 'Away temperature value', 12, true, 'number', true, true, '', false, false);
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_synchomeschedule, 'API synchomeschedule');
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters, 'parameters');
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule, 'synchomeschedule', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones, 'Array of data used to define time periods to build a schedule. More info on the Thermostat page. id of zone | type of zone | Name of zone | Temperature', '', true, 'list', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable, 'Array describing the timetable. More info on the Thermostat page. ID of the zone - offset in minutes since Monday 00:00:01', '', true, 'list', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp, 'Frost guard temperature value', 7, true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp, 'Away temperature value', 12, true, 'number', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + APIRequest_synchomeschedule);
 
 		// Channel getroommeasure
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure, 'API getroommeasure');
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters, 'parameters');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + APIRequest_getroommeasure, 'getroommeasure', false, true, 'button', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + State_response, 'Request response', '', true, 'text', false, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + APIRequest_getroommeasure);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_scale, 'Timelapse between two measurements', '', true, 'text', true, true, List_scale, false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_type, 'Type of data to be returned. Setpoint temperature is only available for scales from 30 to 3hours and min/max temp and dates for scales from 1day to 1month.', '', true, 'text', true, true, List_type_rm, false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_begin, 'Timestamp of the first measure to retrieve. Default is null', '', true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_end, 'Timestamp of the last measure to retrieve (default and max are 1024). Default is null', '', true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_limit, 'Maximum number of measurements (default and max Are 1024)', '', true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_optimize, 'Determines the format of the answer. Default is true. For mobile apps we recommend True and False if bandwidth isn\'t an issue as it is easier to parse', false, true, 'indicator', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_real_time, 'real_time', false, true, 'indicator', true, true, '', false, false);
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_getroommeasure, 'API getroommeasure');
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters, 'parameters');
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + APIRequest_getroommeasure, 'getroommeasure', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + State_response, 'Request response', '', true, 'text', false, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_scale, 'Timelapse between two measurements', '', true, 'text', true, true, List_scale, false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_type, 'Type of data to be returned. Setpoint temperature is only available for scales from 30 to 3hours and min/max temp and dates for scales from 1day to 1month.', '', true, 'text', true, true, List_type_rm, false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_begin, 'Timestamp of the first measure to retrieve. Default is null', '', true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_end, 'Timestamp of the last measure to retrieve (default and max are 1024). Default is null', '', true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_limit, 'Maximum number of measurements (default and max Are 1024)', '', true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_optimize, 'Determines the format of the answer. Default is true. For mobile apps we recommend True and False if bandwidth isn\'t an issue as it is easier to parse', false, true, 'indicator', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_real_time, 'real_time', false, true, 'indicator', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + APIRequest_getroommeasure);
 
 		// Channel getmeasure
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure, 'API getmeasure');
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters, 'parameters');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + APIRequest_getmeasure, 'getmeasure', false, true, 'button', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + State_response, 'Request response', '', true, 'text', false, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + APIRequest_getmeasure);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_scale, 'Timelapse between two measurements', '', true, 'text', true, true, List_scale, false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_type, 'Type of data to be returned. Setpoint temperature is only available for scales from 30 to 3hours and min/max temp and dates for scales from 1day to 1month.', '', true, 'text', true, true, List_type_mm, false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_begin, 'Timestamp of the first measure to retrieve. Default is null', '', true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_end, 'Timestamp of the last measure to retrieve (default and max are 1024). Default is null', '', true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_limit, 'Maximum number of measurements (default and max Are 1024)', '', true, 'number', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_optimize, 'Determines the format of the answer. Default is true. For mobile apps we recommend True and False if bandwidth isn\'t an issue as it is easier to parse', false, true, 'indicator', true, true, '', false, false);
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_real_time, 'real_time', false, true, 'indicator', true, true, '', false, false);
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_getmeasure, 'API getmeasure');
+		await this.createMyChannel(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters, 'parameters');
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + APIRequest_getmeasure, 'getmeasure', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + State_response, 'Request response', '', true, 'text', false, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_scale, 'Timelapse between two measurements', '', true, 'text', true, true, List_scale, false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_type, 'Type of data to be returned. Setpoint temperature is only available for scales from 30 to 3hours and min/max temp and dates for scales from 1day to 1month.', '', true, 'text', true, true, List_type_mm, false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_begin, 'Timestamp of the first measure to retrieve. Default is null', '', true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_end, 'Timestamp of the last measure to retrieve (default and max are 1024). Default is null', '', true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_limit, 'Maximum number of measurements (default and max Are 1024)', '', true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_optimize, 'Determines the format of the answer. Default is true. For mobile apps we recommend True and False if bandwidth isn\'t an issue as it is easier to parse', false, true, 'indicator', true, true, '', false, false);
+		await this.createNetatmoStructure(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_real_time, 'real_time', false, true, 'indicator', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + APIRequest_getmeasure);
 
 		// Channel trigger
-		await this.createMyChannel(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger, 'API setroomthermpoint');
-		await this.createNetatmoStructure(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger + '.' + Trigger_applychanges, 'trigger to send changes to Netatmo Cloud', false, true, 'button', true, true, '', false, false);
-		await this.subscribeStates(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_trigger + '.' + Trigger_applychanges);
+		await this.createMyChannel(this.globalAPIChannelTrigger, 'API setroomthermpoint');
+		await this.createNetatmoStructure(this.globalAPIChannelTrigger + '.' + Trigger_applychanges, 'trigger to send changes to Netatmo Cloud', false, true, 'button', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannelTrigger + '.' + Trigger_applychanges);
 	}
 
 	// Send API inkluding tokenrequest
@@ -233,28 +245,36 @@ class NetatmoEnergy extends utils.Adapter {
 		let globalresponse = null;
 		const Netatmo_Path = this.name + '.' + this.instance;
 
+		// Refresh the token after it nearly expires
+		const expirationTimeInSeconds = this.globalNetatmo_ExpiresIn - 10;
+		const nowInSeconds = (new Date()).getTime() / 1000;
+		const shouldRefresh = nowInSeconds >= expirationTimeInSeconds;
+
 		//Send Token request to API
-		this.log.info('Start Token-request: ' + APIRequest + ' ' + setpayload);
-		await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
-			.then(tokenvalues => {
-				this.globalNetatmo_AccessToken = tokenvalues.access_token;
-				this.globalNetatmo_ExpiresIn = tokenvalues.expires_in;
-				this.globalRefreshToken = tokenvalues.refresh_token;
-				this.log.debug('Token OK: ' + this.globalNetatmo_AccessToken);
-			})
-			.catch(error => {
-				this.globalNetatmo_AccessToken = '';
-				this.globalRefreshToken = '';
-				this.globalNetatmo_ExpiresIn = 0;
-				this.log.error('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
-			});
+		if (shouldRefresh || !this.globalNetatmo_AccessToken) {
+			this.log.info('Start Token-request: ' + APIRequest + ' ' + setpayload);
+			await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
+				.then(tokenvalues => {
+					this.globalNetatmo_AccessToken = tokenvalues.access_token;
+					this.globalNetatmo_ExpiresIn   = tokenvalues.expires_in;
+					this.globalRefreshToken        = tokenvalues.refresh_token;
+					this.log.debug('Token OK: ' + this.globalNetatmo_AccessToken);
+				})
+				.catch(error => {
+					this.globalNetatmo_AccessToken = null;
+					this.globalRefreshToken        = null;
+					this.globalNetatmo_ExpiresIn   = 0;
+					this.log.error('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
+				});
+		}
 
 		// only send API request if we get the token
 		if (this.globalNetatmo_AccessToken != '' || this.globalNetatmo_AccessToken) {
 			if (APIRequest == APIRequest_homestatus) {
-				this.globalRoomIdArray = [];
+				this.globalRoomIdArray   = [];
 				this.globalDeviceIdArray = [];
 			}
+
 			this.log.info('Start API-request: ' + APIRequest);
 			await this.getAPIRequest(APIRequest,setpayload)
 				.then(response => {
@@ -264,21 +284,22 @@ class NetatmoEnergy extends utils.Adapter {
 					this.log.error('API request not OK: ' + error.error + ': ' + error.error_description);
 				});
 			if (globalresponse) {
-				if (APIRequest == APIRequest_getroommeasure) {
-					await this.setState(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + State_response, JSON.stringify(globalresponse), true);
-				} else {
-					if (APIRequest == APIRequest_getmeasure) {
-						await this.setState(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + State_response, JSON.stringify(globalresponse), true);
-					} else {
-						if (APIRequest == APIRequest_homesdata || APIRequest == APIRequest_homestatus) {
-							await this.getValuesFromNetatmo(APIRequest,globalresponse,'','',Netatmo_Path, norefresh);
-							if (APIRequest == APIRequest_homestatus) {
-								await this.searchSchedule();
-							}
-						} else {
-							this.log.debug('API changes applied' +  APIRequest);
-						}
-					}
+				switch(APIRequest) {
+					case APIRequest_getroommeasure:
+						await this.setState(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + State_response, JSON.stringify(globalresponse), true);
+						break;
+					case APIRequest_getmeasure:
+						await this.setState(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + State_response, JSON.stringify(globalresponse), true);
+						break;
+					case APIRequest_homesdata:
+						await this.getValuesFromNetatmo(APIRequest,globalresponse,'','',Netatmo_Path, norefresh);
+						break;
+					case APIRequest_homestatus:
+						await this.getValuesFromNetatmo(APIRequest,globalresponse,'','',Netatmo_Path, norefresh);
+						await this.searchSchedule();
+						break;
+					default:
+						this.log.debug('API changes applied' +  APIRequest);
 				}
 			}
 			this.log.debug('API request finished' );
@@ -287,7 +308,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//get token from Netatmo
 	getToken(HomeId,ClientId,ClientSecretID,User,Password) {
-		this.globalNetatmo_AccessToken = '';
+		this.globalNetatmo_AccessToken = null;
 		let payload = '';
 
 		if (!this.globalRefreshToken) {
@@ -301,95 +322,64 @@ class NetatmoEnergy extends utils.Adapter {
 	//API request main routine
 	getAPIRequest(NetatmoRequest, extend_payload) {
 		const payload = 'access_token=' + this.globalNetatmo_AccessToken + '&home_id=' + this.config.HomeId + extend_payload;
-		this.log.debug('Request: ' + Netatmo_APIrequest_URL + NetatmoRequest + '?' + payload);
+		if (payload) {
+			this.log.debug('Request: ' + Netatmo_APIrequest_URL + NetatmoRequest + '?' + payload);
+		} else {
+			this.log.debug('Request: ' + Netatmo_APIrequest_URL + NetatmoRequest);
+		}
 		return this.myFetch(Netatmo_APIrequest_URL + NetatmoRequest, payload);
 	}
 
 	// send homesdata API Request
 	async sendHomesdataAPIRequest (APIRequest, norefresh) {
-		const new_gateway_types = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.' + Channel_parameters + '.' + State_gateway_types);
-		let gateway_types = '&gateway_types=' + APIRequest_homesdata_NAPlug;
-		if (new_gateway_types && new_gateway_types.val != '') {
-			gateway_types = '&gateway_types=' + new_gateway_types.val;
+		let gateway_types = await this.getValuefromDatapoint('&gateway_types=', this.globalAPIChannel + '.' + Channel_homestatus + '.' + Channel_parameters + '.' + State_gateway_types);
+		if ((gateway_types.match(/&/g) || []).length != 1) {
+			gateway_types = '&gateway_types=' + APIRequest_homesdata_NAPlug;
 		}
 		await this.sendAPIRequest(APIRequest, gateway_types, norefresh);
 	}
 
 	// send homesdata API Request
 	async sendHomestatusAPIRequest (APIRequest, norefresh) {
-		const new_device_types = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_homestatus + '.' + Channel_parameters + '.' + State_device_types);
-		let device_types = '';
-		if (new_device_types && new_device_types.val != '') {
-			device_types = '&device_types=' + new_device_types.val;
-		}
+		const device_types = await this.getValuefromDatapoint('&device_types=', this.globalAPIChannel + '.' + Channel_homestatus + '.' + Channel_parameters + '.' + State_device_types);
 		await this.sendAPIRequest(APIRequest, device_types, norefresh);
 	}
 
 	// send getroomsmeasure API Request
 	async sendRoomsmeasureAPIRequest (APIRequest, norefresh) {
-		const room_id     = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id);
-		const scale       = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_scale);
-		const type        = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_type);
-		const date_begin  = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_begin);
-		const date_end    = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_end);
-		const limit       = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_limit);
-		const optimize    = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_optimize);
-		const real_time   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_real_time);
+		await this.setState(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + State_response, '', true);
 
-		await this.setState(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + State_response, '', true);
+		let measure_payload = await this.getValuefromDatapoint('&room_id=',             this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id);
+		measure_payload = measure_payload +	await this.getValuefromDatapoint('&scale=', this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_scale);
+		measure_payload = measure_payload +	await this.getValuefromDatapoint('&type=',  this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_type);
+
 		//let measure_payload = '&home_id=' + this.config.HomeId;
-		if (room_id && room_id.val != '' || scale && scale.val != '' || type && type.val != '') {
-			let measure_payload = '&room_id=' + room_id.val + '&scale=' + scale.val + '&type=' + type.val;
-			if (date_begin && date_begin.val != '') {
-				measure_payload = measure_payload + '&date_begin=' + date_begin.val;
-			}
-			if (date_end && date_end.val != '') {
-				measure_payload = measure_payload + '&date_end=' + date_end.val;
-			}
-			if (limit && limit.val != '') {
-				measure_payload = measure_payload + '&limit=' + limit.val;
-			}
-			if (optimize && optimize.val != '') {
-				measure_payload = measure_payload + '&optimize=' + optimize.val;
-			}
-			if (real_time && real_time.val != '') {
-				measure_payload = measure_payload + '&real_time=' + real_time.val;
-			}
+		if ((measure_payload.match(/&/g) || []).length == 3) {
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&date_begin=', this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_begin);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&date_end=',   this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_date_end);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&limit=',      this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_limit);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&optimize=',   this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_optimize);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&real_time=',  this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_real_time);
 			await this.sendAPIRequest(APIRequest, measure_payload, norefresh);
 		} else {
 			this.log.error('API-getroosmeasure request is missing parameters');
 		}
 	}
+
 	// send getroomsmeasure API Request
 	async sendMeasureAPIRequest (APIRequest, norefresh) {
-		const device_id   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id);
-		const scale       = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_scale);
-		const type        = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_type);
-		const date_begin  = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_begin);
-		const date_end    = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_end);
-		const limit       = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_limit);
-		const optimize    = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_optimize);
-		const real_time   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_real_time);
+		await this.setState(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + State_response, '', true);
 
-		await this.setState(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + State_response, '', true);
-		//let measure_payload = '&home_id=' + this.config.HomeId;
-		if (device_id && device_id.val != '' || scale && scale.val != '' || type && type.val != '') {
-			let measure_payload = '&device_id=' + device_id.val + '&scale=' + scale.val + '&type=' + type.val;
-			if (date_begin && date_begin.val != '') {
-				measure_payload = measure_payload + '&date_begin=' + date_begin.val;
-			}
-			if (date_end && date_end.val != '') {
-				measure_payload = measure_payload + '&date_end=' + date_end.val;
-			}
-			if (limit && limit.val != '') {
-				measure_payload = measure_payload + '&limit=' + limit.val;
-			}
-			if (optimize && optimize.val != '') {
-				measure_payload = measure_payload + '&optimize=' + optimize.val;
-			}
-			if (real_time && real_time.val != '') {
-				measure_payload = measure_payload + '&real_time=' + real_time.val;
-			}
+		let measure_payload = await this.getValuefromDatapoint('&device_id=',           this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id);
+		measure_payload = measure_payload +	await this.getValuefromDatapoint('&scale=', this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_scale);
+		measure_payload = measure_payload +	await this.getValuefromDatapoint('&type=',  this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_type);
+
+		if ((measure_payload.match(/&/g) || []).length == 3) {
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&date_begin=', this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_begin);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&date_end=',   this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_date_end);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&limit=',      this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_limit);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&optimize=',   this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_optimize);
+			measure_payload = measure_payload +	await this.getValuefromDatapoint('&real_time=',  this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_real_time);
 			await this.sendAPIRequest(APIRequest, measure_payload, norefresh);
 		} else {
 			this.log.error('API-getmeasure request is missing parameters');
@@ -399,57 +389,74 @@ class NetatmoEnergy extends utils.Adapter {
 	//Send Changes to API
 	async applyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		let changesmade = false;
-
 		const ApplyPrommise = new Promise(
 			function(resolve,reject) {
-				const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
-				const createAPIasync = async function(NetatmoRequest, mode) {
+
+				const createAPIasync = async function(NetatmoRequest, mode, that) {
 					await that.sendAPIRequest(NetatmoRequest, mode, false);
 					resolve(true);
 				};
-				const createAPIasync_syncrequest = async function(NetatmoRequest) {
-					await this.sendSingleActualTemp(NetatmoRequest, false);
+
+				const createAPIAsync_syncrequest = async function(NetatmoRequest, that) {
+					await that.sendSingleActualTemp(NetatmoRequest, false);
+					resolve(true);
 				};
-				switch (NetatmoRequest) {
-					case APIRequest_setroomthermpoint:
-						that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
-							for(const id in states) {
-								const adapterstates = await that.getStateAsync(id);
 
-								if (id.search(searchstring) >= 0) {
-									if (adapterstates && adapterstates.val === true) {
-										await that.setState(id, false, true);
+				/*const createAPIapplyAsync = async function(NetatmoRequest, mode, that) {
+					const changesmade = await createAPIapplyAsync_syncrequest(NetatmoRequest, mode, that);
+					if (changesmade) {
+						resolve(true);
+					} else {
+						reject(false);
+					}
+				};*/
 
-										const actPath = id.substring(0,id.lastIndexOf('.'));
-										const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-										const newTemp = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
-										if (newTemp) {
-											if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
-												changesmade = true;
-											}
+				const createAPIapplyAsync_syncrequest = async function(NetatmoRequest, mode, that) {
+					const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
+					let changesmade = false;
+					that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
+						for(const id in states) {
+							const adapterstates = await that.getStateAsync(id);
+
+							if (id.search(searchstring) >= 0) {
+								if (adapterstates && adapterstates.val === true) {
+									await that.setState(id, false, true);
+
+									const actPath = id.substring(0,id.lastIndexOf('.'));
+									const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
+									const newTemp = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
+									if (newTemp) {
+										if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
+											changesmade = true;
 										}
 									}
 								}
-								if (changesmade) {
-									resolve(true);
-								} else {
-									reject(false);
-								}
 							}
-						});
+						}
+						if (changesmade) {
+							resolve(true);
+						} else {
+							reject(false);
+						}
+					});
+				};
+
+				switch (NetatmoRequest) {
+					case APIRequest_setroomthermpoint:
+						//createAPIapplyAsync(NetatmoRequest, mode, that);
+						createAPIapplyAsync_syncrequest(NetatmoRequest, mode, that);
 						break;
 
 					case APIRequest_setthermmode:
-						createAPIasync(NetatmoRequest, '&mode=' + mode);
+						createAPIasync(NetatmoRequest, '&mode=' + mode, that);
 						break;
 
 					case APIRequest_switchhomeschedule:
-						createAPIasync(NetatmoRequest, '&schedule_id=' + mode);
+						createAPIasync(NetatmoRequest, '&schedule_id=' + mode, that);
 						break;
 
 					case APIRequest_synchomeschedule:
-						createAPIasync_syncrequest(NetatmoRequest);
+						createAPIAsync_syncrequest(NetatmoRequest, that);
 						break;
 				}
 			});
@@ -462,6 +469,7 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.applyAPIRequest(NetatmoRequest,mode)
 			.then(success => {
 				if (that.config.getchangesimmediately && success) {
+					that.sendAPIRequest(APIRequest_homesdata, '',false);
 					that.sendAPIRequest(APIRequest_homestatus, '',false);
 				}
 			});
@@ -505,16 +513,13 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// send sync API Request
 	async sendSingleActualTemp (NetatmoRequest, norefresh) {
-		const new_schedule_id = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id);
-		const new_zones       = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones);
-		const new_timetable   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable);
-		const new_hg_temp     = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp);
-		const new_away_temp   = await this.getStateAsync(this.name + '.' + this.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp);
-		if (new_zones && new_timetable && new_hg_temp && new_away_temp) {
-			let syncmode = '&zones=' + new_zones.val + '&timetable=' + new_timetable.val + '&hg_temp=' + new_hg_temp.val + '&away_temp=' + new_away_temp.val;
-			if (new_schedule_id && new_schedule_id.val != '') {
-				syncmode = '&schedule_id=' + new_schedule_id.val + syncmode;
-			}
+		let syncmode = syncmode +	await this.getValuefromDatapoint('&zones=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones);
+		syncmode = syncmode +	await this.getValuefromDatapoint('&timetable=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable);
+		syncmode = syncmode +	await this.getValuefromDatapoint('&hg_temp=',   this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp);
+		syncmode = syncmode +	await this.getValuefromDatapoint('&away_temp=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp);
+
+		if ((syncmode.match(/&/g) || []).length == 4) {
+			syncmode = syncmode +	await this.getValuefromDatapoint('&schedule_id=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id);
 			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh);
 		} else {
 			this.log.error('API-synchomeschedule request is missing parameters');
@@ -591,14 +596,14 @@ class NetatmoEnergy extends utils.Adapter {
 		let schedule_id   = null;
 		let schedule_name = null;
 
-		//this.log.debug('Delete Channel: ' + that.name + '.' + that.instance + '.' + APIRequestsDevice + ' - ' + Channel_switchhomeschedule);
-		await that.deleteChannel(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests, Channel_switchhomeschedule);
-		this.globalScheduleObjects = {};
-		this.globalScheduleList = {};
+		//this.log.debug('Delete Channel: ' + that.globalDevice + ' - ' + Channel_switchhomeschedule);
+		await that.deleteChannel(that.globalAPIChannel, Channel_switchhomeschedule);
+		this.globalScheduleObjects   = {};
+		this.globalScheduleList      = {};
 		this.globalScheduleListArray = [];
 		//schedules
 		this.getStates(that.name + '.' + that.instance + '.homes.*.schedules.*',async function(error, states) {
-			await that.createMyChannel(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_switchhomeschedule, 'API switchhomeschedule');
+			await that.createMyChannel(that.globalAPIChannel + '.' + Channel_switchhomeschedule, 'API switchhomeschedule');
 			for(const id in states) {
 				//that.log.debug('Found Schedule: ' + id);
 				if (id.search(searchSchedules) >= 0) {
@@ -609,9 +614,9 @@ class NetatmoEnergy extends utils.Adapter {
 						//that.log.debug(>
 						if (schedule_name) {
 							//that.log.debug('Found Schedule_NAME: ' + schedule_name.val);
-							that.globalScheduleObjects[that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s.]/g, '_')] = schedule_id.val;
-							await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s.]/g, '_'), schedule_name.val, false, true, 'button', true, true, '', false, false);
-							await that.subscribeStates(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + + '.' + Channel_APIRequests + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s.]/g, '_'));
+							that.globalScheduleObjects[that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_')] = schedule_id.val;
+							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_'), schedule_name.val, false, true, 'button', true, true, '', false, false);
+							await that.subscribeStates(that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_'));
 
 							// create sortet object
 							that.globalScheduleList = {};
@@ -621,7 +626,7 @@ class NetatmoEnergy extends utils.Adapter {
 								that.globalScheduleList[key] = value;
 								//that.log.debug('Schedule-ID-Sort: ' + key + ' - ' + value);
 							});
-							await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, '', true, false);
+							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, '', true, false);
 						}
 					}
 				}
@@ -659,7 +664,7 @@ class NetatmoEnergy extends utils.Adapter {
 							//that.log.debug('Room-ID-Sort: ' + key + ' - ' + value);
 						});
 
-						await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, that.globalRoomId, false, true);
+						await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, that.globalRoomId, false, true);
 
 						for(const objstat_name in ObjStatus) {
 							if(!(ObjStatus[objstat_name] instanceof Object) && objstat_name != 'id') {
@@ -707,7 +712,7 @@ class NetatmoEnergy extends utils.Adapter {
 								//that.log.debug('Device-ID-Sort: ' + key + ' - ' + value);
 							});
 
-							await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, that.globalDeviceId, false, true);
+							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, that.globalDeviceId, false, true);
 						}
 						for(const objstat_name in ObjStatus) {
 							if(!(ObjStatus[objstat_name] instanceof Object) && objstat_name != 'id') {
@@ -750,7 +755,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//calculate date in seconds -> milliseconds including gap to time_exec
 	async getDateFrom1970(seconds) {
-		const adapter_time_exec = await this.getStateAsync(this.name + '.' + this.instance + '.' + Time_Exec);
+		const adapter_time_exec = await this.getStateAsync(this.name + '.' + this.instance + '.' + State_Time_Exec);
 		return (adapter_time_exec.val + seconds) * 3600;
 	}
 
@@ -859,6 +864,15 @@ class NetatmoEnergy extends utils.Adapter {
 		} else {
 			this.setState(idtoset, false, true);
 		}
+	}
+
+	//analyse datapoint for payload
+	async getValuefromDatapoint(payload, id) {
+		const datapoint   = await this.getStateAsync(id);
+		if (datapoint && datapoint.val != '') {
+			return payload + datapoint.val;
+		}
+		return '';
 	}
 
 	// Decrypt password
@@ -1036,7 +1050,7 @@ class NetatmoEnergy extends utils.Adapter {
 			// The state was deleted
 			//this.log.info(`state ${id} deleted`);
 
-			if (state.ack === false && id.lastIndexOf('.') >= 0) {
+			if (id.lastIndexOf('.') >= 0) {
 				const actStateDel = id.substring(id.lastIndexOf('.') + 1);
 				switch(actStateDel) {
 					case APIRequest_homesdata:
@@ -1049,7 +1063,7 @@ class NetatmoEnergy extends utils.Adapter {
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_away:
 					case APIRequest_synchomeschedule:
-						this.createenergyAPP();
+						this.createEnergyAPP();
 				}
 			}
 		}

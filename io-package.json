@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.11",
+		"version": "0.1.12",
 		"news": {
+			"0.1.12": {
+				"en": "Redesign coding, add sentry, check token expiring",
+		    "de": "Codierung neu gestalten, Sentry hinzufügen, Token Gültigkeit prüfen",
+		    "ru": "Изменить кодировку, добавить часового, проверить срок действия токена",
+		    "pt": "Redesenhar a codificação, adicionar sentinela, verificar a expiração do token",
+		    "nl": "Herontwerp codering, voeg schildwacht toe, controleer of token verloopt",
+		    "fr": "Reconcevoir le codage, ajouter une sentinelle, vérifier l'expiration du jeton",
+		    "it": "Riprogettare la codifica, aggiungere sentinella, controllare la scadenza del token",
+		    "es": "Rediseñar la codificación, agregar centinela, verificar el token que expira",
+		    "pl": "Przeprojektowanie kodowania, dodanie wartownika, sprawdzenie wygaśnięcia tokena",
+		    "zh-cn": "重新设计编码，添加哨兵，检查令牌到期"
+			},
 			"0.1.11": {
 				"en": "Type of adapter changed",
 		    "de": "Adaptertyp geändert",
@@ -274,9 +286,14 @@
 		"materialize": true,
 		"dependencies": [
 			{
-				"js-controller": ">=2.0.0"
+				"js-controller": ">=3.0.0"
 			}
-		]
+		],
+		"plugins": {
+      "sentry": {
+        "dsn": "https://35d42dd1084344cbbb9698893ab6906f@o496760.ingest.sentry.io/5571915"
+			}
+		}
 	},
 	"native": {
 		"HomeId": "",
@@ -285,8 +302,18 @@
 		"User": "",
 		"Password": "",
 		"applyimmediately": false,
-		"getchangesimmediately": true
+		"getchangesimmediately": true,
+		"refreshstates": 0
 	},
 	"objects": [],
-	"instanceObjects": []
+	"instanceObjects": [
+		{
+			"_id": "energyAPP",
+			"type": "device",
+			"common": {
+				"name": "Netatmo Energy APP"
+			},
+			"native": {}
+		}
+	]
 }
