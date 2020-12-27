@@ -70,6 +70,9 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 ## Changelog
 
+### 0.1.11
+* (ioKlausi) Type of adapter changed
+
 ### 0.1.10
 * (ioKlausi) Add API requests getmeasure and getroommeasure for manual use
 

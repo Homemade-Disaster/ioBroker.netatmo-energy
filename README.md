@@ -71,6 +71,9 @@ During the start of the adapter everything would be set to initial.
 
 ## Changelog
 
+### 0.1.11
+* (ioKlausi) Type of adapter changed
+
 ### 0.1.10
 * (ioKlausi) Add API requests getmeasure and getroommeasure for manual use
 

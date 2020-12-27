@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.10",
+		"version": "0.1.11",
 		"news": {
+			"0.1.11": {
+				"en": "Type of adapter changed",
+		    "de": "Adaptertyp geändert",
+		    "ru": "Тип адаптера изменен",
+		    "pt": "Tipo de adaptador alterado",
+		    "nl": "Type adapter gewijzigd",
+		    "fr": "Type d'adaptateur changé",
+		    "it": "Tipo di adattatore cambiato",
+		    "es": "Tipo de adaptador cambiado",
+		    "pl": "Typ adaptera został zmieniony",
+		    "zh-cn": "适配器类型已更改"
+			},
 			"0.1.10": {
 				"en": "Add API requests getmeasure and getroommeasure for manual use",
 		    "de": "API-Requests getmeasure und getroommeasure für die manuelle Verwendung hinzugefügt",

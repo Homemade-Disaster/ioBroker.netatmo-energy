@@ -69,6 +69,9 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
 ## Änderungsprotokoll
 
+### 0.1.11
+* (ioKlausi) Adaptertyp geändert
+
 ### 0.1.10
 * (ioKlausi) API Requests getmeasure und getroommeasure für manuelle Verwendung hinzugefügt
 
