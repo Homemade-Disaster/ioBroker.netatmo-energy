@@ -619,7 +619,7 @@ class NetatmoEnergy extends utils.Adapter {
 							that.globalScheduleListArray.sort();
 							that.globalScheduleListArray.forEach(([value, key]) => {
 								that.globalScheduleList[key] = value;
-								that.log.debug('Schedule-ID-Sort: ' + key + ' - ' + value);
+								//that.log.debug('Schedule-ID-Sort: ' + key + ' - ' + value);
 							});
 							await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, '', true, false);
 						}
@@ -648,7 +648,7 @@ class NetatmoEnergy extends utils.Adapter {
 						await that.createMyChannel(myTargetName + '.' + Channel_status, 'Device status');
 
 						const roomName = await that.getStateAsync(myTargetName  + '.name');
-						that.log.debug('Room-ID: ' + room_id.val + ' / ' + roomName.val);
+						//that.log.debug('Room-ID: ' + room_id.val + ' / ' + roomName.val);
 
 						// create sortet object
 						that.globalRoomId = {};
@@ -656,10 +656,9 @@ class NetatmoEnergy extends utils.Adapter {
 						that.globalRoomIdArray.sort();
 						that.globalRoomIdArray.forEach(([value, key]) => {
 							that.globalRoomId[key] = value;
-							that.log.debug('Room-ID-Sort: ' + key + ' - ' + value);
+							//that.log.debug('Room-ID-Sort: ' + key + ' - ' + value);
 						});
 
-						that.log.debug('Room-ID-Array: ' + that.globalRoomId);
 						await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, that.globalRoomId, false, true);
 
 						for(const objstat_name in ObjStatus) {
@@ -697,7 +696,7 @@ class NetatmoEnergy extends utils.Adapter {
 						if (type && type.val == 'NATherm1') {
 							const deviceName = await that.getStateAsync(myTargetName  + '.name');
 							const type = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.' + 'bridge');
-							that.log.debug('Device-ID: ' + type.val + ' / ' + deviceName.val + ' / ' + id);
+							//that.log.debug('Device-ID: ' + type.val + ' / ' + deviceName.val + ' / ' + id);
 
 							// create sortet object
 							that.globalDeviceId = {};
@@ -705,10 +704,9 @@ class NetatmoEnergy extends utils.Adapter {
 							that.globalDeviceIdArray.sort();
 							that.globalDeviceIdArray.forEach(([value, key]) => {
 								that.globalDeviceId[key] = value;
-								that.log.debug('Device-ID-Sort: ' + key + ' - ' + value);
+								//that.log.debug('Device-ID-Sort: ' + key + ' - ' + value);
 							});
 
-							that.log.debug('Device-ID-Array: ' + that.globalDeviceId);
 							await that.createNetatmoStructure(that.name + '.' + that.instance + '.' + APIRequestsDevice + '.' + Channel_APIRequests + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, that.globalDeviceId, false, true);
 						}
 						for(const objstat_name in ObjStatus) {
@@ -851,7 +849,6 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.setState(id, value, ack);
 			}
 		}
-
 	}
 
 	//set trigger after comparing
@@ -1038,6 +1035,23 @@ class NetatmoEnergy extends utils.Adapter {
 		} else {
 			// The state was deleted
 			//this.log.info(`state ${id} deleted`);
+
+			if (state.ack === false && id.lastIndexOf('.') >= 0) {
+				const actStateDel = id.substring(id.lastIndexOf('.') + 1);
+				switch(actStateDel) {
+					case APIRequest_homesdata:
+					case APIRequest_homestatus:
+					case APIRequest_getroommeasure:
+					case APIRequest_getmeasure:
+					case Trigger_SetTemp:
+					case Trigger_applychanges:
+					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule:
+					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg:
+					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_away:
+					case APIRequest_synchomeschedule:
+						this.createenergyAPP();
+				}
+			}
 		}
 	}
 

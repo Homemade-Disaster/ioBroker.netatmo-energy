@@ -238,7 +238,10 @@
 		],
 		"keywords": [
 			"netatmo",
-			"energy"
+			"energy",
+			"thermostat",
+	    "climate",
+	    "temperature"
 		],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
@@ -252,7 +255,7 @@
 		},
 		"loglevel": "info",
 		"mode": "daemon",
-		"type": "iot-systems",
+		"type": "climate-control",
 		"compact": true,
 		"connectionType": "cloud",
 		"dataSource": "poll",
@@ -264,8 +267,13 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"HomeId": "",
+		"ClientId": "",
+		"ClientSecretID": "",
+		"User": "",
+		"Password": "",
+		"applyimmediately": false,
+		"getchangesimmediately": true
 	},
 	"objects": [],
 	"instanceObjects": []
