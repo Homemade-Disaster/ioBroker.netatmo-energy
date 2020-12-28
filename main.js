@@ -246,7 +246,7 @@ class NetatmoEnergy extends utils.Adapter {
 		const Netatmo_Path = this.namespace;
 
 		// Refresh the token after it nearly expires
-		const expirationTimeInSeconds = this.globalNetatmo_ExpiresIn - 10;
+		const expirationTimeInSeconds = this.globalNetatmo_ExpiresIn;
 		const nowInSeconds = (new Date()).getTime() / 1000;
 		const shouldRefresh = nowInSeconds >= expirationTimeInSeconds;
 
@@ -256,7 +256,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
 				.then(tokenvalues => {
 					this.globalNetatmo_AccessToken = tokenvalues.access_token;
-					this.globalNetatmo_ExpiresIn   = tokenvalues.expires_in;
+					this.globalNetatmo_ExpiresIn   = tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
 					this.globalRefreshToken        = tokenvalues.refresh_token;
 					this.log.debug('Token OK: ' + this.globalNetatmo_AccessToken);
 				})
