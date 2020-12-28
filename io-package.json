@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.12",
+		"version": "0.1.13",
 		"news": {
+			"0.1.13": {
+				"en": "Bugfixing for token expiring",
+		    "de": "Bugfixing für Token Gültigkeit",
+		    "ru": "Исправление истечения срока действия токена",
+		    "pt": "Correção de bug para expiração de token",
+		    "nl": "Bugfixing voor het verlopen van token",
+		    "fr": "Correction d'un bug pour l'expiration du jeton",
+		    "it": "Correzione di bug per la scadenza del token",
+		    "es": "Corrección de errores para el token que expira",
+		    "pl": "Naprawiono błąd powodujący utratę ważności tokena",
+		    "zh-cn": "令牌过期的错误修复"
+			},
 			"0.1.12": {
 				"en": "Redesign coding, add sentry, check token expiring",
 		    "de": "Codierung neu gestalten, Sentry hinzufügen, Token Gültigkeit prüfen",

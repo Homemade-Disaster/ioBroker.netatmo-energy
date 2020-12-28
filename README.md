@@ -73,6 +73,9 @@ During the start of the adapter everything would be set to initial.
 
 ## Changelog
 
+### 0.1.13
+* (ioKlausi) Bugfixing token expiring
+
 ### 0.1.12
 * (ioKlausi) Redesign coding, add sentry, check token expiring
 

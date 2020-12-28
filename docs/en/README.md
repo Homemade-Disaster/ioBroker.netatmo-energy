@@ -72,6 +72,9 @@ Depending an the adapter settings it will refresh theses data after sending an A
 
 ## Changelog
 
+### 0.1.13
+* (ioKlausi) Bugfixing token expiring
+
 ### 0.1.12
 * (ioKlausi) Redesign coding, add sentry, check token expiring
 

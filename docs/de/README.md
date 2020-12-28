@@ -71,6 +71,9 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
 ## Änderungsprotokoll
 
+### 0.1.13
+* (ioKlausi) Prüfung der Token Gültigkeit überarbeitet
+
 ### 0.1.12
 * (ioKlausi) Coding überarbeiten, sentry einbinden, Token Gültigkeit prüfen
 
