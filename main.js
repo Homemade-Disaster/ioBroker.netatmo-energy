@@ -105,9 +105,9 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalDevice              = null;
 		this.globalAPIChannel          = null;
 		this.globalAPIChannelTrigger   = null;
+		this.globalNetatmo_AccessToken = null;
 		this.globalRefreshToken        = null;
 		this.globalNetatmo_ExpiresIn   = 0;
-		this.globalNetatmo_AccessToken = null;
 		this.globalScheduleObjects     = {};
 		this.globalScheduleList        = {};
 		this.globalScheduleListArray   = [];
@@ -135,9 +135,9 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// Start initialization
 	async startAdapter() {
-		this.globalDevice              = this.name + '.' + this.instance + '.' + Device_APIRequests;
-		this.globalAPIChannel          = this.name + '.' + this.instance + '.' + Device_APIRequests + '.' + Channel_APIRequests;
-		this.globalAPIChannelTrigger   = this.name + '.' + this.instance + '.' + Device_APIRequests + '.' + Channel_trigger;
+		this.globalDevice              = this.namespace + '.' + Device_APIRequests;
+		this.globalAPIChannel          = this.namespace + '.' + Device_APIRequests + '.' + Channel_APIRequests;
+		this.globalAPIChannelTrigger   = this.namespace + '.' + Device_APIRequests + '.' + Channel_trigger;
 		//Check adapter configuration
 		if (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password) {
 			this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
@@ -243,7 +243,7 @@ class NetatmoEnergy extends utils.Adapter {
 	// Send API inkluding tokenrequest
 	async sendAPIRequest(APIRequest, setpayload, norefresh) {
 		let globalresponse = null;
-		const Netatmo_Path = this.name + '.' + this.instance;
+		const Netatmo_Path = this.namespace;
 
 		// Refresh the token after it nearly expires
 		const expirationTimeInSeconds = this.globalNetatmo_ExpiresIn - 10;
@@ -283,6 +283,7 @@ class NetatmoEnergy extends utils.Adapter {
 				.catch(error => {
 					this.log.error('API request not OK: ' + error.error + ': ' + error.error_description);
 				});
+
 			if (globalresponse) {
 				switch(APIRequest) {
 					case APIRequest_getroommeasure:
@@ -389,7 +390,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//Send Changes to API
 	async applyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
-		const ApplyPrommise = new Promise(
+		return new Promise(
 			function(resolve,reject) {
 
 				const createAPIasync = async function(NetatmoRequest, mode, that) {
@@ -402,19 +403,10 @@ class NetatmoEnergy extends utils.Adapter {
 					resolve(true);
 				};
 
-				/*const createAPIapplyAsync = async function(NetatmoRequest, mode, that) {
-					const changesmade = await createAPIapplyAsync_syncrequest(NetatmoRequest, mode, that);
-					if (changesmade) {
-						resolve(true);
-					} else {
-						reject(false);
-					}
-				};*/
-
 				const createAPIapplyAsync_syncrequest = async function(NetatmoRequest, mode, that) {
 					const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
 					let changesmade = false;
-					that.getStates(that.name + '.' + that.instance + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
+					that.getStates(that.namespace + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
 						for(const id in states) {
 							const adapterstates = await that.getStateAsync(id);
 
@@ -422,9 +414,9 @@ class NetatmoEnergy extends utils.Adapter {
 								if (adapterstates && adapterstates.val === true) {
 									await that.setState(id, false, true);
 
-									const actPath = id.substring(0,id.lastIndexOf('.'));
+									const actPath   = id.substring(0,id.lastIndexOf('.'));
 									const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-									const newTemp = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
+									const newTemp   = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
 									if (newTemp) {
 										if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
 											changesmade = true;
@@ -443,7 +435,6 @@ class NetatmoEnergy extends utils.Adapter {
 
 				switch (NetatmoRequest) {
 					case APIRequest_setroomthermpoint:
-						//createAPIapplyAsync(NetatmoRequest, mode, that);
 						createAPIapplyAsync_syncrequest(NetatmoRequest, mode, that);
 						break;
 
@@ -460,18 +451,19 @@ class NetatmoEnergy extends utils.Adapter {
 						break;
 				}
 			});
-		return  ApplyPrommise;
 	}
 
 	//Send Changes to API and create API status request
 	async applySingleAPIRequest (NetatmoRequest,mode) {
 		const that = this;
 		await this.applyAPIRequest(NetatmoRequest,mode)
-			.then(success => {
-				if (that.config.getchangesimmediately && success) {
+			.then(() => {
+				if (that.config.getchangesimmediately) {
 					that.sendAPIRequest(APIRequest_homesdata, '',false);
 					that.sendAPIRequest(APIRequest_homestatus, '',false);
-				}
+				}})
+			.catch(() => {
+				that.log.info('No refresh necessary because there where no changes! Changes=');
 			});
 	}
 
@@ -529,8 +521,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//fetch API request
 	myFetch(url, payload) {
 		const that = this;
-		const promiseobject = new Promise(
-
+		return new Promise(
 			function(resolve,reject) {
 				if (!url) {
 					reject({error:'Invalid Parameter',error_description:'Did not get url or payload!'});
@@ -552,7 +543,6 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 				});
 			});
-		return  promiseobject;
 	}
 
 	//Parse values from Netatmo response
@@ -572,7 +562,8 @@ class NetatmoEnergy extends utils.Adapter {
 			if (API_Request === APIRequest_homestatus) {
 				const fullname = this.getPrefixPath(Netatmo_Path + '.') + object_name;
 				if (fullname.search(relevantTag) >= 0) {
-					await this.searchRoom(obj[object_name], obj,norefresh);
+					await this.searchAllRooms(obj[object_name], obj, norefresh);
+					await this.searchAllModules(obj[object_name], obj);
 				}
 			}
 			if(obj[object_name] instanceof Object) {
@@ -589,6 +580,21 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	// add and get sortet array
+	getSortedArray(name, id, list, listArray) {
+		list = {};
+		listArray[listArray.length + 1] = new Array(name, id);
+		listArray.sort();
+		listArray.forEach(([value, key]) => {
+			list[key] = value;
+			//this.log.debug('ArraySort: ' + key + ' - ' + value);
+		});
+		return {
+			list: list,
+			listArray: listArray,
+		};
+	}
+
 	// insert Schedule requests
 	async searchSchedule() {
 		const that = this;
@@ -602,7 +608,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalScheduleList      = {};
 		this.globalScheduleListArray = [];
 		//schedules
-		this.getStates(that.name + '.' + that.instance + '.homes.*.schedules.*',async function(error, states) {
+		this.getStates(that.namespace + '.homes.*.schedules.*',async function(error, states) {
 			await that.createMyChannel(that.globalAPIChannel + '.' + Channel_switchhomeschedule, 'API switchhomeschedule');
 			for(const id in states) {
 				//that.log.debug('Found Schedule: ' + id);
@@ -611,7 +617,6 @@ class NetatmoEnergy extends utils.Adapter {
 					//that.log.debug('Found Schedule_ID: ' + schedule_id.val);
 					if (schedule_id) {
 						schedule_name = await that.getStateAsync(id.substring(0,id.length - 3) + '.name');
-						//that.log.debug(>
 						if (schedule_name) {
 							//that.log.debug('Found Schedule_NAME: ' + schedule_name.val);
 							that.globalScheduleObjects[that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_')] = schedule_id.val;
@@ -619,13 +624,9 @@ class NetatmoEnergy extends utils.Adapter {
 							await that.subscribeStates(that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_'));
 
 							// create sortet object
-							that.globalScheduleList = {};
-							that.globalScheduleListArray[that.globalScheduleListArray.length + 1] = new Array(schedule_name.val, schedule_id.val);
-							that.globalScheduleListArray.sort();
-							that.globalScheduleListArray.forEach(([value, key]) => {
-								that.globalScheduleList[key] = value;
-								//that.log.debug('Schedule-ID-Sort: ' + key + ' - ' + value);
-							});
+							const mySchedule = that.getSortedArray(schedule_name.val, schedule_id.val, that.globalScheduleList, that.globalScheduleListArray);
+							that.globalScheduleList      = mySchedule.list;
+							that.globalScheduleListArray = mySchedule.listArray;
 							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, '', true, false);
 						}
 					}
@@ -634,21 +635,18 @@ class NetatmoEnergy extends utils.Adapter {
 		});
 	}
 
-	// insert homestatus in homedata-rooms
-	async searchRoom(statevalue,ObjStatus,norefresh) {
+	//Search rooms
+	async searchAllRooms(statevalue, ObjStatus,norefresh) {
 		const searchRooms     = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
-		const searchModules   = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
-		const that = this;
 		let room_id = null;
-		let module_id = null;
+		const that = this;
 
-		//Search rooms
-		this.getStates(this.name + '.' + this.instance + '.homes.*.rooms.*',async function(error, states) {
+		that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 			for(const id in states) {
 				if (id.search(searchRooms) >= 0) {
 					room_id = await that.getStateAsync(id);
 					if (room_id && room_id.val == statevalue) {
-						//that.log.debug('Found room: ' + adapterstates.val + ' = ' + statevalue);
+						//that.log.debug('Found room: ' + room_id.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
 						await that.createMyChannel(myTargetName + '.' + Channel_status, 'Device status');
 
@@ -656,14 +654,9 @@ class NetatmoEnergy extends utils.Adapter {
 						//that.log.debug('Room-ID: ' + room_id.val + ' / ' + roomName.val);
 
 						// create sortet object
-						that.globalRoomId = {};
-						that.globalRoomIdArray[that.globalRoomIdArray.length + 1] = new Array(roomName.val, room_id.val);
-						that.globalRoomIdArray.sort();
-						that.globalRoomIdArray.forEach(([value, key]) => {
-							that.globalRoomId[key] = value;
-							//that.log.debug('Room-ID-Sort: ' + key + ' - ' + value);
-						});
-
+						const myRooms = that.getSortedArray(roomName.val, room_id.val, that.globalRoomId, that.globalRoomIdArray);
+						that.globalRoomId      = myRooms.list;
+						that.globalRoomIdArray = myRooms.listArray;
 						await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, that.globalRoomId, false, true);
 
 						for(const objstat_name in ObjStatus) {
@@ -673,10 +666,10 @@ class NetatmoEnergy extends utils.Adapter {
 									case State_therm_setpoint_temperature:
 										await that.createMyChannel(myTargetName + '.' + Channel_settings, 'Change settings');
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp, 'set temperature manually', ObjStatus[objstat_name], true, 'value.temperature', true, true, '', norefresh, false);
-										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged, 'temperature manually changed', false, true, 'indicator', false, true, '', norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Mode, 'The mode you are applying to this room (def=manual)', '', true, 'text', true, true, List_mode, norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Endtime, 'end time of the schedule mode set (seconds)', '', true, 'value.time', true, true, '', norefresh, false);
+										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp);
 										break;
 								}
 							}
@@ -686,14 +679,20 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		});
+	}
 
-		//modules
-		this.getStates(this.name + '.' + this.instance + '.homes.*.modules.*',async function(error, states) {
+	//Search modules
+	async searchAllModules(statevalue, ObjStatus) {
+		const searchModules   = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
+		let module_id = null;
+		const that = this;
+
+		that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 			for(const id in states) {
 				if (id.search(searchModules) >= 0) {
 					module_id = await that.getStateAsync(id);
 					if (module_id && module_id.val == statevalue) {
-						//that.log.debug('Found module: ' + adapterstates.val + ' = ' + statevalue);
+						//that.log.debug('Found module: ' + module_id.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
 						await that.createMyChannel(myTargetName + '.' + Channel_modulestatus, 'Module status');
 
@@ -704,14 +703,9 @@ class NetatmoEnergy extends utils.Adapter {
 							//that.log.debug('Device-ID: ' + type.val + ' / ' + deviceName.val + ' / ' + id);
 
 							// create sortet object
-							that.globalDeviceId = {};
-							that.globalDeviceIdArray[that.globalDeviceIdArray.length + 1] = new Array(deviceName.val, type.val);
-							that.globalDeviceIdArray.sort();
-							that.globalDeviceIdArray.forEach(([value, key]) => {
-								that.globalDeviceId[key] = value;
-								//that.log.debug('Device-ID-Sort: ' + key + ' - ' + value);
-							});
-
+							const myDevices = that.getSortedArray(deviceName.val, type.val, that.globalDeviceId, that.globalDeviceIdArray);
+							that.globalDeviceId      = myDevices.list;
+							that.globalDeviceIdArray = myDevices.listArray;
 							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, that.globalDeviceId, false, true);
 						}
 						for(const objstat_name in ObjStatus) {
@@ -755,7 +749,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//calculate date in seconds -> milliseconds including gap to time_exec
 	async getDateFrom1970(seconds) {
-		const adapter_time_exec = await this.getStateAsync(this.name + '.' + this.instance + '.' + State_Time_Exec);
+		const adapter_time_exec = await this.getStateAsync(this.namespace + '.' + State_Time_Exec);
 		return (adapter_time_exec.val + seconds) * 3600;
 	}
 
@@ -779,7 +773,6 @@ class NetatmoEnergy extends utils.Adapter {
 			},
 			native: {},
 		});
-		this.log.debug('MyChannel created: ' + path);
 	}
 
 	//dynamic creation of datapoints
