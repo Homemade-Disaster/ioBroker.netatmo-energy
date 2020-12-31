@@ -19,7 +19,6 @@
 	<script type="text/javascript">
 
 	// Password de-/encrypt
-	var secret;
 	function encrypt(key, value) {
 		var result = '';
 		for(var i = 0; i < value.length; ++i) {
@@ -35,46 +34,78 @@
 		return result;
 	}
 
-	// the function loadSettings has to exist ...
-  function loadHelper(settings, onChange) {
+	// This will be called by the admin adapter when the settings page loads
+	function load(settings, onChange) {
 		// example: select elements with id=key and class=value and insert value
-		if (!settings) return;
-		if (settings.electricityPollingInterval === undefined) settings.electricityPollingInterval = 20;
 		$('.value').each(function () {
 			var $key = $(this);
 			var id = $key.attr('id');
-			if (id === 'Password') {
-				settings[id] = decrypt(secret, settings[id]);
-			}
+
 			if ($key.attr('type') === 'checkbox') {
 				// do not call onChange direct, because onChange could expect some arguments
 				$key.prop('checked', settings[id]).change(function() {
+					showHideSettings();
 					onChange();
 				});
 			} else {
+				var value = settings[id];
+				if (id === 'Password') {
+						value = value ? decrypt((typeof systemConfig !== 'undefined' && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM', value) : '';
+				}
 				// do not call onChange direct, because onChange could expect some arguments
-				$key.val(settings[id]).change(function() {
+				$key.val(value).change(function() {
 					onChange();
 				}).keyup(function() {
 					onChange();
 				});
 			}
 		});
-
+		showHideSettings();
 		onChange(false);
-		// function Materialize.updateTextFields(); to reinitialize all the Materialize labels on the page if you are dynamically adding inputs.
 		M.updateTextFields();
-	}
 
-	// This will be called by the admin adapter when the settings page loads
-	function load(settings, onChange) {
-		socket.emit('getObject', 'system.config', function (err, obj) {
-			secret = (obj.native ? obj.native.secret : '') || 'Zgfr56gFe87jJOM';
-			loadHelper(settings, onChange);
+		getAdapterInstances('telegram', function (instances) {
+				fillInstances('telegramInstance', instances, settings['telegramInstance']);
 		});
-		onChange(false);
+		getAdapterInstances('whatsapp-cmb', function (instances) {
+				fillInstances('whatsappInstance', instances, settings['whatsappInstance']);
+		});
+
+		getAdapterInstances('email', function (instances) {
+				fillInstances('emailInstance', instances, settings['emailInstance']);
+		});
+
+		getAdapterInstances('pushover', function (instances) {
+				fillInstances('pushoverInstance', instances, settings['pushoverInstance']);
+		});
+		sendTo(null, 'getTelegramUser', null, function (obj) {
+			fillTelegramUser(settings['telegramUser'], obj)
+		});
 	}
 
+	function fillTelegramUser(id, str) {
+			var user = str.replace(/[{}"\\]/g,"").split(',');
+			var $sel = $('#telegramUser');
+			$sel.html('<option value="allTelegramUsers">' + _('All Receiver') + '</option>');
+
+			user.forEach(function(val){
+					val = val.split(':');
+					$('#telegramUser').append('<option value="' + val[1] + '"' + (id === val[1] ? ' selected' : '') + '>' + val[1] +'</option>');
+			});
+			$sel.select();
+	}
+
+	function fillInstances(id, arr, val) {
+			var $sel = $('#' + id);
+			$sel.html('<option value="">' + _('none') + '</option>');
+			for (var i = 0; i < arr.length; i++) {
+					var _id = arr[i]._id.replace('system.adapter.', '');
+					// Take first value
+//            if (!val) val = _id;
+					$sel.append('<option value="' + _id + '"' + (_id === val ? ' selected' : '') + '>' + _id + '</option>');
+			}
+			$sel.select();
+	}
   // This will be called by the admin adapter when the user presses the save button
   function save(callback) {
 		// example: select elements with class=value and build settings object
@@ -87,12 +118,44 @@
 			} else {
 				var value = $this.val();
 				if (id === 'Password') {
-					value = encrypt(secret, value);
+					value = value ? encrypt((typeof systemConfig !== 'undefined' && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM', value) : '';
 				}
 				obj[id] = value;
 			}
 		});
 		callback(obj);
+	}
+
+	function showHideSettings() {
+		$('#notificationsType').on('change', function () {
+		if ($(this).val() === 'Telegram') {
+				$('.email').hide();
+				$('.pushover').hide();
+				$('.telegram').show();
+				$('.whatsapp').hide();
+		} else if ($(this).val() === 'E-Mail') {
+				$('.email').show();
+				$('.telegram').hide();
+				$('.pushover').hide();
+				$('.whatsapp').hide();
+		} else if ($(this).val() === 'Pushover') {
+				$('.pushover').show();
+				$('.telegram').hide();
+				$('.email').hide();
+				$('.whatsapp').hide();
+		} else if ($(this).val() === 'WhatsApp') {
+				$('.whatsapp').show();
+				$('.telegram').hide();
+				$('.email').hide();
+				$('.pushover').hide();
+		}
+		}).trigger('change');
+
+		if ($('#notificationEnabled').prop('checked')) {
+				$('.tabNotification').show();
+		} else {
+				$('.tabNotification').hide();
+		}
 	}
 	</script>
 </head>
@@ -112,8 +175,9 @@
 
 				<div class="col s12">
 					<ul class="tabs" id="netatmoTabs">
-						<li class="tab col s2"><a href="#tabLogon" class="translate active">Logon information</a></li>
-						<li class="tab col s2"><a href="#tabAPI" class="translate">API settings</a></li>
+						<li class="tab col tabLogon"><a href="#tabLogon" class="translate active">Logon information</a></li>
+						<li class="tab col tabAPI"><a href="#tabAPI" class="translate">API settings</a></li>
+						<li class="tab col tabNotification"><a href="#tabNotification" class="translate">Notifications</a></li>
 					</ul>
 				</div>
 
@@ -159,7 +223,129 @@
 						</div>
 					</div>
 
+					<div class="row">
+						<div class="col s12">
+							<h6 class="title translate">Informations</h6>
+						</div>
+					</div>
+					<div class="input-field col s12">
+							<input class="value" id="notificationEnabled" type="checkbox"/>
+							<label for="notificationEnabled" class="translate">Enable / Disable Notifications</label>
+					</div>
 				</div>
+
+				<!-- notifications -->
+        <div id="tabNotification" class="col s12 page">
+            <div class="row">
+                <h6 class="translate title">Notifications</h6>
+            </div>
+
+						<div class="row">
+								<div class="input-field col s12 m6 l3 ">
+										<select class="value" id="notificationsType">
+										<option value="Telegram" class="translate">Telegram</option>
+										<option value="E-Mail" class="translate">E-Mail</option>
+										<option value="Pushover" class="translate">Pushover</option>
+										<option value="WhatsApp" class="translate">WhatsApp</option>
+										</select>
+										<label for="notificationsType" class="translate">notifications type</label>
+								</div>
+						</div>
+            <!-- Telegram -->
+            <div class="row telegram">
+                <div class="input-field col s12 m6 l3 telegram">
+                    <select id="telegramInstance" class="value"></select>
+                    <label for="telegramInstance" class="translate">Telegram instance</label>
+                </div>
+                <div class="input-field col s12 m6 l3 telegram">
+                    <select class="value" id="telegramUser"></select>
+                    <label class="translate" for="telegramUser">Telegram Receiver</label>
+                </div>
+            </div>
+            <div class="row telegram">
+                <div class="input-field col s12 m6 l3 telegram">
+                    <input class="value" id="telegramSilentNotice" type="checkbox"/>
+                    <label for="telegramSilentNotice" class="translate">Silent Notice</label>
+                </div>
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="row whatsapp">
+                <div class="input-field col s12 m6 l3 whatsapp">
+                    <select id="whatsappInstance" class="value"></select>
+                    <label for="whatsappInstance" class="translate">WhatsApp instance</label>
+                </div>
+            </div>
+            <!-- Pushover -->
+            <div class="row pushover">
+                <div class="input-field col s12 m6 l3 pushover">
+                    <select id="pushoverInstance" class="value"></select>
+                    <label for="pushoverInstance" class="translate">Pushover instance</label>
+                </div>
+            </div>
+            <div class="row pushover">
+                <div class="input-field col s12 m6 l3 pushover">
+                    <input class="value" id="pushoverDeviceID" type="text">
+                    <label for="pushoverDeviceID" class="translate">device ID (optional)</label>
+                </div>
+                <div class="input-field col s12 m6 l3 pushover">
+                    <input class="value" id="pushoverSilentNotice" type="checkbox"/>
+                    <label for="pushoverSilentNotice" class="translate">Silent Notice</label>
+                </div>
+            </div>
+            <!-- email -->
+            <div class="row email">
+                <div class="input-field col s12 m6 l3 email">
+                    <input class="value" id="emailReceiver" type="text">
+                    <label for="emailReceiver" class="translate">email receiver</label>
+                    <span class="translate">email receiver</span>
+                </div>
+                <div class="input-field col s12 m6 l3 email">
+                    <input class="value" id="emailSender" type="text">
+                    <label for="emailSender" class="translate">email sender</label>
+                    <span class="translate">email sender</span>
+                </div>
+            </div>
+            <div class="row email">
+                <div class="input-field col s12 m6 l3 email">
+                    <select id="emailInstance" class="value"></select>
+                    <label for="emailInstance" class="translate">email instance</label>
+                </div>
+            </div>
+
+						<!-- general -->
+						<div class="row">
+								<div class="col s12 general">
+										<h6 class="translate title">Allgemeine Einstellungen</h6>
+								</div>
+						</div>
+						<div class="row">
+								<div class="input-field col s12 m6 l3 general">
+										<select class="value" id="NoticeType">
+										<option value="longNotice" class="translate">Long Notifications</option>
+										<option value="shortNotice" class="translate">Short Notifications</option>
+										</select>
+										<label class="translate" for="NoticeType">Notification Style</label>
+								</div>
+								<div class="input-field col s12 m6 l3 general">
+										<select class="value" id="notifications">
+										<option value="000" class="translate">no notifications</option>
+										<option value="i00" class="translate">informations</option>
+										<option value="iw0" class="translate">informations, warnings</option>
+										<option value="i0e" class="translate">informations, errors</option>
+										<option value="iwe" class="translate">informations, warnings, errors</option>
+										<option value="0w0" class="translate">warnings</option>
+										<option value="0we" class="translate">warnings, errors</option>
+										<option value="00e" class="translate">errors</option>
+										</select>
+										<label for="notifications" class="translate">message type</label>
+								</div>
+								<div class="input-field col s12 m6 l3 general">
+										<input type="number" class="value" id="WaitToSend" min="0" max="20"/>
+										<label for="WaitToSend" class="translate">Waiting for the send (seconds)</label>
+								</div>
+						</div>
+        </div>
 			</div>
 
 			<!-- ++++++++++ TAB: API settings ++++++++++ -->

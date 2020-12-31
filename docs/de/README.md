@@ -28,10 +28,11 @@ Konto bei Netatmo Cloud
     - du wirst ein response erhalten in der du deine home id findest
     - Übernimm sie in die Adapter Konfiguration
   - gib deinen User und Passwort der Netatmo Cloud in die Adapter Konfiguration
-  - Wähle die gewünschten Optionen in den "Allgemeinen Einstellungen" und speichern sie die Adapter Konfiguration
+  - Wähle die gewünschten Optionen in den "API-Einstellungen" und speichern sie die Adapterkonfiguration
     - Temperaturänderungen sofort übertragen ... sofortiges übertragen der Temperaturänderungen in State "SetTemp" an die API
     - API Zustände nach Änderung sofort lesen ... API Daten mittels homestatus sofort nach Aktualisierung der API abholen
     - Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
+  - Wenn gewünscht kann auch Benachrichtigungsdienst eingerichtet werden um bestimmte Statusänderungen zugesandt zu bekommen. Dabei ist es möglich sich Informationsmeldungen, Warnungen bzw. Fehlermeldungen zu erhalten. Hierfür ist es notwendig die Option "Benachrichtigungen aktivieren/deaktivieren" in den "Anmeldeinformationen" zu aktivieren und danach die Einstellungen imMenü "Benachrichtigungen" einzurichten.
 
 		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_de.png" alt="settingsLogin" width="70%"/>
 
@@ -68,8 +69,20 @@ Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden
 Beim Start des Adapters wird der aktuelle Status der gesamten Netatmo Energy APP aufgefrischt und der Status aller Ventile und Thermostate übertragen. Abhängig von den Allgemeinen Einstellungen (API Zustände nach Änderung sofort lesen) werden die Status der Ventile und Thermostate nach Änderung der API sofort wieder abgeholt (es wird sofort ein homestatus Request abgesetzt).
 Beim Starten des Adapters wird die Initialisierung durchgeführt.
 
+## Benachrichtigungen
+Wenn sie in der Adapterkonfiguration einen Benachrichtigungsdienst aktiviert haben werden diverse Meldungen an sie versandt.
+Folgene Dienste sind verfügbar.
+
+    <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_de.png" alt="settingsAPI" width="50%"/>
+
+    Bitte geben sie für den von ihnen gewähltn Benachrichtigungsdienst die notwendigen Verbindungsdaten an.
+
+    <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_de.png" alt="settingsAPI" width="70%"/>
 
 ## Änderungsprotokoll
+
+### 0.1.14
+* (ioKlausi) Benachrichtigungsassistent hinzugefügt
 
 ### 0.1.13
 * (ioKlausi) Prüfung der Token Gültigkeit überarbeitet

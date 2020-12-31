@@ -3,6 +3,8 @@
 // Load modules
 const utils = require('@iobroker/adapter-core');
 const fetch = require('fetch');
+const mytools = require('./lib/mytools');
+const notification = require('./lib/notification');
 
 //Define global constants
 // Netatmo API requests
@@ -83,17 +85,23 @@ const List_scale													= '{"30min": "30 Minits", "1hour": "one hour", "3ho
 const List_type_mm												= '{"boileron": "Boiler on", "boileroff": "Boiler off", "sum_boiler_on": "Sum of Boiler on", "sum_boiler_off": "Sum of Boiler off"}';
 const List_type_rm												= '{"temperature": "Temperature"}';
 
+//notifications
+const NoticeTypeLong        = 'longNotice';
+const ErrorNotification     = 'Error';
+const InfoNotification      = 'Info';
+const WarningNotification   = 'Warn';
+
 // Timer
 const adapterIntervals = {};
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
 	/**
-	 * @param {Partial<utils.AdapterOptions>} [options={}]
+	 * @param {Partial<utils.AdapterOptions>} [adapter={}]
 	 */
-	constructor(options) {
+	constructor(adapter) {
 		super({
-			...options,
+			...adapter,
 			name: 'netatmo-energy',
 		});
 		this.on('ready', this.onReady.bind(this));
@@ -102,25 +110,44 @@ class NetatmoEnergy extends utils.Adapter {
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 
-		this.globalDevice              = null;
-		this.globalAPIChannel          = null;
-		this.globalAPIChannelTrigger   = null;
-		this.globalNetatmo_AccessToken = null;
-		this.globalRefreshToken        = null;
-		this.globalNetatmo_ExpiresIn   = 0;
-		this.globalScheduleObjects     = {};
-		this.globalScheduleList        = {};
-		this.globalScheduleListArray   = [];
-		this.globalRoomId              = {};
-		this.globalRoomIdArray         = [];
-		this.globalDeviceId            = {};
-		this.globalDeviceIdArray       = [];
+		this.globalDevice               = null;
+		this.globalAPIChannel           = null;
+		this.globalAPIChannelTrigger    = null;
+		this.globalNetatmo_AccessToken  = null;
+		this.globalRefreshToken         = null;
+		this.globalNetatmo_ExpiresIn    = 0;
+		this.globalScheduleObjects      = {};
+		this.globalScheduleList         = {};
+		this.globalScheduleListArray    = [];
+		this.globalRoomId               = {};
+		this.globalRoomIdArray          = [];
+		this.globalDeviceId             = {};
+		this.globalDeviceIdArray        = [];
+		this.systemlang 							  = 'de';
+		this.telegramm 									= {};
+		this.whatsapp 									= {};
+		this.pushover 									= {};
+		this.email		 									= {};
+	}
+	// Decrypt password
+	decrypt(key, value) {
+		let result = '';
+		for (let i = 0; i < value.length; ++i) {
+			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
+		}
+		return result;
 	}
 
 	// Is called when databases are connected and adapter received configuration
 	async onReady() {
+		//Check adapter configuration
+		if (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password) {
+			this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
+			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
+		}
 		//Passwort decryption
-		this.getForeignObject('system.config', (err, obj) => {
+		await this.getForeignObject('system.config', (err, obj) => {
+			this.systemLang = obj.common.language;
 			if (!this.supportsFeature() || !this.supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
 				if (obj && obj.native && obj.native.secret) {
 					this.config.Password = this.decrypt(obj.native.secret, this.config.Password);
@@ -129,35 +156,65 @@ class NetatmoEnergy extends utils.Adapter {
 					this.config.Password = this.decrypt('Zgfr56gFe87jJOM', this.config.Password);
 				}
 			}
-			this.startAdapter();
 		});
+		this.initAdapter(this.systemLang);
+		this.startAdapter();
+	}
+
+	// Start initialization adapter
+	initAdapter(systemLang) {
+		// define global constants
+		this.globalDevice              = this.namespace + '.' + Device_APIRequests;
+		this.globalAPIChannel          = this.namespace + '.' + Device_APIRequests + '.' + Channel_APIRequests;
+		this.globalAPIChannelTrigger   = this.namespace + '.' + Device_APIRequests + '.' + Channel_trigger;
+
+		this.telegram = {
+			type: 'message',
+			instance: this.config.telegramInstance,
+			SilentNotice: this.config.telegramSilentNotice,
+			User: this.config.telegramUser,
+			systemLang
+		};
+
+		this.whatsapp = {
+			type: 'message',
+			instance: this.config.whatsappInstance,
+			systemLang
+		};
+
+		this.pushover = {
+			type: 'message',
+			instance: this.config.pushoverInstance,
+			SilentNotice: this.config.pushoverSilentNotice,
+			deviceID: this.config.pushoverDeviceID,
+			systemLang
+		};
+
+		this.email = {
+			type: 'message',
+			instance: this.config.emailInstance,
+			emailReceiver: this.config.emailReceiver,
+			emailSender: this.config.emailSender,
+			systemLang
+		};
 	}
 
 	// Start initialization
 	async startAdapter() {
-		this.globalDevice              = this.namespace + '.' + Device_APIRequests;
-		this.globalAPIChannel          = this.namespace + '.' + Device_APIRequests + '.' + Channel_APIRequests;
-		this.globalAPIChannelTrigger   = this.namespace + '.' + Device_APIRequests + '.' + Channel_trigger;
-		//Check adapter configuration
-		if (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password) {
-			this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
-			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
-		}
-
 		// Set polling intervall
 		const refreshtime = this.config.refreshstates;
-		const thattimer = this;
+		const that = this;
 		const updateAPIStatus = function () {
-			thattimer.log.debug('API Request homestatus sent to API each ' + thattimer.config.refreshstates + 'sec');
-			thattimer.sendAPIRequest(APIRequest_homesdata, '',true);
-			thattimer.sendAPIRequest(APIRequest_homestatus, '',true);
+			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + ' ', + refreshtime + mytools.tl('sec', that.systemLang));
+			that.sendAPIRequest(APIRequest_homesdata, '',true);
+			that.sendAPIRequest(APIRequest_homestatus, '',true);
 		};
 		if (refreshtime && refreshtime > 0) {
-			this.log.debug('Refresh homestatus interval ' + this.config.refreshstates * 1000);
-			adapterIntervals.updateAPI = setInterval(updateAPIStatus, refreshtime * 1000);
+			that.log.info(mytools.tl('Refresh homestatus interval', that.systemLang) +' ' + refreshtime * 1000);
+			that.updateAPI = setInterval(updateAPIStatus, refreshtime * 1000);
 		}
 
-		// Initialize adapter
+		//Start initial requests for adapter
 		await this.createEnergyAPP();
 		await this.sendAPIRequest(APIRequest_homesdata, '', false);
 		await this.sendAPIRequest(APIRequest_homestatus, '', false);
@@ -240,6 +297,47 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.subscribeStates(this.globalAPIChannelTrigger + '.' + Trigger_applychanges);
 	}
 
+	//Send notification after request
+	async sendRequestNotification(NetatmoRequest, NotificationType, addText, longText) {
+		switch(NetatmoRequest) {
+			//set requests
+			case APIRequest_setroomthermpoint:
+				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Target temperature changed', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+			case APIRequest_setthermmode:
+				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Mode for your heating system was set to', this.systemLang) + ' ' + addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+			case APIRequest_switchhomeschedule:
+				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed schedule for your heating system to', this.systemLang) + ' ' +  addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+			case APIRequest_synchomeschedule:
+				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + ' ' + addText + ' ' + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+			//get requestst
+			case APIRequest_getroommeasure:
+				await this.getNameofRoom(addText.substring(addText.lastIndexOf('&room_id=') + 9, addText.lastIndexOf('&scale=')))
+					.then(room => {
+						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Retrieved statistic for a specific room', this.systemLang) + ': ' + room + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+					})
+					.catch(roomid => {
+						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Retrieved statistic for a specific room number', this.systemLang) + ': ' + roomid + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+					});
+				break;
+			case APIRequest_getmeasure:
+				await this.getNameofDevice(addText.substring(addText.lastIndexOf('&device_id=') + 11, addText.lastIndexOf('&scale=')))
+					.then(device => {
+						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Boiler historical data was retrieved from device', this.systemLang) + ': ' + device + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+					})
+					.catch(deviceid => {
+						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Boiler historical data was retrieved from device address', this.systemLang) + ': ' + deviceid + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+					});
+				break;
+			default:
+				notification.sendNotification(this, NotificationType, NetatmoRequest, addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+		}
+	}
+
 	// Send API inkluding tokenrequest
 	async sendAPIRequest(APIRequest, setpayload, norefresh) {
 		let globalresponse = null;
@@ -252,19 +350,20 @@ class NetatmoEnergy extends utils.Adapter {
 
 		//Send Token request to API
 		if (shouldRefresh || !this.globalNetatmo_AccessToken) {
-			this.log.info('Start Token-request: ' + APIRequest + ' ' + setpayload);
+			this.log.info(mytools.tl('Start Token-request:', this.systemLang) + ' ' + APIRequest + ' ' + setpayload);
 			await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
 				.then(tokenvalues => {
 					this.globalNetatmo_AccessToken = tokenvalues.access_token;
 					this.globalNetatmo_ExpiresIn   = tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
 					this.globalRefreshToken        = tokenvalues.refresh_token;
-					this.log.debug('Token OK: ' + this.globalNetatmo_AccessToken);
+					this.log.debug(mytools.tl('Token OK:', this.systemLang) + ' ' + this.globalNetatmo_AccessToken);
 				})
 				.catch(error => {
 					this.globalNetatmo_AccessToken = null;
 					this.globalRefreshToken        = null;
 					this.globalNetatmo_ExpiresIn   = 0;
-					this.log.error('Did not get a tokencode: ' + error.error + ': ' + error.error_description);
+					this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ' ' + error.error + ': ' + error.error_description);
+					this.sendRequestNotification(null, ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang), error.error + ': ' + error.error_description);
 				});
 		}
 
@@ -275,22 +374,25 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalDeviceIdArray = [];
 			}
 
-			this.log.info('Start API-request: ' + APIRequest);
+			this.log.info(mytools.tl('Start API-request:', this.systemLang) + ' ' + APIRequest);
 			await this.getAPIRequest(APIRequest,setpayload)
 				.then(response => {
 					globalresponse = response;
 				})
 				.catch(error => {
-					this.log.error('API request not OK: ' + error.error + ': ' + error.error_description);
+					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ' ' + error.error + ': ' + error.error_description);
+					this.sendRequestNotification(null, ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang), error.error + ': ' + error.error_description);
 				});
 
 			if (globalresponse) {
 				switch(APIRequest) {
 					case APIRequest_getroommeasure:
 						await this.setState(this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + State_response, JSON.stringify(globalresponse), true);
+						this.sendRequestNotification(APIRequest, InfoNotification, setpayload, JSON.stringify(globalresponse));
 						break;
 					case APIRequest_getmeasure:
 						await this.setState(this.globalAPIChannel + '.' + Channel_getmeasure + '.' + State_response, JSON.stringify(globalresponse), true);
+						this.sendRequestNotification(APIRequest, InfoNotification, setpayload, JSON.stringify(globalresponse));
 						break;
 					case APIRequest_homesdata:
 						await this.getValuesFromNetatmo(APIRequest,globalresponse,'','',Netatmo_Path, norefresh);
@@ -300,10 +402,10 @@ class NetatmoEnergy extends utils.Adapter {
 						await this.searchSchedule();
 						break;
 					default:
-						this.log.debug('API changes applied' +  APIRequest);
+						this.log.debug(mytools.tl('API changes applied', this.systemLang) +  APIRequest);
 				}
 			}
-			this.log.debug('API request finished' );
+			this.log.debug(mytools.tl('API request finished', this.systemLang));
 		}
 	}
 
@@ -323,11 +425,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//API request main routine
 	getAPIRequest(NetatmoRequest, extend_payload) {
 		const payload = 'access_token=' + this.globalNetatmo_AccessToken + '&home_id=' + this.config.HomeId + extend_payload;
-		if (payload) {
-			this.log.debug('Request: ' + Netatmo_APIrequest_URL + NetatmoRequest + '?' + payload);
-		} else {
-			this.log.debug('Request: ' + Netatmo_APIrequest_URL + NetatmoRequest);
-		}
+		this.log.debug(mytools.tl('Request:', this.systemLang) + ' ' + Netatmo_APIrequest_URL + NetatmoRequest + ((payload) ? '?' + payload : payload));
 		return this.myFetch(Netatmo_APIrequest_URL + NetatmoRequest, payload);
 	}
 
@@ -363,7 +461,8 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&real_time=',  this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_real_time);
 			await this.sendAPIRequest(APIRequest, measure_payload, norefresh);
 		} else {
-			this.log.error('API-getroosmeasure request is missing parameters');
+			this.log.error(mytools.tl('API-getroosmeasure request is missing parameters', this.systemLang));
+			this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang), mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
 		}
 	}
 
@@ -383,7 +482,8 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&real_time=',  this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_real_time);
 			await this.sendAPIRequest(APIRequest, measure_payload, norefresh);
 		} else {
-			this.log.error('API-getmeasure request is missing parameters');
+			this.log.error(mytools.tl('API-getmeasure request is missing parameters', this.systemLang));
+			this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang), mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
 		}
 	}
 
@@ -454,16 +554,17 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Send Changes to API and create API status request
-	async applySingleAPIRequest (NetatmoRequest,mode) {
+	async applySingleAPIRequest (NetatmoRequest,mode, info) {
 		const that = this;
 		await this.applyAPIRequest(NetatmoRequest,mode)
 			.then(() => {
+				that.sendRequestNotification(NetatmoRequest, InfoNotification, info, '');
 				if (that.config.getchangesimmediately) {
 					that.sendAPIRequest(APIRequest_homesdata, '',false);
 					that.sendAPIRequest(APIRequest_homestatus, '',false);
 				}})
 			.catch(() => {
-				that.log.info('No refresh necessary because there where no changes! Changes=');
+				//that.log.debug('No refresh necessary because there where no changes! Changes=');
 			});
 	}
 
@@ -515,6 +616,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh);
 		} else {
 			this.log.error('API-synchomeschedule request is missing parameters');
+			this.sendRequestNotification(null, WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters', 'Actual payload: ' + syncmode);
 		}
 	}
 
@@ -524,7 +626,7 @@ class NetatmoEnergy extends utils.Adapter {
 		return new Promise(
 			function(resolve,reject) {
 				if (!url) {
-					reject({error:'Invalid Parameter',error_description:'Did not get url or payload!'});
+					reject({error:mytools.tl('Invalid Parameter', that.systemLang),error_description:mytools.tl('Did not get url or payload!', that.systemLang)});
 					return;
 				}
 				fetch.fetchUrl(url, {
@@ -535,7 +637,7 @@ class NetatmoEnergy extends utils.Adapter {
 					payload: payload
 				},
 				function(error, meta, body) {
-					that.log.debug('Netatmo API status:' + meta.status);
+					that.log.debug(mytools.tl('Netatmo API status:', that.systemLang) + meta.status);
 					if (meta.status == 200 ) {
 						resolve(JSON.parse(body));
 					} else {
@@ -550,7 +652,7 @@ class NetatmoEnergy extends utils.Adapter {
 		const relevantTag = 'home\\.\\b(?:rooms|modules)\\.\\d+\\.id';
 		let myobj_selected = obj_name;
 
-		if (this.netatmoTags(obj_name) === true) {
+		if (mytools.netatmoTags(obj_name) === true) {
 			if (API_Request === APIRequest_homesdata) {
 				await this.createMyChannel(Netatmo_Path, myobj_selected);
 			}
@@ -560,39 +662,24 @@ class NetatmoEnergy extends utils.Adapter {
 
 		for(const object_name in obj) {
 			if (API_Request === APIRequest_homestatus) {
-				const fullname = this.getPrefixPath(Netatmo_Path + '.') + object_name;
+				const fullname = mytools.getPrefixPath(Netatmo_Path + '.') + object_name;
 				if (fullname.search(relevantTag) >= 0) {
 					await this.searchAllRooms(obj[object_name], obj, norefresh);
 					await this.searchAllModules(obj[object_name], obj);
 				}
 			}
 			if(obj[object_name] instanceof Object) {
-				if (this.netatmoTags(object_name) === true) {
-					await this.getValuesFromNetatmo(API_Request,obj[object_name],object_name,myobj_selected,this.getPrefixPath(Netatmo_Path + '.') + object_name,norefresh);
+				if (mytools.netatmoTags(object_name) === true) {
+					await this.getValuesFromNetatmo(API_Request,obj[object_name],object_name,myobj_selected,mytools.getPrefixPath(Netatmo_Path + '.') + object_name,norefresh);
 				} else {
 					await this.getValuesFromNetatmo(API_Request,obj[object_name],object_name,myobj_selected,Netatmo_Path,norefresh);
 				}
 			} else {
-				if (this.netatmoTagsDetail(myobj_selected) === true && API_Request === APIRequest_homesdata) {
-					await this.createNetatmoStructure(this.getPrefixPath(Netatmo_Path + '.') + object_name, object_name, obj[object_name], true, '', false, true, '', false, false);
+				if (mytools.netatmoTagsDetail(myobj_selected) === true && API_Request === APIRequest_homesdata) {
+					await this.createNetatmoStructure(mytools.getPrefixPath(Netatmo_Path + '.') + object_name, object_name, obj[object_name], true, '', false, true, '', false, false);
 				}
 			}
 		}
-	}
-
-	// add and get sortet array
-	getSortedArray(name, id, list, listArray) {
-		list = {};
-		listArray[listArray.length + 1] = new Array(name, id);
-		listArray.sort();
-		listArray.forEach(([value, key]) => {
-			list[key] = value;
-			//this.log.debug('ArraySort: ' + key + ' - ' + value);
-		});
-		return {
-			list: list,
-			listArray: listArray,
-		};
 	}
 
 	// insert Schedule requests
@@ -624,7 +711,7 @@ class NetatmoEnergy extends utils.Adapter {
 							await that.subscribeStates(that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_'));
 
 							// create sortet object
-							const mySchedule = that.getSortedArray(schedule_name.val, schedule_id.val, that.globalScheduleList, that.globalScheduleListArray);
+							const mySchedule = mytools.getSortedArray(schedule_name.val, schedule_id.val, that.globalScheduleList, that.globalScheduleListArray);
 							that.globalScheduleList      = mySchedule.list;
 							that.globalScheduleListArray = mySchedule.listArray;
 							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, '', true, false);
@@ -633,6 +720,72 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		});
+	}
+
+	//get room name from ID
+	async getNameofRoom(statevalue) {
+		const that = this;
+		const nummer = /^[0-9]*$/i;
+		if(!nummer.test(statevalue)) return statevalue;
+
+		let room_name = null;
+		const searchRooms     = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
+		let room_id = null;
+
+		return new Promise(
+			function(resolve,reject) {
+				that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
+					for(const id in states) {
+						if (id.search(searchRooms) >= 0) {
+							room_id = await that.getStateAsync(id);
+							if (room_id && room_id.val == statevalue) {
+								const myTargetName = id.substring(0,id.length - 3);
+								room_name = await that.getStateAsync(myTargetName + '.name');
+								break;
+							}
+						}
+					}
+					if (room_name) {
+						resolve(room_name.val);
+					} else {
+						reject(statevalue);
+					}
+				});
+			}
+		);
+	}
+
+	//get room name from ID
+	async getNameofDevice(statevalue) {
+		const that = this;
+		const macadress = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
+		if(!macadress.test(statevalue)) return statevalue;
+
+		let device_name = null;
+		const searchModules   = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
+		let device_id = null;
+
+		return new Promise(
+			function(resolve,reject) {
+				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
+					for(const id in states) {
+						if (id.search(searchModules) >= 0) {
+							device_id = await that.getStateAsync(id);
+							if (device_id && device_id.val == statevalue) {
+								const myTargetName = id.substring(0,id.length - 3);
+								device_name = await that.getStateAsync(myTargetName + '.name');
+								break;
+							}
+						}
+					}
+					if (device_name) {
+						resolve(device_name.val);
+					} else {
+						reject(statevalue);
+					}
+				});
+			}
+		);
 	}
 
 	//Search rooms
@@ -654,7 +807,7 @@ class NetatmoEnergy extends utils.Adapter {
 						//that.log.debug('Room-ID: ' + room_id.val + ' / ' + roomName.val);
 
 						// create sortet object
-						const myRooms = that.getSortedArray(roomName.val, room_id.val, that.globalRoomId, that.globalRoomIdArray);
+						const myRooms = mytools.getSortedArray(roomName.val, room_id.val, that.globalRoomId, that.globalRoomIdArray);
 						that.globalRoomId      = myRooms.list;
 						that.globalRoomIdArray = myRooms.listArray;
 						await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, that.globalRoomId, false, true);
@@ -703,7 +856,7 @@ class NetatmoEnergy extends utils.Adapter {
 							//that.log.debug('Device-ID: ' + type.val + ' / ' + deviceName.val + ' / ' + id);
 
 							// create sortet object
-							const myDevices = that.getSortedArray(deviceName.val, type.val, that.globalDeviceId, that.globalDeviceIdArray);
+							const myDevices = mytools.getSortedArray(deviceName.val, type.val, that.globalDeviceId, that.globalDeviceIdArray);
 							that.globalDeviceId      = myDevices.list;
 							that.globalDeviceIdArray = myDevices.listArray;
 							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, that.globalDeviceId, false, true);
@@ -718,33 +871,6 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		});
-	}
-
-	//insert not relevant tags
-	netatmoTags(obj_name) {
-		switch(obj_name) {
-			case 'body':
-				return false;
-			case '':
-				return false;
-			default:
-				return true;
-		}
-	}
-
-	//inser not relevant tags for details
-	netatmoTagsDetail(obj_name) {
-		switch(obj_name) {
-			case 'body':
-				return false;
-			default:
-				return true;
-		}
-	}
-
-	//Delete leading dots
-	getPrefixPath(path) {
-		return path.replace(/^\.+/, '');
 	}
 
 	//calculate date in seconds -> milliseconds including gap to time_exec
@@ -777,7 +903,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//dynamic creation of datapoints
 	async createNetatmoStructure (id,object_name,value, ack, role, write, read, list, norefresh, forced) {
-		const regex = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
+		const macadress = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
 
 		if (!role) {
 			if (object_name === 'battery_level') {
@@ -800,7 +926,7 @@ class NetatmoEnergy extends utils.Adapter {
 				if (!value.isNaN) {
 					value = value * 1000;
 				}
-			} else if (regex.test(value)) {
+			} else if (macadress.test(value)) {
 				role = 'info.mac';
 			} else if (typeof value === 'boolean') {
 				role = 'indicator';
@@ -868,15 +994,6 @@ class NetatmoEnergy extends utils.Adapter {
 		return '';
 	}
 
-	// Decrypt password
-	decrypt(key, value) {
-		let result = '';
-		for (let i = 0; i < value.length; ++i) {
-			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
-		}
-		return result;
-	}
-
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
@@ -884,7 +1001,8 @@ class NetatmoEnergy extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			Object.keys(adapterIntervals).forEach(interval => clearInterval(adapterIntervals[interval]));
-			this.log.debug('cleaned everything up...');
+			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
+			this.sendRequestNotification(null, WarningNotification, mytools.tl('Status', this.systemLang) + '\n' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + ' ' + this.namespace);
 			callback();
 		} catch (e) {
 			callback();
@@ -929,7 +1047,7 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request homesdata: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request homesdata:', this.systemLang) + ' ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.sendHomesdataAPIRequest(APIRequest_homesdata,false);
 							break;
@@ -939,7 +1057,7 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request homestatus: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request homestatus:', this.systemLang) + ' ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.sendHomestatusAPIRequest(APIRequest_homestatus, false);
 							break;
@@ -949,7 +1067,7 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request getroommeasure: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request getroommeasure:', this.systemLang) + ' ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.sendRoomsmeasureAPIRequest(APIRequest_getroommeasure,false);
 							break;
@@ -959,7 +1077,7 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request getmeasure: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request getmeasure:', this.systemLang) + ' ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.sendMeasureAPIRequest(APIRequest_getmeasure,false);
 							break;
@@ -968,14 +1086,14 @@ class NetatmoEnergy extends utils.Adapter {
 						case Trigger_SetTemp:
 							if (!isNaN(state.val)) {
 								if (this.config.applyimmediately) {
-									this.log.debug('SetTemp: Call API directly');
+									this.log.debug('SetTemp: ' + mytools.tl('Call API directly', this.systemLang));
 									this.applySingleActualTemp(state,actPath,actParent,APIRequest_setroomthermpoint,APIRequest_setroomthermpoint_manual);
 								} else {
-									this.log.debug('SetTemp: Set TempChanged manually');
+									this.log.debug('SetTemp: ' + mytools.tl('Set TempChanged manually', this.systemLang));
 									this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, state, actPath + '.' + State_TempChanged);
 								}
 							} else {
-								this.log.debug('SetTemp: No Number ' + state.val);
+								this.log.debug('SetTemp: ' + mytools.tl('No Number', this.systemLang) + ' ' + state.val);
 							}
 							break;
 
@@ -986,7 +1104,7 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							this.log.debug('API Request setthermpoint - manual: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.applySingleAPIRequest(APIRequest_setroomthermpoint, APIRequest_setroomthermpoint_manual);
+							this.applySingleAPIRequest(APIRequest_setroomthermpoint, APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang) );
 							break;
 
 						// Set thermmode for Netatmo Energy
@@ -994,9 +1112,9 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request setthermmode - schedule: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request setthermmode', this.systemLang) + ' - schedule: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.applySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_schedule);
+							this.applySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_schedule, mytools.tl('schedule', this.systemLang));
 							break;
 
 						// Set thermmode for Netatmo Energy
@@ -1004,9 +1122,9 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request setthermmode - hg: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request setthermmode', this.systemLang) + ' - hg: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.applySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_hg);
+							this.applySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_hg, mytools.tl('frost guard', this.systemLang));
 							break;
 
 						// Set thermmode for Netatmo Energy
@@ -1014,9 +1132,9 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request setthermmode - away: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request setthermmode', this.systemLang) + ' - away: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.applySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_away);
+							this.applySingleAPIRequest(APIRequest_setthermmode, APIRequest_setthermmode_away, mytools.tl('away from home', this.systemLang));
 							break;
 
 						// Set synchomeschedule for Netatmo Energy
@@ -1024,7 +1142,7 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request synchomeschedule: ' + id + ' - ' + state.val);
+							this.log.debug(mytools.tl('API Request synchomeschedule:', this.systemLang) + ' ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.sendSingleActualTemp(APIRequest_setthermmode, false);
 							break;
@@ -1033,8 +1151,8 @@ class NetatmoEnergy extends utils.Adapter {
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {
 						if (state.val === true) {
 							this.setState(id, false, true);
-							this.log.debug('API Request swithhomeschedule - ' + this.globalScheduleObjects[id]);
-							this.applySingleAPIRequest(APIRequest_switchhomeschedule, this.globalScheduleObjects[id]);
+							this.log.debug(mytools.tl('API Request swithhomeschedule:', this.systemLang) + ' ' + this.globalScheduleObjects[id]);
+							this.applySingleAPIRequest(APIRequest_switchhomeschedule, this.globalScheduleObjects[id], '\'' + (id.substring(id.lastIndexOf('.' + APIRequest_switchhomeschedule) + ('.' + APIRequest_switchhomeschedule).length + 1)).replace('_', ' ') + '\'');
 						}
 					}
 				}
@@ -1086,9 +1204,9 @@ class NetatmoEnergy extends utils.Adapter {
 if (module.parent) {
 	// Export the constructor in compact mode
 	/**
-	 * @param {Partial<utils.AdapterOptions>} [options={}]
+	 * @param {Partial<utils.AdapterOptions>} [adapter={}]
 	 */
-	module.exports = (options) => new NetatmoEnergy(options);
+	module.exports = (adapter) => new NetatmoEnergy(adapter);
 } else {
 	// otherwise start the instance directly
 	new NetatmoEnergy();

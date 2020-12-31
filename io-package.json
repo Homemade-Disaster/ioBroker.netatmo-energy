@@ -1,19 +1,19 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.13",
+		"version": "0.1.14",
 		"news": {
-			"0.1.13": {
-				"en": "Bugfixing for token expiring",
-		    "de": "Bugfixing für Token Gültigkeit",
-		    "ru": "Исправление истечения срока действия токена",
-		    "pt": "Correção de bug para expiração de token",
-		    "nl": "Bugfixing voor het verlopen van token",
-		    "fr": "Correction d'un bug pour l'expiration du jeton",
-		    "it": "Correzione di bug per la scadenza del token",
-		    "es": "Corrección de errores para el token que expira",
-		    "pl": "Naprawiono błąd powodujący utratę ważności tokena",
-		    "zh-cn": "令牌过期的错误修复"
+			"0.1.14": {
+				"en": "Notification services added",
+		    "de": "Benachrichtigungsdienste hinzugefügt",
+		    "ru": "Сервисы уведомлений добавлены",
+		    "pt": "Serviços de notificação adicionados",
+		    "nl": "Meldingsservices toegevoegd",
+		    "fr": "Services de notification ajoutés",
+		    "it": "Servizi di notifica aggiunti",
+		    "es": "Servicios de notificación agregados",
+		    "pl": "Dodano usługi powiadomień",
+		    "zh-cn": "通知服务已添加"
 			},
 			"0.1.12": {
 				"en": "Redesign coding, add sentry, check token expiring",
@@ -315,7 +315,22 @@
 		"Password": "",
 		"applyimmediately": false,
 		"getchangesimmediately": true,
-		"refreshstates": 0
+		"refreshstates": 0,
+		"notifications": "000",
+		"notificationEnabled": false,
+    "notificationsType": "Telegram",
+    "telegramInstance": "telegram.0",
+    "telegramUser": "All Receiver",
+    "telegramSilentNotice": false,
+    "whatsappInstance": "whatsapp-cmb.0",
+    "pushoverInstance": "pushover.0",
+    "pushoverSilentNotice": false,
+    "pushoverDeviceID": "",
+    "emailReceiver": "xxx@xxx.com",
+    "emailSender": "xxx@xxx.com",
+    "emailInstance": "email.0",
+    "NoticeType": "longNotice",
+    "WaitToSend": 0
 	},
 	"objects": [],
 	"instanceObjects": [

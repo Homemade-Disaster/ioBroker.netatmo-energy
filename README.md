@@ -32,6 +32,7 @@ Account at Netatmo Cloud
 		- apply temperature immediately ... send API request after changing "SetTemp" object
 		- read API states immediately ... send API homestatus request after changing fields in API
 		- Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
+  - As an option you can activate the notification assistant. Therefore you have to activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get informations, warnings and errors.
 
 		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png" alt="settingsLogin" width="70%"/>
 
@@ -70,8 +71,20 @@ It will automatically built up the whole homes-structure, and also the actual st
 Depending an the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
 During the start of the adapter everything would be set to initial.
 
+## Notifications
+If you have activated a notification service in the adapter configuration you get specific messages using a notification service.
+Following services are available.
+
+		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_en.png" alt="settingsAPI" width="50%"/>
+
+		Please insert the necessary informations to connect to the service you choose.
+
+		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
 ## Changelog
+
+### 0.1.14
+* (ioKlausi) Notification services added
 
 ### 0.1.13
 * (ioKlausi) Bugfixing token expiring
