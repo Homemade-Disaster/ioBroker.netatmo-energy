@@ -34,9 +34,9 @@ Account at Netatmo Cloud
 		- Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
   - As an option you can activate the notification assistant. Therefore you have to activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get informations, warnings and errors.
 
-		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png" alt="settingsLogin" width="70%"/>
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png" alt="settingsLogin" width="70%"/>
 
-		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_api_en.png" alt="settingsAPI" width="70%"/>
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_api_en.png" alt="settingsAPI" width="70%"/>
 
 ## netatmo-energy adapter for ioBroker
 Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
@@ -75,11 +75,11 @@ During the start of the adapter everything would be set to initial.
 If you have activated a notification service in the adapter configuration you get specific messages using a notification service.
 Following services are available.
 
-		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_en.png" alt="settingsAPI" width="50%"/>
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_en.png" alt="settingsAPI" width="50%"/>
 
-		Please insert the necessary informations to connect to the service you choose.
+Please insert the necessary informations to connect to the service you choose.
 
-		<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
 ## Changelog
 
