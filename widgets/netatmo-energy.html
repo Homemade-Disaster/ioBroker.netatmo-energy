@@ -1,0 +1,286 @@
+<!--
+	ioBroker.vis netatmo-energy Widget-Set
+
+	version: "0.0.1"
+
+	Copyright 2021 ioKlausi nii@gmx.at
+-->
+<link rel="stylesheet" href="widgets/netatmo-energy/css/style.css" />
+
+<!-- here you can include so many js-files as you want -->
+<script type="text/javascript" src="widgets/netatmo-energy/js/netatmo-energy.js"></script>
+
+<!-- the full description of format in data-vis-attrs can be found here:
+	https://github.com/ioBroker/ioBroker.vis/blob/master/www/js/visEditInspect.js#L39
+
+	----------------------------------------------------------
+	Mandatory XML attributes:
+		id="tplnetatmo-energyWIDGETNAME"
+		type="text/ejs"
+		class="vis-tpl"
+
+		"type" and "class" are always the same. "id" is unique and must start with "tplSETNAME" and ends with widget name. Use camel-case for it.
+
+	----------------------------------------------------------
+	data-vis-attrs - divided with semicolon the list of attributes, like attr1/id;attr2/color
+		Full format of one attribute is: attr_name(start-end)[default_value]/type,idFilter/onChangeFunc
+			attr_name - the name of the attribute, e.g. "myID"
+			start-end - creates automatically attributes from attr_namestart to attr_nameend, like "myID(1-3)" creates myID1, myID2, myID3
+			default_value - by creation of widget this attribute will be filled with this value, e.g. "myID[#001122]/color"
+			type - some predefined types have edit helpers, else it will be shown as text field
+
+				Type format:
+					  id - Object ID Dialog
+					  checkbox
+					  image - image
+					  number,min,max,step - non-float number. min,max,step are optional
+					  color - color picker
+					  views - Name of the view
+					  effect - jquery UI show/hide effects
+					  eff_opt - additional option to effect slide (up, down, left, right)
+					  fontName - Font name
+					  slider,min,max,step - Default step is ((max - min) / 100)
+					  select,value1,value2,... - dropdown select
+					  nselect,value1,value2,... - same as select, but without translation of items
+					  style,fileFilter,nameFilter,attrFilter
+					  custom,functionName,options,... - custom editor - functionName is starting from vis.binds.[widgetset.funct]. E.g. custom/timeAndWeather.editWeather,short
+					  group.name - define new or old group. All following attributes belongs to new group till new group.xyz
+					  group.name/byindex - like group, but all following attributes will be grouped by ID. Like group.windows/byindex;slide(1-4)/id;slide_type(1-4)/select,open,closed  Following groups will be created Windows1(slide1,slide_type1), Windows2(slide2,slide_type2), Windows3(slide3,slide_type3), Windows4(slide4,slide_type4)
+					  text - dialog box with html editor
+					  html - dialog box with html editor
+
+				If type is "id", you can define filer for "Select ID Dialog", like "myID/id,level.temperature".
+				Additionally you can define callback(onChangeFunc), which will be called if this attribute was changed by user for different purposes: validate entry, fill other attributes, ...
+
+		You can define additional data-vis-attrs line: data-vis-attrs0, data-vis-attrs1. Anyway data-vis-attrs must be there. You may not skip numbers.
+		E.g. in "data-vis-attrs="A;" data-vis-attrs1="B" attribute B will be not parsed.
+
+	--------------------------------------------------------
+	data-vis-type
+		Help information for user. Used for search.
+		You can define more than one type divided by comma.
+		There are following common types, but you can use your own specific types:
+			ctrl   - widget that can write some Object IDs
+			val    - widget that shows some information from Object IDs
+			static - widget do not read information from Object IDs or URL
+			button - button widget
+			dimmer - dimmer widget
+			weather - weather widget
+			...
+
+	--------------------------------------------------------
+	data-vis-set
+		Name of the widget set. Must be equal to the name of this HTML file
+
+	--------------------------------------------------------
+	data-vis-prev
+		Html code used as preview of this widget. If widget is complex you can just use image as preview:
+		data-vis-prev='<img src="widgets/hqwidgets/img/prev/Prev_tplnetatmo-energyShowInstance.png"></img>'
+		Of course the image must exist.
+
+	--------------------------------------------------------
+	data-vis-name
+		Readable name of widget shown in vis editor.
+
+	--------------------------------------------------------
+	data-vis-beta="true"
+		Shows "BETA" symbol in vis editor by preview
+
+	--------------------------------------------------------
+	data-vis-update-style="true"
+		Call redraw of widget if some of the CSS styles in editor for this widget was changed
+
+	You can read about Magic tags here: http://canjs.com/guides/EJS.html
+	Following magic tags are exist:
+		<% %> - execute javascript
+		<%= %> - place escaped result to HTML document
+		<%== %> - place unescaped result to HTML document
+
+	You can do "if" conditions and "for" cycles.
+
+-->
+<!-- <img class="netatmo-logo" src="<%== (vis.data.attr('picture')) ? (vis.data.attr('picture')) : 'widgets/netatmo-energy/img/valve.png' %>" style="width: <%== (vis.data.attr('wpic')) %>px; height: <%== (vis.data.attr('hpic')) %>px;" alt="Valve"></img> -->
+<!-- <img class="netatmo-logo" src="widgets/netatmo-energy/img/valve.png" style="width: 48px; height: 48px;" alt="Valve"></img> -->
+<!-- <img class="netatmo-logo" src="<%== (vis.data.attr('picture')) ? vis.data.attr('picture') : 'widgets/netatmo-energy/img/valve.png' %>" style="width: 48px; height: 48px;" alt="Valve"></img> -->
+<!-- <% vis.binds['netatmo-energy'].changecss(this.data.wid, this.view, this.data, this.style); %> -->
+<!--
+<div style="width: 300px; height: 250px; padding: 2px" class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>">
+	<div style="width: 300px; height: 250px" class="netatmo-energy-class vis-widget-body <%== this.data.attr('class') %>">
+		<span class="wrapper">
+			<img class="netatmo-logo" src="<%== (this.data.attr('picture')) ? (this.data.attr('picture')) : 'widgets/netatmo-energy/img/valve.png' %>" style="position: absolute; width: <%== this.data.attr('wpic') %>%; height: <%== this.data.attr('hpic') %>%; left: <%== this.data.attr('xpic') %>%; top: <%== this.data.attr('ypic') %>%;" alt="Valve"></img>
+			<div class="netatmo-title" style="position: absolute; left: <%== this.data.attr('xtxt') %>%; top: <%== this.data.attr('ytxt') %>%;"> <p><%== vis.states[this.data.attr('oid') + '.' + this.data.attr('room') + '.name.val']%></p></div>
+		</span>
+		<div style="width: 100%; height: 100%">
+			<button class="netatmo-borderbutton netatmo-borderbutton-top">1</button><br>
+			<button class="netatmo-borderbutton netatmo-borderbutton-bottom">2</button>
+		</div>
+	</div>
+</div>
+-->
+<!--
+<div class="netatmo-title" style="position: absolute; left: <%== this.data.attr('xtxt') %>px; top: <%== this.data.attr('ytxt') %>px; <%== (this.data.attr('txtfont')) ? ('font-family: ' + this.data.attr('txtfont') + ';') : 'font-family: Verdana, Geneva, sans-serif;'%> <%== (this.data.attr('txtfontsize')) ? ('font-size: ' + this.data.attr('txtfontsize') + ';') : 'font-size: x-small;'%> <%== (this.data.attr('ctxt')) ? ('color: ' + this.data.attr('ctxt')) + ';' : 'color: white;'%>"> <p>(this.data.attr('oid')) ? vis.states[(this.data.attr('oid')).substring(0,(this.data.attr('oid')).indexOf('.rooms.') + 9) + 'name.val'] : this.data.attr('oid') %></p></div>
+
+<div class="netatmo-info" style="position: relative; <%== (this.data.attr('tempfont')) ? ('font-family: ' + this.data.attr('tempfont') + ';') : 'font-family: Verdana, Geneva, sans-serif;'%> <%== (this.data.attr('tempfontsize')) ? ('font-size: ' + this.data.attr('tempfontsize') + ';') : 'font-size: x-small;'%> <%== (this.data.attr('cstxt')) ? ('color: ' + this.data.attr('cstxt') + ';') : 'color: white;'%>"> <p><%== (this.data.attr('valvesoll')) ? (this.data.attr('valvesoll')) : 'Soll-Temperatur' + ': ' + vis.states[this.data.attr('oid') + '.' + this.data.attr('room') + '.settings.SetTemp.val']%><%== this.data.attr('valvesollbehind')%><br><%== (this.data.attr('valveist')) ? (this.data.attr('valveist')) : 'Ist-Temperatur' + ': ' + vis.states[this.data.attr('oid') + '.' + this.data.attr('room') + '.status.therm_setpoint_temperature.val']%><%== this.data.attr('valveistbehind')%></p>
+</div>
+-->
+
+
+<!--
+<div class="netatmo-title" style="position: absolute; left: <%== this.data.attr('xtxt') %>px; top: <%== this.data.attr('ytxt') %>px; <%== (this.data.attr('txtfont')) ? ('font-family: ' + this.data.attr('txtfont') + ';') : 'font-family: Verdana, Geneva, sans-serif;'%> <%== (this.data.attr('txtfontsize')) ? ('font-size: ' + this.data.attr('txtfontsize') + ';') : 'font-size: x-small;'%> <%== (this.data.attr('ctxt')) ? ('color: ' + this.data.attr('ctxt')) + ';' : 'color: white;'%>">
+	<p>
+		<%== 'Title: ' + this.data.title_oid + ' : ' + vis.states[this.data.attr('title_oid') + '.val'] %>
+	</p>
+</div>
+<div class="netatmo-box" style="position: absolute; top: <%== this.data.attr('topvalve') %>px; left: <%== this.data.attr('leftvalve') %>px;">
+	<div class="netatmo-info" style="position: relative; <%== (this.data.attr('tempfont')) ? ('font-family: ' + this.data.attr('tempfont') + ';') : 'font-family: Verdana, Geneva, sans-serif;'%> <%== (this.data.attr('tempfontsize')) ? ('font-size: ' + this.data.attr('tempfontsize') + ';') : 'font-size: x-small;'%>">
+		<p>
+			<span <%== (this.data.attr('cstxt')) ? ('style="color: ' + this.data.attr('cstxt') + '";') : 'style="color: white;"'%>>
+				<% vis.binds['netatmo-energy'].getDynamicAttributes(this.data.wid, this.view, this.data, this.style, 'target_temp_title');
+					 vis.binds['netatmo-energy'].getDynamicAttributes(this.data.wid, this.view, this.data, this.style, 'target_temp_val');
+					 this.data.attr('valvesollbehind')%><br>
+			</span>
+			<span <%== (this.data.attr('citxt')) ? ('style="color: ' + this.data.attr('citxt') + '";') : 'style="color: white;"'%>>
+				<% vis.binds['netatmo-energy'].getDynamicAttributes(this.data.wid, this.view, this.data, this.style, 'actual_temp_title');
+					 vis.binds['netatmo-energy'].getDynamicAttributes(this.data.wid, this.view, this.data, this.style, 'actual_temp_val');
+					 this.data.attr('valveistbehind')%>
+			</span>
+		</p>
+	</div>
+</div>
+<%== 'Tempid:' + (vis.data.attr('title_oid')) ? vis.states[(vis.data.attr('title_oid')) + '.val'] : vis.data.attr('title_oid')%>
+
+<%== //vis.states[(vis.data.attr('title_oid')) + '.val']%>
+
+<span <%== (this.data.attr('cstxt')) ? ('style="color: ' + this.data.attr('cstxt') + '";') : 'style="color: white;"' %>>
+	<%== //((this.data.attr('valvesoll')) ? (this.data.attr('valvesoll')) : ('Soll-Temperatur')) + ': ' + ((this.data.attr('oid')) ? (vis.states[(this.data.attr('oid')) + '.val']) : ('Please insert SetTemp-ID in setup '))%><%== this.data.attr('valvesollbehind')%>
+</span>
+<br>
+<span <%== (this.data.attr('citxt')) ? ('style="color: ' + this.data.attr('citxt') + '";') : 'style="color: white;"'%>>
+	<%== //((this.data.attr('valveist')) ? (this.data.attr('valveist')) : ('Ist-Temperatur')) + ': '    + ((this.data.attr('temp_oid')) ? (vis.states[(this.data.attr('temp_oid')) + '.val']) : ('Please insert SetTemp-ID in setup '))%><%== this.data.attr('valveistbehind')%>
+
+
+	<div data-oid="<%= this.data.attr('oid') %>" data-oid-working="<%= this.data.attr('oid-working') %>" id="Slider_<%= this.data.attr('wid') %>" class="slider" data-role="slider"></div>
+	<div <%= (el) -> vis.binds.netatmo-energy.slider(el, {min: data.min, max: data.max, step: data.step, color: data.sliderBgColor, completeColor:data.sliderCompleteColor, markerColor: data.sliderMarkerColor}) %>></div>
+</span>
+-->
+
+<!--
+<div class="vis-widget <%== this.data.attr('class') %>" style="" id="<%= this.data.attr('wid') %>" >
+		<div class="vis-widget-body">
+	<%== this.data.attr('html_prepend') %>
+	<input
+			type="checkbox"
+			name="<%= this.data.attr('wid') %>_checkbox"
+			<%= this.data.attr('autoFocus') === true || this.data.attr('autoFocus') === 'true' ? 'autofocus' : '' %>
+			id="<%= this.data.attr('wid') %>_checkbox"
+			data-oid="<%= this.data.attr('oid') %>"
+			<%= (el) -> vis.binds.basic.checkbox(el) %>
+				/>
+	<%== this.data.attr('html_append') %>
+		</div>
+</div>
+
+<div class="netatmo-slidergroup" style="position: absolute; top: <%== this.data.attr('topslider') %>px; left: <%== this.data.attr('leftslider') %>px; width: <%== this.data.attr('widthslider') %>px;">
+	<input id="myRange" type="range" min="0" max="30" step="0.5" name="<%= this.data.attr('wid') %>_slider" oid="<%= this.data.attr('oid') %>" oid-working="<%= this.data.attr('oid') %>" class="slider" data-role="slider" <%= (el) -> vis.binds.basic.input(el, this.data) %>/>
+</div>
+
+<div class="vis-widget-body <%== this.data.attr('class') %>" style="padding: 4px;">
+		<div class="sliderJQUI" id="<%= this.data.attr('wid') %>_slider" data-oid="<%= this.data.attr('oid') %>" data-oid2="<%= this.data.attr('oid-2') %>" data-oid-working="<%= this.data.attr('oid-working') %>"  data-oid2-working="<%= this.data.attr('oid-2-working') %>"<%= (el) -> vis.binds.jqueryui.slider(el, {min:parseFloat(data.min),max:parseFloat(data.max),step:parseFloat(data.step), inverted: data.inverted, submitmethod: data.submitmethod}) %> /></div>
+</div>
+
+<div class="netatmoSlider" id="<%= this.data.attr('wid') %>_slider" data-oid="<%= this.data.attr('oid') %>" data-oid-working="<%= this.data.attr('slider_oid') %>" <%= (el) -> vis.binds.jqueryui.slider(el, {min: parseFloat(data.min), max: parseFloat(data.max), step: parseFloat(data.step), orientation: data.orientation, inverted: data.inverted, submitmethod: data.submitmethod}) %> /></div>
+-->
+<script id="tplnetatmo-energyValves"
+		type="text/ejs"
+		class="vis-tpl"
+		data-vis-prev='<img src="widgets/netatmo-energy/img/netatmo-energy.png"></img>'
+		data-vis-attrs="oid/id/getDynamicAttributes;
+										temp_oid/hidden;
+										act_oid/hidden;
+										title_oid/hidden;
+										xtxt[10]/slider,0,1024,1;
+										ytxt[120]/slider,0,768,1;
+										atxt[&room];
+										ctxt/color;
+										txtfont/fontname;
+										txtfontsize[large]/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
+		data-vis-attrs0="group.frame;
+										brltop[15]/slider,0,25,1;
+										brrtop[0]/slider,0,25,1;
+										ctoparea[#F39C12]/color;
+										brlbottom[0]/slider,0,25,1;
+										brrbottom[15]/slider,0,25,1;
+										cbottomarea[#cb7906]/color;"
+		data-vis-attrs1="group.slider;
+										min[6]/number;
+										max[30]/number;
+										step/number;
+										orientation/nselect,horizontal,vertical;
+										inverted/checkbox;
+										submitmethod[stop]/nselect,scroll,stop;
+										topslider[30]/slider,0,1024,1;
+										leftslider[60]/slider,0,768,1;
+										widthslider[180]/slider,0,1024,1;"
+		data-vis-attrs2="group.temp;
+										valvesoll;
+										valvesollbehind;
+										cstxt/color;
+										valveist;
+										valveistbehind;
+										citxt/color;
+										valveact;
+										valveactbehind;
+										catxt/color;
+										topvalve[65]/slider,0,768,1;
+										leftvalve[115]/slider,0,1024,1;
+										tempfont/fontname;
+										tempfontsize/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
+		data-vis-attrs3="group.picture;
+										upd_oid/id;
+										picture/image;
+										xpic[10]/slider,0,1024,1;
+										ypic[20]/slider,0,768,1;
+										hpic[40]/slider,0,1024,1;
+										wpic[40]/slider,0,768,1;"
+		data-vis-set="netatmo-energy"
+		data-vis-type="ctrl,val"
+		data-vis-name="Thermostat"
+		data-vis-beta="true">
+
+	<div style="overflow:visible; width: 250px; height: 143px; padding: 2px;" class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>">
+		<div style="width: 100%; height: 100%;" class="netatmo-energy-class vis-widget-body <%== this.data.attr('class') %>">
+			<div class="netatmo-borderbutton netatmo-borderbutton-top"
+				   style="<%== (this.data.attr('brltop')) ? ('border-top-left-radius: ' + this.data.attr('brltop')) + 'px;' : 'border-top-left-radius: 0px;'%><%== (this.data.attr('brrtop')) ? ('border-top-right-radius: ' + this.data.attr('brrtop')) + 'px;' : 'border-top-right-radius: 0px;'%><%== (this.data.attr('ctoparea')) ? ('background-color: ' + this.data.attr('ctoparea')) + ';' : 'background-color: lightgrey;'%>"</div>
+			</div>
+			<div class="netatmo-borderbutton netatmo-borderbutton-bottom" style="<%== (this.data.attr('brlbottom')) ? ('border-bottom-left-radius: ' + this.data.attr('brlbottom')) + 'px;' : 'border-bottom-left-radius: 0px;'%>
+				<%== (this.data.attr('brrbottom')) ? ('border-bottom-right-radius: ' + this.data.attr('brrbottom')) + 'px;' : 'border-bottom-right-radius: 0px;'%>
+				<%== (this.data.attr('cbottomarea')) ? ('background-color: ' + this.data.attr('cbottomarea')) + ';' : 'background-color: lightblue;'%>">
+			</div>
+			<span class="wrapper">
+				<!-- Show picture -->
+				<div id="picture_frame">
+					<img class="netatmo-logo" style="position: absolute; left: <%== this.data.attr('xpic')%>px; top: <%== this.data.attr('ypic')%>px; width: <%== this.data.attr('wpic')%>px; height: <%== this.data.attr('hpic')%>px;" src="<%== (this.data.attr('picture')) ? (this.data.attr('picture')) : 'widgets/netatmo-energy/img/valve_white.png' %>" alt="Valve"></img>
+			  	<%= (el) -> vis.binds.netatmobasic.refreshAPI(el, this.data.attr('upd_oid')) %>
+				</div>
+
+				<!-- Show title -->
+				<div class="netatmo-title" id="<%= this.data.attr('wid') %>_title" style="position: absolute; left: <%== this.data.attr('xtxt') %>px; top: <%== this.data.attr('ytxt') %>px;">
+					<%= (el) -> vis.binds.netatmobasic.gettitle(el, this.data) %>
+				</div>
+
+				<!-- Show slider -->
+				<div class="netatmo-slidergroup" style="position: absolute; top: <%== this.data.attr('topslider') %>px; left: <%== this.data.attr('leftslider') %>px; width: <%== this.data.attr('widthslider') %>px;">
+            <div class="netatmoSlider" id="<%= this.data.attr('wid') %>_slider" data-oid="<%= this.data.attr('oid') %>" <%= (el) -> vis.binds.netatmobasic.slider(el, this.data.attr('wid'), this.view, this.data, {min: parseFloat(data.min), max: parseFloat(data.max), step: parseFloat(data.step), orientation: data.orientation, inverted: data.inverted, submitmethod: data.submitmethod}) %> /></div>
+        </div>
+
+				<!-- Show temperature box -->
+				<div class="netatmo-box" style="position: absolute; top: <%== this.data.attr('topvalve') %>px; left: <%== this.data.attr('leftvalve') %>px;">
+					<div id = "NetatmoShowTemp" class ="netatmo-info" style="overflow:visible; position: relative; <%== (this.data.attr('tempfont')) ? ('font-family: ' + this.data.attr('tempfont') + ';') : 'font-family: Verdana, Geneva, sans-serif;'%> <%== (this.data.attr('tempfontsize')) ? ('font-size: ' + this.data.attr('tempfontsize') + ';') : 'font-size: x-small;'%>">
+						<%= (el) -> vis.binds.netatmobasic.gettemperatures(el, this.data.attr('wid'), this.data) %>
+					</div>
+				</div>
+
+			</span>
+		</div>
+	</div>
+</script>

@@ -81,6 +81,9 @@ Folgene Dienste sind verfügbar.
 
 ## Änderungsprotokoll
 
+### 0.1.15
+* (ioKlausi) Eigenes Widget für Thermostat hinzugefügt
+
 ### 0.1.14
 * (ioKlausi) Benachrichtigungsassistent hinzugefügt
 

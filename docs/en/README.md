@@ -82,6 +82,9 @@ Please insert the necessary informations to connect to the service you choose.
 
 ## Changelog
 
+### 0.1.15
+* (ioKlausi) Widget for valve added
+
 ### 0.1.14
 * (ioKlausi) Notification services added
 

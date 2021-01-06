@@ -1,0 +1,109 @@
+/* Style your widget here */
+.netatmo-energy-class {
+	font-style: normal;
+}
+
+span.wrapper {
+position:relative;
+display:block;
+}
+span.wrapper img.netatmo-logo {
+display:block;
+position:absolute;
+}
+
+p {
+   margin: 0px;
+   padding: 0px;
+}
+
+.netatmo-title {
+	text-align: left;
+	white-space: nowrap;
+}
+.netatmo-info {
+	text-align: right;
+	font-style: normal;
+	display: inline-block;
+}
+
+.netatmo-borderbutton {
+	position:absolute;
+	border: none;
+	margin: 0px 0px;
+  padding: 0px 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0px 0px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+	opacity: 1;
+  filter: alpha(opacity=50);
+}
+
+.netatmo-borderbutton-top {
+	height: 75%;
+	width: 100%;
+}
+
+.netatmo-borderbutton-top:hover {
+  background-color: white;
+	height: 75%;
+	width: 100%;
+}
+
+.netatmo-borderbutton-bottom {
+	top: 76%;
+	height: 25%;
+	width: 100%;
+}
+
+.netatmo-borderbutton-bottom:hover {
+  background-color: white;
+	top: 76%;
+	height: 25%;
+	width: 100%;
+}
+
+/* The slider */
+.netatmo-slidergroup {
+}
+
+.netatmoSlider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  /*appearance: none;*/
+  width: 100%; /* Full-width */
+  height: 15px; /* Specified height */
+  border-radius: 5px;
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 30px; /* Set a specific slider handle width */
+	height: 30px;
+  border-radius: 50%;
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+	width: 30px; /* Set a specific slider handle width */
+	height: 30px;
+  border-radius: 50%;
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}

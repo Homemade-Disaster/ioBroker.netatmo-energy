@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.14",
+		"version": "0.1.15",
 		"news": {
+			"0.1.15": {
+		    "en": "Widget for valve added",
+		    "de": "Widget für Ventil hinzugefügt",
+		    "ru": "Добавлен виджет для клапана",
+		    "pt": "Widget para válvula adicionado",
+		    "nl": "Widget voor klep toegevoegd",
+		    "fr": "Widget pour valve ajouté",
+		    "it": "Widget per la valvola aggiunto",
+		    "es": "Widget para válvula agregado",
+		    "pl": "Dodano widżet dla zaworu",
+		    "zh-cn": "阀门小部件已添加"
+			},
 			"0.1.14": {
 				"en": "Notification services added",
 		    "de": "Benachrichtigungsdienste hinzugefügt",
@@ -290,6 +302,9 @@
 							"de": "docs/de/README.md"
 		},
 		"loglevel": "info",
+		"restartAdapters": [
+			"vis"
+		],
 		"mode": "daemon",
 		"type": "climate-control",
 		"compact": true,
@@ -330,7 +345,11 @@
     "emailSender": "xxx@xxx.com",
     "emailInstance": "email.0",
     "NoticeType": "longNotice",
-    "WaitToSend": 0
+    "WaitToSend": 0,
+		"dependencies": [
+			"jqui-mfd",
+			"basic"
+		]
 	},
 	"objects": [],
 	"instanceObjects": [
