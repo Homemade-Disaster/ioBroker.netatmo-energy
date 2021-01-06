@@ -87,7 +87,7 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 ## Änderungsprotokoll
 
 ### 0.1.15
-* (ioKlausi) Eigenes Widget für Thermostat hinzugefügt
+* (ioKlausi) Eigenes Widget für ein Thermostat hinzugefügt
 
 ### 0.1.14
 * (ioKlausi) Benachrichtigungsassistent hinzugefügt
