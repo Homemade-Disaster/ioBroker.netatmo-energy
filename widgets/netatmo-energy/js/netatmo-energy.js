@@ -1,7 +1,7 @@
 /*
 	ioBroker.vis netatmo-energy Widget-Set
 
-	version: "0.0.1"
+	version: "0.0.2"
 
 	Copyright 2021 ioKlausi nii@gmx.at
 */
@@ -64,6 +64,7 @@ function buildtitle(data) {
 
 // Netetmo Energy Functions
 vis.binds.netatmobasic = {
+	//Refresh API using trigger
 	refreshAPI: function (el, oid) {
 		if (!vis.editMode) {
 			$(el).parent().on('click touchstart', function () {
@@ -71,7 +72,7 @@ vis.binds.netatmobasic = {
 			});
 		}
 	},
-
+	//create slider
 	slider: function (el, wid, view, data, options) {
 		var $this       = $(el);
 		var oid         = $this.attr('data-oid');
@@ -204,11 +205,13 @@ vis.binds.netatmobasic = {
 		}
 	},
 
+	//create title
 	gettitle: function(el, data) {
 		const element = $(el);
 		element.html(buildtitle(data));
 	},
 
+	//create temperatur informations
 	gettemperatures: function(el, wid, data) {
 		var bound = [];
 		var $wid = $('#' + wid);
@@ -238,7 +241,7 @@ vis.binds.netatmobasic = {
 
 // Netetamo Energy main
 vis.binds['netatmo-energy'] = {
-	version: '0.0.1',
+	version: '0.0.2',
 	showVersion: function () {
 		if (vis.binds['netatmo-energy'].version) {
 			console.log('Version netatmo-energy: ' + vis.binds['netatmo-energy'].version);
@@ -246,6 +249,7 @@ vis.binds['netatmo-energy'] = {
 		}
 	},
 
+	//create dynamic attributes by changing oid
 	getDynamicAttributes: function(wid, view, value, attr, isCss) {
 		const obj = vis.objects[value];
 		var changed = [];

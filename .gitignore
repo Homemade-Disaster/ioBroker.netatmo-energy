@@ -1,6 +1,7 @@
 .git
 .idea
 .DS_Store
+.smb*
 *.code-workspace
 node_modules
 nbproject
