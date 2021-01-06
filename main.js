@@ -393,14 +393,14 @@ class NetatmoEnergy extends utils.Adapter {
 							await this.searchSchedule();
 							break;
 						default:
-							this.log.debug(mytools.tl('API changes applied', this.systemLang) +  APIRequest);
+							this.log.debug(mytools.tl('API changes applied', this.systemLang) + ' ' + APIRequest);
 					}
+					this.log.debug(mytools.tl('API request finished', this.systemLang));
 				})
 				.catch(error => {
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ' ' + error.error + ': ' + error.error_description);
 					this.sendRequestNotification(null, ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang), error.error + ': ' + error.error_description);
 				});
-			this.log.debug(mytools.tl('API request finished', this.systemLang));
 		}
 	}
 
@@ -482,42 +482,6 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
-	//get State changes
-	async getTriggerStates(NetatmoRequest, mode, that) {
-		const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
-		let changesmade = false;
-
-		return new Promise(
-			function(resolve,reject) {
-				that.getStates(that.namespace + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
-					for(const id in states) {
-						const adapterstates = await that.getStateAsync(id);
-
-						if (id.search(searchstring) >= 0) {
-							if (adapterstates && adapterstates.val === true) {
-								await that.setState(id, false, true);
-
-								const actPath   = id.substring(0,id.lastIndexOf('.'));
-								const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
-								const newTemp   = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
-								if (newTemp) {
-									if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
-										changesmade = true;
-									}
-								}
-							}
-						}
-					}
-					if (changesmade) {
-						resolve(true);
-					} else {
-						reject(false);
-					}
-				});
-			}
-		);
-	}
-
 	//Send Changes to API
 	async applyAPIRequest (NetatmoRequest,mode) {
 		const that = this;
@@ -535,13 +499,33 @@ class NetatmoEnergy extends utils.Adapter {
 				};
 
 				const createAPIapplyAsync_syncrequest = async function(NetatmoRequest, mode, that) {
-					await this.getTriggerStates(NetatmoRequest, mode, that)
-						.then(() => {
+					const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
+					let changesmade = false;
+					that.getStates(that.namespace + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
+						for(const id in states) {
+							const adapterstates = await that.getStateAsync(id);
+
+							if (id.search(searchstring) >= 0) {
+								if (adapterstates && adapterstates.val === true) {
+									await that.setState(id, false, true);
+
+									const actPath   = id.substring(0,id.lastIndexOf('.'));
+									const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
+									const newTemp   = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
+									if (newTemp) {
+										if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
+											changesmade = true;
+										}
+									}
+								}
+							}
+						}
+						if (changesmade) {
 							resolve(true);
-						})
-						.catch(() => {
+						} else {
 							reject(false);
-						});
+						}
+					});
 				};
 
 				switch (NetatmoRequest) {

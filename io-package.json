@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.15",
+		"version": "0.1.16",
 		"news": {
+			"0.1.16": {
+				"en": "Bugfixing and deployment of adapter",
+				"de": "Bugfixing und Bereitstellung des Adapters",
+				"ru": "Исправление ошибок и развертывание адаптера",
+				"pt": "Correção de bugs e implantação do adaptador",
+				"nl": "Bugfixing en implementatie van adapter",
+				"fr": "Correction de bogues et déploiement de l'adaptateur",
+				"it": "Correzione di bug e distribuzione dell'adattatore",
+				"es": "Corrección de errores e implementación del adaptador",
+				"pl": "Naprawianie błędów i wdrażanie adaptera",
+				"zh-cn": "适配器的错误修复和部署"
+		  },
 			"0.1.15": {
 		    "en": "Widget for valve added",
 		    "de": "Widget für Ventil hinzugefügt",
@@ -230,18 +242,6 @@
 				"es": "Conexión API probada",
 				"pl": "Testowane połączenie API",
 				"zh-cn": "经过测试的API连接"
-			},
-			"0.0.2": {
-				"en": "API functionality realiced",
-				"de": "API Funktionalität realisiert",
-				"ru": "Реализована функциональность API",
-				"pt": "Funcionalidade API implementada",
-				"nl": "API-functionaliteit gerealiseerd",
-				"fr": "Fonctionnalité de l'API réalisée",
-				"it": "Funzionalità API riapplicata",
-				"es": "Funcionalidad API realizada",
-				"pl": "Urzeczywistniona funkcjonalność API",
-				"zh-cn": "实现API功能"
 			}
 		},
 		"title": "Netatmo Energy",

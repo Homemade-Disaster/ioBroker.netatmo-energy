@@ -21,8 +21,8 @@ Account at Netatmo Cloud
 - Create your own account at https://auth.netatmo.com/de-de/access/signup
 - Login in site https://dev.netatmo.com/apidocumentation/energy
 - Create your own APP by clicking your account (top left), and press button "Create"
-	- Fill out the form with your data
-	- Copy your own client ID and client secret to the adapter config
+  - Fill out the form with your data
+  - Copy your own client ID and client secret to the adapter config
 	- Go back to the Documentation of Netatmo Energy API https://dev.netatmo.com/apidocumentation/energy
 	- Select "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
 		- you will get a response including your home id
@@ -47,7 +47,7 @@ It also creates a device called "energyAPP" including channels "APIRequests", "t
 * homesdata             ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter as default).You can set specific parameters.
 * homestatus            ... get the status and the technical informations of your valves assigned in your rooms. If you want to get informations of a specific device type you can choose specific parameters.
 * getroommeasure        ... Retrieve data history of a room. The response of this request will be stored in the response field.
-* getmeasure            ... Retrieve boiler historycal data.  The response of this request will be stored in the response field.
+* getmeasure            ... Retrieve boiler historycal data. The response of this request will be stored in the response field.
 * setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default).  
 * setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
 * setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
@@ -69,7 +69,6 @@ If a API request need Parameters you can find these in the channel "parameters" 
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
 It will automatically built up the whole homes-structure, and also the actual status of your valves.
 Depending an the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
-During the start of the adapter everything would be set to initial.
 
 ## Notifications
 If you have activated a notification service in the adapter configuration you get specific messages using a notification service.
@@ -87,6 +86,9 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
 ## Changelog
+
+### 0.1.16
+* (ioKlausi) Bugfixing
 
 ### 0.1.15
 * (ioKlausi) Widget for valve added
