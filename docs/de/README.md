@@ -79,6 +79,11 @@ Folgene Dienste sind verfügbar.
 
     <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_de.png" alt="settingsAPI" width="70%"/>
 
+## Widget
+Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "SetTemp" - Datenpunkt eintragen. Alle anderen Informationen werden dynamisch aus der "rooms"-Struktur ermittelt.
+
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_de.png" alt="settingsAPI" width="250px"/>
+
 ## Änderungsprotokoll
 
 ### 0.1.15

@@ -80,6 +80,11 @@ Please insert the necessary informations to connect to the service you choose.
 
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
+## Widget
+Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other informations dynamically out of the "rooms"-structure.
+
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
+
 ## Changelog
 
 ### 0.1.15
