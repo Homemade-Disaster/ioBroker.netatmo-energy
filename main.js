@@ -632,7 +632,7 @@ class NetatmoEnergy extends utils.Adapter {
 					payload: payload
 				},
 				function(error, meta, body) {
-					if (meta) {
+					if (meta && meta.status) {
 						that.log.debug(mytools.tl('Netatmo API status:', that.systemLang) + meta.status);
 						if (meta.status == 200 ) {
 							resolve(JSON.parse(body));
