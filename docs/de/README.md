@@ -86,6 +86,9 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 
 ## Änderungsprotokoll
 
+### 0.1.17
+* (ioKlausi) Widget angepasst für geöffnetes Fenster, Bugfix setroomthermpoint
+
 ### 0.1.16
 * (ioKlausi) Fehlerbehebungen
 

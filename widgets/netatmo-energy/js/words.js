@@ -614,5 +614,17 @@ systemDictionary = {
 		"es": "Actualizar API",
 		"pl": "Zaktualizuj API",
 		"zh-cn": "更新API"
+	},
+	"show_win": {
+		"en": "Show window open sign",
+		"de": "zeige 'Fenster offen'",
+		"ru": "Показать знак открытого окна",
+		"pt": "Mostrar sinal de janela aberta",
+		"nl": "Toon venster open teken",
+		"fr": "Afficher le signe d'ouverture de la fenêtre",
+		"it": "Mostra il segno di finestra aperta",
+		"es": "Mostrar signo de ventana abierta",
+		"pl": "Pokaż znak otwartego okna",
+		"zh-cn": "显示窗口打开标志"
 	}
 };

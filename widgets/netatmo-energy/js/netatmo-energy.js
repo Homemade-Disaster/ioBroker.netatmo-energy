@@ -52,6 +52,7 @@ function buildtitle(data) {
 	const textfont    = (data.txtfont)     ? ('font-family: ' + data.txtfont + ';') : ('font-family: Verdana, Geneva, sans-serif;');
 	const txtfontsize = (data.txtfontsize) ? ('font-size: ' + data.txtfontsize + ';') : ('font-size: x-small;');
 	const txtcolor    =	(data.ctxt)        ? ('color: ' + data.ctxt + ';') : ('color: white;');
+	let window_img = '';
 
 	if (roomname && roomname != '' && roomtitle) {
 		roomtitle = roomtitle.replace('&room', roomname);
@@ -59,7 +60,10 @@ function buildtitle(data) {
 	if ((!roomtitle || roomtitle == '') && roomname) {
 		roomtitle = roomname;
 	}
-	return ((roomtitle) ? ('<p style="white-space: nowrap;' + textfont + txtfontsize + txtcolor + '">' + roomtitle + '</p>') : ('Please insert SetTemp-ID in setup '));
+	if (data.win_oid && vis.states.attr(data.win_oid + '.val') == true && data.show_win == true ) {
+		window_img = '<img class="netatmo-window" src="widgets/netatmo-energy/img/window_open.png" alt="Window open"></img> ';
+	}
+	return ((roomtitle) ? ('<p style="white-space: nowrap;' + textfont + txtfontsize + txtcolor + '">' + window_img + roomtitle + '</p>') : ('<p>' + window_img + 'Please insert SetTemp-ID in setup </p>'));
 }
 
 // Netetmo Energy Functions
@@ -206,15 +210,33 @@ vis.binds.netatmobasic = {
 	},
 
 	//create title
-	gettitle: function(el, data) {
+	gettitle: function(el, wid, data) {
+		let bound = [];
+		let $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildtitle(data));
+
+		function onChange() {
+			element.html(buildtitle(data));
+		}
+
+		if (data.win_oid) {
+			vis.states.bind(data.win_oid + '.val', onChange);
+			bound.push(data.win_oid + '.val');
+		}
+
+		if (bound.length) {
+			// remember all ids, that bound
+			$wid.data('bound', bound);
+			// remember bind handler
+			$wid.data('bindHandler', onChange);
+		}
 	},
 
 	//create temperatur informations
 	gettemperatures: function(el, wid, data) {
-		var bound = [];
-		var $wid = $('#' + wid);
+		let bound = [];
+		let $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildtemptext(data));
 
@@ -222,13 +244,18 @@ vis.binds.netatmobasic = {
 			element.html(buildtemptext(data));
 		}
 
-		vis.states.bind(data.oid + '.val', onChange);
-		bound.push(data.oid + '.val');
-		vis.states.bind(data.temp_oid + '.val', onChange);
-		bound.push(data.temp_oid + '.val');
-		vis.states.bind(data.act_oid + '.val', onChange);
-		bound.push(data.act_oid + '.val');
-
+		if (data.oid) {
+			vis.states.bind(data.oid + '.val', onChange);
+			bound.push(data.oid + '.val');
+		}
+		if (data.temp_oid) {
+			vis.states.bind(data.temp_oid + '.val', onChange);
+			bound.push(data.temp_oid + '.val');
+		}
+		if (data.act_oid) {
+			vis.states.bind(data.act_oid + '.val', onChange);
+			bound.push(data.act_oid + '.val');
+		}
 		if (bound.length) {
 			// remember all ids, that bound
 			$wid.data('bound', bound);
@@ -241,7 +268,7 @@ vis.binds.netatmobasic = {
 
 // Netetamo Energy main
 vis.binds['netatmo-energy'] = {
-	version: '0.0.2',
+	version: '0.0.3',
 	showVersion: function () {
 		if (vis.binds['netatmo-energy'].version) {
 			console.log('Version netatmo-energy: ' + vis.binds['netatmo-energy'].version);
@@ -261,6 +288,7 @@ vis.binds['netatmo-energy'] = {
 			roles.push('value.temperature');
 			roles.push('valve.temperature');
 			roles.push('value.roomname');
+			roles.push('indicator.window');
 
 			if (roles.length) {
 				const result = vis.findByRoles(value, roles);
@@ -281,6 +309,11 @@ vis.binds['netatmo-energy'] = {
 								changed.push('title_oid'); // remember attr to update it
 								vis.views[view].widgets[wid].data.title_oid = result[r];
 								vis.widgets[wid].data.title_oid = result[r];
+								break;
+							case 'indicator.window':
+								changed.push('win_oid'); // remember attr to update it
+								vis.views[view].widgets[wid].data.win_oid = result[r];
+								vis.widgets[wid].data.win_oid = result[r];
 								break;
 						}
 					}

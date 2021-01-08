@@ -595,7 +595,7 @@ class NetatmoEnergy extends utils.Adapter {
 	async applySingleActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
 		await this.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode);
 		if (this.config.getchangesimmediately) {
-			await this.sendAPIRequestasync(APIRequest_homestatus, '',false);
+			await this.sendAPIRequest(APIRequest_homestatus, '',false);
 		}
 	}
 
@@ -818,7 +818,7 @@ class NetatmoEnergy extends utils.Adapter {
 								switch(objstat_name) {
 									case State_therm_setpoint_temperature:
 										await that.createMyChannel(myTargetName + '.' + Channel_settings, 'Change settings');
-										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp, 'set temperature manually', ObjStatus[objstat_name], true, 'level.temperature', true, true, '', norefresh, false);
+										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp, 'set temperature manually', ObjStatus[objstat_name], true, 'level.temperature', true, true, '', norefresh, true);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged, 'temperature manually changed', false, true, 'indicator', false, true, '', norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Mode, 'The mode you are applying to this room (def=manual)', '', true, 'text', true, true, List_mode, norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Endtime, 'end time of the schedule mode set (seconds)', '', true, 'value.time', true, true, '', norefresh, false);
@@ -916,8 +916,13 @@ class NetatmoEnergy extends utils.Adapter {
 				role = 'level.timer';
 			} else if (rooms.test(id)) {
 				role = 'value.roomname';
-			} else if (object_name.indexOf('setpoint_temperature') >= 0) {
+				forced = true;
+			} else if (object_name.indexOf('open_window') >= 0) {
+				role = 'indicator.window';
+				forced = true;
+			} else if (object_name.indexOf('therm_setpoint_temperature') >= 0) {
 				role = 'valve.temperature';
+				forced = true;
 			} else if (object_name.indexOf('temperature') >= 0 || object_name.indexOf('temp') >= 0) {
 				role = 'value.temperature';
 			} else if (id.indexOf('coordinates.0') >= 0) {

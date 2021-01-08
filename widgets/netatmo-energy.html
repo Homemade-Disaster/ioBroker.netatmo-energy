@@ -1,7 +1,7 @@
 <!--
 	ioBroker.vis netatmo-energy Widget-Set
 
-	version: "0.0.2"
+	version: "0.0.3"
 
 	Copyright 2021 ioKlausi nii@gmx.at
 -->
@@ -17,13 +17,15 @@
 		data-vis-attrs="oid/id/getDynamicAttributes;
 										temp_oid/hidden;
 										act_oid/hidden;
+										win_oid/hidden;
 										title_oid/hidden;
 										xtxt[10]/slider,0,1024,1;
 										ytxt[120]/slider,0,768,1;
 										atxt[&room];
 										ctxt/color;
 										txtfont/fontname;
-										txtfontsize[large]/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
+										txtfontsize[large]/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;
+										show_win[true]/checkbox;"
 		data-vis-attrs0="group.frame;
 										brltop[15]/slider,0,25,1;
 										brrtop[0]/slider,0,25,1;
@@ -85,7 +87,7 @@
 
 				<!-- Show title -->
 				<div class="netatmo-title" id="<%= this.data.attr('wid') %>_title" style="position: absolute; left: <%== this.data.attr('xtxt') %>px; top: <%== this.data.attr('ytxt') %>px;">
-					<%= (el) -> vis.binds.netatmobasic.gettitle(el, this.data) %>
+					<%= (el) -> vis.binds.netatmobasic.gettitle(el, this.data.attr('wid'), this.data) %>
 				</div>
 
 				<!-- Show slider -->
