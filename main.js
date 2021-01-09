@@ -33,6 +33,7 @@ const APIRequest_synchomeschedule         = 'synchomeschedule';
 
 // Energy APP
 const Trigger_applychanges								= 'applychanges';
+const Trigger_refresh_all 								= 'refresh_structure';
 const Trigger_SetTemp                     = 'SetTemp';
 
 // Energy APP Channels / States
@@ -206,8 +207,7 @@ class NetatmoEnergy extends utils.Adapter {
 		const that = this;
 		const updateAPIStatus = async function () {
 			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + ' ', + refreshtime + mytools.tl('sec', that.systemLang));
-			await that.sendAPIRequest(APIRequest_homesdata, '',true);
-			await that.sendAPIRequest(APIRequest_homestatus, '',true);
+			await that.RefreshWholeStructure(true);
 		};
 		if (refreshtime && refreshtime > 0) {
 			that.log.info(mytools.tl('Refresh homestatus interval', that.systemLang) +' ' + refreshtime * 1000);
@@ -216,8 +216,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		//Start initial requests for adapter
 		await this.createEnergyAPP();
-		await this.sendAPIRequest(APIRequest_homesdata, '', false);
-		await this.sendAPIRequest(APIRequest_homestatus, '', false);
+		await this.RefreshWholeStructure(false);
 	}
 
 	// Create APP Requests device
@@ -295,6 +294,8 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.createMyChannel(this.globalAPIChannelTrigger, 'API setroomthermpoint');
 		await this.createNetatmoStructure(this.globalAPIChannelTrigger + '.' + Trigger_applychanges, 'trigger to send changes to Netatmo Cloud', false, true, 'button', true, true, '', false, false);
 		await this.subscribeStates(this.globalAPIChannelTrigger + '.' + Trigger_applychanges);
+		await this.createNetatmoStructure(this.globalAPIChannelTrigger + '.' + Trigger_refresh_all, 'trigger to refresh homestructure from Netatmo Cloud', false, true, 'button', true, true, '', false, false);
+		await this.subscribeStates(this.globalAPIChannelTrigger + '.' + Trigger_refresh_all);
 	}
 
 	//Send notification after request
@@ -555,12 +556,17 @@ class NetatmoEnergy extends utils.Adapter {
 			.then(async () => {
 				await that.sendRequestNotification(NetatmoRequest, InfoNotification, info, '');
 				if (that.config.getchangesimmediately) {
-					await that.sendAPIRequest(APIRequest_homesdata, '',false);
-					await that.sendAPIRequest(APIRequest_homestatus, '',false);
+					await that.RefreshWholeStructure(false);
 				}})
 			.catch(() => {
 				//that.log.debug('No refresh necessary because there where no changes! Changes=');
 			});
+	}
+
+	//Refresh whole structure
+	async RefreshWholeStructure (norefresh) {
+		await this.sendAPIRequest(APIRequest_homesdata, '',norefresh);
+		await this.sendAPIRequest(APIRequest_homestatus, '',norefresh);
 	}
 
 	//Apply request to API for temp
@@ -917,6 +923,12 @@ class NetatmoEnergy extends utils.Adapter {
 			} else if (rooms.test(id)) {
 				role = 'value.roomname';
 				forced = true;
+			} else if (object_name.indexOf('anticipating') >= 0) {
+				role = 'indicator.anticipating';
+				forced = true;
+			} else if (object_name.indexOf('reachable') >= 0) {
+				role = 'indicator.reachable';
+				forced = true;
 			} else if (object_name.indexOf('open_window') >= 0) {
 				role = 'indicator.window';
 				forced = true;
@@ -1156,6 +1168,16 @@ class NetatmoEnergy extends utils.Adapter {
 							this.setState(id, false, true);
 							this.sendSingleActualTemp(APIRequest_setthermmode, false);
 							break;
+
+						//Refresh whole structure
+						case Trigger_refresh_all:
+							if (state.val === false) {
+								break;
+							}
+							this.log.debug(mytools.tl('Refresh whole structure:', this.systemLang) + ' ' + id + ' - ' + state.val);
+							this.setState(id, false, true);
+							this.RefreshWholeStructure(false);
+							break;
 					}
 
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {
@@ -1179,6 +1201,7 @@ class NetatmoEnergy extends utils.Adapter {
 					case APIRequest_getroommeasure:
 					case APIRequest_getmeasure:
 					case Trigger_SetTemp:
+					case Trigger_refresh_all:
 					case Trigger_applychanges:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg:

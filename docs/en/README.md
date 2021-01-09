@@ -58,6 +58,7 @@ If a API request need Parameters you can find these in the channel "parameters" 
 
 ### Trigger
 * applychanges          ... transfer all manually changes of your valves to Netatmo Energy
+* refresh_structure     ... create request homesdata and homestatus in sequenz
 
 ### Update requests
 * setroomthermpoint     ... depending of the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
@@ -86,6 +87,9 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
 ## Changelog
+
+### 0.1.18
+* (ioKlausi) Separate icons for widget-signals created
 
 ### 0.1.17
 * (ioKlausi) Widget adapted for window opened, bugfix setroomthermpoint

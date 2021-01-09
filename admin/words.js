@@ -1168,6 +1168,18 @@ const _systemDictionary = {
 		"es": "'guardia de escarcha'",
 		"pl": "„ochrona przed mrozem”",
 		"zh-cn": "“防冻罩”"
+	},
+	"Refresh whole structure:": {
+		"en": "Refresh whole structure:",
+		"de": "Gesamte Struktur aktualisieren:",
+		"ru": "Обновить всю структуру:",
+		"pt": "Atualize toda a estrutura:",
+		"nl": "Vernieuw de hele structuur:",
+		"fr": "Rafraîchir toute la structure:",
+		"it": "Aggiorna l'intera struttura:",
+		"es": "Actualizar toda la estructura:",
+		"pl": "Odśwież całą strukturę:",
+		"zh-cn": "刷新整个结构："
 	}
 };
 

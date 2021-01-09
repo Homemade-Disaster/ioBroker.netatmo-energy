@@ -58,6 +58,7 @@ Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden
 
 ### Trigger
 * applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
+* refresh_structure     ... erzeuge die Requests homesdata und homestatus hintereinander
 
 ### Änderungs-Requests
 * setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen")
@@ -85,6 +86,9 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_de.png" alt="settingsAPI" width="250px"/>
 
 ## Änderungsprotokoll
+
+### 0.1.18
+* (ioKlausi) Separate Symbole für Widget-Signale erstellt
 
 ### 0.1.17
 * (ioKlausi) Widget angepasst für geöffnetes Fenster, Bugfix setroomthermpoint

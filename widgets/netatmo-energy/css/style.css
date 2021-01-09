@@ -7,7 +7,7 @@ span.wrapper {
 position:relative;
 display:block;
 }
-span.wrapper img.netatmo-logo {
+span.wrapper div.netatmo-pic-frame {
 display:block;
 position:absolute;
 }

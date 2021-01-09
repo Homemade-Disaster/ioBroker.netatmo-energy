@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.17",
+		"version": "0.1.18",
 		"news": {
+			"0.1.18": {
+		    "en": "Separate icons for widget-signals created",
+		    "de": "Separate Symbole für Widget-Signale erstellt",
+		    "ru": "Созданы отдельные иконки для виджетов-сигналов",
+		    "pt": "Ícones separados para sinais de widget criados",
+		    "nl": "Afzonderlijke pictogrammen voor gecreëerde widgetsignalen",
+		    "fr": "Icônes séparées pour les signaux de widget créés",
+		    "it": "Icone separate per widget-segnali creati",
+		    "es": "Iconos separados para señales de widget creadas",
+		    "pl": "Utworzone osobne ikony dla sygnałów widżetów",
+		    "zh-cn": "为小部件信号创建了单独的图标"
+		  },
 			"0.1.17": {
 			  "en": "widget adapted for window opened, bugfix setroomthermpoint",
 		    "de": "Widget angepasst für geöffnetes Fenster, Bugfix setroomthermpoint",

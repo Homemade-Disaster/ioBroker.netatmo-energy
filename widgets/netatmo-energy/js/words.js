@@ -15,6 +15,18 @@ systemDictionary = {
 		"pl": "Wymagany jest opis!",
 		"zh-cn": "需要说明！"
 	},
+	"oid": {
+		"en": "SetTemp datapoint",
+		"de": "SetTemp Datenpunkt",
+		"ru": "SetTemp датапоинт",
+		"pt": "Ponto de dados SetTemp",
+		"nl": "SetTemp datapunt",
+		"fr": "Point de données SetTemp",
+		"it": "SetTemp datapoint",
+		"es": "Punto de datos SetTemp",
+		"pl": "Punkt danych SetTemp",
+		"zh-cn": "SetTemp数据点"
+	},
 	"grpup_valve": {
 		"en": "Valve",
 		"de": "Ventil",
@@ -27,19 +39,55 @@ systemDictionary = {
 		"pl": "Zawór",
 		"zh-cn": "阀"
 	},
-	"picture": {
-		"en": "picture",
-		"de": "Bild",
-		"ru": "рисунок",
-		"pt": "cenário",
-		"nl": "afbeelding",
-		"fr": "image",
-		"it": "immagine",
-		"es": "imagen",
-		"pl": "obrazek",
-		"zh-cn": "图片"
+	"group_signals_widget": {
+		"en": "Warnings",
+		"de": "Warnungen",
+		"ru": "Предупреждения",
+		"pt": "Avisos",
+		"nl": "Waarschuwingen",
+		"fr": "Mises en garde",
+		"it": "Avvertenze",
+		"es": "Advertencias",
+		"pl": "Ostrzeżenia",
+		"zh-cn": "警告事项"
 	},
-	"xpic": {
+	"refr_oid": {
+		"en": "Refresh structure",
+		"de": "Struktur aktualisieren",
+		"ru": "Обновить структуру",
+		"pt": "Atualizar estrutura",
+		"nl": "Vernieuw de structuur",
+		"fr": "Actualiser la structure",
+		"it": "Aggiorna la struttura",
+		"es": "Actualizar estructura",
+		"pl": "Odśwież strukturę",
+		"zh-cn": "刷新结构"
+	},
+	"show_refresh": {
+		"en": "Show refresh",
+		"de": "Aktualisierung anzeigen",
+		"ru": "Показать обновить",
+		"pt": "Mostrar atualização",
+		"nl": "Toon vernieuwen",
+		"fr": "Afficher le rafraîchissement",
+		"it": "Mostra aggiornamento",
+		"es": "Mostrar actualización",
+		"pl": "Pokaż odśwież",
+		"zh-cn": "显示刷新"
+	},
+	"pic_refresh": {
+		"en": "refresh",
+		"de": "Aktualisierung",
+		"ru": "обновить",
+		"pt": "refrescar",
+		"nl": "vernieuwen",
+		"fr": "rafraîchir",
+		"it": "ricaricare",
+		"es": "actualizar",
+		"pl": "odświeżać",
+		"zh-cn": "刷新"
+	},
+	"xpos_refresh": {
 		"en": "left",
 		"de": "links",
 		"ru": "слева",
@@ -51,7 +99,7 @@ systemDictionary = {
 		"pl": "lewo",
 		"zh-cn": "剩下"
 	},
-	"ypic": {
+	"ypos_refresh": {
 		"en": "top",
 		"de": "oben",
 		"ru": "Топ",
@@ -63,31 +111,259 @@ systemDictionary = {
 		"pl": "Top",
 		"zh-cn": "最佳"
 	},
-	"wpic": {
-		"en": "width",
-		"de": "breite",
-		"ru": "ширина",
-		"pt": "largura",
-		"nl": "breedte",
-		"fr": "largeur",
-		"it": "larghezza",
-		"es": "anchura",
-		"pl": "szerokość",
-		"zh-cn": "宽度"
+	"size_refresh": {
+		"en": "Size",
+		"de": "Größe",
+		"ru": "Размер",
+		"pt": "Tamanho",
+		"nl": "Grootte",
+		"fr": "Taille",
+		"it": "Taglia",
+		"es": "Talla",
+		"pl": "Rozmiar",
+		"zh-cn": "尺寸"
 	},
-	"hpic": {
-		"en": "height",
-		"de": "höhe",
-		"ru": "высота",
-		"pt": "altura",
-		"nl": "hoogte",
-		"fr": "la taille",
-		"it": "altezza",
-		"es": "altura",
-		"pl": "wysokość",
-		"zh-cn": "高度"
+	"show_logo": {
+		"en": "Show Logo",
+		"de": "Logo anzeigen",
+		"ru": "Показать логотип",
+		"pt": "Mostrar logotipo",
+		"nl": "Logo weergeven",
+		"fr": "Afficher le logo",
+		"it": "Mostra logo",
+		"es": "Mostrar logotipo",
+		"pl": "Pokaż logo",
+		"zh-cn": "显示徽标"
 	},
-	"atxt": {
+	"pic_logo": {
+		"en": "Logo",
+		"de": "Logo",
+		"ru": "Логотип",
+		"pt": "Logotipo",
+		"nl": "Logo",
+		"fr": "Logo",
+		"it": "Logo",
+		"es": "Logo",
+		"pl": "Logo",
+		"zh-cn": "商标"
+	},
+	"xpos_logo": {
+		"en": "left",
+		"de": "links",
+		"ru": "слева",
+		"pt": "esquerda",
+		"nl": "links",
+		"fr": "la gauche",
+		"it": "sinistra",
+		"es": "izquierda",
+		"pl": "lewo",
+		"zh-cn": "剩下"
+	},
+	"ypos_logo": {
+		"en": "top",
+		"de": "oben",
+		"ru": "Топ",
+		"pt": "topo",
+		"nl": "top",
+		"fr": "Haut",
+		"it": "superiore",
+		"es": "parte superior",
+		"pl": "Top",
+		"zh-cn": "最佳"
+	},
+	"size_logo": {
+		"en": "Size",
+		"de": "Größe",
+		"ru": "Размер",
+		"pt": "Tamanho",
+		"nl": "Grootte",
+		"fr": "Taille",
+		"it": "Taglia",
+		"es": "Talla",
+		"pl": "Rozmiar",
+		"zh-cn": "尺寸"
+	},
+	"show_windowopen": {
+		"en": "Show 'open window'",
+		"de": "'Fenster geöffnet' anzeigen",
+		"ru": "Показать 'открытое окно'",
+		"pt": "Mostrar 'janela aberta'",
+		"nl": "Toon 'open venster'",
+		"fr": "Afficher 'fenêtre ouverte'",
+		"it": "Mostra 'finestra aperta'",
+		"es": "Mostrar 'ventana abierta'",
+		"pl": "Pokaż „otwarte okno”",
+		"zh-cn": "显示“打开的窗口”"
+	},
+	"pic_windowopen": {
+		"en": "Window open",
+		"de": "Fenster offen",
+		"ru": "Окно открыто",
+		"pt": "Janela aberta",
+		"nl": "Venster open",
+		"fr": "Fenêtre ouverte",
+		"it": "Finestra aperta",
+		"es": "Ventana abierta",
+		"pl": "Okno otwarte",
+		"zh-cn": "开窗"
+	},
+	"xpos_window": {
+		"en": "left",
+		"de": "links",
+		"ru": "слева",
+		"pt": "esquerda",
+		"nl": "links",
+		"fr": "la gauche",
+		"it": "sinistra",
+		"es": "izquierda",
+		"pl": "lewo",
+		"zh-cn": "剩下"
+	},
+	"ypos_window": {
+		"en": "top",
+		"de": "oben",
+		"ru": "Топ",
+		"pt": "topo",
+		"nl": "top",
+		"fr": "Haut",
+		"it": "superiore",
+		"es": "parte superior",
+		"pl": "Top",
+		"zh-cn": "最佳"
+	},
+	"size_window": {
+		"en": "Size",
+		"de": "Größe",
+		"ru": "Размер",
+		"pt": "Tamanho",
+		"nl": "Grootte",
+		"fr": "Taille",
+		"it": "Taglia",
+		"es": "Talla",
+		"pl": "Rozmiar",
+		"zh-cn": "尺寸"
+	},
+	"show_reachable": {
+		"en": "Show 'reachable'",
+		"de": "'erreichbar' anzeigen",
+		"ru": "Показать 'достижимо'",
+		"pt": "Mostrar 'alcançável'",
+		"nl": "Toon 'bereikbaar'",
+		"fr": "Afficher «accessible»",
+		"it": "Mostra 'raggiungibile'",
+		"es": "Mostrar 'accesible'",
+		"pl": "Pokaż „osiągalny”",
+		"zh-cn": "显示“可达”"
+	},
+	"pic_reachable": {
+		"en": "reachable",
+		"de": "Verbunden",
+		"ru": "достижимый",
+		"pt": "alcançável",
+		"nl": "bereikbaar",
+		"fr": "accessible",
+		"it": "raggiungibile",
+		"es": "accesible",
+		"pl": "osiągalny",
+		"zh-cn": "可达的"
+	},
+	"xpos_reachable": {
+		"en": "left",
+		"de": "links",
+		"ru": "слева",
+		"pt": "esquerda",
+		"nl": "links",
+		"fr": "la gauche",
+		"it": "sinistra",
+		"es": "izquierda",
+		"pl": "lewo",
+		"zh-cn": "剩下"
+	},
+	"ypos_reachable": {
+		"en": "top",
+		"de": "oben",
+		"ru": "Топ",
+		"pt": "topo",
+		"nl": "top",
+		"fr": "Haut",
+		"it": "superiore",
+		"es": "parte superior",
+		"pl": "Top",
+		"zh-cn": "最佳"
+	},
+	"size_reachhable": {
+		"en": "Size",
+		"de": "Größe",
+		"ru": "Размер",
+		"pt": "Tamanho",
+		"nl": "Grootte",
+		"fr": "Taille",
+		"it": "Taglia",
+		"es": "Talla",
+		"pl": "Rozmiar",
+		"zh-cn": "尺寸"
+	},
+	"show_anticipating": {
+		"en": "Show 'anticipating'",
+		"de": "'antizipieren' anzeigen",
+		"ru": "Шоу 'предвкушение'",
+		"pt": "Mostrar 'antecipação'",
+		"nl": "Toon 'anticiperen'",
+		"fr": "Montrer 'anticiper'",
+		"it": "Mostra 'anticipazione'",
+		"es": "Mostrar 'anticipando'",
+		"pl": "Pokaż „przewidywanie”",
+		"zh-cn": "显示“期待中”"
+	},
+	"pic_anticipating": {
+		"en": "anticipating",
+		"de": "Antizipation",
+		"ru": "ожидание",
+		"pt": "antecipando",
+		"nl": "anticiperen",
+		"fr": "anticipant",
+		"it": "anticipando",
+		"es": "anticipando",
+		"pl": "przewidywanie",
+		"zh-cn": "期待的"
+	},
+	"xpos_anticipating": {
+		"en": "left",
+		"de": "links",
+		"ru": "слева",
+		"pt": "esquerda",
+		"nl": "links",
+		"fr": "la gauche",
+		"it": "sinistra",
+		"es": "izquierda",
+		"pl": "lewo",
+		"zh-cn": "剩下"
+	},
+	"ypos_anticipating": {
+		"en": "top",
+		"de": "oben",
+		"ru": "Топ",
+		"pt": "topo",
+		"nl": "top",
+		"fr": "Haut",
+		"it": "superiore",
+		"es": "parte superior",
+		"pl": "Top",
+		"zh-cn": "最佳"
+	},
+	"size_anticipating": {
+		"en": "Size",
+		"de": "Größe",
+		"ru": "Размер",
+		"pt": "Tamanho",
+		"nl": "Grootte",
+		"fr": "Taille",
+		"it": "Taglia",
+		"es": "Talla",
+		"pl": "Rozmiar",
+		"zh-cn": "尺寸"
+	},
+	"alternativ_title": {
 		"en": "Roomname",
 		"de": "Raumname",
 		"ru": "Название комнаты",
@@ -124,18 +400,18 @@ systemDictionary = {
 		"zh-cn": "房间"
 	},
 	"group_picture": {
-		"en": "Picture",
-		"de": "Bild",
-		"ru": "Рисунок",
-		"pt": "Cenário",
-		"nl": "Afbeelding",
-		"fr": "Image",
-		"it": "Immagine",
-		"es": "Imagen",
-		"pl": "Obrazek",
-		"zh-cn": "图片"
+		"en": "Logo & API ",
+		"de": "Logo & API",
+		"ru": "Логотип и API",
+		"pt": "Logo e API",
+		"nl": "Logo en API",
+		"fr": "Logo et API",
+		"it": "Logo e API",
+		"es": "Logotipo y API",
+		"pl": "Logo i API",
+		"zh-cn": "徽标和API"
 	},
-	"xtxt": {
+	"xpos_title": {
 		"en": "left",
 		"de": "links",
 		"ru": "слева",
@@ -147,7 +423,7 @@ systemDictionary = {
 		"pl": "lewo",
 		"zh-cn": "剩下"
 	},
-	"ytxt": {
+	"ypos_title": {
 		"en": "top",
 		"de": "oben",
 		"ru": "Топ",
@@ -159,7 +435,7 @@ systemDictionary = {
 		"pl": "Top",
 		"zh-cn": "最佳"
 	},
-	"valveact": {
+	"valve_now": {
 		"en": "Valve temperature",
 		"de": "Ventiltemperatur",
 		"ru": "Температура клапана",
@@ -171,7 +447,7 @@ systemDictionary = {
 		"pl": "Temperatura zaworu",
 		"zh-cn": "阀门温度"
 	},
-	"valvesoll": {
+	"valve_target": {
 		"en": "Target temperature",
 		"de": "Solltemperatur",
 		"ru": "Целевая температура",
@@ -183,7 +459,7 @@ systemDictionary = {
 		"pl": "Temperatura docelowa",
 		"zh-cn": "目标温度"
 	},
-	"valveist": {
+	"valve_actual": {
 		"en": "Actual temperature",
 		"de": "Tatsächliche Temperatur",
 		"ru": "Фактическая температура",
@@ -219,7 +495,7 @@ systemDictionary = {
 		"pl": "Temperatura zaworu",
 		"zh-cn": "阀门温度"
 	},
-	"ctxt": {
+	"color_title": {
 		"en": "textcolor",
 		"de": "Textfarbe",
 		"ru": "цвет текста",
@@ -231,7 +507,7 @@ systemDictionary = {
 		"pl": "kolor tekstu",
 		"zh-cn": "文字颜色"
 	},
-	"catxt": {
+	"temperature_valve_color": {
 		"en": "textcolor",
 		"de": "Textfarbe",
 		"ru": "цвет текста",
@@ -243,7 +519,7 @@ systemDictionary = {
 		"pl": "kolor tekstu",
 		"zh-cn": "文字颜色"
 	},
-	"cstxt": {
+	"temperature_target_color": {
 		"en": "textcolor",
 		"de": "Textfarbe",
 		"ru": "цвет текста",
@@ -255,7 +531,7 @@ systemDictionary = {
 		"pl": "kolor tekstu",
 		"zh-cn": "文字颜色"
 	},
-	"citxt": {
+	"temperature_ist_color": {
 		"en": "textcolor",
 		"de": "Textfarbe",
 		"ru": "цвет текста",
@@ -279,7 +555,7 @@ systemDictionary = {
 		"pl": "Pokaż temperaturę",
 		"zh-cn": "显示温度"
 	},
-	"ctoparea": {
+	"frame_top_color": {
 		"en": "Top area",
 		"de": "Oberer Bereich",
 		"ru": "Верхняя область",
@@ -291,7 +567,7 @@ systemDictionary = {
 		"pl": "Górny obszar",
 		"zh-cn": "顶部区域"
 	},
-	"cbottomarea": {
+	"frame_bottom_color": {
 		"en": "Bottom area",
 		"de": "Unterer Bereich",
 		"ru": "Нижняя область",
@@ -303,7 +579,7 @@ systemDictionary = {
 		"pl": "Dolny obszar",
 		"zh-cn": "底部区域"
 	},
-	"brltop": {
+	"frame_left_top_radius": {
 		"en": "Radius top / left",
 		"de": "Radius oben / links",
 		"ru": "Радиус вверху / слева",
@@ -315,7 +591,7 @@ systemDictionary = {
 		"pl": "Promień góra / lewo",
 		"zh-cn": "半径上/左"
 	},
-	"brrtop": {
+	"frame_rigth_top_radius": {
 		"en": "Radius top / right",
 		"de": "Radius oben / rechts",
 		"ru": "Радиус вверху / справа",
@@ -327,7 +603,7 @@ systemDictionary = {
 		"pl": "Promień góra / prawo",
 		"zh-cn": "半径上/右"
 	},
-	"brlbottom": {
+	"frame_left_bottom_radius": {
 		"en": "Radius bottom / left",
 		"de": "Radius unten / links",
 		"ru": "Радиус внизу / слева",
@@ -339,7 +615,7 @@ systemDictionary = {
 		"pl": "Promień dół / lewo",
 		"zh-cn": "半径底/左"
 	},
-	"brrbottom": {
+	"frame_right_bottom_radius": {
 		"en": "Radius bottom / right",
 		"de": "Radius unten / rechts",
 		"ru": "Радиус внизу / справа",
@@ -459,7 +735,7 @@ systemDictionary = {
 		"pl": "submitmethod",
 		"zh-cn": "提交方法"
 	},
-	"valveactbehind": {
+	"valve_now_behind": {
 		"en": "add behind",
 		"de": "hinten hinzufügen",
 		"ru": "добавить позади",
@@ -471,7 +747,7 @@ systemDictionary = {
 		"pl": "dodaj za",
 		"zh-cn": "加在后面"
 	},
-	"valvesollbehind": {
+	"valve_target_behind": {
 		"en": "add behind",
 		"de": "hinten hinzufügen",
 		"ru": "добавить позади",
@@ -483,7 +759,7 @@ systemDictionary = {
 		"pl": "dodaj za",
 		"zh-cn": "加在后面"
 	},
-	"valveistbehind": {
+	"valve_actual_behind": {
 		"en": "add behind",
 		"de": "hinten hinzufügen",
 		"ru": "добавить позади",
@@ -495,7 +771,7 @@ systemDictionary = {
 		"pl": "dodaj za",
 		"zh-cn": "加在后面"
 	},
-	"topvalve": {
+	"top_valve": {
 		"en": "top",
 		"de": "oben",
 		"ru": "Топ",
@@ -507,7 +783,7 @@ systemDictionary = {
 		"pl": "Top",
 		"zh-cn": "最佳"
 	},
-	"leftvalve": {
+	"left_valve": {
 		"en": "left",
 		"de": "links",
 		"ru": "слева",
@@ -519,7 +795,7 @@ systemDictionary = {
 		"pl": "lewo",
 		"zh-cn": "剩下"
 	},
-	"topslider": {
+	"top_slider": {
 		"en": "top",
 		"de": "oben",
 		"ru": "Топ",
@@ -531,7 +807,7 @@ systemDictionary = {
 		"pl": "Top",
 		"zh-cn": "最佳"
 	},
-	"leftslider": {
+	"left_slider": {
 		"en": "left",
 		"de": "links",
 		"ru": "слева",
@@ -543,7 +819,7 @@ systemDictionary = {
 		"pl": "lewo",
 		"zh-cn": "剩下"
 	},
-	"widthslider": {
+	"width_slider": {
 		"en": "width",
 		"de": "breite",
 		"ru": "ширина",
@@ -555,7 +831,7 @@ systemDictionary = {
 		"pl": "szerokość",
 		"zh-cn": "宽度"
 	},
-	"tempfont": {
+	"temperature_font": {
 		"en": "Fontname",
 		"de": "Schriftartenname",
 		"ru": "Название шрифта",
@@ -567,7 +843,7 @@ systemDictionary = {
 		"pl": "Nazwa czcionki",
 		"zh-cn": "字体名称"
 	},
-	"tempfontsize": {
+	"temperature_fontsize": {
 		"en": "fontsize",
 		"de": "Schriftgröße",
 		"ru": "размер шрифта",
@@ -579,7 +855,7 @@ systemDictionary = {
 		"pl": "rozmiar czcionki",
 		"zh-cn": "字体大小"
 	},
-	"txtfont": {
+	"title_font": {
 		"en": "Fontname",
 		"de": "Schriftartenname",
 		"ru": "Название шрифта",
@@ -591,7 +867,7 @@ systemDictionary = {
 		"pl": "Nazwa czcionki",
 		"zh-cn": "字体名称"
 	},
-	"txtfontsize": {
+	"title_fontsize": {
 		"en": "fontsize",
 		"de": "Schriftgröße",
 		"ru": "размер шрифта",
@@ -615,16 +891,40 @@ systemDictionary = {
 		"pl": "Zaktualizuj API",
 		"zh-cn": "更新API"
 	},
-	"show_win": {
-		"en": "Show window open sign",
-		"de": "zeige 'Fenster offen'",
-		"ru": "Показать знак открытого окна",
-		"pt": "Mostrar sinal de janela aberta",
-		"nl": "Toon venster open teken",
-		"fr": "Afficher le signe d'ouverture de la fenêtre",
-		"it": "Mostra il segno di finestra aperta",
-		"es": "Mostrar signo de ventana abierta",
-		"pl": "Pokaż znak otwartego okna",
-		"zh-cn": "显示窗口打开标志"
+	"position_target": {
+		"en": "Line number",
+		"de": "Zeilennummer",
+		"ru": "Номер строчки",
+		"pt": "Número da linha",
+		"nl": "Regelnummer",
+		"fr": "Numéro de ligne",
+		"it": "Numero di riga",
+		"es": "Número de línea",
+		"pl": "Numer kolejki",
+		"zh-cn": "电话号码"
+	},
+	"position_actual": {
+		"en": "Line number",
+		"de": "Zeilennummer",
+		"ru": "Номер строчки",
+		"pt": "Número da linha",
+		"nl": "Regelnummer",
+		"fr": "Numéro de ligne",
+		"it": "Numero di riga",
+		"es": "Número de línea",
+		"pl": "Numer kolejki",
+		"zh-cn": "电话号码"
+	},
+	"position_now": {
+		"en": "Line number",
+		"de": "Zeilennummer",
+		"ru": "Номер строчки",
+		"pt": "Número da linha",
+		"nl": "Regelnummer",
+		"fr": "Numéro de ligne",
+		"it": "Numero di riga",
+		"es": "Número de línea",
+		"pl": "Numer kolejki",
+		"zh-cn": "电话号码"
 	}
 };
