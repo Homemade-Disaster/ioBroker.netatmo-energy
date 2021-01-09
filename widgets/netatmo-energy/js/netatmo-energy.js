@@ -75,6 +75,19 @@ function buildtitle(data) {
 	return ((roomtitle) ? ('<p style="white-space: nowrap;' + textfont + title_fontsize + txtcolor + '">' + roomtitle + '</p>') : ('<p> Please insert SetTemp-ID in setup </p>'));
 }
 
+// Build running
+function buildrunning(data) {
+	const icon_img = (data.pic_running) ? (data.pic_running) : ('widgets/netatmo-energy/img/running.png');
+	let show_image = '';
+
+	if (data.running_oid) {
+		if(vis.states.attr(data.running_oid + '.val') === true) {
+			show_image = '<img class="netatmo-pic-running" style="width: ' + data.size_running + 'px; height: auto;" src="' + icon_img + '" alt="window open"></img>';
+		}
+	}
+	return (show_image);
+}
+
 // Build window open
 function buildwindowopen(data) {
 	const icon_img = (data.pic_windowopen) ? (data.pic_windowopen) : ('widgets/netatmo-energy/img/window_open.png');
@@ -112,13 +125,13 @@ function buildanticipating(data) {
 function buildlogo(data) {
 	const icon_img = (data.pic_logo) ? (data.pic_logo) : ('widgets/netatmo-energy/img/valve_white.png' );
 	let show_image = '';
-	let border_image = '';
+	let border_class = 'class="netatmo-pic-logo"';
 
 	if (data.upd_oid) {
-		border_image = 'padding: 2px; box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); cursor: grap;';
+		border_class = 'class="netatmo-pic-action"';
 	}
 	if (data.show_logo == true || data.show_logo === 'true') {
-		show_image = '<img class="netatmo-pic-logo" style="width: ' + data.size_logo + 'px; height: auto;' + border_image + '" src="' + icon_img + '" alt="logo valve"></img>';
+		show_image = '<img ' + border_class + ' style="width: ' + data.size_logo + 'px; height: auto;" src="' + icon_img + '" alt="logo valve"></img>';
 	}
 	return (show_image);
 }
@@ -127,12 +140,11 @@ function buildlogo(data) {
 function buildrefresh(data) {
 	const icon_img = (data.pic_refresh) ? (data.pic_refresh) : ('widgets/netatmo-energy/img/refresh.png' );
 	let show_image = '';
-	let border_image = '';
+	let border_class = 'class="netatmo-pic-action"';
 
 	if (data.refr_oid) {
-		border_image = 'padding: 2px; box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); cursor: grap;';
 		if (data.show_refresh == true || data.show_refresh === 'true') {
-			show_image = '<img class="netatmo-pic-logo" style="width: ' + data.size_refresh + 'px; height: auto;' + border_image + '" src="' + icon_img + '" alt="refresh"></img>';
+			show_image = '<img ' + border_class + ' style="width: ' + data.size_refresh + 'px; height: auto;" src="' + icon_img + '" alt="refresh"></img>';
 		}
 	}
 	return (show_image);
@@ -323,6 +335,30 @@ vis.binds.netatmobasic = {
 	},
 
 	//create window open
+	getrunning: function(el, wid, data) {
+		let bound = [];
+		let $wid = $('#' + wid);
+		const element = $(el);
+		element.html(buildrunning(data));
+
+		function onChange() {
+			element.html(buildrunning(data));
+		}
+
+		if (data.running_oid) {
+			vis.states.bind(data.running_oid + '.val', onChange);
+			bound.push(data.running_oid + '.val');
+		}
+
+		if (bound.length) {
+			// remember all ids, that bound
+			$wid.data('bound', bound);
+			// remember bind handler
+			$wid.data('bindHandler', onChange);
+		}
+	},
+
+	//create window open
 	getwindowopen: function(el, wid, data) {
 		let bound = [];
 		let $wid = $('#' + wid);
@@ -487,6 +523,11 @@ vis.binds['netatmo-energy'] = {
 										changed.push('upd_oid');
 										vis.views[view].widgets[wid].data.upd_oid = result[r].substring(0, position + 1) + 'energyAPP.trigger.applychanges';
 										vis.widgets[wid].data.upd_oid = result[r].substring(0, position + 1) + 'energyAPP.trigger.applychanges';
+									}
+									if (!vis.views[view].widgets[wid].data.running_oid) {
+										changed.push('running_oid');
+										vis.views[view].widgets[wid].data.running_oid = result[r].substring(0, position + 1) + 'energyAPP.status.running';
+										vis.widgets[wid].data.running_oid = result[r].substring(0, position + 1) + 'energyAPP.status.running';
 									}
 								}
 								break;

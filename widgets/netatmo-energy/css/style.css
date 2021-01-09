@@ -2,7 +2,6 @@
 .netatmo-energy-class {
 	font-style: normal;
 }
-
 span.wrapper {
 position:relative;
 display:block;
@@ -11,12 +10,25 @@ span.wrapper div.netatmo-pic-frame {
 display:block;
 position:absolute;
 }
-
 p {
    margin: 0px;
    padding: 0px;
 }
-
+.netatmo-pic-action {
+	padding: 2px;
+	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+	cursor: pointer;
+}
+.netatmo-pic-action:hover {
+	padding: 3px;
+	box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.5);
+	cursor: grab;
+}
+.netatmo-pic-action:active {
+	padding: 1px;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	cursor: grabbing;
+}
 .netatmo-title {
 	text-align: left;
 	white-space: nowrap;
@@ -26,7 +38,6 @@ p {
 	font-style: normal;
 	display: inline-block;
 }
-
 .netatmo-borderbutton {
 	position:absolute;
 	border: none;
@@ -42,26 +53,11 @@ p {
 	opacity: 1;
   filter: alpha(opacity=50);
 }
-
 .netatmo-borderbutton-top {
 	height: 75%;
 	width: 100%;
 }
-
-.netatmo-borderbutton-top:hover {
-  background-color: white;
-	height: 75%;
-	width: 100%;
-}
-
 .netatmo-borderbutton-bottom {
-	top: 76%;
-	height: 25%;
-	width: 100%;
-}
-
-.netatmo-borderbutton-bottom:hover {
-  background-color: white;
 	top: 76%;
 	height: 25%;
 	width: 100%;
@@ -70,7 +66,6 @@ p {
 /* The slider */
 .netatmo-slidergroup {
 }
-
 .netatmoSlider {
   -webkit-appearance: none;  /* Override default CSS styles */
   /*appearance: none;*/
@@ -83,12 +78,10 @@ p {
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
   transition: opacity .2s;
 }
-
 /* Mouse-over effects */
 .slider:hover {
   opacity: 1; /* Fully shown on mouse-over */
 }
-
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
@@ -99,7 +92,6 @@ p {
   background: #4CAF50; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
-
 .slider::-moz-range-thumb {
 	width: 30px; /* Set a specific slider handle width */
 	height: 30px;

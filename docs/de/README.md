@@ -63,6 +63,9 @@ Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden
 ### Änderungs-Requests
 * setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen")
 
+### Status
+* running               ... hier kann man erkenne ob derzeit ein API Request läuft
+
 ### Requeststruktur
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP_measure.png" alt="settingsLogin" width="80%"/><img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="80%"/>
 

@@ -51,6 +51,54 @@ systemDictionary = {
 		"pl": "Ostrzeżenia",
 		"zh-cn": "警告事项"
 	},
+	"pic_running": {
+		"en": "active now",
+		"de": "jetzt aktiv",
+		"ru": "в данный момент активен",
+		"pt": "ativo agora",
+		"nl": "nu actief",
+		"fr": "actif maintenant",
+		"it": "attivo ora",
+		"es": "activo ahora",
+		"pl": "aktywne teraz",
+		"zh-cn": "现在激活"
+	},
+	"xpos_running": {
+		"en": "left",
+		"de": "links",
+		"ru": "слева",
+		"pt": "esquerda",
+		"nl": "links",
+		"fr": "la gauche",
+		"it": "sinistra",
+		"es": "izquierda",
+		"pl": "lewo",
+		"zh-cn": "剩下"
+	},
+	"ypos_running": {
+		"en": "top",
+		"de": "oben",
+		"ru": "Топ",
+		"pt": "topo",
+		"nl": "top",
+		"fr": "Haut",
+		"it": "superiore",
+		"es": "parte superior",
+		"pl": "Top",
+		"zh-cn": "最佳"
+	},
+	"size_running": {
+		"en": "Size",
+		"de": "Größe",
+		"ru": "Размер",
+		"pt": "Tamanho",
+		"nl": "Grootte",
+		"fr": "Taille",
+		"it": "Taglia",
+		"es": "Talla",
+		"pl": "Rozmiar",
+		"zh-cn": "尺寸"
+	},
 	"refr_oid": {
 		"en": "Refresh structure",
 		"de": "Struktur aktualisieren",
@@ -544,15 +592,15 @@ systemDictionary = {
 		"zh-cn": "文字颜色"
 	},
 	"group_temp": {
-		"en": "Show temperature",
-		"de": "Temperatur anzeigen",
-		"ru": "Показать температуру",
-		"pt": "Mostrar temperatura",
-		"nl": "Toon temperatuur",
-		"fr": "Afficher la température",
-		"it": "Mostra la temperatura",
-		"es": "Mostrar temperatura",
-		"pl": "Pokaż temperaturę",
+		"en": "Show temperatures",
+		"de": "Temperaturen anzeigen",
+		"ru": "Показать температуры",
+		"pt": "Mostrar temperaturas",
+		"nl": "Toon temperaturen",
+		"fr": "Afficher les températures",
+		"it": "Mostra le temperature",
+		"es": "Mostrar temperaturas",
+		"pl": "Pokaż temperatury",
 		"zh-cn": "显示温度"
 	},
 	"frame_top_color": {
@@ -640,20 +688,20 @@ systemDictionary = {
 		"zh-cn": "设计"
 	},
 	"group_slider": {
-		"en": "Slider",
-		"de": "Schieberegler",
-		"ru": "Слайдер",
-		"pt": "Slider",
-		"nl": "Schuifregelaar",
-		"fr": "Glissière",
-		"it": "Slider",
-		"es": "Deslizador",
-		"pl": "Suwak",
-		"zh-cn": "滑杆"
+		"en": "Temperature controller",
+		"de": "Temperaturregler",
+		"ru": "Регулятор температуры",
+		"pt": "Controlador de temperatura",
+		"nl": "Temperatuurregelaar",
+		"fr": "Contrôleur de température",
+		"it": "Regolatore di temperatura",
+		"es": "Controlador de temperatura",
+		"pl": "Kontroler temperatury",
+		"zh-cn": "温度控制器"
 	},
 	"min": {
 		"en": "minimum",
-		"de": "Minimum",
+		"de": "minimum",
 		"ru": "минимум",
 		"pt": "mínimo",
 		"nl": "minimum",
@@ -665,7 +713,7 @@ systemDictionary = {
 	},
 	"max": {
 		"en": "maximum",
-		"de": "maximal",
+		"de": "maximum",
 		"ru": "максимум",
 		"pt": "máximo",
 		"nl": "maximum",
@@ -833,7 +881,7 @@ systemDictionary = {
 	},
 	"temperature_font": {
 		"en": "Fontname",
-		"de": "Schriftartenname",
+		"de": "Schriftart",
 		"ru": "Название шрифта",
 		"pt": "Nome da fonte",
 		"nl": "Lettertype",

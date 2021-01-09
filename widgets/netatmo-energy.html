@@ -35,7 +35,7 @@
 										min[6]/number;
 										max[30]/number;
 										step[0.5]/number;
-										orientation/nselect,horizontal,vertical;
+										orientation[horizontal]/nselect,horizontal,vertical;
 										inverted/checkbox;
 										submitmethod[stop]/nselect,scroll,stop;
 										top_slider[30]/slider,0,1024,1;
@@ -72,24 +72,29 @@
 										size_refresh[15]/slider,0,300,1;
 										show_refresh[true]/checkbox;"
 		data-vis-attrs4="group.signals_widget;
-										windowopen_oid/hidden;
-										pic_windowopen/image;
-										xpos_window[215]/slider,0,1024,1;
-										ypos_window[120]/slider,0,768,1;
-										size_window[20]/slider,0,300,1;
-										show_windowopen[true]/checkbox;
 										reachable_oid/hidden;
 										pic_reachable/image;
-										xpos_reachable[160]/slider,0,1024,1;
-										ypos_reachable[119]/slider,0,768,1;
+										xpos_reachable[161]/slider,0,1024,1;
+										ypos_reachable[120]/slider,0,768,1;
 										size_reachhable[20]/slider,0,300,1;
 										show_reachable[true]/checkbox;
 										anticipating_oid/hidden;
 										pic_anticipating/image;
-										xpos_anticipating[190]/slider,0,1024,1;
-										ypos_anticipating[122]/slider,0,768,1;
+										xpos_anticipating[185]/slider,0,1024,1;
+										ypos_anticipating[123]/slider,0,768,1;
 										size_anticipating[15]/slider,0,300,1;
-										show_anticipating[true]/checkbox;"
+										show_anticipating[true]/checkbox;
+										windowopen_oid/hidden;
+										pic_windowopen/image;
+										xpos_window[205]/slider,0,1024,1;
+										ypos_window[121]/slider,0,768,1;
+										size_window[20]/slider,0,300,1;
+										show_windowopen[true]/checkbox;
+										running_oid/hidden;
+										pic_running/image;
+										xpos_running[230]/slider,0,1024,1;
+										ypos_running[122]/slider,0,768,1;
+										size_running[18]/slider,0,300,1;"
 		data-vis-set="netatmo-energy"
 		data-vis-type="ctrl,val"
 		data-vis-name="Thermostat">
@@ -124,6 +129,9 @@
 				</div>
 				<div class="netatmo-pic-frame" id="<%= this.data.attr('wid') %>_anti" style="left: <%== this.data.attr('xpos_anticipating') %>px; top: <%== this.data.attr('ypos_anticipating') %>px;">
 					<%= (el) -> vis.binds.netatmobasic.getanticipating(el, this.data.attr('wid'), this.data) %>
+				</div>
+				<div class="netatmo-pic-frame" id="<%= this.data.attr('wid') %>_running" style="left: <%== this.data.attr('xpos_running') %>px; top: <%== this.data.attr('ypos_running') %>px;">
+					<%= (el) -> vis.binds.netatmobasic.getrunning(el, this.data.attr('wid'), this.data) %>
 				</div>
 
 				<!-- Show title -->

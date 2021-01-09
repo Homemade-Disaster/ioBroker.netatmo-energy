@@ -46,12 +46,13 @@ const Channel_getroommeasure							= 'getroommeasure';
 const Channel_getmeasure									= 'getmeasure';
 
 const Channel_setthermmode					  		= 'setthermmode';
+const Channel_status											= 'status';
 const Channel_trigger											= 'trigger';
 const Channel_switchhomeschedule					= 'switchhomeschedule';
 const Channel_synchomeschedule						= 'synchomeschedule';
 const Channel_parameters									= 'parameters';
 
-const Channel_status											= 'status';
+const Channel_Status_API_running					= 'status';
 const Channel_settings										= 'settings';
 const Channel_modulestatus								= 'modulestatus';
 
@@ -77,6 +78,7 @@ const State_optimize											= 'optimize';
 const State_real_time											= 'real_time';
 const State_response											= 'response';
 const State_Time_Exec											= 'time_exec';
+const State_Status_API_running						= 'running';
 
 //Value lists
 const List_mode														= '{"manual": "manual temperature", "max": "maximum temperature", "hq": "frost guardian temperature", "home": "home temperature" }';
@@ -114,6 +116,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalDevice               = null;
 		this.globalAPIChannel           = null;
 		this.globalAPIChannelTrigger    = null;
+		this.globalAPIStatus				    = null;
 		this.globalNetatmo_AccessToken  = null;
 		this.globalRefreshToken         = null;
 		this.globalNetatmo_ExpiresIn    = 0;
@@ -168,6 +171,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalDevice              = this.namespace + '.' + Device_APIRequests;
 		this.globalAPIChannel          = this.namespace + '.' + Device_APIRequests + '.' + Channel_APIRequests;
 		this.globalAPIChannelTrigger   = this.namespace + '.' + Device_APIRequests + '.' + Channel_trigger;
+		this.globalAPIChannelStatus    = this.namespace + '.' + Device_APIRequests + '.' + Channel_Status_API_running;
 
 		this.telegram = {
 			type: 'message',
@@ -296,6 +300,8 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.subscribeStates(this.globalAPIChannelTrigger + '.' + Trigger_applychanges);
 		await this.createNetatmoStructure(this.globalAPIChannelTrigger + '.' + Trigger_refresh_all, 'trigger to refresh homestructure from Netatmo Cloud', false, true, 'button', true, true, '', false, false);
 		await this.subscribeStates(this.globalAPIChannelTrigger + '.' + Trigger_refresh_all);
+		await this.createMyChannel(this.globalAPIChannelStatus, 'API Request status');
+		await this.createNetatmoStructure(this.globalAPIChannelStatus + '.' + State_Status_API_running, 'API running status ', false, true, 'indicator', false, true, '', false, true);
 	}
 
 	//Send notification after request
@@ -340,13 +346,16 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	// Send API inkluding tokenrequest
-	async sendAPIRequest(APIRequest, setpayload, norefresh) {
+	async sendAPIRequest(APIRequest, setpayload, norefresh, lastrequest) {
 		const Netatmo_Path = this.namespace;
 
 		// Refresh the token after it nearly expires
 		const expirationTimeInSeconds = this.globalNetatmo_ExpiresIn;
 		const nowInSeconds = (new Date()).getTime() / 1000;
 		const shouldRefresh = nowInSeconds >= expirationTimeInSeconds;
+
+		this.log.debug('Start refresh request');
+		await this.setState(this.globalAPIChannelStatus + '.' + State_Status_API_running, true, true);
 
 		//Send Token request to API
 		if (shouldRefresh || !this.globalNetatmo_AccessToken) {
@@ -397,11 +406,18 @@ class NetatmoEnergy extends utils.Adapter {
 							this.log.debug(mytools.tl('API changes applied', this.systemLang) + ' ' + APIRequest);
 					}
 					this.log.debug(mytools.tl('API request finished', this.systemLang));
+					if (lastrequest) {
+						await this.setState(this.globalAPIChannelStatus + '.' + State_Status_API_running, false, true);
+					}
 				})
 				.catch(error => {
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ' ' + error.error + ': ' + error.error_description);
 					this.sendRequestNotification(null, ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang), error.error + ': ' + error.error_description);
 				});
+		} else {
+			if (lastrequest) {
+				await this.setState(this.globalAPIChannelStatus + '.' + State_Status_API_running, false, true);
+			}
 		}
 	}
 
@@ -431,13 +447,13 @@ class NetatmoEnergy extends utils.Adapter {
 		if ((gateway_types.match(/&/g) || []).length != 1) {
 			gateway_types = '&gateway_types=' + APIRequest_homesdata_NAPlug;
 		}
-		await this.sendAPIRequest(APIRequest, gateway_types, norefresh);
+		await this.sendAPIRequest(APIRequest, gateway_types, norefresh, true);
 	}
 
 	// send homesdata API Request
 	async sendHomestatusAPIRequest (APIRequest, norefresh) {
 		const device_types = await this.getValuefromDatapoint('&device_types=', this.globalAPIChannel + '.' + Channel_homestatus + '.' + Channel_parameters + '.' + State_device_types);
-		await this.sendAPIRequest(APIRequest, device_types, norefresh);
+		await this.sendAPIRequest(APIRequest, device_types, norefresh, true);
 	}
 
 	// send getroomsmeasure API Request
@@ -455,7 +471,7 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&limit=',      this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_limit);
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&optimize=',   this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_optimize);
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&real_time=',  this.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_real_time);
-			await this.sendAPIRequest(APIRequest, measure_payload, norefresh);
+			await this.sendAPIRequest(APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getroosmeasure request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang), mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
@@ -476,7 +492,7 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&limit=',      this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_limit);
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&optimize=',   this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_optimize);
 			measure_payload = measure_payload +	await this.getValuefromDatapoint('&real_time=',  this.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_real_time);
-			await this.sendAPIRequest(APIRequest, measure_payload, norefresh);
+			await this.sendAPIRequest(APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getmeasure request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang), mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
@@ -490,7 +506,7 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 
 				const createAPIasync = async function(NetatmoRequest, mode, that) {
-					await that.sendAPIRequest(NetatmoRequest, mode, false);
+					await that.sendAPIRequest(NetatmoRequest, mode, false, true);
 					resolve(true);
 				};
 
@@ -565,8 +581,8 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Refresh whole structure
 	async RefreshWholeStructure (norefresh) {
-		await this.sendAPIRequest(APIRequest_homesdata, '',norefresh);
-		await this.sendAPIRequest(APIRequest_homestatus, '',norefresh);
+		await this.sendAPIRequest(APIRequest_homesdata, '', norefresh, false);
+		await this.sendAPIRequest(APIRequest_homestatus, '', norefresh, true);
 	}
 
 	//Apply request to API for temp
@@ -590,7 +606,7 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 				await this.setState(actParent + '.' + Channel_settings + '.' + State_TempChanged_Endtime, '', true);
 			}
-			await this.sendAPIRequest(NetatmoRequest, extend_payload,false);
+			await this.sendAPIRequest(NetatmoRequest, extend_payload, false, true);
 			return true;
 		} else {
 			return false;
@@ -601,7 +617,7 @@ class NetatmoEnergy extends utils.Adapter {
 	async applySingleActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
 		await this.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode);
 		if (this.config.getchangesimmediately) {
-			await this.sendAPIRequest(APIRequest_homestatus, '',false);
+			await this.sendAPIRequest(APIRequest_homestatus, '', false, true);
 		}
 	}
 
@@ -614,7 +630,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		if ((syncmode.match(/&/g) || []).length == 4) {
 			syncmode = syncmode +	await this.getValuefromDatapoint('&schedule_id=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id);
-			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh);
+			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error('API-synchomeschedule request is missing parameters');
 			await this.sendRequestNotification(null, WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters', 'Actual payload: ' + syncmode);
