@@ -14,7 +14,7 @@
 
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
-## Reqirements & configuration
+## Requirements & configuration
 Netatmo Energy hardware (thermostat, valves)
 Account at Netatmo Cloud
 - Adapter is working with admin => 3 and nodejs >= 10
@@ -28,11 +28,11 @@ Account at Netatmo Cloud
 		- you will get a response including your home id
 		- copy it to your adapter config
 	- insert your user and password from Netatmo Cloud to your adapter config
-	- choose "generell settings options" and "Save and close" the adapter config
+	- choose "general settings options" and "Save and close" the adapter config
 		- apply temperature immediately ... send API request after changing "SetTemp" object
 		- read API states immediately ... send API homestatus request after changing fields in API
 		- Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
-  - As an option you can activate the notification assistant. Therefore you have to activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get informations, warnings and errors.
+  - As an option you can activate the notification assistant. Therefore, you have to activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get informations, warnings and errors.
 
 A detailed description is available on adapter wiki (https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki).
 
@@ -47,23 +47,23 @@ It also creates a device called "energyAPP" including channels "APIRequests", "t
 
 ### API Requests
 * homesdata             ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter as default).You can set specific parameters.
-* homestatus            ... get the status and the technical informations of your valves assigned in your rooms. If you want to get informations of a specific device type you can choose specific parameters.
+* homestatus            ... get the status and the technical information of your valves assigned in your rooms. If you want to get the information of a specific device type you can choose specific parameters.
 * getroommeasure        ... Retrieve data history of a room. The response of this request will be stored in the response field.
-* getmeasure            ... Retrieve boiler historycal data. The response of this request will be stored in the response field.
-* setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default).  
+* getmeasure            ... Retrieve boiler historical data. The response of this request will be stored in the response field.
+* setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)  
 * setthermmode_hq       ... set the mode of your Netatmo Energy to hq (freeze mode)
 * setthermmode_away     ... set the mode of your Netatmo Energy to away (from home)
 * switchhomeschedule    ... set the schedule mode of all available schedule types. All possible combinations of the API request an its parameters are listed in channel switchhomeschedule as separate API requests.
 * synchomeschedule      ... set the thermostat schedule of a home. To edit a particular schedule, you need to enter the schedule_id, if you don't specify one, the modification will be applied to the current schedule. Please specify the necessary parameters and send the request using synchomeschedule.
 
-If a API request need Parameters you can find these in the channel "parameters" in the corresponding API request channel.
+If an API request need parameters, you can find these in the channel "parameters" in the corresponding API request channel.
 
 ### Trigger
 * applychanges          ... transfer all manually changes of your valves to Netatmo Energy
 * refresh_structure     ... create request homesdata and homestatus in sequenz
 
 ### Update requests
-* setroomthermpoint     ... depending of the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
+* setroomthermpoint     ... depending on the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges")
 
 ### Status
 * running               ... here you can see if API Requests are running right now
@@ -73,8 +73,8 @@ If a API request need Parameters you can find these in the channel "parameters" 
 
 ## Build structure
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
-It will automatically built up the whole homes-structure, and also the actual status of your valves.
-Depending an the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
+It will automatically be built up the whole homes-structure, and also the actual status of your valves.
+Depending on the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
 
 ## Notifications
 If you have activated a notification service in the adapter configuration you get specific messages using a notification service.
@@ -87,7 +87,7 @@ Please insert the necessary informations to connect to the service you choose.
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
 ## Widget
-Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other informations dynamically out of the "rooms"-structure.
+Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other fields dynamically out of the "rooms"-structure.
 
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
@@ -97,10 +97,10 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 * (ioKlausi) Separate icons for widget-signals created
 
 ### 0.1.17
-* (ioKlausi) Widget adapted for window opened, bugfix setroomthermpoint
+* (ioKlausi) Widget adapted for window opened, bug fixing setroomthermpoint
 
 ### 0.1.16
-* (ioKlausi) Bugfixing
+* (ioKlausi) Bug fixing
 
 ### 0.1.15
 * (ioKlausi) Widget for valve added
@@ -109,7 +109,7 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 * (ioKlausi) Notification services added
 
 ### 0.1.13
-* (ioKlausi) Bugfixing token expiring
+* (ioKlausi) Bug fixing token expiring
 
 ### 0.1.12
 * (ioKlausi) Redesign coding, add sentry, check token expiring
@@ -124,7 +124,7 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 * (ioKlausi) Add API request synchomeschedule for manual use
 
 ### 0.1.8
-* (ioKlausi) Add API request switchhomeschedule dynamicly
+* (ioKlausi) Add API request switchhomeschedule dynamically
 
 ### 0.1.7
 * (ioKlausi) Change role logic
@@ -148,7 +148,7 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 * (ioKlausi) Send API homestatus request immediately  
 
 ### 0.1.0
-* (ioKlausi) Bugfixing and publishing adapter  
+* (ioKlausi) Bug fixing and publishing adapter  
 
 ### 0.0.6
 * (ioKlausi) Fixed adapter for latest repository
@@ -160,7 +160,7 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 * (ioKlausi) Changed creation of API request folder
 
 ### 0.0.3
-* (ioKlausi) Translation and bugfixing
+* (ioKlausi) Translation and bug fixing
 
 ### 0.0.2
 * (ioKlausi) Add API requests and automatically generation of home structure and documentation
