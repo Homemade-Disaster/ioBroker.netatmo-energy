@@ -2,6 +2,7 @@
 .idea
 .DS_Store
 .smb*
+.npmrc
 *.code-workspace
 node_modules
 nbproject
