@@ -34,6 +34,8 @@ Konto bei Netatmo Cloud
     - Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
   - Wenn gewünscht kann auch Benachrichtigungsdienst eingerichtet werden um bestimmte Statusänderungen zugesandt zu bekommen. Dabei ist es möglich sich Informationsmeldungen, Warnungen bzw. Fehlermeldungen zu erhalten. Hierfür ist es notwendig die Option "Benachrichtigungen aktivieren/deaktivieren" in den "Anmeldeinformationen" zu aktivieren und danach die Einstellungen imMenü "Benachrichtigungen" einzurichten.
 
+Eine detaillierte Beschreibung ist als wiki verfügbar (https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki).
+
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_de.png" alt="settingsLogin" width="70%"/>
 
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_api_de.png" alt="settingsAPI" width="70%"/>
@@ -77,7 +79,7 @@ Beim Starten des Adapters wird die Initialisierung durchgeführt.
 Wenn sie in der Adapterkonfiguration einen Benachrichtigungsdienst aktiviert haben werden diverse Meldungen an sie versandt.
 Folgene Dienste sind verfügbar.
 
-    <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_de.png" alt="settingsAPI" width="50%"/>
+    <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_de.png" alt="settingsAPI" width="30%"/>
 
     Bitte geben sie für den von ihnen gewähltn Benachrichtigungsdienst die notwendigen Verbindungsdaten an.
 
