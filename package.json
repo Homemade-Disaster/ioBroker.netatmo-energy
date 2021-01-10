@@ -1,5 +1,5 @@
 {
-  "name": "iobroker.netatmo-energy",
+  "name": "@Homemade-Disaster/iobroker.netatmo-energy",
   "version": "0.1.18",
   "description": "Get and set data using Netatmo Energy API",
   "author": "ioKlausi <nii@gmx.at>",
