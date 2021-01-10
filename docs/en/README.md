@@ -93,6 +93,9 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 
 ## Changelog
 
+### 0.1.19
+* (ioKlausi) Adapter finalized & wiki created
+
 ### 0.1.18
 * (ioKlausi) Separate icons for widget-signals created
 

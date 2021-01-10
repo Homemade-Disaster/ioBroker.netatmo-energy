@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.18",
+		"version": "0.1.19",
 		"news": {
+			"0.1.19": {
+		    "en": "Finalize adapter",
+		    "de": "Adapter finalisieren",
+		    "ru": "Доработать адаптер",
+		    "pt": "Finalizar adaptador",
+		    "nl": "Voltooi de adapter",
+		    "fr": "Finaliser l'adaptateur",
+		    "it": "Finalizza l'adattatore",
+		    "es": "Finalizar adaptador",
+		    "pl": "Sfinalizuj adapter",
+		    "zh-cn": "完成适配器"
+		  },
 			"0.1.18": {
 		    "en": "Separate icons for widget-signals created",
 		    "de": "Separate Symbole für Widget-Signale erstellt",
