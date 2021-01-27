@@ -92,6 +92,9 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 
 ## Änderungsprotokoll
 
+### 0.1.20
+* (ioKlausi) Fehlerbehebungen (Sentry Fehler)
+
 ### 0.1.19
 * (ioKlausi) Adapter fertiggestellt & wiki erstellt
 

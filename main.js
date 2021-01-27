@@ -623,7 +623,8 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// send sync API Request
 	async sendSingleActualTemp (NetatmoRequest, norefresh) {
-		let syncmode = syncmode +	await this.getValuefromDatapoint('&zones=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones);
+		let syncmode = '';
+		syncmode = syncmode +	await this.getValuefromDatapoint('&zones=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones);
 		syncmode = syncmode +	await this.getValuefromDatapoint('&timetable=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable);
 		syncmode = syncmode +	await this.getValuefromDatapoint('&hg_temp=',   this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp);
 		syncmode = syncmode +	await this.getValuefromDatapoint('&away_temp=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp);

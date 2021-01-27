@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.19",
+		"version": "0.1.20",
 		"news": {
+			"0.1.20": {
+				"en": "Bug fixing (Sentry errors)",
+				"de": "Fehlerbehebung (Sentry-Fehler)",
+				"ru": "Исправление ошибок (ошибки Sentry)",
+				"pt": "Correção de bug (erros do Sentry)",
+				"nl": "Bugfixing (Sentry-fouten)",
+				"fr": "Correction de bogues (erreurs Sentry)",
+				"it": "Correzione di bug (errori di Sentry)",
+				"es": "Corrección de errores (errores de centinela)",
+				"pl": "Naprawianie błędów (błędy Sentry)",
+				"zh-cn": "错误修复（哨兵错误）"
+			},
 			"0.1.19": {
 		    "en": "Finalize adapter",
 		    "de": "Adapter finalisieren",
