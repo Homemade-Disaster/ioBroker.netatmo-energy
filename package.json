@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0",
-    "fetch": "^1.1.0"
+    "fetch": "^1.1.0",
+    "abort-controller": "^3.0.0"
   },
   "devDependencies": {
     "@iobroker/testing": "^2.4.0",

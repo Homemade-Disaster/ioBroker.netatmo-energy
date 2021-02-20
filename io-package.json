@@ -333,7 +333,6 @@
     "emailSender": "xxx@xxx.com",
     "emailInstance": "email.0",
     "NoticeType": "longNotice",
-    "WaitToSend": 0,
 		"dependencies": [
 			"jqui-mfd",
 			"basic"

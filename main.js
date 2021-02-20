@@ -2,9 +2,9 @@
 
 // Load modules
 const utils = require('@iobroker/adapter-core');
+const abort = require('abort-controller');
 const fetch = require('fetch');
 const mytools = require('./lib/mytools');
-const notification = require('./lib/notification');
 
 //Define global constants
 // Netatmo API requests
@@ -89,13 +89,14 @@ const List_type_mm												= '{"boileron": "Boiler on", "boileroff": "Boiler 
 const List_type_rm												= '{"temperature": "Temperature"}';
 
 //notifications
+const NotificationEmail     = 'E-Mail';
+const NotificationTelegram  = 'Telegram';
+const NotificationPushover  = 'Pushover';
+const NotificationWhatsapp  = 'WhatsApp';
 const NoticeTypeLong        = 'longNotice';
 const ErrorNotification     = 'Error';
 const InfoNotification      = 'Info';
 const WarningNotification   = 'Warn';
-
-// Timer
-const adapterIntervals = {};
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
@@ -132,6 +133,8 @@ class NetatmoEnergy extends utils.Adapter {
 		this.whatsapp 									= {};
 		this.pushover 									= {};
 		this.email		 									= {};
+		this.adapterIntervals           = [];
+		this.FetchAbortController 			= new abort.AbortController();
 	}
 	// Decrypt password
 	decrypt(key, value) {
@@ -215,9 +218,9 @@ class NetatmoEnergy extends utils.Adapter {
 		};
 		if (refreshtime && refreshtime > 0) {
 			that.log.info(mytools.tl('Refresh homestatus interval', that.systemLang) +' ' + refreshtime * 1000);
-			that.updateAPI = setInterval(updateAPIStatus, refreshtime * 1000);
+			// Timer
+			that.adapterIntervals.push(setInterval(updateAPIStatus, refreshtime * 1000));
 		}
-
 		//Start initial requests for adapter
 		await this.createEnergyAPP();
 		await this.RefreshWholeStructure(false);
@@ -304,43 +307,77 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.createNetatmoStructure(this.globalAPIChannelStatus + '.' + State_Status_API_running, 'API running status ', false, true, 'indicator', false, true, '', false, true);
 	}
 
+
 	//Send notification after request
 	async sendRequestNotification(NetatmoRequest, NotificationType, addText, longText) {
 		switch(NetatmoRequest) {
 			//set requests
 			case APIRequest_setroomthermpoint:
-				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Target temperature changed', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Target temperature changed', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case APIRequest_setthermmode:
-				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Mode for your heating system was set to', this.systemLang) + ' ' + addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Mode for your heating system was set to', this.systemLang) + ' ' + addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case APIRequest_switchhomeschedule:
-				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed schedule for your heating system to', this.systemLang) + ' ' +  addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed schedule for your heating system to', this.systemLang) + ' ' +  addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case APIRequest_synchomeschedule:
-				notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + ' ' + addText + ' ' + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + ' ' + addText + ' ' + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			//get requestst
 			case APIRequest_getroommeasure:
-				await this.getNameofRoom(addText.substring(addText.lastIndexOf('&room_id=') + 9, addText.lastIndexOf('&scale=')))
-					.then(room => {
-						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Retrieved statistic for a specific room', this.systemLang) + ': ' + room + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
-					})
-					.catch(roomid => {
-						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Retrieved statistic for a specific room number', this.systemLang) + ': ' + roomid + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
-					});
+				await this.getNameofRoom(addText.substring(addText.lastIndexOf('&room_id=') + 9, addText.lastIndexOf('&scale=')));
 				break;
 			case APIRequest_getmeasure:
-				await this.getNameofDevice(addText.substring(addText.lastIndexOf('&device_id=') + 11, addText.lastIndexOf('&scale=')))
-					.then(device => {
-						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Boiler historical data was retrieved from device', this.systemLang) + ': ' + device + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
-					})
-					.catch(deviceid => {
-						notification.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Boiler historical data was retrieved from device address', this.systemLang) + ': ' + deviceid + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
-					});
+				await this.getNameofDevice(addText.substring(addText.lastIndexOf('&device_id=') + 11, addText.lastIndexOf('&scale=')));
 				break;
 			default:
-				notification.sendNotification(this, NotificationType, NetatmoRequest, addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				this.sendNotification(this, NotificationType, NetatmoRequest, addText + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+		}
+	}
+
+	// send notifications
+	sendNotification(adapter, errortype, subject, messageText) {
+		if(!this.config.notificationEnabled) return;
+		if (!((this.config.notifications.substring(0,1) != '0' && errortype == InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == ErrorNotification))) return;
+
+		switch(this.config.notificationsType) {
+			//email
+			case NotificationEmail:
+				if (this.email.instance !== '' && this.email.instance !== null && this.email.instance !== undefined) {
+					adapter.sendTo(adapter.email.instance, 'send', { text: 'Netatmo Energy:\n' + messageText, to: adapter.email.emailReceiver, subject: subject, from: adapter.email.emailSender });
+					return;
+				}
+				break;
+
+			//pushover
+			case NotificationPushover:
+				if (this.pushover.instance !== '' && this.pushover.instance !== null && this.pushover.instance !== undefined) {
+					if (this.pushover.SilentNotice === 'true' || this.pushover.SilentNotice === true) {
+						adapter.sendTo(adapter.pushover.instance, 'send', { message: 'Netatmo Energy:\n' + messageText, sound: '', priority: -1, title: subject, device: adapter.pushover.deviceID });
+					} else {
+						adapter.sendTo(adapter.pushover.instance, 'send', { message: 'Netatmo Energy:\n' + messageText, sound: '', title: subject, device: adapter.pushover.deviceID });
+					}
+				}
+				break;
+
+			//telegram
+			case NotificationTelegram:
+				if (this.telegram.instance !== '' && this.telegram.instance !== null && this.telegram.instance !== undefined) {
+					if (this.telegram.User && this.telegram.User === 'allTelegramUsers') {
+						adapter.sendTo(adapter.telegram.instance, 'send', { text: 'Netatmo Energy:\n' + subject + ' - ' + messageText, disable_notification: adapter.telegram.SilentNotice });
+					} else {
+						adapter.sendTo(adapter.telegram.instance, 'send', { user: adapter.telegram.User, text: 'Netatmo Energy:\n' + subject + ' - ' + messageText, disable_notification: adapter.telegram.SilentNotice });
+					}
+				}
+				break;
+
+			//whatsapp
+			case NotificationWhatsapp:
+				if (this.whatsapp.instance !== '' && this.whatsapp.instance !== null && this.whatsapp.instance !== undefined) {
+					adapter.sendTo(adapter.whatsapp.instance, 'send', { text: 'Netatmo Energy:\n' + subject + ' - ' + messageText });
+				}
 				break;
 		}
 	}
@@ -431,14 +468,14 @@ class NetatmoEnergy extends utils.Adapter {
 		} else {
 			payload  = 'grant_type=refresh_token&refresh_token=' + this.globalRefreshToken + '&client_id=' + ClientId + '&client_secret=' + ClientSecretID;
 		}
-		return this.myFetch(Netatmo_TokenRequest_URL,payload);
+		return this._myFetch(Netatmo_TokenRequest_URL,payload);
 	}
 
 	//API request main routine
 	getAPIRequest(NetatmoRequest, extend_payload) {
 		const payload = 'access_token=' + this.globalNetatmo_AccessToken + '&home_id=' + this.config.HomeId + extend_payload;
 		this.log.debug(mytools.tl('Request:', this.systemLang) + ' ' + Netatmo_APIrequest_URL + NetatmoRequest + ((payload) ? '?' + payload : payload));
-		return this.myFetch(Netatmo_APIrequest_URL + NetatmoRequest, payload);
+		return this._myFetch(Netatmo_APIrequest_URL + NetatmoRequest, payload);
 	}
 
 	// send homesdata API Request
@@ -639,7 +676,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//fetch API request
-	myFetch(url, payload) {
+	_myFetch(url, payload) {
 		const that = this;
 		return new Promise(
 			function(resolve,reject) {
@@ -647,26 +684,35 @@ class NetatmoEnergy extends utils.Adapter {
 					reject({error:mytools.tl('Invalid Parameter', that.systemLang),error_description:mytools.tl('Did not get url or payload!', that.systemLang)});
 					return;
 				}
-				fetch.fetchUrl(url, {
-					method: 'POST',
-					headers: {
-						'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+				try {
+					fetch.fetchUrl(url, {
+						method: 'POST',
+						signal: that.FetchAbortController.signal,
+						headers: {
+							'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+						},
+						payload: payload
 					},
-					payload: payload
-				},
-				function(error, meta, body) {
-					if (meta && meta.status) {
-						that.log.debug(mytools.tl('Netatmo API status:', that.systemLang) + meta.status);
-						if (meta.status == 200 ) {
-							resolve(JSON.parse(body));
+					function(error, meta, body) {
+						if (meta && meta.status) {
+							that.log.debug(mytools.tl('Netatmo API status:', that.systemLang) + meta.status);
+							if (meta.status == 200 ) {
+								resolve(JSON.parse(body));
+							} else {
+								reject(JSON.parse(body));
+							}
 						} else {
+							that.log.debug(mytools.tl('Netatmo API status false', that.systemLang));
 							reject(JSON.parse(body));
 						}
+					});
+				} catch(err) {
+					if (err.name == 'AbortError') {
+						that.log.debug(mytools.tl('Netatmo API request aborted', that.systemLang));
 					} else {
-						that.log.debug(mytools.tl('Netatmo API status false', that.systemLang));
-						reject(JSON.parse(body));
+						throw err;
 					}
-				});
+				}
 			});
 	}
 
@@ -1039,7 +1085,8 @@ class NetatmoEnergy extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
-			Object.keys(adapterIntervals).forEach(interval => clearInterval(adapterIntervals[interval]));
+			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
+			this.FetchAbortController.abort();
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
 			this.sendRequestNotification(null, WarningNotification, mytools.tl('Status', this.systemLang) + '\n' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + ' ' + this.namespace);
 			callback();

@@ -1180,6 +1180,18 @@ const _systemDictionary = {
 		"es": "Actualizar toda la estructura:",
 		"pl": "Odśwież całą strukturę:",
 		"zh-cn": "刷新整个结构："
+	},
+	"Netatmo API request aborted": {
+		"en": "Netatmo API request aborted",
+		"de": "Netatmo API-Anforderung abgebrochen",
+		"ru": "Запрос Netatmo API прерван",
+		"pt": "Solicitação da API Netatmo abortada",
+		"nl": "Netatmo API-verzoek afgebroken",
+		"fr": "Demande d'API Netatmo abandonnée",
+		"it": "Richiesta API Netatmo interrotta",
+		"es": "Solicitud de API de Netatmo cancelada",
+		"pl": "Żądanie Netatmo API zostało przerwane",
+		"zh-cn": "Netatmo API请求中止"
 	}
 };
 
