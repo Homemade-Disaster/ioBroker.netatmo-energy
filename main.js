@@ -2,7 +2,7 @@
 
 // Load modules
 const utils = require('@iobroker/adapter-core');
-const abort = require('abort-controller');
+//const abort = require('abort-controller');
 const fetch = require('fetch');
 const mytools = require('./lib/mytools');
 
@@ -134,7 +134,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.pushover 									= {};
 		this.email		 									= {};
 		this.adapterIntervals           = [];
-		this.FetchAbortController 			= new abort.AbortController();
+		//this.FetchAbortController 			= new abort.AbortController();
 	}
 	// Decrypt password
 	decrypt(key, value) {
@@ -687,7 +687,7 @@ class NetatmoEnergy extends utils.Adapter {
 				try {
 					fetch.fetchUrl(url, {
 						method: 'POST',
-						signal: that.FetchAbortController.signal,
+						//signal: that.FetchAbortController.signal,
 						headers: {
 							'Content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
 						},
@@ -1086,7 +1086,7 @@ class NetatmoEnergy extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
-			this.FetchAbortController.abort();
+			//this.FetchAbortController.abort();
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
 			this.sendRequestNotification(null, WarningNotification, mytools.tl('Status', this.systemLang) + '\n' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + ' ' + this.namespace);
 			callback();
