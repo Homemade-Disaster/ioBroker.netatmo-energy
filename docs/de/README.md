@@ -177,7 +177,7 @@ Adaptererstellung
 ## Lizenz
 MIT-Lizenz
 
-Copyright (c) 2020 ioKlausi <nii@gmx.at>
+Copyright (c) 2021 ioKlausi <nii@gmx.at>
 
 Hiermit wird jeder Person, die eine Kopie erhält, kostenlos die Erlaubnis erteilt
 diese Software und der dazugehörigen Dokumentationsdateien (die "Software") zu bearbeiten,
