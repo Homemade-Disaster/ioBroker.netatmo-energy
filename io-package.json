@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.1.20",
+		"version": "0.2.0",
 		"news": {
+			"0.2.0": {
+		    "en": "Compatibility check to js-controller 4.0",
+		    "de": "Kompatibilitätsprüfung für js-controller 4.0",
+		    "ru": "Проверка совместимости с js-контроллером 4.0",
+		    "pt": "Verificação de compatibilidade com js-controller 4.0",
+		    "nl": "Compatibiliteitscontrole met js-controller 4.0",
+		    "fr": "Vérification de la compatibilité avec js-controller 4.0",
+		    "it": "Verifica della compatibilità con js-controller 4.0",
+		    "es": "Comprobación de compatibilidad con js-controller 4.0",
+		    "pl": "Sprawdzenie zgodności z kontrolerem js 4.0",
+		    "zh-cn": "对 js-controller 4.0 的兼容性检查"
+			},
 			"0.1.20": {
 				"en": "Bug fixing (Sentry errors)",
 				"de": "Fehlerbehebung (Sentry-Fehler)",
