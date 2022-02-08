@@ -1024,38 +1024,73 @@ class NetatmoEnergy extends utils.Adapter {
 		if (!list) {
 			list = '';
 		}
-
-		if (forced) {
-			await this.setObjectAsync(id, {
-				type: 'state',
-				common: {
-					name: object_name,
-					role: role,
-					type: typeof value,
-					read: read,
-					write: write,
-					states: list
-				},
-				native: {},
-			});
-			if (!norefresh) {
-				await this.setState(id, value, ack);
+		//this.log.debug('Create State: ' + object_name + ' - ' + role);
+		//this.log.debug('Create State: ' + value + ' - ' + typeof value);
+		if (list == '') {
+			if (forced) {
+				await this.setObjectAsync(id, {
+					type: 'state',
+					common: {
+						name: object_name,
+						role: role,
+						type: typeof value,
+						read: read,
+						write: write
+					},
+					native: {},
+				});
+				if (!norefresh) {
+					await this.setState(id, value, ack);
+				}
+			} else {
+				await this.setObjectNotExistsAsync(id, {
+					type: 'state',
+					common: {
+						name: object_name,
+						role: role,
+						type: typeof value,
+						read: read,
+						write: write
+					},
+					native: {},
+				});
+				if (!norefresh) {
+					await this.setState(id, value, ack);
+				}
 			}
 		} else {
-			await this.setObjectNotExistsAsync(id, {
-				type: 'state',
-				common: {
-					name: object_name,
-					role: role,
-					type: typeof value,
-					read: read,
-					write: write,
-					states: list
-				},
-				native: {},
-			});
-			if (!norefresh) {
-				await this.setState(id, value, ack);
+			if (forced) {
+				await this.setObjectAsync(id, {
+					type: 'state',
+					common: {
+						name: object_name,
+						role: role,
+						type: typeof value,
+						read: read,
+						write: write,
+						states: list
+					},
+					native: {},
+				});
+				if (!norefresh) {
+					await this.setState(id, value, ack);
+				}
+			} else {
+				await this.setObjectNotExistsAsync(id, {
+					type: 'state',
+					common: {
+						name: object_name,
+						role: role,
+						type: typeof value,
+						read: read,
+						write: write,
+						states: list
+					},
+					native: {},
+				});
+				if (!norefresh) {
+					await this.setState(id, value, ack);
+				}
 			}
 		}
 	}
