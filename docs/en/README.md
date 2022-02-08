@@ -93,6 +93,9 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 
 ## Changelog
 
+### 0.2.1
+* (ioKlausi) Creation of states adapted
+
 ### 0.2.0
 * (ioKlausi) Compatibility check to js-controller 4.0
 
