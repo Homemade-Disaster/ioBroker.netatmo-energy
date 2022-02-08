@@ -3,6 +3,18 @@
 		"name": "netatmo-energy",
 		"version": "0.2.0",
 		"news": {
+			"0.2.1": {
+				"en": "Creation of states adapted",
+		    "de": "Aufbau von Zuständen angepasst",
+		    "ru": "Создание штатов адаптировано",
+		    "pt": "Criação de estados adaptados",
+		    "nl": "Oprichting van staten aangepast",
+		    "fr": "Création d'états adaptés",
+		    "it": "Creazione di stati adattati",
+		    "es": "Creación de estados adaptados",
+		    "pl": "Tworzenie dostosowanych państw",
+		    "zh-cn": "适应状态的创建"
+			},
 			"0.2.0": {
 		    "en": "Compatibility check to js-controller 4.0",
 		    "de": "Kompatibilitätsprüfung für js-controller 4.0",

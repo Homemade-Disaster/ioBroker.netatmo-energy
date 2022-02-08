@@ -92,6 +92,9 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 
 ## Änderungsprotokoll
 
+### 0.2.1
+* (ioKlausi) Erstellen von Objekten angepasst
+
 ### 0.2.0
 * (ioKlausi) Kompatibilitätsprüfung für js-controller 4.0
 
