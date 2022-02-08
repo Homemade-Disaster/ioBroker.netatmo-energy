@@ -134,7 +134,7 @@
 		    "es": "Agregue solicitudes de API getmeasure y getroommeasure para uso manual",
 		    "pl": "Dodaj żądania API getmeasure i getroommeasure do ręcznego użycia",
 		    "zh-cn": "添加API请求getmeasure和getroommeasure以供手动使用"
-			},
+			}
 		},
 		"title": "Netatmo Energy",
 		"titleLang": {
