@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.2.1",
+		"version": "0.2.2",
 		"news": {
+			"0.2.2": {
+				"en": "Added translations & Compact mode tested",
+				"de": "Übersetzungen hinzugefügt & Kompaktmodus getestet",
+				"ru": "Добавлены переводы и протестирован компактный режим",
+				"pt": "Traduções adicionadas e modo compacto testado",
+				"nl": "Toegevoegde vertalingen & Compacte modus getest",
+				"fr": "Traductions ajoutées et mode compact testé",
+				"it": "Aggiunte traduzioni e modalità compatta testata",
+				"es": "Traducciones añadidas y modo compacto probado",
+				"pl": "Dodano tłumaczenia i przetestowano tryb kompaktowy",
+				"zh-cn": "添加了翻译和压缩模式测试"
+			},
 			"0.2.1": {
 				"en": "Creation of states adapted",
 		    "de": "Aufbau von Zuständen angepasst",
