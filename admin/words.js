@@ -1193,17 +1193,41 @@ const _systemDictionary = {
 		"pl": "Żądanie Netatmo API zostało przerwane",
 		"zh-cn": "Netatmo API请求中止"
 	},
-	"API Request homestatus sent to API": {
-		"en": "API Request homestatus sent to API",
-		"de": "API Request homestatus an API gesendet",
-		"ru": "Домашнее состояние запроса API отправлено в API",
-		"pt": "Status inicial da solicitação de API enviado para a API",
-		"nl": "API Verzoek homestatus verzonden naar API",
-		"fr": "Demande d'API homestatus envoyé à l'API",
-		"it": "Stato della richiesta API inviato all'API",
-		"es": "Solicitud de API HomeStatus enviada a API",
-		"pl": "API Homestatus żądania wysłanego do API",
-		"zh-cn": "API 请求 homestatus 发送到 API"
+	"API Request homestatus sent to API each": {
+		"en": "API Request homestatus sent to API each",
+		"de": "API Request homestatus jeweils an API gesendet",
+		"ru": "Домашний статус запроса API отправляется в API каждый",
+		"pt": "Status inicial da solicitação de API enviado para a API a cada",
+		"nl": "API-verzoek homestatus elk naar API verzonden",
+		"fr": "Demande d'API homestatus envoyé à l'API chaque",
+		"it": "API Request homestatus inviato all'API ciascuno",
+		"es": "Solicitud de API HomeStatus enviada a API cada",
+		"pl": "API Request homestatus wysyłane do API każdego z nich",
+		"zh-cn": "API请求homestatus发送到API每个"
+	},
+	"Netatmo API status false": {
+		"en": "Netatmo API status false",
+		"de": "Netatmo-API-Status falsch",
+		"ru": "Неверный статус API Netatmo",
+		"pt": "Status da API Netatmo falso",
+		"nl": "Netatmo API-status false",
+		"fr": "Statut de l'API Netatmo faux",
+		"it": "Stato API Netatmo falso",
+		"es": "Estado de la API de Netatmo falso",
+		"pl": "Fałszywy stan interfejsu API Netatmo",
+		"zh-cn": "Netatmo API 状态为假"
+	},
+	"API Request setthermmode": {
+		"en": "API Request setthermmode",
+		"de": "API-Anfrage setthermmode",
+		"ru": "Запрос API",
+		"pt": "Solicitação de API setthermmode",
+		"nl": "API-verzoek setthermmode",
+		"fr": "Requête API setthermmode",
+		"it": "Richiesta API in modalità setthermode",
+		"es": "Solicitud de API setthermmode",
+		"pl": "Ustaw tryb termiczny żądania API",
+		"zh-cn": "API 请求 setthermmode"
 	}
 };
 
