@@ -1192,6 +1192,18 @@ const _systemDictionary = {
 		"es": "Solicitud de API de Netatmo cancelada",
 		"pl": "Żądanie Netatmo API zostało przerwane",
 		"zh-cn": "Netatmo API请求中止"
+	},
+	"API Request homestatus sent to API": {
+		"en": "API Request homestatus sent to API",
+		"de": "API Request homestatus an API gesendet",
+		"ru": "Домашнее состояние запроса API отправлено в API",
+		"pt": "Status inicial da solicitação de API enviado para a API",
+		"nl": "API Verzoek homestatus verzonden naar API",
+		"fr": "Demande d'API homestatus envoyé à l'API",
+		"it": "Stato della richiesta API inviato all'API",
+		"es": "Solicitud de API HomeStatus enviada a API",
+		"pl": "API Homestatus żądania wysłanego do API",
+		"zh-cn": "API 请求 homestatus 发送到 API"
 	}
 };
 
