@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.2.3",
+		"version": "0.2.4",
 		"news": {
+			"0.2.4": {
+				"en": "Release script added",
+		    "de": "Release script hinzugefügt",
+		    "ru": "Добавлен сценарий выпуска",
+		    "pt": "Script de lançamento adicionado",
+		    "nl": "Releasescript toegevoegd",
+		    "fr": "Script de version ajouté",
+		    "it": "Script di rilascio aggiunto",
+		    "es": "Se agregó el script de lanzamiento",
+		    "pl": "Dodano skrypt wydania",
+		    "zh-cn": "添加了发布脚本"
+			},
 			"0.2.3": {
 				"en": "Add abort controller",
 				"de": "Abbruchcontroller hinzufügen",

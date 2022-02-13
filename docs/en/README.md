@@ -97,6 +97,7 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
     ### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+### 0.2.4 (2022-02-13)
 * (ioKlausi) Release Script added
 
 ### 0.2.3
