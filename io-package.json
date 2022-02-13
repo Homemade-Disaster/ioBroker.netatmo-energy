@@ -234,7 +234,7 @@
 		],
 		"plugins": {
       "sentry": {
-        "dsn": "https://35d42dd1084344cbbb9698893ab6906f@o496760.ingest.sentry.io/5571915"
+        "dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
 			}
 		}
 	},
