@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.2.2",
+		"version": "0.2.3",
 		"news": {
+			"0.2.3": {
+				"en": "Add abort controller",
+				"de": "Abbruchcontroller hinzufügen",
+				"ru": "Добавить контроллер прерывания",
+				"pt": "Adicionar controlador de aborto",
+				"nl": "Abort-controller toevoegen",
+				"fr": "Ajouter un contrôleur d'abandon",
+				"it": "Aggiungi controller di interruzione",
+				"es": "Agregar controlador de cancelación",
+				"pl": "Dodaj kontroler przerwania",
+				"zh-cn": "添加中止控制器"
+			},
 			"0.2.2": {
 				"en": "Added translations & Compact mode tested",
 				"de": "Übersetzungen hinzugefügt & Kompaktmodus getestet",
