@@ -92,6 +92,9 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 
 ## Änderungsprotokoll
 
+### 0.2.3
+* (ioKlausi) AbortController hinzugefügt
+
 ### 0.2.2
 * (ioKlausi) Übersetzungen hinzugefügt & Kompaktmodus getestet
 
