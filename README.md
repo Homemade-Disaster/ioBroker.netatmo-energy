@@ -92,7 +92,10 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
 ## Changelog
-
+<!--
+    Placeholder for the next version (at the beginning of the line):
+    ### **WORK IN PROGRESS**
+-->
 ### 0.2.3
 * (ioKlausi) AbortController added
 
