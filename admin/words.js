@@ -1228,6 +1228,42 @@ const _systemDictionary = {
 		"es": "Solicitud de API setthermmode",
 		"pl": "Ustaw tryb termiczny żądania API",
 		"zh-cn": "API 请求 setthermmode"
+	},
+	"Can not save data to objects: ": {
+		"en": "Can not save data to objects: ",
+		"de": "Daten können nicht in Objekten gespeichert werden: ",
+		"ru": "Не удается сохранить данные в объекты: ",
+		"pt": "Não é possível salvar dados em objetos: ",
+		"nl": "Kan geen gegevens naar objecten opslaan: ",
+		"fr": "Impossible d'enregistrer les données dans les objets : ",
+		"it": "Impossibile salvare i dati negli oggetti: ",
+		"es": "No se pueden guardar datos en objetos: ",
+		"pl": "Nie można zapisać danych do obiektów: ",
+		"zh-cn": "无法将数据保存到对象："
+	},
+	"Can not create device: ": {
+		"en": "Can not create device: ",
+		"de": "Gerät kann nicht erstellt werden: ",
+		"ru": "Невозможно создать устройство: ",
+		"pt": "Não é possível criar o dispositivo: ",
+		"nl": "Kan apparaat niet maken: ",
+		"fr": "Impossible de créer l'appareil : ",
+		"it": "Impossibile creare il dispositivo: ",
+		"es": "No se puede crear el dispositivo: ",
+		"pl": "Nie można utworzyć urządzenia: ",
+		"zh-cn": "无法创建设备："
+	},
+	"Can not create channel: ": {
+		"en": "Can not create channel: ",
+		"de": "Kanal kann nicht erstellt werden:",
+		"ru": "Не могу создать канал:",
+		"pt": "Não é possível criar canal:",
+		"nl": "Kan geen kanaal maken:",
+		"fr": "Impossible de créer la chaîne :",
+		"it": "Impossibile creare il canale:",
+		"es": "No se puede crear el canal:",
+		"pl": "Nie można utworzyć kanału:",
+		"zh-cn": "无法创建频道："
 	}
 };
 

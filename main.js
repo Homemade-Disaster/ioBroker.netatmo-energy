@@ -699,11 +699,11 @@ class NetatmoEnergy extends utils.Adapter {
 							if (meta.status == 200 ) {
 								resolve(JSON.parse(body));
 							} else {
-								reject(JSON.parse(body));
+								reject(error);
 							}
 						} else {
 							that.log.debug(mytools.tl('Netatmo API status false', that.systemLang));
-							reject(JSON.parse(body));
+							reject(error);
 						}
 					});
 				} catch(err) {
@@ -950,24 +950,32 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// Create Device
 	async createMyDevice(path, name) {
-		await this.setObjectNotExists(path, {
-			type: 'device',
-			common: {
-				name: name,
-			},
-			native: {},
-		});
+		try {
+			await this.setObjectNotExists(path, {
+				type: 'device',
+				common: {
+					name: name,
+				},
+				native: {},
+			});
+		} catch(error) {
+			this.log.error(mytools.tl('Can not create device: ', this.systemLang) +  error);
+		}
 	}
 
 	// Create Channel
 	async createMyChannel(path, name) {
-		await this.setObjectNotExists(path, {
-			type: 'channel',
-			common: {
-				name: name,
-			},
-			native: {},
-		});
+		try {
+			await this.setObjectNotExists(path, {
+				type: 'channel',
+				common: {
+					name: name,
+				},
+				native: {},
+			});
+		} catch(error) {
+			this.log.error(mytools.tl('Can not create channel: ', this.systemLang) +  error);
+		}
 	}
 
 	//dynamic creation of datapoints
@@ -1026,72 +1034,76 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 		//this.log.debug('Create State: ' + object_name + ' - ' + role);
 		//this.log.debug('Create State: ' + value + ' - ' + typeof value);
-		if (list == '') {
-			if (forced) {
-				await this.setObjectAsync(id, {
-					type: 'state',
-					common: {
-						name: object_name,
-						role: role,
-						type: typeof value,
-						read: read,
-						write: write
-					},
-					native: {},
-				});
-				if (!norefresh) {
-					await this.setState(id, value, ack);
+		try {
+			if (list == '') {
+				if (forced) {
+					await this.setObjectAsync(id, {
+						type: 'state',
+						common: {
+							name: object_name,
+							role: role,
+							type: typeof value,
+							read: read,
+							write: write
+						},
+						native: {},
+					});
+					if (!norefresh) {
+						await this.setState(id, value, ack);
+					}
+				} else {
+					await this.setObjectNotExistsAsync(id, {
+						type: 'state',
+						common: {
+							name: object_name,
+							role: role,
+							type: typeof value,
+							read: read,
+							write: write
+						},
+						native: {},
+					});
+					if (!norefresh) {
+						await this.setState(id, value, ack);
+					}
 				}
 			} else {
-				await this.setObjectNotExistsAsync(id, {
-					type: 'state',
-					common: {
-						name: object_name,
-						role: role,
-						type: typeof value,
-						read: read,
-						write: write
-					},
-					native: {},
-				});
-				if (!norefresh) {
-					await this.setState(id, value, ack);
+				if (forced) {
+					await this.setObjectAsync(id, {
+						type: 'state',
+						common: {
+							name: object_name,
+							role: role,
+							type: typeof value,
+							read: read,
+							write: write,
+							states: list
+						},
+						native: {},
+					});
+					if (!norefresh) {
+						await this.setState(id, value, ack);
+					}
+				} else {
+					await this.setObjectNotExistsAsync(id, {
+						type: 'state',
+						common: {
+							name: object_name,
+							role: role,
+							type: typeof value,
+							read: read,
+							write: write,
+							states: list
+						},
+						native: {},
+					});
+					if (!norefresh) {
+						await this.setState(id, value, ack);
+					}
 				}
 			}
-		} else {
-			if (forced) {
-				await this.setObjectAsync(id, {
-					type: 'state',
-					common: {
-						name: object_name,
-						role: role,
-						type: typeof value,
-						read: read,
-						write: write,
-						states: list
-					},
-					native: {},
-				});
-				if (!norefresh) {
-					await this.setState(id, value, ack);
-				}
-			} else {
-				await this.setObjectNotExistsAsync(id, {
-					type: 'state',
-					common: {
-						name: object_name,
-						role: role,
-						type: typeof value,
-						read: read,
-						write: write,
-						states: list
-					},
-					native: {},
-				});
-				if (!norefresh) {
-					await this.setState(id, value, ack);
-				}
-			}
+		} catch(error) {
+			this.log.error(mytools.tl('Can not save data to objects: ', this.systemLang) +  error);
 		}
 	}
 
@@ -1120,8 +1132,8 @@ class NetatmoEnergy extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
-			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
 			this.FetchAbortController.abort();
+			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
 			this.sendRequestNotification(null, WarningNotification, mytools.tl('Status', this.systemLang) + '\n' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + ' ' + this.namespace);
 			callback();
