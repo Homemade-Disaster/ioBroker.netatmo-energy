@@ -95,7 +95,8 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 1.0.0 (2022-02-25)
+* (ioKlausi) Hauptversion veröffentlichen
 
 ### 0.2.4 (2022-02-13)
 * (ioKlausi) Release Script hinzugefügt

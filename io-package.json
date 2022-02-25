@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "0.2.4",
+		"version": "1.0.0",
 		"news": {
+			"1.0.0": {
+		    "en": "Create major version",
+		    "de": "Hauptversion erstellen",
+		    "ru": "Создать основную версию",
+		    "pt": "Criar versão principal",
+		    "nl": "Hoofdversie maken",
+		    "fr": "Créer une version majeure",
+		    "it": "Crea la versione principale",
+		    "es": "Crear versión principal",
+		    "pl": "Utwórz wersję główną",
+		    "zh-cn": "创建主要版本"
+		  },
 			"0.2.4": {
 				"en": "Release script added",
 		    "de": "Release script hinzugefügt",
