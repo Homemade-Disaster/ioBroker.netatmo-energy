@@ -96,6 +96,9 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.0.0 (2022-02-25)
+* (ioKlausi) Create major version
+
 ### 0.2.4 (2022-02-13)
 * (ioKlausi) Release Script added
 

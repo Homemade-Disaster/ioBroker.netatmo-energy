@@ -558,7 +558,7 @@ class NetatmoEnergy extends utils.Adapter {
 					that.getStates(that.namespace + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
 						for(const id in states) {
 							const adapterstates = await that.getStateAsync(id);
-
+							//that.log.debug('Search rooms 1: ' + searchstring);
 							if (id.search(searchstring) >= 0) {
 								if (adapterstates && adapterstates.val === true) {
 									await that.setState(id, false, true);
@@ -732,6 +732,7 @@ class NetatmoEnergy extends utils.Adapter {
 		for(const object_name in obj) {
 			if (API_Request === APIRequest_homestatus) {
 				const fullname = mytools.getPrefixPath(Netatmo_Path + '.') + object_name;
+				//this.log.debug('Search Tag: ' + relevantTag);
 				if (fullname.search(relevantTag) >= 0) {
 					await this.searchAllRooms(obj[object_name], obj, norefresh);
 					await this.searchAllModules(obj[object_name], obj);
@@ -767,7 +768,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.getStates(that.namespace + '.homes.*.schedules.*',async function(error, states) {
 			await that.createMyChannel(that.globalAPIChannel + '.' + Channel_switchhomeschedule, 'API switchhomeschedule');
 			for(const id in states) {
-				//that.log.debug('Found Schedule: ' + id);
+				//that.log.debug('Search Schedules: ' + searchSchedules);
 				if (id.search(searchSchedules) >= 0) {
 					schedule_id = await that.getStateAsync(id);
 					//that.log.debug('Found Schedule_ID: ' + schedule_id.val);
@@ -805,6 +806,7 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 				that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 					for(const id in states) {
+						//that.log.debug('Search rooms: ' + searchRooms);
 						if (id.search(searchRooms) >= 0) {
 							room_id = await that.getStateAsync(id);
 							if (room_id && room_id.val == statevalue) {
@@ -838,6 +840,7 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 					for(const id in states) {
+						//that.log.debug('Search Modules: ' + searchModules);
 						if (id.search(searchModules) >= 0) {
 							device_id = await that.getStateAsync(id);
 							if (device_id && device_id.val == statevalue) {
@@ -865,6 +868,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 			for(const id in states) {
+				//that.log.debug('Search All Rooms: ' + searchRooms);
 				if (id.search(searchRooms) >= 0) {
 					room_id = await that.getStateAsync(id);
 					if (room_id && room_id.val == statevalue) {
@@ -911,6 +915,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 			for(const id in states) {
+				//that.log.debug('Search All Modules: ' + searchModules);
 				if (id.search(searchModules) >= 0) {
 					module_id = await that.getStateAsync(id);
 					if (module_id && module_id.val == statevalue) {
@@ -1032,74 +1037,32 @@ class NetatmoEnergy extends utils.Adapter {
 		if (!list) {
 			list = '';
 		}
-		//this.log.debug('Create State: ' + object_name + ' - ' + role);
-		//this.log.debug('Create State: ' + value + ' - ' + typeof value);
+		const myObject = {
+			type: 'state',
+			common: {
+				name: object_name,
+				role: role,
+				type: typeof value,
+				read: read,
+				write: write
+			},
+			native: {},
+		};
+		if (list != '' && (typeof list === 'string' || list instanceof String)) {
+			myObject.common.states = JSON.parse(list);
+		} else if (typeof list === 'object') {
+			myObject.common.states = list;
+		}
 		try {
-			if (list == '') {
-				if (forced) {
-					await this.setObjectAsync(id, {
-						type: 'state',
-						common: {
-							name: object_name,
-							role: role,
-							type: typeof value,
-							read: read,
-							write: write
-						},
-						native: {},
-					});
-					if (!norefresh) {
-						await this.setState(id, value, ack);
-					}
-				} else {
-					await this.setObjectNotExistsAsync(id, {
-						type: 'state',
-						common: {
-							name: object_name,
-							role: role,
-							type: typeof value,
-							read: read,
-							write: write
-						},
-						native: {},
-					});
-					if (!norefresh) {
-						await this.setState(id, value, ack);
-					}
+			if (forced) {
+				await this.setObjectAsync(id, myObject);
+				if (!norefresh) {
+					await this.setState(id, value, ack);
 				}
 			} else {
-				if (forced) {
-					await this.setObjectAsync(id, {
-						type: 'state',
-						common: {
-							name: object_name,
-							role: role,
-							type: typeof value,
-							read: read,
-							write: write,
-							states: list
-						},
-						native: {},
-					});
-					if (!norefresh) {
-						await this.setState(id, value, ack);
-					}
-				} else {
-					await this.setObjectNotExistsAsync(id, {
-						type: 'state',
-						common: {
-							name: object_name,
-							role: role,
-							type: typeof value,
-							read: read,
-							write: write,
-							states: list
-						},
-						native: {},
-					});
-					if (!norefresh) {
-						await this.setState(id, value, ack);
-					}
+				await this.setObjectNotExistsAsync(id, myObject);
+				if (!norefresh) {
+					await this.setState(id, value, ack);
 				}
 			}
 		} catch(error) {
@@ -1290,7 +1253,7 @@ class NetatmoEnergy extends utils.Adapter {
 							this.RefreshWholeStructure(false);
 							break;
 					}
-
+					this.log.debug('Search APIRequest_switchhomeschedule: ' + APIRequest_switchhomeschedule);
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {
 						if (state.val === true) {
 							this.setState(id, false, true);
