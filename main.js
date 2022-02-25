@@ -408,8 +408,8 @@ class NetatmoEnergy extends utils.Adapter {
 					this.globalNetatmo_AccessToken = null;
 					this.globalRefreshToken        = null;
 					this.globalNetatmo_ExpiresIn   = 0;
-					this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? '' : ' ' + error.error + ': ' + error.error_description));
-					await this.sendRequestNotification(null, ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang), ((error !== undefined && error !== null) ? '' : ' ' + error.error + ': ' + error.error_description));
+					this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
+					await this.sendRequestNotification(null, ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang), ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
 				});
 		}
 
