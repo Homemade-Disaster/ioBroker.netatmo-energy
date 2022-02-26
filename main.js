@@ -8,95 +8,95 @@ const mytools = require('./lib/mytools');
 
 //Define global constants
 // Netatmo API requests
-const Netatmo_TokenRequest_URL            = 'https://api.netatmo.net/oauth2/token';
-const Netatmo_APIrequest_URL              = 'https://api.netatmo.com/api/';
+const Netatmo_TokenRequest_URL				= 'https://api.netatmo.net/oauth2/token';
+const Netatmo_APIrequest_URL				= 'https://api.netatmo.com/api/';
 
-const APIRequest_homesdata                = 'homesdata';
-const APIRequest_homesdata_NAPlug         = 'NAPlug';
+const APIRequest_homesdata					= 'homesdata';
+const APIRequest_homesdata_NAPlug			= 'NAPlug';
 
-const APIRequest_homestatus               = 'homestatus';
+const APIRequest_homestatus					= 'homestatus';
 
-const APIRequest_getroommeasure		        = 'getroommeasure';
-const APIRequest_getmeasure				        = 'getmeasure';
+const APIRequest_getroommeasure				= 'getroommeasure';
+const APIRequest_getmeasure					= 'getmeasure';
 
-const APIRequest_setroomthermpoint        = 'setroomthermpoint';
-const APIRequest_setroomthermpoint_manual = 'manual';
+const APIRequest_setroomthermpoint			= 'setroomthermpoint';
+const APIRequest_setroomthermpoint_manual	= 'manual';
 
-const APIRequest_setthermmode             = 'setthermmode';
-const APIRequest_setthermmode_schedule    = 'schedule';
-const APIRequest_setthermmode_hg          = 'hg';
-const APIRequest_setthermmode_away        = 'away';
+const APIRequest_setthermmode				= 'setthermmode';
+const APIRequest_setthermmode_schedule		= 'schedule';
+const APIRequest_setthermmode_hg			= 'hg';
+const APIRequest_setthermmode_away			= 'away';
 
-const APIRequest_switchhomeschedule       = 'switchhomeschedule';
+const APIRequest_switchhomeschedule			= 'switchhomeschedule';
 
-const APIRequest_synchomeschedule         = 'synchomeschedule';
+const APIRequest_synchomeschedule			= 'synchomeschedule';
 
 // Energy APP
-const Trigger_applychanges								= 'applychanges';
-const Trigger_refresh_all 								= 'refresh_structure';
-const Trigger_SetTemp                     = 'SetTemp';
+const Trigger_applychanges					= 'applychanges';
+const Trigger_refresh_all					= 'refresh_structure';
+const Trigger_SetTemp						= 'SetTemp';
 
 // Energy APP Channels / States
-const Device_APIRequests                  = 'energyAPP';
+const Device_APIRequests					= 'energyAPP';
 
-const Channel_APIRequests									= 'APIRequests';
-const Channel_homesdata										= 'homesdata';
-const Channel_homestatus									= 'homestatus';
-const Channel_getroommeasure							= 'getroommeasure';
-const Channel_getmeasure									= 'getmeasure';
+const Channel_APIRequests					= 'APIRequests';
+const Channel_homesdata						= 'homesdata';
+const Channel_homestatus					= 'homestatus';
+const Channel_getroommeasure				= 'getroommeasure';
+const Channel_getmeasure					= 'getmeasure';
 
-const Channel_setthermmode					  		= 'setthermmode';
-const Channel_status											= 'status';
-const Channel_trigger											= 'trigger';
-const Channel_switchhomeschedule					= 'switchhomeschedule';
-const Channel_synchomeschedule						= 'synchomeschedule';
-const Channel_parameters									= 'parameters';
+const Channel_setthermmode					= 'setthermmode';
+const Channel_status						= 'status';
+const Channel_trigger						= 'trigger';
+const Channel_switchhomeschedule			= 'switchhomeschedule';
+const Channel_synchomeschedule				= 'synchomeschedule';
+const Channel_parameters					= 'parameters';
 
-const Channel_Status_API_running					= 'status';
-const Channel_settings										= 'settings';
-const Channel_modulestatus								= 'modulestatus';
+const Channel_Status_API_running			= 'status';
+const Channel_settings						= 'settings';
+const Channel_modulestatus					= 'modulestatus';
 
-const State_TempChanged										= 'TempChanged';
-const State_TempChanged_Mode							= 'mode';
-const State_TempChanged_Endtime						= 'endtime';
+const State_TempChanged						= 'TempChanged';
+const State_TempChanged_Mode				= 'mode';
+const State_TempChanged_Endtime				= 'endtime';
 const State_therm_setpoint_temperature		= 'therm_setpoint_temperature';
-const State_schedule_id										= 'schedule_id';
-const State_zones													= 'zones';
-const State_timetable											= 'timetable';
-const State_hg_temp												= 'hq_temp';
-const State_away_temp											= 'away_temp';
-const State_gateway_types									= 'gateway_types';
-const State_device_types									= 'device_types';
-const State_device_id											= 'device_id';
-const State_room_id												= 'room_id';
-const State_scale													= 'scale';
-const State_type													= 'type';
-const State_date_begin										= 'date_begin';
-const State_date_end											= 'date_end';
-const State_limit													= 'limit';
-const State_optimize											= 'optimize';
-const State_real_time											= 'real_time';
-const State_response											= 'response';
-const State_Time_Exec											= 'time_exec';
-const State_Status_API_running						= 'running';
+const State_schedule_id						= 'schedule_id';
+const State_zones							= 'zones';
+const State_timetable						= 'timetable';
+const State_hg_temp							= 'hq_temp';
+const State_away_temp						= 'away_temp';
+const State_gateway_types					= 'gateway_types';
+const State_device_types					= 'device_types';
+const State_device_id						= 'device_id';
+const State_room_id							= 'room_id';
+const State_scale							= 'scale';
+const State_type							= 'type';
+const State_date_begin						= 'date_begin';
+const State_date_end						= 'date_end';
+const State_limit							= 'limit';
+const State_optimize						= 'optimize';
+const State_real_time						= 'real_time';
+const State_response						= 'response';
+const State_Time_Exec						= 'time_exec';
+const State_Status_API_running				= 'running';
 
 //Value lists
-const List_mode														= '{"manual": "manual temperature", "max": "maximum temperature", "hq": "frost guardian temperature", "home": "home temperature" }';
-const List_gateway_type										= '{"NAPlug": "Relay / Smart vales", "NATherm1": "Smart Thermostat (NATherm1)", "NRV": "Smart Thermostat (NRV)" }';
-const List_device_types 									= '{"thermostat": "Thermostat" }';
-const List_scale													= '{"30min": "30 Minits", "1hour": "one hour", "3hours": "Three hours", "1day": "One day", "1week": "One Week"}';
-const List_type_mm												= '{"boileron": "Boiler on", "boileroff": "Boiler off", "sum_boiler_on": "Sum of Boiler on", "sum_boiler_off": "Sum of Boiler off"}';
-const List_type_rm												= '{"temperature": "Temperature"}';
+const List_mode								= '{"manual": "manual temperature", "max": "maximum temperature", "hq": "frost guardian temperature", "home": "home temperature" }';
+const List_gateway_type						= '{"NAPlug": "Relay / Smart vales", "NATherm1": "Smart Thermostat (NATherm1)", "NRV": "Smart Thermostat (NRV)" }';
+const List_device_types						= '{"thermostat": "Thermostat" }';
+const List_scale							= '{"30min": "30 Minits", "1hour": "one hour", "3hours": "Three hours", "1day": "One day", "1week": "One Week"}';
+const List_type_mm							= '{"boileron": "Boiler on", "boileroff": "Boiler off", "sum_boiler_on": "Sum of Boiler on", "sum_boiler_off": "Sum of Boiler off"}';
+const List_type_rm							= '{"temperature": "Temperature"}';
 
 //notifications
-const NotificationEmail     = 'E-Mail';
-const NotificationTelegram  = 'Telegram';
-const NotificationPushover  = 'Pushover';
-const NotificationWhatsapp  = 'WhatsApp';
-const NoticeTypeLong        = 'longNotice';
-const ErrorNotification     = 'Error';
-const InfoNotification      = 'Info';
-const WarningNotification   = 'Warn';
+const NotificationEmail						= 'E-Mail';
+const NotificationTelegram					= 'Telegram';
+const NotificationPushover					= 'Pushover';
+const NotificationWhatsapp					= 'WhatsApp';
+const NoticeTypeLong						= 'longNotice';
+const ErrorNotification						= 'Error';
+const InfoNotification						= 'Info';
+const WarningNotification					= 'Warn';
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
@@ -114,27 +114,27 @@ class NetatmoEnergy extends utils.Adapter {
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 
-		this.globalDevice               = null;
-		this.globalAPIChannel           = null;
-		this.globalAPIChannelTrigger    = null;
-		this.globalAPIStatus				    = null;
+		this.globalDevice				= null;
+		this.globalAPIChannel			= null;
+		this.globalAPIChannelTrigger	= null;
+		this.globalAPIStatus			= null;
 		this.globalNetatmo_AccessToken  = null;
-		this.globalRefreshToken         = null;
-		this.globalNetatmo_ExpiresIn    = 0;
-		this.globalScheduleObjects      = {};
-		this.globalScheduleList         = {};
-		this.globalScheduleListArray    = [];
-		this.globalRoomId               = {};
-		this.globalRoomIdArray          = [];
-		this.globalDeviceId             = {};
-		this.globalDeviceIdArray        = [];
-		this.systemlang 							  = 'de';
-		this.telegramm 									= {};
-		this.whatsapp 									= {};
-		this.pushover 									= {};
-		this.email		 									= {};
-		this.adapterIntervals           = [];
-		this.FetchAbortController 			= new abort.AbortController();
+		this.globalRefreshToken			= null;
+		this.globalNetatmo_ExpiresIn	= 0;
+		this.globalScheduleObjects		= {};
+		this.globalScheduleList			= {};
+		this.globalScheduleListArray	= [];
+		this.globalRoomId				= {};
+		this.globalRoomIdArray			= [];
+		this.globalDeviceId				= {};
+		this.globalDeviceIdArray		= [];
+		this.systemlang					= 'de';
+		this.telegramm					= {};
+		this.whatsapp					= {};
+		this.pushover					= {};
+		this.email						= {};
+		this.adapterIntervals			= [];
+		this.FetchAbortController		= new abort.AbortController();
 	}
 	// Decrypt password
 	decrypt(key, value) {
@@ -171,10 +171,10 @@ class NetatmoEnergy extends utils.Adapter {
 	// Start initialization adapter
 	initAdapter(systemLang) {
 		// define global constants
-		this.globalDevice              = this.namespace + '.' + Device_APIRequests;
-		this.globalAPIChannel          = this.namespace + '.' + Device_APIRequests + '.' + Channel_APIRequests;
-		this.globalAPIChannelTrigger   = this.namespace + '.' + Device_APIRequests + '.' + Channel_trigger;
-		this.globalAPIChannelStatus    = this.namespace + '.' + Device_APIRequests + '.' + Channel_Status_API_running;
+		this.globalDevice				= this.namespace + '.' + Device_APIRequests;
+		this.globalAPIChannel			= this.namespace + '.' + Device_APIRequests + '.' + Channel_APIRequests;
+		this.globalAPIChannelTrigger	= this.namespace + '.' + Device_APIRequests + '.' + Channel_trigger;
+		this.globalAPIChannelStatus		= this.namespace + '.' + Device_APIRequests + '.' + Channel_Status_API_running;
 
 		this.telegram = {
 			type: 'message',
@@ -399,15 +399,15 @@ class NetatmoEnergy extends utils.Adapter {
 			this.log.info(mytools.tl('Start Token-request:', this.systemLang) + ' ' + APIRequest + ' ' + setpayload);
 			await this.getToken(this.config.HomeId,this.config.ClientId,this.config.ClientSecretID,this.config.User,this.config.Password)
 				.then(tokenvalues => {
-					this.globalNetatmo_AccessToken = tokenvalues.access_token;
-					this.globalNetatmo_ExpiresIn   = tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
-					this.globalRefreshToken        = tokenvalues.refresh_token;
+					this.globalNetatmo_AccessToken	= tokenvalues.access_token;
+					this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
+					this.globalRefreshToken			= tokenvalues.refresh_token;
 					this.log.debug(mytools.tl('Token OK:', this.systemLang) + ' ' + this.globalNetatmo_AccessToken);
 				})
 				.catch(async (error) => {
-					this.globalNetatmo_AccessToken = null;
-					this.globalRefreshToken        = null;
-					this.globalNetatmo_ExpiresIn   = 0;
+					this.globalNetatmo_AccessToken	= null;
+					this.globalRefreshToken			= null;
+					this.globalNetatmo_ExpiresIn	= 0;
 					this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
 					await this.sendRequestNotification(null, ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang), ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
 				});
@@ -661,13 +661,13 @@ class NetatmoEnergy extends utils.Adapter {
 	// send sync API Request
 	async sendSingleActualTemp (NetatmoRequest, norefresh) {
 		let syncmode = '';
-		syncmode = syncmode +	await this.getValuefromDatapoint('&zones=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones);
-		syncmode = syncmode +	await this.getValuefromDatapoint('&timetable=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable);
-		syncmode = syncmode +	await this.getValuefromDatapoint('&hg_temp=',   this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp);
-		syncmode = syncmode +	await this.getValuefromDatapoint('&away_temp=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp);
+		syncmode = syncmode + await this.getValuefromDatapoint('&zones=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_zones);
+		syncmode = syncmode + await this.getValuefromDatapoint('&timetable=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_timetable);
+		syncmode = syncmode + await this.getValuefromDatapoint('&hg_temp=',   this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_hg_temp);
+		syncmode = syncmode + await this.getValuefromDatapoint('&away_temp=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_away_temp);
 
 		if ((syncmode.match(/&/g) || []).length == 4) {
-			syncmode = syncmode +	await this.getValuefromDatapoint('&schedule_id=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id);
+			syncmode = syncmode + await this.getValuefromDatapoint('&schedule_id=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id);
 			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error('API-synchomeschedule request is missing parameters');
