@@ -115,7 +115,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.on('unload', this.onUnload.bind(this));
 
 		this.globalDevice				= null;
-		this.globalAPIChannel			= null;
+		this.globalAPIChannel			= '';
 		this.globalAPIChannelTrigger	= null;
 		this.globalAPIStatus			= null;
 		this.globalNetatmo_AccessToken  = null;
@@ -129,7 +129,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalDeviceId				= {};
 		this.globalDeviceIdArray		= [];
 		this.systemlang					= 'de';
-		this.telegramm					= {};
+		this.telegram					= {};
 		this.whatsapp					= {};
 		this.pushover					= {};
 		this.email						= {};
@@ -137,7 +137,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.FetchAbortController		= new abort.AbortController();
 	}
 	// Decrypt password
-	decrypt(key, value) {
+	_decrypt(key, value) {
 		let result = '';
 		for (let i = 0; i < value.length; ++i) {
 			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
@@ -153,14 +153,16 @@ class NetatmoEnergy extends utils.Adapter {
 			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
 		}
 		//Passwort decryption
-		await this.getForeignObject('system.config', (err, obj) => {
+		this.getForeignObject('system.config', (err, obj) => {
+			// @ts-ignore
 			this.systemLang = obj.common.language;
+			// @ts-ignore
 			if (!this.supportsFeature() || !this.supportsFeature('ADAPTER_AUTO_DECRYPT_NATIVE')) {
 				if (obj && obj.native && obj.native.secret) {
-					this.config.Password = this.decrypt(obj.native.secret, this.config.Password);
+					this.config.Password = this._decrypt(obj.native.secret, this.config.Password);
 				}
 				else {
-					this.config.Password = this.decrypt('Zgfr56gFe87jJOM', this.config.Password);
+					this.config.Password = this._decrypt('Zgfr56gFe87jJOM', this.config.Password);
 				}
 			}
 		});
@@ -213,7 +215,7 @@ class NetatmoEnergy extends utils.Adapter {
 		const refreshtime = this.config.refreshstates;
 		const that = this;
 		const updateAPIStatus = async function () {
-			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + ' ', + refreshtime + mytools.tl('sec', that.systemLang));
+			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + ' ' + refreshtime + mytools.tl('sec', that.systemLang));
 			await that.RefreshWholeStructure(true);
 		};
 		if (refreshtime && refreshtime > 0) {
@@ -409,7 +411,7 @@ class NetatmoEnergy extends utils.Adapter {
 					this.globalRefreshToken			= null;
 					this.globalNetatmo_ExpiresIn	= 0;
 					this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
-					await this.sendRequestNotification(null, ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang), ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
+					await this.sendRequestNotification(null, ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
 				});
 		}
 
@@ -449,7 +451,7 @@ class NetatmoEnergy extends utils.Adapter {
 				})
 				.catch(error => {
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
-					this.sendRequestNotification(null, ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang), ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
+					this.sendRequestNotification(null, ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (' ' + error.error + ': ' + error.error_description) : ''));
 				});
 		} else {
 			if (lastrequest) {
@@ -511,7 +513,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getroosmeasure request is missing parameters', this.systemLang));
-			await this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang), mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
+			await this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
 		}
 	}
 
@@ -532,7 +534,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getmeasure request is missing parameters', this.systemLang));
-			await this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang), mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
+			await this.sendRequestNotification(null, WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + ' ' + measure_payload);
 		}
 	}
 
@@ -671,7 +673,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error('API-synchomeschedule request is missing parameters');
-			await this.sendRequestNotification(null, WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters', 'Actual payload: ' + syncmode);
+			await this.sendRequestNotification(null, WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters' + 'Actual payload: ' + syncmode);
 		}
 	}
 
@@ -707,6 +709,7 @@ class NetatmoEnergy extends utils.Adapter {
 						}
 					});
 				} catch(err) {
+					// @ts-ignore
 					if (err.name == 'AbortError') {
 						that.log.debug(mytools.tl('Netatmo API request aborted', that.systemLang));
 					} else {
@@ -776,15 +779,18 @@ class NetatmoEnergy extends utils.Adapter {
 						schedule_name = await that.getStateAsync(id.substring(0,id.length - 3) + '.name');
 						if (schedule_name) {
 							//that.log.debug('Found Schedule_NAME: ' + schedule_name.val);
+							// @ts-ignore
 							that.globalScheduleObjects[that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_')] = schedule_id.val;
+							// @ts-ignore
 							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_'), schedule_name.val, false, true, 'button', true, true, '', false, false);
+							// @ts-ignore
 							await that.subscribeStates(that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_'));
 
 							// create sortet object
 							const mySchedule = mytools.getSortedArray(schedule_name.val, schedule_id.val, that.globalScheduleList, that.globalScheduleListArray);
 							that.globalScheduleList      = mySchedule.list;
 							that.globalScheduleListArray = mySchedule.listArray;
-							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, '', true, false);
+							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id, 'Id of the schedule', '', true, 'text', true, true, that.globalScheduleList, true, false);
 						}
 					}
 				}
@@ -880,7 +886,7 @@ class NetatmoEnergy extends utils.Adapter {
 						//that.log.debug('Room-ID: ' + room_id.val + ' / ' + roomName.val);
 
 						// create sortet object
-						const myRooms = mytools.getSortedArray(roomName.val, room_id.val, that.globalRoomId, that.globalRoomIdArray);
+						const myRooms = mytools.getSortedArray(((roomName !== null && roomName !== undefined) ? roomName.val : room_id.val), room_id.val, that.globalRoomId, that.globalRoomIdArray);
 						that.globalRoomId      = myRooms.list;
 						that.globalRoomIdArray = myRooms.listArray;
 						await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getroommeasure + '.' + Channel_parameters + '.' + State_room_id, 'Id of room', '', true, 'text', true, true, that.globalRoomId, false, true);
@@ -926,11 +932,11 @@ class NetatmoEnergy extends utils.Adapter {
 						const type = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.' + 'type');
 						if (type && type.val == 'NATherm1') {
 							const deviceName = await that.getStateAsync(myTargetName  + '.name');
-							const type = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.' + 'bridge');
+							const bridge = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.' + 'bridge');
 							//that.log.debug('Device-ID: ' + type.val + ' / ' + deviceName.val + ' / ' + id);
 
 							// create sortet object
-							const myDevices = mytools.getSortedArray(deviceName.val, type.val, that.globalDeviceId, that.globalDeviceIdArray);
+							const myDevices = mytools.getSortedArray(((deviceName !== null && deviceName !== undefined) ? deviceName.val : type.val), ((bridge !== null && bridge !== undefined) ? bridge.val : type.val), that.globalDeviceId, that.globalDeviceIdArray);
 							that.globalDeviceId      = myDevices.list;
 							that.globalDeviceIdArray = myDevices.listArray;
 							await that.createNetatmoStructure(that.globalAPIChannel + '.' + Channel_getmeasure + '.' + Channel_parameters + '.' + State_device_id, 'Mac adress of the device', '', true, 'text', true, true, that.globalDeviceId, false, true);
@@ -950,7 +956,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//calculate date in seconds -> milliseconds including gap to time_exec
 	async getDateFrom1970(seconds) {
 		const adapter_time_exec = await this.getStateAsync(this.namespace + '.' + State_Time_Exec);
-		return (adapter_time_exec.val + seconds) * 3600;
+		return (((adapter_time_exec !== null && adapter_time_exec !== undefined) ? adapter_time_exec.val : 0) + seconds) * 3600;
 	}
 
 	// Create Device
@@ -1049,17 +1055,20 @@ class NetatmoEnergy extends utils.Adapter {
 			native: {},
 		};
 		if (list != '' && (typeof list === 'string' || list instanceof String)) {
+			// @ts-ignore
 			myObject.common.states = JSON.parse(list);
 		} else if (typeof list === 'object') {
 			myObject.common.states = list;
 		}
 		try {
 			if (forced) {
+				// @ts-ignore
 				await this.setObjectAsync(id, myObject);
 				if (!norefresh) {
 					await this.setState(id, value, ack);
 				}
 			} else {
+				// @ts-ignore
 				await this.setObjectNotExistsAsync(id, myObject);
 				if (!norefresh) {
 					await this.setState(id, value, ack);
@@ -1073,7 +1082,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//set trigger after comparing
 	async compareValues(id, state, idtoset) {
 		const adapterstates = await this.getStateAsync(id);
-		if(adapterstates.val != state.val ) {
+		if(adapterstates && adapterstates.val != state.val ) {
 			this.setState(idtoset, true, true);
 		} else {
 			this.setState(idtoset, false, true);
@@ -1179,7 +1188,8 @@ class NetatmoEnergy extends utils.Adapter {
 							break;
 
 						// Set Therm Mode for Netatmo Energy
-						case Trigger_SetTemp:
+						case Trigger_SetTemp: {
+							// @ts-ignore
 							if (!isNaN(state.val)) {
 								if (this.config.applyimmediately) {
 									this.log.debug('SetTemp: ' + mytools.tl('Call API directly', this.systemLang));
@@ -1192,7 +1202,7 @@ class NetatmoEnergy extends utils.Adapter {
 								this.log.debug('SetTemp: ' + mytools.tl('No Number', this.systemLang) + ' ' + state.val);
 							}
 							break;
-
+						}
 						// Apply all changes to Netatmo Cloud
 						case Trigger_applychanges:
 							if (state.val === false) {
