@@ -25,15 +25,15 @@ async function getTranslation(){
 
 // Build temperture textbox
 function buildtemptext(data) {
-	const color_vtxt = (data.temperature_valve_color)  ? ('style="color: ' + data.temperature_valve_color + '";')  : ('style="color: white;"');
-	const color_stxt = (data.temperature_target_color) ? ('style="color: ' + data.temperature_target_color + '";') : ('style="color: white;"');
-	const color_itxt = (data.temperature_ist_color)    ? ('style="color: ' + data.temperature_ist_color + '";')    : ('style="color: white;"');
-	const valve_now  = ((data.valve_now)    ? (data.valve_now)    : ('Ventiltemperatur')) + ': ';
-	const valve_soll = ((data.valve_target) ? (data.valve_target) : ('Soll-Temperatur')) + ': ';
-	const valve_ist  = ((data.valve_actual) ? (data.valve_actual) : ('Ist-Temperatur')) + ': ';
-	const temp_now   = ((data.act_oid)   ? ((vis.states.attr(data.act_oid + '.val')).toFixed(1))  : ('Please insert SetTemp-ID in setup ')) + ((data.valve_now_behind) ? (data.valve_now_behind) : (' °C'));
-	const temp_soll  = ((data.oid)       ? ((vis.states.attr(data.oid + '.val')).toFixed(1))      : ('Please insert SetTemp-ID in setup ')) + ((data.valve_target_behind) ? (data.valve_target_behind) : (' °C'));
-	const temp_ist   = ((data.temp_oid)  ? ((vis.states.attr(data.temp_oid + '.val')).toFixed(1)) : ('Please insert SetTemp-ID in setup ')) + ((data.valve_actual_behind) ? (data.valve_actual_behind) : (' °C'));
+	const color_vtxt = (data.temperature_valve_color)	? ('style="color: ' + data.temperature_valve_color + '";')	: ('style="color: white;"');
+	const color_stxt = (data.temperature_target_color)	? ('style="color: ' + data.temperature_target_color + '";')	: ('style="color: white;"');
+	const color_itxt = (data.temperature_ist_color)		? ('style="color: ' + data.temperature_ist_color + '";')	: ('style="color: white;"');
+	const valve_now  = ((data.valve_now)				? (data.valve_now)		: ('Ventiltemperatur')) + ': ';
+	const valve_soll = ((data.valve_target)				? (data.valve_target)	: ('Soll-Temperatur')) + ': ';
+	const valve_ist  = ((data.valve_actual)				? (data.valve_actual)	: ('Ist-Temperatur')) + ': ';
+	const temp_now   = ((data.act_oid)					? ((vis.states.attr(data.act_oid + '.val')).toFixed(1))		: ('Please insert SetTemp-ID in setup ')) + ((data.valve_now_behind) ? (data.valve_now_behind) : (' °C'));
+	const temp_soll  = ((data.oid)						? ((vis.states.attr(data.oid + '.val')).toFixed(1))			: ('Please insert SetTemp-ID in setup ')) + ((data.valve_target_behind) ? (data.valve_target_behind) : (' °C'));
+	const temp_ist   = ((data.temp_oid)					? ((vis.states.attr(data.temp_oid + '.val')).toFixed(1))	: ('Please insert SetTemp-ID in setup ')) + ((data.valve_actual_behind) ? (data.valve_actual_behind) : (' °C'));
 	let txtlines = [];
 	let txtline  = '';
 
@@ -60,11 +60,11 @@ function buildtemptext(data) {
 
 // Build title
 function buildtitle(data) {
-	let roomtitle        = (data.alternativ_title) ? (data.alternativ_title) : null;
-	const roomname       = (data.title_oid)        ? (vis.states.attr(data.title_oid + '.val')) : null;
-	const textfont       = (data.title_font)       ? ('font-family: ' + data.title_font + ';') : ('font-family: Verdana, Geneva, sans-serif;');
-	const title_fontsize = (data.title_fontsize)   ? ('font-size: ' + data.title_fontsize + ';') : ('font-size: x-small;');
-	const txtcolor       = (data.color_title)      ? ('color: ' + data.color_title + ';') : ('color: white;');
+	let roomtitle        = (data.alternativ_title)	? (data.alternativ_title) : null;
+	const roomname       = (data.title_oid)			? (vis.states.attr(data.title_oid + '.val')) : null;
+	const textfont       = (data.title_font)		? ('font-family: ' + data.title_font + ';') : ('font-family: Verdana, Geneva, sans-serif;');
+	const title_fontsize = (data.title_fontsize)	? ('font-size: ' + data.title_fontsize + ';') : ('font-size: x-small;');
+	const txtcolor       = (data.color_title)		? ('color: ' + data.color_title + ';') : ('color: white;');
 
 	if (roomname && roomname != '' && roomtitle) {
 		roomtitle = roomtitle.replace('&room', roomname);
@@ -155,13 +155,13 @@ vis.binds.netatmobasic = {
 
 	//create slider
 	slider: function (el, wid, view, data, options) {
-		var $this       = $(el);
-		var oid         = $this.attr('data-oid');
-		var oid2        = $this.attr('data-oid2');
-		var oid_val     = 0;
-		var oid2_val    = 0;
-		var woid         = $this.attr('data-oid-working');
-		var woid2        = $this.attr('data-oid2-working');
+		var $this		= $(el);
+		var oid			= $this.attr('data-oid');
+		var oid2		= $this.attr('data-oid2');
+		var oid_val		= 0;
+		var oid2_val	= 0;
+		var woid		= $this.attr('data-oid-working');
+		var woid2		= $this.attr('data-oid2-working');
 
 		var settings    = $.extend({
 			range:  !!oid2,
@@ -212,9 +212,9 @@ vis.binds.netatmobasic = {
 		if (isNaN(settings.max))   settings.max = 100;
 		if (isNaN(settings.step))  settings.step = (settings.max - settings.min) / 100;
 
-		settings.min = parseFloat(settings.min);
-		settings.max = parseFloat(settings.max);
-		settings.value = parseFloat(settings.value);
+		settings.min	= parseFloat(settings.min);
+		settings.max	= parseFloat(settings.max);
+		settings.value	= parseFloat(settings.value);
 
 		if (settings.inverted) settings.value = (settings.max - settings.value) + settings.min;
 		// Slider erzeugen

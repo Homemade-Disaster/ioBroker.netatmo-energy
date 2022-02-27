@@ -10,94 +10,94 @@
 <!-- here you can include so many js-files as you want -->
 <script type="text/javascript" src="widgets/netatmo-energy/js/netatmo-energy.js"></script>
 
-<script id="tplnetatmo-energyValves"
-		type="text/ejs"
-		class="vis-tpl"
-		data-vis-prev='<img src="widgets/netatmo-energy/img/netatmo-energy.png"></img>'
-		data-vis-attrs="oid/id/getDynamicAttributes;
-										temp_oid/hidden;
-										act_oid/hidden;
-										title_oid/hidden;
-										xpos_title[10]/slider,0,1024,1;
-										ypos_title[118]/slider,0,768,1;
-										alternativ_title[&room];
-										color_title/color;
-										title_font/fontname;
-										title_fontsize[large]/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
-		data-vis-attrs0="group.frame;
-										frame_left_top_radius[15]/slider,0,25,1;
-										frame_rigth_top_radius[0]/slider,0,25,1;
-										frame_top_color[#F39C12]/color;
-										frame_left_bottom_radius[0]/slider,0,25,1;
-										frame_right_bottom_radius[15]/slider,0,25,1;
-										frame_bottom_color[#cb7906]/color;"
-		data-vis-attrs1="group.slider;
-										min[6]/number;
-										max[30]/number;
-										step[0.5]/number;
-										orientation[horizontal]/nselect,horizontal,vertical;
-										inverted/checkbox;
-										submitmethod[stop]/nselect,scroll,stop;
-										top_slider[30]/slider,0,1024,1;
-										left_slider[60]/slider,0,768,1;
-										width_slider[180]/slider,0,1024,1;"
-		data-vis-attrs2="group.temp;
-										position_target[1]/number;
-										valve_target;
-										valve_target_behind;
-										temperature_target_color/color;
-										position_actual[2]/number;
-										valve_actual;
-										valve_actual_behind;
-										temperature_ist_color/color;
-										position_now[3]/number;
-										valve_now;
-										valve_now_behind;
-										temperature_valve_color/color;
-										top_valve[65]/slider,0,768,1;
-										left_valve[115]/slider,0,1024,1;
-										temperature_font/fontname;
-										temperature_fontsize/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
-		data-vis-attrs3="group.picture;
-										upd_oid/id;
-										pic_logo/image;
-										xpos_logo[10]/slider,0,1024,1;
-										ypos_logo[20]/slider,0,768,1;
-										size_logo[40]/slider,0,300,1;
-										show_logo[true]/checkbox;
-										refr_oid/id;
-										pic_refresh/image;
-										xpos_refresh[230]/slider,0,1024,1;
-										ypos_refresh[4]/slider,0,768,1;
-										size_refresh[15]/slider,0,300,1;
-										show_refresh[true]/checkbox;"
-		data-vis-attrs4="group.signals_widget;
-										reachable_oid/hidden;
-										pic_reachable/image;
-										xpos_reachable[161]/slider,0,1024,1;
-										ypos_reachable[120]/slider,0,768,1;
-										size_reachhable[20]/slider,0,300,1;
-										show_reachable[true]/checkbox;
-										anticipating_oid/hidden;
-										pic_anticipating/image;
-										xpos_anticipating[185]/slider,0,1024,1;
-										ypos_anticipating[123]/slider,0,768,1;
-										size_anticipating[15]/slider,0,300,1;
-										show_anticipating[true]/checkbox;
-										windowopen_oid/hidden;
-										pic_windowopen/image;
-										xpos_window[205]/slider,0,1024,1;
-										ypos_window[121]/slider,0,768,1;
-										size_window[20]/slider,0,300,1;
-										show_windowopen[true]/checkbox;
-										running_oid/hidden;
-										pic_running/image;
-										xpos_running[230]/slider,0,1024,1;
-										ypos_running[122]/slider,0,768,1;
-										size_running[18]/slider,0,300,1;"
-		data-vis-set="netatmo-energy"
-		data-vis-type="ctrl,val"
-		data-vis-name="Thermostat">
+<script id				=	"tplnetatmo-energyValves"
+		type			=	"text/ejs"
+		class			=	"vis-tpl"
+		data-vis-prev	=	'<img src="widgets/netatmo-energy/img/netatmo-energy.png"></img>'
+		data-vis-attrs	=	"oid/id/getDynamicAttributes;
+							temp_oid/hidden;
+							act_oid/hidden;
+							title_oid/hidden;
+							xpos_title[10]/slider,0,1024,1;
+							ypos_title[118]/slider,0,768,1;
+							alternativ_title[&room];
+							color_title/color;
+							title_font/fontname;
+							title_fontsize[large]/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
+		data-vis-attrs0	=	"group.frame;
+							frame_left_top_radius[15]/slider,0,25,1;
+							frame_rigth_top_radius[0]/slider,0,25,1;
+							frame_top_color[#F39C12]/color;
+							frame_left_bottom_radius[0]/slider,0,25,1;
+							frame_right_bottom_radius[15]/slider,0,25,1;
+							frame_bottom_color[#cb7906]/color;"
+		data-vis-attrs1	=	"group.slider;
+							min[6]/number;
+							max[30]/number;
+							step[0.5]/number;
+							orientation[horizontal]/nselect,horizontal,vertical;
+							inverted/checkbox;
+							submitmethod[stop]/nselect,scroll,stop;
+							top_slider[30]/slider,0,1024,1;
+							left_slider[60]/slider,0,768,1;
+							width_slider[180]/slider,0,1024,1;"
+		data-vis-attrs2	=	"group.temp;
+							position_target[1]/number;
+							valve_target;
+							valve_target_behind;
+							temperature_target_color/color;
+							position_actual[2]/number;
+							valve_actual;
+							valve_actual_behind;
+							temperature_ist_color/color;
+							position_now[3]/number;
+							valve_now;
+							valve_now_behind;
+							temperature_valve_color/color;
+							top_valve[65]/slider,0,768,1;
+							left_valve[115]/slider,0,1024,1;
+							temperature_font/fontname;
+							temperature_fontsize/nselect,medium,xx-small,x-small,small,large,x-large,xx-large,smaller,larger;"
+		data-vis-attrs3	=	"group.picture;
+							upd_oid/id;
+							pic_logo/image;
+							xpos_logo[10]/slider,0,1024,1;
+							ypos_logo[20]/slider,0,768,1;
+							size_logo[40]/slider,0,300,1;
+							show_logo[true]/checkbox;
+							refr_oid/id;
+							pic_refresh/image;
+							xpos_refresh[230]/slider,0,1024,1;
+							ypos_refresh[4]/slider,0,768,1;
+							size_refresh[15]/slider,0,300,1;
+							show_refresh[true]/checkbox;"
+		data-vis-attrs4	=	"group.signals_widget;
+							reachable_oid/hidden;
+							pic_reachable/image;
+							xpos_reachable[161]/slider,0,1024,1;
+							ypos_reachable[120]/slider,0,768,1;
+							size_reachhable[20]/slider,0,300,1;
+							show_reachable[true]/checkbox;
+							anticipating_oid/hidden;
+							pic_anticipating/image;
+							xpos_anticipating[185]/slider,0,1024,1;
+							ypos_anticipating[123]/slider,0,768,1;
+							size_anticipating[15]/slider,0,300,1;
+							show_anticipating[true]/checkbox;
+							windowopen_oid/hidden;
+							pic_windowopen/image;
+							xpos_window[205]/slider,0,1024,1;
+							ypos_window[121]/slider,0,768,1;
+							size_window[20]/slider,0,300,1;
+							show_windowopen[true]/checkbox;
+							running_oid/hidden;
+							pic_running/image;
+							xpos_running[230]/slider,0,1024,1;
+							ypos_running[122]/slider,0,768,1;
+							size_running[18]/slider,0,300,1;"
+		data-vis-set	=	"netatmo-energy"
+		data-vis-type	=	"ctrl,val"
+		data-vis-name	=	"Thermostat">
 
 	<div style="overflow:visible; width: 250px; height: 143px; padding: 2px;" class="vis-widget <%== this.data.attr('class') %>" id="<%= this.data.attr('wid') %>">
 		<div style="width: 100%; height: 100%;" class="netatmo-energy-class vis-widget-body <%== this.data.attr('class') %>">
