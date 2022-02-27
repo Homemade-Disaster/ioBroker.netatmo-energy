@@ -1267,6 +1267,7 @@ const _systemDictionary = {
 	}
 };
 
+// @ts-ignore
 if (typeof module !== 'undefined' && module.parent) {
 	module.exports = _systemDictionary;
 } else {
