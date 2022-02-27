@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"news": {
+			"1.0.2": {
+				"en": "Redesign coding",
+				"de": "Codierung neu gestalten",
+				"ru": "Редизайн кодирования",
+				"pt": "Redesign de codificação",
+				"nl": "Codering opnieuw ontwerpen",
+				"fr": "Refonte du codage",
+				"it": "Riprogettare la codifica",
+				"es": "Codificación de rediseño",
+				"pl": "Przeprojektuj kodowanie",
+				"zh-cn": "重新设计编码"
+			  },
 			"1.0.1": {
 				"en": "Redesign coding",
 				"de": "Codierung neu gestalten",
