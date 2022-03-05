@@ -1332,7 +1332,6 @@ class NetatmoEnergy extends utils.Adapter {
 	  * @param {ioBroker.Message} obj
 	*/
 	onMessage(obj) {
-		this.log.error('SendTo: ' + obj.command);
 		if (typeof obj === 'object' && obj.command) {
 			switch (obj.command) {
 				case NotificationTelegramUser:
