@@ -328,7 +328,7 @@ class NetatmoEnergy extends utils.Adapter {
 			case APIRequest_synchomeschedule:
 				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + ' ' + addText + ' ' + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
-			//get requestst
+			//get requests
 			case APIRequest_getroommeasure:
 				await this.getNameofRoom(addText.substring(addText.lastIndexOf('&room_id=') + 9, addText.lastIndexOf('&scale=')));
 				break;
@@ -350,6 +350,7 @@ class NetatmoEnergy extends utils.Adapter {
 			//email
 			case NotificationEmail:
 				if (this.email.instance !== '' && this.email.instance !== null && this.email.instance !== undefined) {
+					this.log.debug('Send message to eMail');
 					adapter.sendTo(adapter.email.instance, 'send', { text: 'Netatmo Energy:\n' + messageText, to: adapter.email.emailReceiver, subject: subject, from: adapter.email.emailSender });
 					return;
 				}
@@ -358,6 +359,7 @@ class NetatmoEnergy extends utils.Adapter {
 			//pushover
 			case NotificationPushover:
 				if (this.pushover.instance !== '' && this.pushover.instance !== null && this.pushover.instance !== undefined) {
+					this.log.debug('Send message to Pushover');
 					if (this.pushover.SilentNotice === 'true' || this.pushover.SilentNotice === true) {
 						adapter.sendTo(adapter.pushover.instance, 'send', { message: 'Netatmo Energy:\n' + messageText, sound: '', priority: -1, title: subject, device: adapter.pushover.deviceID });
 					} else {
@@ -369,6 +371,7 @@ class NetatmoEnergy extends utils.Adapter {
 			//telegram
 			case NotificationTelegram:
 				if (this.telegram.instance !== '' && this.telegram.instance !== null && this.telegram.instance !== undefined) {
+					this.log.debug('Send message to Telegram');
 					if (this.telegram.User && this.telegram.User === 'allTelegramUsers') {
 						adapter.sendTo(adapter.telegram.instance, 'send', { text: 'Netatmo Energy:\n' + subject + ' - ' + messageText, disable_notification: adapter.telegram.SilentNotice });
 					} else {
@@ -380,6 +383,7 @@ class NetatmoEnergy extends utils.Adapter {
 			//whatsapp
 			case NotificationWhatsapp:
 				if (this.whatsapp.instance !== '' && this.whatsapp.instance !== null && this.whatsapp.instance !== undefined) {
+					this.log.debug('Send message to WhatsApp');
 					adapter.sendTo(adapter.whatsapp.instance, 'send', { text: 'Netatmo Energy:\n' + subject + ' - ' + messageText });
 				}
 				break;
@@ -1345,7 +1349,7 @@ class NetatmoEnergy extends utils.Adapter {
 									// @ts-ignore
 									const userList = JSON.parse(state.val);
 									try {
-										const UserArray = [{label: 'All Receiver', value: ''}];
+										const UserArray = [{label: 'All Receiver', value: 'allTelegramUsers'}];
 										for (const i in userList) {
 											UserArray.push({label: userList[i].firstName, value: userList[i].userName});
 										}
