@@ -3,6 +3,7 @@
 // Load modules
 const utils = require('@iobroker/adapter-core');
 const abort = require('abort-controller');
+// @ts-ignore
 const fetch = require('fetch');
 const mytools = require('./lib/mytools');
 
@@ -153,6 +154,7 @@ class NetatmoEnergy extends utils.Adapter {
 			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
 		}
 		//Passwort decryption
+		// @ts-ignore
 		this.getForeignObject('system.config', (err, obj) => {
 			// @ts-ignore
 			this.systemLang = obj.common.language;
@@ -461,6 +463,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//get token from Netatmo
+	// @ts-ignore
 	getToken(HomeId,ClientId,ClientSecretID,User,Password) {
 		this.globalNetatmo_AccessToken = null;
 		let payload = '';
@@ -557,6 +560,7 @@ class NetatmoEnergy extends utils.Adapter {
 				const createAPIapplyAsync_syncrequest = async function(NetatmoRequest, mode, that) {
 					const searchstring = 'rooms\\.\\d+\\.' + Channel_settings + '\\.' + State_TempChanged + '';
 					let changesmade = false;
+					// @ts-ignore
 					that.getStates(that.namespace + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
 						for(const id in states) {
 							const adapterstates = await that.getStateAsync(id);
@@ -625,6 +629,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Apply request to API for temp
+	// @ts-ignore
 	async applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
 		const roomnumber        = await this.getStateAsync(actParent + '.id');
 		const actTemp           = await this.getStateAsync(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature);
@@ -768,6 +773,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalScheduleList      = {};
 		this.globalScheduleListArray = [];
 		//schedules
+		// @ts-ignore
 		this.getStates(that.namespace + '.homes.*.schedules.*',async function(error, states) {
 			await that.createMyChannel(that.globalAPIChannel + '.' + Channel_switchhomeschedule, 'API switchhomeschedule');
 			for(const id in states) {
@@ -810,6 +816,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		return new Promise(
 			function(resolve,reject) {
+				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 					for(const id in states) {
 						//that.log.debug('Search rooms: ' + searchRooms);
@@ -844,6 +851,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		return new Promise(
 			function(resolve,reject) {
+				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 					for(const id in states) {
 						//that.log.debug('Search Modules: ' + searchModules);
@@ -872,6 +880,7 @@ class NetatmoEnergy extends utils.Adapter {
 		let room_id = null;
 		const that = this;
 
+		// @ts-ignore
 		that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 			for(const id in states) {
 				//that.log.debug('Search All Rooms: ' + searchRooms);
@@ -919,6 +928,7 @@ class NetatmoEnergy extends utils.Adapter {
 		let module_id = null;
 		const that = this;
 
+		// @ts-ignore
 		that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 			for(const id in states) {
 				//that.log.debug('Search All Modules: ' + searchModules);
@@ -1328,10 +1338,12 @@ class NetatmoEnergy extends utils.Adapter {
 				case NotificationTelegramUser:
 					if (obj.callback) {
 						try {
+							// @ts-ignore
 							const inst = (obj.message && obj.message.config.instance) ? obj.message.config.instance : this.config.telegramInstance;
 							this.getForeignState(inst + '.communicate.users', (err, state) => {
 								err && this.log.error(err.message);
 								if (state && state.val) {
+									// @ts-ignore
 									const userList = JSON.parse(state.val);
 									try {
 										const UserArray = [{label: 'All Receiver', value: ''}];
@@ -1340,6 +1352,7 @@ class NetatmoEnergy extends utils.Adapter {
 										}
 										this.sendTo(obj.from, obj.command, UserArray, obj.callback);
 									} catch (err) {
+										// @ts-ignore
 										err && this.log.error(err);
 										this.log.error('Cannot parse stored user IDs from Telegram!');
 									}
@@ -1357,6 +1370,7 @@ class NetatmoEnergy extends utils.Adapter {
 				case NotificationEmail:
 					if (obj.callback) {
 						try {
+							// @ts-ignore
 							this.getObjectView('system', 'instance', {startkey: 'system.adapter.' + obj.command + '.', endkey: 'system.adapter.' + obj.command + '.\u9999'}, (err, instances) =>
 							{
 								if (instances && instances.rows) {
