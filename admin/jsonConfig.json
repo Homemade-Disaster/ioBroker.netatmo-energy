@@ -1,0 +1,223 @@
+{
+    "type": "tabs",
+    "i18n": true,
+    "items": {
+        "tabLogon": {
+            "type": "panel",
+            "label": "Logon information",
+            "items": {
+                "HomeId":{
+                    "type": "text",
+                    "label": "Home-ID:",
+                    "help": "Home ID from your Netatmo Energy installation"
+                },  
+                "ClientId":{
+                    "type": "text",
+                    "label": "Client-ID:",
+                    "help": "Client ID from your Netatmo APP",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },  
+                "ClientSecretID":{
+                    "type": "text",
+                    "label": "Client-Secret-ID:",
+                    "help": "Client Secret ID from your Netatmo APP",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                }, 
+                "User": {
+                    "newLine": true,
+                    "type": "text",
+                    "label": "Username:",
+                    "help": "Username from your Netatmo Account",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "password": {
+                    "type": "password",
+                    "label": "Password",
+                    "hidden": "Password from your Netatmo Account",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "Informations":{
+                    "type": "header",
+                    "size": "2",
+                    "text": "Informations"
+                },     
+                "notificationEnabled":{
+                    "type": "checkbox",
+                    "label": "Enable / Disable Notifications"
+                }       
+            }
+        },
+        "tabAPI": {
+            "type": "panel",
+            "label": "General settings",
+            "items": {   
+                "applyimmediately":{
+                    "type": "checkbox",
+                    "label": "apply immediately",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                    
+                },
+                "getchangesimmediately":{
+                    "type": "checkbox",
+                    "label": "read API states immediately",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                    
+                },
+                "refreshstates":{
+                    "type": "number",
+                    "help": "Refresh states every x seconds"
+                }
+            }
+        },
+        "tabNotification": {
+            "type": "panel",
+            "label": "Notifications",
+            "disabled": "data.notificationEnabled !== true",
+            "items": {   
+                "notificationsType": {
+                    "type": "select",
+                    "noTranslation": true,
+                    "options": [
+                      {"label": "Telegram", "value": "telegram"},
+                      {"label": "E-Mail",   "value": "email"},
+                      {"label": "Pushover", "value": "pushover"},
+                      {"label": "WhatsApp", "value": "whatsapp-cmb"}
+                    ],
+                    "label": "notifications type",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                  },
+
+                "telegramInstance":{
+                    "type": "selectSendTo",
+                    "command": "telegram",
+                    "label": "Telegram instance",
+                    "hidden": "data.notificationsType !== 'telegram'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },  
+                "telegramUser":{
+                    "type": "selectSendTo",
+                    "command": "getTelegramUser",
+                    "label": "Telegram Receiver",
+                    "hidden": "data.notificationsType !== 'telegram'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },
+                "telegramSilentNotice":{
+                    "type": "checkbox",
+                    "label": "Silent Notice",
+                    "hidden": "data.notificationsType !== 'telegram'"
+                },
+
+                "whatsappInstance":{
+                    "type": "selectSendTo",
+                    "command": "whatsapp-cmb",
+                    "label": "WhatsApp instance",
+                    "hidden": "data.notificationsType !== 'whatsapp-cmb'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },
+                
+                "pushoverInstance":{
+                    "type": "selectSendTo",
+                    "command": "pushover",
+                    "label": "Pushover instance",
+                    "hidden": "data.notificationsType !== 'pushover'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },  
+                "pushoverDeviceID":{
+                    "type": "text",
+                    "label": "device ID (optional)",
+                    "hidden": "data.notificationsType !== 'pushover'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },
+                "pushoverSilentNotice":{
+                    "type": "checkbox",
+                    "label": "Silent Notice",
+                    "hidden": "data.notificationsType !== 'pushover'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },  
+                
+                "emailReceiver":{
+                    "type": "text",
+                    "label": "email receiver",
+                    "hidden": "data.notificationsType !== 'email'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },  
+                "emailSender":{
+                    "type": "text",
+                    "label": "email sender",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "emailInstance":{
+                    "type": "selectSendTo",
+                    "command": "email",
+                    "label": "email instance",
+                    "hidden": "data.notificationsType !== 'email'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },   
+                
+                "genInfoHeader":{
+                    "type": "header",
+                    "size": "2",
+                    "text": "Allgemeine Einstellungen"          
+                },  
+                "NoticeType":{
+                    "type": "select",
+                    "options": [
+                      {"label": "Long Notifications", "value": "longNotice"},
+                      {"label": "Short Notifications", "value": "shortNotice"}
+                    ],                    
+                    "label": "Notification Style",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },
+                "notifications":{
+                    "type": "select",
+                    "options": [
+                      {"label": "no notifications", "value": "000"},
+                      {"label": "informations", "value": "i00"},
+                      {"label": "informations, warnings", "value": "iw0"},
+                      {"label": "informations, errors", "value": "i0e"},
+                      {"label": "informations, warnings, errors", "value": "iwe"},
+                      {"label": "warnings", "value": "0w0"},
+                      {"label": "warnings, errors", "value": "0we"},
+                      {"label": "errors", "value": "00e"}                                                                  
+                    ],                    
+                    "label": "message type",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                }              
+            }
+        }        
+    }
+}

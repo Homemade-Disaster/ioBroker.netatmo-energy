@@ -8,8 +8,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/Homemade-Disaster/ioBroker.netatmo-energy/badge.svg)](https://snyk.io/test/github/Homemade-Disaster/ioBroker.netatmo-energy)
 
 [![NPM](https://nodei.co/npm/iobroker.netatmo-energy.png?downloads=true)](https://nodei.co/npm/iobroker.netatmo-energy/)
-
-**Tests:** ![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
+![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/admin/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
@@ -91,14 +91,15 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
 ## Changelog
+[Older changes](CHANGELOG_OLD.md)
 <!--
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### 1.0.2 (2022-02-27)
-* (ioKlausi) Redesign coding
+### 1.0.3 (2022-02-27)
+* (ioKlausi) Transfered Customizing-UI to json
 
-### 1.0.1 (2022-02-27)
+### 1.0.2 (2022-02-27)
 * (ioKlausi) Redesign coding
 
 ### 1.0.0 (2022-02-25)
@@ -118,88 +119,6 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 
 ### 0.2.0
 * (ioKlausi) Compatibility check to js-controller 4.0
-
-### 0.1.20
-* (ioKlausi) Bug fixing (Sentry errors)
-
-### 0.1.19
-* (ioKlausi) Adapter finalized & wiki created
-
-### 0.1.18
-* (ioKlausi) Separate icons for widget-signals created
-
-### 0.1.17
-* (ioKlausi) Widget adapted for window opened, bug fixing setroomthermpoint
-
-### 0.1.16
-* (ioKlausi) Bug fixing
-
-### 0.1.15
-* (ioKlausi) Widget for valve added
-
-### 0.1.14
-* (ioKlausi) Notification services added
-
-### 0.1.13
-* (ioKlausi) Bug fixing token expiring
-
-### 0.1.12
-* (ioKlausi) Redesign coding, add sentry, check token expiring
-
-### 0.1.11
-* (ioKlausi) Type of adapter changed
-
-### 0.1.10
-* (ioKlausi) Add API requests getmeasure and getroommeasure for manual use
-
-### 0.1.9
-* (ioKlausi) Add API request synchomeschedule for manual use
-
-### 0.1.8
-* (ioKlausi) Add API request switchhomeschedule dynamically
-
-### 0.1.7
-* (ioKlausi) Change role logic
-
-### 0.1.6
-* (ioKlausi) Add schedule for refresh homestates and redesign config screen
-
-### 0.1.5
-* (ioKlausi) Password encryption/decryption added
-
-### 0.1.4
-* (ioKlausi) Publish new NPM version
-
-### 0.1.3
-* (ioKlausi) Redesign coding
-
-### 0.1.2
-* (ioKlausi) Changed "SpecialRequests" to Device "energyAPP"
-
-### 0.1.1
-* (ioKlausi) Send API homestatus request immediately  
-
-### 0.1.0
-* (ioKlausi) Bug fixing and publishing adapter  
-
-### 0.0.6
-* (ioKlausi) Fixed adapter for latest repository
-
-### 0.0.5
-* (ioKlausi) ACK Logic changed
-
-### 0.0.4
-* (ioKlausi) Changed creation of API request folder
-
-### 0.0.3
-* (ioKlausi) Translation and bug fixing
-
-### 0.0.2
-* (ioKlausi) Add API requests and automatically generation of home structure and documentation
-
-### 0.0.1
-* (ioKlausi) initial release
-Start to create the adapter.
 
 ## License
 MIT License

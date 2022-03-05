@@ -3,6 +3,18 @@
 		"name": "netatmo-energy",
 		"version": "1.0.2",
 		"news": {
+			"1.0.3": {
+				"en": "Transfered Customizing-UI to json",
+				"de": "Customizing-UI nach json übertragen",
+				"ru": "Переведен Customizing-UI в json",
+				"pt": "Customizing-UI transferido para json",
+				"nl": "Customizing-UI overgezet naar json",
+				"fr": "Transfert de l'interface utilisateur de personnalisation vers json",
+				"it": "Trasferito Customizing-UI in json",
+				"es": "Transferencia de Customizing-UI a json",
+				"pl": "Przeniesiono dostosowywanie-UI do json",
+				"zh-cn": "将定制 UI 转移到 json"
+			  },
 			"1.0.2": {
 				"en": "Redesign coding",
 				"de": "Codierung neu gestalten",
@@ -275,15 +287,19 @@
 		"connectionType": "cloud",
 		"dataSource": "poll",
 		"materialize": true,
+		"messagebox": true,
 		"dependencies": [
 			{
 				"js-controller": ">=3.0.0"
 			}
 		],
 		"plugins": {
-      "sentry": {
-        "dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
-			}
+		"sentry": {
+			"dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
+				}
+			},
+		"adminUI": {
+			"config": "json"
 		}
 	},
 	"native": {
@@ -297,7 +313,7 @@
 		"refreshstates": 0,
 		"notifications": "000",
 		"notificationEnabled": false,
-		"notificationsType": "Telegram",
+		"notificationsType": "telegram",
 		"telegramInstance": "telegram.0",
 		"telegramUser": "All Receiver",
 		"telegramSilentNotice": false,

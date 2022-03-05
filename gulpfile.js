@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /*!
  * ioBroker gulpfile
  * Date: 2019-01-28
@@ -51,9 +52,8 @@ function readWordJs(src) {
 			words = fs.readFileSync(src + fileName).toString();
 		}
 		words = words.substring(words.indexOf('{'), words.length);
-		words = words.substring(0, words.lastIndexOf(';'));
-
-		const resultFunc = new Function('return ' + words + ';');
+		words = words.substring(0, words.lastIndexOf('};'));
+		const resultFunc = new Function('return ' + words + '};');
 
 		return resultFunc();
 	} catch (e) {
@@ -97,6 +97,7 @@ function writeWordJs(data, src) {
 function words2languages(src) {
 	const langs = Object.assign({}, languages);
 	const data = readWordJs(src);
+	console.error('ReadData ' + data);
 	if (data) {
 		for (const word in data) {
 			if (data.hasOwnProperty(word)) {

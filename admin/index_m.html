@@ -78,34 +78,53 @@
 		getAdapterInstances('pushover', function (instances) {
 			fillInstances('pushoverInstance', instances, settings['pushoverInstance']);
 		});
-		sendTo(null, 'getTelegramUser', null, function (obj) {
-			fillTelegramUser(settings['telegramUser'], obj)
-		});
+		sendTo(null, 'getTelegramUser', { config: { instance: settings.telegramInstance } }, function (obj) {
+        	fillTelegramUser(settings['telegramUser'], obj, settings.telegramInstance)
+    	});
 	}
 
-	function fillTelegramUser(id, str) {
-			var user = str.replace(/[{}"\\]/g,"").split(',');
-			var $sel = $('#telegramUser');
-			$sel.html('<option value="allTelegramUsers">' + _('All Receiver') + '</option>');
+	function fillTelegramUser(id, str, telegramInst) {
+		var useUserName = false;
 
-			user.forEach(function(val){
-				val = val.split(':');
-				$('#telegramUser').append('<option value="' + val[1] + '"' + (id === val[1] ? ' selected' : '') + '>' + val[1] +'</option>');
+		if (telegramInst !== null) {			
+			socket.emit('getObject', `system.adapter.${telegramInst}`, function (err, obj) {
+				if (obj && obj.native) {
+					var native = obj.native;
+					useUserName = native.useUsername;
+				}
+				var $sel = $('#telegramUser');
+				$sel.html('<option value="allTelegramUsers">' + _('All Receiver') + '</option>');
+				const userList = JSON.parse(str);
+				if (useUserName) {
+					for (const i in userList) {
+						$('#telegramUser').append('<option value="' + userList[i].userName + '"' + (id === userList[i].userName ? ' selected' : '') + '>' + userList[i].userName + '</option>');
+					}
+				} else {
+					for (const i in userList) {
+						$('#telegramUser').append('<option value="' + userList[i].firstName + '"' + (id === userList[i].firstName ? ' selected' : '') + '>' + userList[i].firstName + '</option>');
+					}
+				}
+				$sel.select();
 			});
+		} else {
+			var $sel = $('#telegramUser');
+			$sel.html('<option value="none">' + _('none') + '</option>');
 			$sel.select();
+		}
 	}
 
 	function fillInstances(id, arr, val) {
-			var $sel = $('#' + id);
-			$sel.html('<option value="">' + _('none') + '</option>');
-			for (var i = 0; i < arr.length; i++) {
-				var _id = arr[i]._id.replace('system.adapter.', '');
-				// Take first value
-				// if (!val) val = _id;
-				$sel.append('<option value="' + _id + '"' + (_id === val ? ' selected' : '') + '>' + _id + '</option>');
-			}
-			$sel.select();
+		var $sel = $('#' + id);
+		$sel.html('<option value="">' + _('none') + '</option>');
+		for (var i = 0; i < arr.length; i++) {
+			var _id = arr[i]._id.replace('system.adapter.', '');
+			// Take first value
+			// if (!val) val = _id;
+			$sel.append('<option value="' + _id + '"' + (_id === val ? ' selected' : '') + '>' + _id + '</option>');
+		}
+		$sel.select();
 	}
+
 	// This will be called by the admin adapter when the user presses the save button
 	function save(callback) {
 		// example: select elements with class=value and build settings object
@@ -128,28 +147,39 @@
 
 	function showHideSettings() {
 		$('#notificationsType').on('change', function () {
-		if ($(this).val() === 'Telegram') {
+		if ($(this).val() === 'telegram') {
 			$('.email').hide();
 			$('.pushover').hide();
 			$('.telegram').show();
 			$('.whatsapp').hide();
-		} else if ($(this).val() === 'E-Mail') {
+		} else if ($(this).val() === 'email') {
 			$('.email').show();
 			$('.telegram').hide();
 			$('.pushover').hide();
 			$('.whatsapp').hide();
-		} else if ($(this).val() === 'Pushover') {
+		} else if ($(this).val() === 'pushover') {
 			$('.pushover').show();
 			$('.telegram').hide();
 			$('.email').hide();
 			$('.whatsapp').hide();
-		} else if ($(this).val() === 'WhatsApp') {
+		} else if ($(this).val() === 'whatsapp-cmb') {
 			$('.whatsapp').show();
 			$('.telegram').hide();
 			$('.email').hide();
 			$('.pushover').hide();
 		}
 		}).trigger('change');
+
+		$('#telegramInstance').on('change', function () {
+			var telegramInst = $(this).val();
+			if (telegramInst && telegramInst.length >= 10) {
+				sendTo(null, 'getTelegramUser', { config: { instance: $(this).val() } }, function (obj) {
+					fillTelegramUser(settings['telegramUser'], obj, telegramInst);
+				});
+			} else {
+				fillTelegramUser(settings['telegramUser'], null, null);
+			}
+		}).trigger('change');	
 
 		if ($('#notificationEnabled').prop('checked')) {
 			$('.tabNotification').show();
@@ -241,10 +271,10 @@
 					<div class="row">
 						<div class="input-field col s12 m6 l3 ">
 							<select class="value" id="notificationsType">
-								<option value="Telegram" class="translate">Telegram</option>
-								<option value="E-Mail" class="translate">E-Mail</option>
-								<option value="Pushover" class="translate">Pushover</option>
-								<option value="WhatsApp" class="translate">WhatsApp</option>
+								<option value="telegram" class="translate">Telegram</option>
+								<option value="email" class="translate">E-Mail</option>
+								<option value="pushover" class="translate">Pushover</option>
+								<option value="whatsapp-cmb" class="translate">WhatsApp</option>
 							</select>
 							<label for="notificationsType" class="translate">notifications type</label>
 						</div>

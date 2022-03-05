@@ -89,10 +89,11 @@ const List_type_mm							= '{"boileron": "Boiler on", "boileroff": "Boiler off",
 const List_type_rm							= '{"temperature": "Temperature"}';
 
 //notifications
-const NotificationEmail						= 'E-Mail';
-const NotificationTelegram					= 'Telegram';
-const NotificationPushover					= 'Pushover';
-const NotificationWhatsapp					= 'WhatsApp';
+const NotificationEmail						= 'email';
+const NotificationTelegram					= 'telegram';
+const NotificationTelegramUser				= 'getTelegramUser';
+const NotificationPushover					= 'pushover';
+const NotificationWhatsapp					= 'whatsapp-cmb';
 const NoticeTypeLong						= 'longNotice';
 const ErrorNotification						= 'Error';
 const InfoNotification						= 'Info';
@@ -100,18 +101,16 @@ const WarningNotification					= 'Warn';
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
-	/**
-	 * @param {Partial<utils.AdapterOptions>} [adapter={}]
-	 */
-	constructor(adapter) {
-		super({
-			...adapter,
+
+	constructor(options) {
+		super(Object.assign(options || {}, {
 			name: 'netatmo-energy',
-		});
+		}));
+
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
 		//this.on('objectChange', this.onObjectChange.bind(this));
-		// this.on('message', this.onMessage.bind(this));
+		this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 
 		this.globalDevice				= null;
@@ -136,6 +135,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.adapterIntervals			= [];
 		this.FetchAbortController		= new abort.AbortController();
 	}
+
 	// Decrypt password
 	_decrypt(key, value) {
 		let result = '';
@@ -1315,6 +1315,64 @@ class NetatmoEnergy extends utils.Adapter {
 	// 	}
 	// }
 
+	//React on al subsribed fields
+	/**
+	  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
+	  * Using this method requires "common.messagebox" property to be set to true in io-package.json
+	  * @param {ioBroker.Message} obj
+	*/
+	onMessage(obj) {
+		this.log.error('SendTo: ' + obj.command);
+		if (typeof obj === 'object' && obj.command) {
+			switch (obj.command) {
+				case NotificationTelegramUser:
+					if (obj.callback) {
+						try {
+							const inst = (obj.message && obj.message.config.instance) ? obj.message.config.instance : this.config.telegramInstance;
+							this.getForeignState(inst + '.communicate.users', (err, state) => {
+								err && this.log.error(err.message);
+								if (state && state.val) {
+									const userList = JSON.parse(state.val);
+									try {
+										const UserArray = [{label: 'All Receiver', value: ''}];
+										for (const i in userList) {
+											UserArray.push({label: userList[i].firstName, value: userList[i].userName});
+										}
+										this.sendTo(obj.from, obj.command, UserArray, obj.callback);
+									} catch (err) {
+										err && this.log.error(err);
+										this.log.error('Cannot parse stored user IDs from Telegram!');
+									}
+								}
+							});
+						} catch (e) {
+							this.sendTo(obj.from, obj.command, [{label: 'All Receiver', value: ''}], obj.callback);
+						}
+					}
+					break;
+
+				case NotificationTelegram:
+				case NotificationPushover:
+				case NotificationWhatsapp:
+				case NotificationEmail:
+					if (obj.callback) {
+						try {
+							this.getObjectView('system', 'instance', {startkey: 'system.adapter.' + obj.command + '.', endkey: 'system.adapter.' + obj.command + '.\u9999'}, (err, instances) =>
+							{
+								if (instances && instances.rows) {
+									this.sendTo(obj.from, obj.command, instances.rows.map(row =>({label: row.id.replace('system.adapter.',''), value: row.id.replace('system.adapter.','')})), obj.callback);
+								}
+								else
+									this.sendTo(obj.from, obj.command, [{label: 'Not available', value: ''}], obj.callback);
+							});
+						} catch (e) {
+							this.sendTo(obj.from, obj.command, [{label: 'Not available', value: ''}], obj.callback);
+						}
+					}
+					break;
+			}
+		}
+	}
 }
 
 // @ts-ignore parent is a valid property on module

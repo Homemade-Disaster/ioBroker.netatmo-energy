@@ -8,8 +8,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/Homemade-Disaster/ioBroker.netatmo-energy/badge.svg)](https://snyk.io/test/github/Homemade-Disaster/ioBroker.netatmo-energy)
 
 [![NPM](https://nodei.co/npm/iobroker.netatmo-energy.png?downloads=true)](https://nodei.co/npm/iobroker.netatmo-energy/)
-
-**Tests:** ![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
+![Test and Release](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/workflows/Test%20and%20Release/badge.svg)
+[![Translation status](https://weblate.iobroker.net/widgets/adapters/-/admin/svg-badge.svg)](https://weblate.iobroker.net/engage/adapters/?utm_source=widget)
 
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
@@ -91,14 +91,15 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
 ## Changelog
+[Older changes](CHANGELOG_OLD.md)
 <!--
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### 1.0.2 (2022-02-27)
-* (ioKlausi) Redesign coding
+### 1.0.3 (2022-02-27)
+* (ioKlausi) Transfered Customizing-UI to json
 
-### 1.0.1 (2022-02-27)
+### 1.0.2 (2022-02-27)
 * (ioKlausi) Redesign coding
 
 ### 1.0.0 (2022-02-25)
