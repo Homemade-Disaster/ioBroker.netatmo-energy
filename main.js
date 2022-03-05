@@ -345,12 +345,10 @@ class NetatmoEnergy extends utils.Adapter {
 	sendNotification(adapter, errortype, subject, messageText) {
 		if(!this.config.notificationEnabled) return;
 		if (!((this.config.notifications.substring(0,1) != '0' && errortype == InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == ErrorNotification))) return;
-
 		switch(this.config.notificationsType) {
 			//email
 			case NotificationEmail:
 				if (this.email.instance !== '' && this.email.instance !== null && this.email.instance !== undefined) {
-					this.log.debug('Send message to eMail');
 					adapter.sendTo(adapter.email.instance, 'send', { text: 'Netatmo Energy:\n' + messageText, to: adapter.email.emailReceiver, subject: subject, from: adapter.email.emailSender });
 					return;
 				}
@@ -359,7 +357,6 @@ class NetatmoEnergy extends utils.Adapter {
 			//pushover
 			case NotificationPushover:
 				if (this.pushover.instance !== '' && this.pushover.instance !== null && this.pushover.instance !== undefined) {
-					this.log.debug('Send message to Pushover');
 					if (this.pushover.SilentNotice === 'true' || this.pushover.SilentNotice === true) {
 						adapter.sendTo(adapter.pushover.instance, 'send', { message: 'Netatmo Energy:\n' + messageText, sound: '', priority: -1, title: subject, device: adapter.pushover.deviceID });
 					} else {
@@ -371,8 +368,7 @@ class NetatmoEnergy extends utils.Adapter {
 			//telegram
 			case NotificationTelegram:
 				if (this.telegram.instance !== '' && this.telegram.instance !== null && this.telegram.instance !== undefined) {
-					this.log.debug('Send message to Telegram');
-					if (this.telegram.User && this.telegram.User === 'allTelegramUsers') {
+					if (this.telegram.User && (this.telegram.User === 'allTelegramUsers' || this.telegram.User === '')) {
 						adapter.sendTo(adapter.telegram.instance, 'send', { text: 'Netatmo Energy:\n' + subject + ' - ' + messageText, disable_notification: adapter.telegram.SilentNotice });
 					} else {
 						adapter.sendTo(adapter.telegram.instance, 'send', { user: adapter.telegram.User, text: 'Netatmo Energy:\n' + subject + ' - ' + messageText, disable_notification: adapter.telegram.SilentNotice });
@@ -383,7 +379,6 @@ class NetatmoEnergy extends utils.Adapter {
 			//whatsapp
 			case NotificationWhatsapp:
 				if (this.whatsapp.instance !== '' && this.whatsapp.instance !== null && this.whatsapp.instance !== undefined) {
-					this.log.debug('Send message to WhatsApp');
 					adapter.sendTo(adapter.whatsapp.instance, 'send', { text: 'Netatmo Energy:\n' + subject + ' - ' + messageText });
 				}
 				break;

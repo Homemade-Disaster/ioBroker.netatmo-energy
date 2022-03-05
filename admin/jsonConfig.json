@@ -12,6 +12,7 @@
                     "help": "Home ID from your Netatmo Energy installation"
                 },  
                 "ClientId":{
+                    "newLine": true,
                     "type": "text",
                     "label": "Client-ID:",
                     "help": "Client ID from your Netatmo APP",
@@ -25,7 +26,7 @@
                     "help": "Client Secret ID from your Netatmo APP",
                     "sm": 12,
                     "md": 6,
-                    "lg": 4            
+                    "lg": 4   
                 }, 
                 "User": {
                     "newLine": true,
@@ -68,6 +69,7 @@
                     "lg": 4                    
                 },
                 "getchangesimmediately":{
+                    "newLine": true,
                     "type": "checkbox",
                     "label": "read API states immediately",
                     "sm": 12,
@@ -75,6 +77,7 @@
                     "lg": 4                    
                 },
                 "refreshstates":{
+                    "newLine": true,
                     "type": "number",
                     "help": "Refresh states every x seconds"
                 }
@@ -101,6 +104,7 @@
                   },
 
                 "telegramInstance":{
+                    "newLine": true,
                     "type": "selectSendTo",
                     "command": "telegram",
                     "label": "Telegram instance",
@@ -119,12 +123,14 @@
                     "lg": 4            
                 },
                 "telegramSilentNotice":{
+                    "newLine": true,
                     "type": "checkbox",
                     "label": "Silent Notice",
                     "hidden": "data.notificationsType !== 'telegram'"
                 },
 
                 "whatsappInstance":{
+                    "newLine": true,
                     "type": "selectSendTo",
                     "command": "whatsapp-cmb",
                     "label": "WhatsApp instance",
@@ -135,6 +141,7 @@
                 },
                 
                 "pushoverInstance":{
+                    "newLine": true,
                     "type": "selectSendTo",
                     "command": "pushover",
                     "label": "Pushover instance",
@@ -152,6 +159,7 @@
                     "lg": 4            
                 },
                 "pushoverSilentNotice":{
+                    "newLine": true,
                     "type": "checkbox",
                     "label": "Silent Notice",
                     "hidden": "data.notificationsType !== 'pushover'",
@@ -159,8 +167,19 @@
                     "md": 6,
                     "lg": 4            
                 },  
-                
+
+                "emailInstance":{
+                    "newLine": true,
+                    "type": "selectSendTo",
+                    "command": "email",
+                    "label": "email instance",
+                    "hidden": "data.notificationsType !== 'email'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },                   
                 "emailReceiver":{
+                    "newLine": true,
                     "type": "text",
                     "label": "email receiver",
                     "hidden": "data.notificationsType !== 'email'",
@@ -171,25 +190,18 @@
                 "emailSender":{
                     "type": "text",
                     "label": "email sender",
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4
-                },
-                "emailInstance":{
-                    "type": "selectSendTo",
-                    "command": "email",
-                    "label": "email instance",
                     "hidden": "data.notificationsType !== 'email'",
                     "sm": 12,
                     "md": 6,
                     "lg": 4
-                },   
+                },
                 
                 "genInfoHeader":{
                     "type": "header",
                     "size": "2",
                     "text": "Allgemeine Einstellungen"          
                 },  
+
                 "NoticeType":{
                     "type": "select",
                     "options": [

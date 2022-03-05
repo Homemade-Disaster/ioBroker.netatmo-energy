@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-var */
+/* eslint-disable no-undef */
 /*
 	ioBroker.vis netatmo-energy Widget-Set
 
@@ -16,7 +19,7 @@ if (vis.editMode) {
 }
 
 async function getTranslation(){
-	let translation = await(await fetch("widgets/netatmo-energy/js/words.js")).text();
+	let translation = await(await fetch('widgets/netatmo-energy/js/words.js')).text();
 	if (translation) {
 		translation = translation.substring(translation.indexOf('{'), translation.lastIndexOf(';'));
 		$.extend(true, systemDictionary, JSON.parse(translation));
@@ -34,7 +37,7 @@ function buildtemptext(data) {
 	const temp_now   = ((data.act_oid)					? ((vis.states.attr(data.act_oid + '.val')).toFixed(1))		: ('Please insert SetTemp-ID in setup ')) + ((data.valve_now_behind) ? (data.valve_now_behind) : (' °C'));
 	const temp_soll  = ((data.oid)						? ((vis.states.attr(data.oid + '.val')).toFixed(1))			: ('Please insert SetTemp-ID in setup ')) + ((data.valve_target_behind) ? (data.valve_target_behind) : (' °C'));
 	const temp_ist   = ((data.temp_oid)					? ((vis.states.attr(data.temp_oid + '.val')).toFixed(1))	: ('Please insert SetTemp-ID in setup ')) + ((data.valve_actual_behind) ? (data.valve_actual_behind) : (' °C'));
-	let txtlines = [];
+	const txtlines   = [];
 	let txtline  = '';
 
 	if (data.position_target) {
@@ -140,7 +143,7 @@ function buildlogo(data) {
 function buildrefresh(data) {
 	const icon_img = (data.pic_refresh) ? (data.pic_refresh) : ('widgets/netatmo-energy/img/refresh.png' );
 	let show_image = '';
-	let border_class = 'class="netatmo-pic-action"';
+	const border_class = 'class="netatmo-pic-action"';
 
 	if (data.refr_oid) {
 		if (data.show_refresh == true || data.show_refresh === 'true') {
@@ -312,8 +315,8 @@ vis.binds.netatmobasic = {
 
 	//create title
 	gettitle: function(el, wid, data) {
-		let bound = [];
-		let $wid = $('#' + wid);
+		const bound = [];
+		const $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildtitle(data));
 
@@ -336,8 +339,8 @@ vis.binds.netatmobasic = {
 
 	//create window open
 	getrunning: function(el, wid, data) {
-		let bound = [];
-		let $wid = $('#' + wid);
+		const bound = [];
+		const $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildrunning(data));
 
@@ -360,8 +363,8 @@ vis.binds.netatmobasic = {
 
 	//create window open
 	getwindowopen: function(el, wid, data) {
-		let bound = [];
-		let $wid = $('#' + wid);
+		const bound = [];
+		const $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildwindowopen(data));
 
@@ -384,8 +387,8 @@ vis.binds.netatmobasic = {
 
 	//create reachable
 	getreachable: function(el, wid, data) {
-		let bound = [];
-		let $wid = $('#' + wid);
+		const bound = [];
+		const $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildreachable(data));
 
@@ -408,8 +411,8 @@ vis.binds.netatmobasic = {
 
 	//create anticipating
 	getanticipating: function(el, wid, data) {
-		let bound = [];
-		let $wid = $('#' + wid);
+		const bound = [];
+		const $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildanticipating(data));
 
@@ -432,8 +435,8 @@ vis.binds.netatmobasic = {
 
 	//create temperatur informations
 	gettemperatures: function(el, wid, data) {
-		let bound = [];
-		let $wid = $('#' + wid);
+		const bound = [];
+		const $wid = $('#' + wid);
 		const element = $(el);
 		element.html(buildtemptext(data));
 
@@ -497,6 +500,7 @@ vis.binds['netatmo-energy'] = {
 				const result = vis.findByRoles(value, roles);
 				if (result) {
 					for (const r in result) {
+						const position = result[r].indexOf('.homes.');
 						switch(r) {
 							case 'value.temperature':
 								changed.push('act_oid'); // remember attr to update it
@@ -512,7 +516,6 @@ vis.binds['netatmo-energy'] = {
 								changed.push('title_oid'); // remember attr to update it
 								vis.views[view].widgets[wid].data.title_oid = result[r];
 								vis.widgets[wid].data.title_oid = result[r];
-								let position = result[r].indexOf('.homes.');
 								if (position >= 0) {
 									if (!vis.views[view].widgets[wid].data.refr_oid) {
 										changed.push('refr_oid');

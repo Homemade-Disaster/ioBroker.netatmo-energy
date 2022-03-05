@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.0.3",
+		"version": "1.0.4",
 		"news": {
+			"1.0.4": {
+				"en": "Bugfix: Send message",
+				"de": "Bugfix: Nachricht senden",
+				"ru": "Исправлено: отправить сообщение",
+				"pt": "Correção de bug: Enviar mensagem",
+				"nl": "Bugfix: bericht verzenden",
+				"fr": "Correction de bug : Envoyer un message",
+				"it": "Bugfix: Invia messaggio",
+				"es": "Corrección de errores: Enviar mensaje",
+				"pl": "Bugfix: Wyślij wiadomość",
+				"zh-cn": "错误修正：发送消息"
+			  },
 			"1.0.3": {
 				"en": "Transfered Customizing-UI to json",
 				"de": "Customizing-UI nach json übertragen",
