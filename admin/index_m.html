@@ -79,36 +79,27 @@
 			fillInstances('pushoverInstance', instances, settings['pushoverInstance']);
 		});
 		sendTo(null, 'getTelegramUser', { config: { instance: settings.telegramInstance } }, function (obj) {
-        	fillTelegramUser(settings['telegramUser'], obj, settings.telegramInstance)
+        	fillTelegramUser(obj, settings['telegramUser'])
     	});
 	}
 
-	function fillTelegramUser(id, str, telegramInst) {
-		var useUserName = false;
-
-		if (telegramInst !== null) {			
-			socket.emit('getObject', `system.adapter.${telegramInst}`, function (err, obj) {
-				if (obj && obj.native) {
-					var native = obj.native;
-					useUserName = native.useUsername;
-				}
-				var $sel = $('#telegramUser');
-				$sel.html('<option value="allTelegramUsers">' + _('All Receiver') + '</option>');
-				const userList = JSON.parse(str);
-				if (useUserName) {
-					for (const i in userList) {
-						$('#telegramUser').append('<option value="' + userList[i].userName + '"' + (id === userList[i].userName ? ' selected' : '') + '>' + userList[i].userName + '</option>');
-					}
-				} else {
-					for (const i in userList) {
-						$('#telegramUser').append('<option value="' + userList[i].firstName + '"' + (id === userList[i].firstName ? ' selected' : '') + '>' + userList[i].firstName + '</option>');
-					}
-				}
-				$sel.select();
-			});
-		} else {
+	function fillTelegramUser(TelegramUserList, val) {
+		if (TelegramUserList) {
 			var $sel = $('#telegramUser');
-			$sel.html('<option value="none">' + _('none') + '</option>');
+			var firstentry = true;
+			TelegramUserList.forEach((user) => {
+				let UserLine = '<option value="' + user.value + '"' + (user.value === val ? ' selected' : '') + '>' + user.label + '</option>';
+				if (firstentry === true) {
+					$sel.html(UserLine);
+					firstentry = false;
+				} else {
+					$sel.append(UserLine);
+				}
+			});
+			if (firstentry === true) {
+				$sel.html('<option value="allTelegramUsers">All Receiver</option>');
+			}
+			
 			$sel.select();
 		}
 	}
@@ -171,15 +162,10 @@
 		}).trigger('change');
 
 		$('#telegramInstance').on('change', function () {
-			var telegramInst = $(this).val();
-			if (telegramInst && telegramInst.length >= 10) {
-				sendTo(null, 'getTelegramUser', { config: { instance: $(this).val() } }, function (obj) {
-					fillTelegramUser(settings['telegramUser'], obj, telegramInst);
-				});
-			} else {
-				fillTelegramUser(settings['telegramUser'], null, null);
-			}
-		}).trigger('change');	
+			sendTo(null, 'getTelegramUser', { config: { instance: $(this).val() } }, function (obj) {
+        		fillTelegramUser(obj, $('#telegramUser').val)
+    		});			
+		}).trigger('change');
 
 		if ($('#notificationEnabled').prop('checked')) {
 			$('.tabNotification').show();

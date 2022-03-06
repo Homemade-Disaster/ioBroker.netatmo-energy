@@ -1377,26 +1377,31 @@ class NetatmoEnergy extends utils.Adapter {
 						try {
 							// @ts-ignore
 							const inst = (obj.message && obj.message.config.instance) ? obj.message.config.instance : this.config.telegramInstance;
-							this.getForeignState(inst + '.communicate.users', (err, state) => {
-								err && this.log.error(err.message);
-								if (state && state.val) {
-									// @ts-ignore
-									const userList = JSON.parse(state.val);
-									try {
-										const UserArray = [{label: 'All Receiver', value: 'allTelegramUsers'}];
-										for (const i in userList) {
-											UserArray.push({label: userList[i].firstName, value: userList[i].userName});
-										}
-										this.sendTo(obj.from, obj.command, UserArray, obj.callback);
-									} catch (err) {
+							if (inst === '') {
+								this.sendTo(obj.from, obj.command, [{label: 'All Receiver', value: 'allTelegramUsers'}], obj.callback);
+							} else {
+								this.getForeignState(inst + '.communicate.users', (err, state) => {
+									err && this.log.error(err.message);
+									if (state && state.val) {
 										// @ts-ignore
-										err && this.log.error(err);
-										this.log.error(mytools.tl('Cannot parse stored user IDs from Telegram!', this.systemLang));
+										const userList = JSON.parse(state.val);
+										try {
+											const UserArray = [{label: 'All Receiver', value: 'allTelegramUsers'}];
+											for (const i in userList) {
+												UserArray.push({label: userList[i].firstName, value: userList[i].userName});
+											}
+											this.sendTo(obj.from, obj.command, UserArray, obj.callback);
+										} catch (err) {
+											// @ts-ignore
+											err && this.log.error(err);
+											this.log.error(mytools.tl('Cannot parse stored user IDs from Telegram!', this.systemLang));
+										}
 									}
-								}
-							});
+								});
+							}
 						} catch (e) {
-							this.sendTo(obj.from, obj.command, [{label: 'All Receiver', value: ''}], obj.callback);
+							this.log.error('I was here err');
+							this.sendTo(obj.from, obj.command, [{label: 'All Receiver', value: 'allTelegramUsers'}], obj.callback);
 						}
 					}
 					break;
