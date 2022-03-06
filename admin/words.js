@@ -689,6 +689,30 @@ const _systemDictionary = {
 		"pl": "dla Twojego systemu grzewczego",
 		"zh-cn": "用于您的加热系统"
 	},
+	"API-synchomeschedule request is missing parameters": {
+		"en": "API-synchomeschedule request is missing parameters",
+		"de": "API-synchomeschedule-Anfrage fehlen Parameter",
+		"ru": "В запросе API-synchomeschedule отсутствуют параметры",
+		"pt": "A solicitação API-synchomeschedule não tem parâmetros",
+		"nl": "API-synchronisatieschema-verzoek mist parameters",
+		"fr": "La requête API-synchomeschedule manque de paramètres",
+		"it": "Nella richiesta API-synchomeschedule mancano i parametri",
+		"es": "A la solicitud API-synchomeschedule le faltan parámetros",
+		"pl": "W żądaniu API-synchomeschedule brakuje parametrów",
+		"zh-cn": "API-synchomeschedule 请求缺少参数"
+	},
+	"Start refresh request": {
+		"en": "Start refresh request",
+		"de": "Aktualisierungsanforderung starten",
+		"ru": "Начать запрос на обновление",
+		"pt": "Iniciar solicitação de atualização",
+		"nl": "Vernieuwingsverzoek starten",
+		"fr": "Démarrer la demande d'actualisation",
+		"it": "Avvia richiesta di aggiornamento",
+		"es": "Iniciar solicitud de actualización",
+		"pl": "Rozpocznij żądanie odświeżenia",
+		"zh-cn": "开始刷新请求"
+	},
 	"Set room attributes": {
 		"en": "Set room übertragen",
 		"de": "Raumattribute festlegen",
@@ -1084,6 +1108,30 @@ const _systemDictionary = {
 		"es": "Establecer TempChanged manualmente",
 		"pl": "Ustaw TempChanged ręcznie",
 		"zh-cn": "手动设置TempChanged"
+	},
+	"Cannot parse stored user IDs from Telegram!": {
+		"en": "Cannot parse stored user IDs from Telegram!",
+		"de": "Gespeicherte Benutzer-IDs von Telegram können nicht geparst werden!",
+		"ru": "Не удается разобрать сохраненные идентификаторы пользователей из Telegram!",
+		"pt": "Não é possível analisar os IDs de usuário armazenados no Telegram!",
+		"nl": "Kan opgeslagen gebruikers-ID's van Telegram niet ontleden!",
+		"fr": "Impossible d'analyser les ID utilisateur stockés à partir de Telegram !",
+		"it": "Impossibile analizzare gli ID utente memorizzati da Telegram!",
+		"es": "¡No se pueden analizar los ID de usuario almacenados de Telegram!",
+		"pl": "Nie można przeanalizować zapisanych identyfikatorów użytkowników z Telegrama!",
+		"zh-cn": "无法从 Telegram 解析存储的用户 ID！"
+	},
+	"SetTemp: ": {
+		"en": "SetTemp: ",
+		"de": "SetTemp:",
+		"ru": "Заданная температура:",
+		"pt": "SetTemp:",
+		"nl": "Temp instellen:",
+		"fr": "Définir la température :",
+		"it": "Imposta Temp:",
+		"es": "Establecer temperatura:",
+		"pl": "Nastaw temperaturę:",
+		"zh-cn": "设置温度："
 	},
 	"API Request setthermpoint": {
 		"en": "API Request setthermpoint",

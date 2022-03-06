@@ -394,7 +394,7 @@ class NetatmoEnergy extends utils.Adapter {
 		const nowInSeconds = (new Date()).getTime() / 1000;
 		const shouldRefresh = nowInSeconds >= expirationTimeInSeconds;
 
-		this.log.debug('Start refresh request');
+		this.log.debug(mytools.tl('Start refresh request', this.systemLang));
 		await this.setState(this.globalAPIChannelStatus + '.' + State_Status_API_running, true, true);
 
 		//Send Token request to API
@@ -563,15 +563,12 @@ class NetatmoEnergy extends utils.Adapter {
 					that.getStates(that.namespace + '.homes.*.rooms.*.' + Channel_settings + '.' + State_TempChanged,async function(error, states) {
 						for(const id in states) {
 							const adapterstates = await that.getStateAsync(id);
-							//that.log.debug('Search rooms 1: ' + searchstring);
 							if (id.search(searchstring) >= 0) {
 								if (adapterstates && adapterstates.val === true) {
 									await that.setState(id, false, true);
-
 									const actPath   = id.substring(0,id.lastIndexOf('.'));
 									const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
 									const newTemp   = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
-									that.log.debug('Search rooms - Temp: ' + ((newTemp) ? newTemp.val : 'NULL'));
 									if (newTemp) {
 										if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode, true)) {
 											changesmade = true;
@@ -640,7 +637,6 @@ class NetatmoEnergy extends utils.Adapter {
 		if (temp === true) {
 			newTemp = newData;
 		}
-		//this.log.info('Payload1: ' + roomnumber + ' _ ' + ((actTemp) ? actTemp.val : '' ) + '-' + ((newTemp) ? newTemp.val : '' ));
 		if (roomnumber && ((actTemp && newTemp && actTemp.val != newTemp.val) || (actTemp_mode && actTemp_mode.val != ''))) {
 			let extend_payload = '&room_id=' + roomnumber.val;
 			//Temperatur
@@ -668,7 +664,6 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 				await this.setState(actParent + '.' + Channel_settings + '.' + State_TempChanged_Endtime, '', true);
 			}
-			//this.log.info('Payload2: ' + extend_payload);
 			//send request
 			await this.sendAPIRequest(NetatmoRequest, extend_payload, false, true);
 			return true;
@@ -697,7 +692,7 @@ class NetatmoEnergy extends utils.Adapter {
 			syncmode = syncmode + await this.getValuefromDatapoint('&schedule_id=', this.globalAPIChannel + '.' + Channel_synchomeschedule + '.' + Channel_parameters + '.' + State_schedule_id);
 			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh, true);
 		} else {
-			this.log.error('API-synchomeschedule request is missing parameters');
+			this.log.error(mytools.tl('API-synchomeschedule request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters' + 'Actual payload: ' + syncmode);
 		}
 	}
@@ -760,7 +755,6 @@ class NetatmoEnergy extends utils.Adapter {
 		for(const object_name in obj) {
 			if (API_Request === APIRequest_homestatus) {
 				const fullname = mytools.getPrefixPath(Netatmo_Path + '.') + object_name;
-				//this.log.debug('Search Tag: ' + relevantTag);
 				if (fullname.search(relevantTag) >= 0) {
 					await this.searchAllRooms(obj[object_name], obj, norefresh);
 					await this.searchAllModules(obj[object_name], obj);
@@ -787,24 +781,21 @@ class NetatmoEnergy extends utils.Adapter {
 		let schedule_id   = null;
 		let schedule_name = null;
 
-		//this.log.debug('Delete Channel: ' + that.globalDevice + ' - ' + Channel_switchhomeschedule);
 		await that.deleteChannel(that.globalAPIChannel, Channel_switchhomeschedule);
 		this.globalScheduleObjects   = {};
 		this.globalScheduleList      = {};
 		this.globalScheduleListArray = [];
+
 		//schedules
 		// @ts-ignore
 		this.getStates(that.namespace + '.homes.*.schedules.*',async function(error, states) {
 			await that.createMyChannel(that.globalAPIChannel + '.' + Channel_switchhomeschedule, 'API switchhomeschedule');
 			for(const id in states) {
-				//that.log.debug('Search Schedules: ' + searchSchedules);
 				if (id.search(searchSchedules) >= 0) {
 					schedule_id = await that.getStateAsync(id);
-					//that.log.debug('Found Schedule_ID: ' + schedule_id.val);
 					if (schedule_id) {
 						schedule_name = await that.getStateAsync(id.substring(0,id.length - 3) + '.name');
 						if (schedule_name) {
-							//that.log.debug('Found Schedule_NAME: ' + schedule_name.val);
 							// @ts-ignore
 							that.globalScheduleObjects[that.globalAPIChannel + '.' + Channel_switchhomeschedule + '.' + APIRequest_switchhomeschedule + '_' + schedule_name.val.replace(/[\s[\]*,;'"&`<>\\?.^$()/]/g, '_')] = schedule_id.val;
 							// @ts-ignore
@@ -839,7 +830,6 @@ class NetatmoEnergy extends utils.Adapter {
 				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 					for(const id in states) {
-						//that.log.debug('Search rooms: ' + searchRooms);
 						if (id.search(searchRooms) >= 0) {
 							room_id = await that.getStateAsync(id);
 							if (room_id && room_id.val == statevalue) {
@@ -874,7 +864,6 @@ class NetatmoEnergy extends utils.Adapter {
 				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 					for(const id in states) {
-						//that.log.debug('Search Modules: ' + searchModules);
 						if (id.search(searchModules) >= 0) {
 							device_id = await that.getStateAsync(id);
 							if (device_id && device_id.val == statevalue) {
@@ -903,16 +892,12 @@ class NetatmoEnergy extends utils.Adapter {
 		// @ts-ignore
 		that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
 			for(const id in states) {
-				//that.log.debug('Search All Rooms: ' + searchRooms);
 				if (id.search(searchRooms) >= 0) {
 					room_id = await that.getStateAsync(id);
 					if (room_id && room_id.val == statevalue) {
-						//that.log.debug('Found room: ' + room_id.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
 						await that.createMyChannel(myTargetName + '.' + Channel_status, 'Device status');
-
 						const roomName = await that.getStateAsync(myTargetName  + '.name');
-						//that.log.debug('Room-ID: ' + room_id.val + ' / ' + roomName.val);
 
 						// create sortet object
 						const myRooms = mytools.getSortedArray(((roomName !== null && roomName !== undefined) ? roomName.val : room_id.val), room_id.val, that.globalRoomId, that.globalRoomIdArray);
@@ -952,11 +937,9 @@ class NetatmoEnergy extends utils.Adapter {
 		// @ts-ignore
 		that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
 			for(const id in states) {
-				//that.log.debug('Search All Modules: ' + searchModules);
 				if (id.search(searchModules) >= 0) {
 					module_id = await that.getStateAsync(id);
 					if (module_id && module_id.val == statevalue) {
-						//that.log.debug('Found module: ' + module_id.val + ' = ' + statevalue);
 						const myTargetName = id.substring(0,id.length - 3);
 						await that.createMyChannel(myTargetName + '.' + Channel_modulestatus, 'Module status');
 
@@ -964,7 +947,6 @@ class NetatmoEnergy extends utils.Adapter {
 						if (type && type.val == 'NATherm1') {
 							const deviceName = await that.getStateAsync(myTargetName  + '.name');
 							const bridge = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.' + 'bridge');
-							//that.log.debug('Device-ID: ' + type.val + ' / ' + deviceName.val + ' / ' + id);
 
 							// create sortet object
 							const myDevices = mytools.getSortedArray(((deviceName !== null && deviceName !== undefined) ? deviceName.val : type.val), ((bridge !== null && bridge !== undefined) ? bridge.val : type.val), that.globalDeviceId, that.globalDeviceIdArray);
@@ -1176,7 +1158,6 @@ class NetatmoEnergy extends utils.Adapter {
 			this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 			if (state.ack === false) {
 				if (id.lastIndexOf('.') >= 0) {
-					//this.log.debug('ID: ' + id);
 					const actState = id.substring(id.lastIndexOf('.') + 1);
 					const actPath = id.substring(0,id.lastIndexOf('.'));
 					const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
@@ -1241,7 +1222,7 @@ class NetatmoEnergy extends utils.Adapter {
 									this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, actParent + '.' + Channel_status + '.' + State_TempChanged_Mode, state, actPath + '.' + State_TempChanged);
 								}
 							} else {
-								this.log.debug('SetTemp: ' + mytools.tl('No Number', this.systemLang) + ' ' + state.val);
+								this.log.debug(mytools.tl('SetTemp: ', this.systemLang) + mytools.tl('No Number', this.systemLang) + ' ' + state.val);
 							}
 							break;
 
@@ -1304,7 +1285,6 @@ class NetatmoEnergy extends utils.Adapter {
 							this.RefreshWholeStructure(false);
 							break;
 					}
-					this.log.debug('Search APIRequest_switchhomeschedule: ' + APIRequest_switchhomeschedule);
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {
 						if (state.val === true) {
 							this.setState(id, false, true);
@@ -1385,7 +1365,7 @@ class NetatmoEnergy extends utils.Adapter {
 									} catch (err) {
 										// @ts-ignore
 										err && this.log.error(err);
-										this.log.error('Cannot parse stored user IDs from Telegram!');
+										this.log.error(mytools.tl('Cannot parse stored user IDs from Telegram!', this.systemLang));
 									}
 								}
 							});
