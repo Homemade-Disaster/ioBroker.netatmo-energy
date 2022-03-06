@@ -1400,7 +1400,6 @@ class NetatmoEnergy extends utils.Adapter {
 								});
 							}
 						} catch (e) {
-							this.log.error('I was here err');
 							this.sendTo(obj.from, obj.command, [{label: 'All Receiver', value: 'allTelegramUsers'}], obj.callback);
 						}
 					}
