@@ -1230,6 +1230,9 @@ class NetatmoEnergy extends utils.Adapter {
 
 						// Set Therm Mode for Netatmo Energy to home
 						case Trigger_SetHome:
+							if (state.val === false) {
+								break;
+							}
 							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
 							this.setModeToHome(actParent + '.' + Channel_settings + '.' + Trigger_SetHome, actParent + '.' + Channel_settings + '.' + State_TempChanged_Mode, actParent + '.' + Channel_status + '.' + State_therm_setpoint_mode);
 							break;

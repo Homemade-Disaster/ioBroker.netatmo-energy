@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.1.0",
+		"version": "1.1.1",
 		"news": {
+			"1.1.1": {
+				"en": "Bugfix: setroomthermpoint",
+				"de": "Bugfix: Raumthermopunkt setzen",
+				"ru": "Исправление: setroomthermpoint",
+				"pt": "Correção de bug: setroomthermpoint",
+				"nl": "Bugfix: setroomthermpoint",
+				"fr": "Correctif : setroomthermpoint",
+				"it": "Bugfix: setroomthermpoint",
+				"es": "Corrección de errores: setroomthermpoint",
+				"pl": "Poprawka: setroomthermpoint",
+				"zh-cn": "错误修正：setroomthermpoint"
+			  },
 			"1.1.0": {
 				"en": "Trigger for valve-mode implemented",
 				"de": "Trigger für Ventilmodus implementiert",
