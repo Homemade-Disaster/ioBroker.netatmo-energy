@@ -689,6 +689,18 @@ const _systemDictionary = {
 		"pl": "dla Twojego systemu grzewczego",
 		"zh-cn": "用于您的加热系统"
 	},
+	"Set room attributes": {
+		"en": "Set room übertragen",
+		"de": "Raumattribute festlegen",
+		"ru": "Установить атрибуты комнаты",
+		"pt": "Definir atributos da sala",
+		"nl": "Kamerkenmerken instellen",
+		"fr": "Définir les attributs de la pièce",
+		"it": "Imposta gli attributi della stanza",
+		"es": "Establecer atributos de la habitación",
+		"pl": "Ustaw atrybuty pokoju",
+		"zh-cn": "设置房间属性"
+	},
 	"Retrieved statistic for a specific room": {
 		"en": "Retrieved statistic for a specific room",
 		"de": "Abgerufene Statistik für einen bestimmten Raum",

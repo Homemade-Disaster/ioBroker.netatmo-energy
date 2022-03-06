@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.0.4",
+		"version": "1.1.0",
 		"news": {
+			"1.1.0": {
+				"en": "Trigger for valve-mode implemented",
+				"de": "Trigger für Ventilmodus implementiert",
+				"ru": "Реализован триггер для режима клапана",
+				"pt": "Gatilho para modo de válvula implementado",
+				"nl": "Trigger voor klepmodus geïmplementeerd",
+				"fr": "Déclencheur pour le mode valve implémenté",
+				"it": "Attivato il trigger per la modalità valvola",
+				"es": "Disparador para modo de válvula implementado",
+				"pl": "Wdrożony wyzwalacz dla trybu zaworu",
+				"zh-cn": "已实现阀门模式的触发器"
+			  },
 			"1.0.4": {
 				"en": "Bugfix: Send message",
 				"de": "Bugfix: Nachricht senden",
@@ -122,126 +134,6 @@
 				"es": "Comprobación de compatibilidad con js-controller 4.0",
 				"pl": "Sprawdzenie zgodności z kontrolerem js 4.0",
 				"zh-cn": "对 js-controller 4.0 的兼容性检查"
-			},
-			"0.1.20": {
-				"en": "Bug fixing (Sentry errors)",
-				"de": "Fehlerbehebung (Sentry-Fehler)",
-				"ru": "Исправление ошибок (ошибки Sentry)",
-				"pt": "Correção de bug (erros do Sentry)",
-				"nl": "Bugfixing (Sentry-fouten)",
-				"fr": "Correction de bogues (erreurs Sentry)",
-				"it": "Correzione di bug (errori di Sentry)",
-				"es": "Corrección de errores (errores de centinela)",
-				"pl": "Naprawianie błędów (błędy Sentry)",
-				"zh-cn": "错误修复（哨兵错误）"
-			},
-			"0.1.19": {
-				"en": "Finalize adapter",
-				"de": "Adapter finalisieren",
-				"ru": "Доработать адаптер",
-				"pt": "Finalizar adaptador",
-				"nl": "Voltooi de adapter",
-				"fr": "Finaliser l'adaptateur",
-				"it": "Finalizza l'adattatore",
-				"es": "Finalizar adaptador",
-				"pl": "Sfinalizuj adapter",
-				"zh-cn": "完成适配器"
-		  },
-			"0.1.18": {
-				"en": "Separate icons for widget-signals created",
-				"de": "Separate Symbole für Widget-Signale erstellt",
-				"ru": "Созданы отдельные иконки для виджетов-сигналов",
-				"pt": "Ícones separados para sinais de widget criados",
-				"nl": "Afzonderlijke pictogrammen voor gecreëerde widgetsignalen",
-				"fr": "Icônes séparées pour les signaux de widget créés",
-				"it": "Icone separate per widget-segnali creati",
-				"es": "Iconos separados para señales de widget creadas",
-				"pl": "Utworzone osobne ikony dla sygnałów widżetów",
-				"zh-cn": "为小部件信号创建了单独的图标"
-		  },
-			"0.1.17": {
-				"en": "widget adapted for window opened, bugfix setroomthermpoint",
-				"de": "Widget angepasst für geöffnetes Fenster, Bugfix setroomthermpoint",
-				"ru": "виджет адаптирован под открытое окно, исправление ошибок setroomthermpoint",
-				"pt": "widget adaptado para janela aberta, correção de bug setroomthermpoint",
-				"nl": "widget aangepast voor geopend venster, bugfix setroomthermpoint",
-				"fr": "widget adapté à la fenêtre ouverte, correction de bogue setroomthermpoint",
-				"it": "widget adattato per la finestra aperta, bugfix setroomthermpoint",
-				"es": "widget adaptado para ventana abierta, setroomthermpoint de corrección de errores",
-				"pl": "widget przystosowany do otwartego okna, naprawa błędów setroomthermpoint",
-				"zh-cn": "适用于打开的窗口的小部件，错误修复setroomthermpoint"
-		  },
-			"0.1.16": {
-				"en": "Bugfixing and deployment of adapter",
-				"de": "Bugfixing und Bereitstellung des Adapters",
-				"ru": "Исправление ошибок и развертывание адаптера",
-				"pt": "Correção de bugs e implantação do adaptador",
-				"nl": "Bugfixing en implementatie van adapter",
-				"fr": "Correction de bogues et déploiement de l'adaptateur",
-				"it": "Correzione di bug e distribuzione dell'adattatore",
-				"es": "Corrección de errores e implementación del adaptador",
-				"pl": "Naprawianie błędów i wdrażanie adaptera",
-				"zh-cn": "适配器的错误修复和部署"
-		  },
-			"0.1.15": {
-				"en": "Widget for valve added",
-				"de": "Widget für Ventil hinzugefügt",
-				"ru": "Добавлен виджет для клапана",
-				"pt": "Widget para válvula adicionado",
-				"nl": "Widget voor klep toegevoegd",
-				"fr": "Widget pour valve ajouté",
-				"it": "Widget per la valvola aggiunto",
-				"es": "Widget para válvula agregado",
-				"pl": "Dodano widżet dla zaworu",
-				"zh-cn": "阀门小部件已添加"
-			},
-			"0.1.14": {
-				"en": "Notification services added",
-				"de": "Benachrichtigungsdienste hinzugefügt",
-				"ru": "Сервисы уведомлений добавлены",
-				"pt": "Serviços de notificação adicionados",
-				"nl": "Meldingsservices toegevoegd",
-				"fr": "Services de notification ajoutés",
-				"it": "Servizi di notifica aggiunti",
-				"es": "Servicios de notificación agregados",
-				"pl": "Dodano usługi powiadomień",
-				"zh-cn": "通知服务已添加"
-			},
-			"0.1.12": {
-				"en": "Redesign coding, add sentry, check token expiring",
-				"de": "Codierung neu gestalten, Sentry hinzufügen, Token Gültigkeit prüfen",
-				"ru": "Изменить кодировку, добавить часового, проверить срок действия токена",
-				"pt": "Redesenhar a codificação, adicionar sentinela, verificar a expiração do token",
-				"nl": "Herontwerp codering, voeg schildwacht toe, controleer of token verloopt",
-				"fr": "Reconcevoir le codage, ajouter une sentinelle, vérifier l'expiration du jeton",
-				"it": "Riprogettare la codifica, aggiungere sentinella, controllare la scadenza del token",
-				"es": "Rediseñar la codificación, agregar centinela, verificar el token que expira",
-				"pl": "Przeprojektowanie kodowania, dodanie wartownika, sprawdzenie wygaśnięcia tokena",
-				"zh-cn": "重新设计编码，添加哨兵，检查令牌到期"
-			},
-			"0.1.11": {
-				"en": "Type of adapter changed",
-				"de": "Adaptertyp geändert",
-				"ru": "Тип адаптера изменен",
-				"pt": "Tipo de adaptador alterado",
-				"nl": "Type adapter gewijzigd",
-				"fr": "Type d'adaptateur changé",
-				"it": "Tipo di adattatore cambiato",
-				"es": "Tipo de adaptador cambiado",
-				"pl": "Typ adaptera został zmieniony",
-				"zh-cn": "适配器类型已更改"
-			},
-			"0.1.10": {
-				"en": "Add API requests getmeasure and getroommeasure for manual use",
-				"de": "API-Requests getmeasure und getroommeasure für die manuelle Verwendung hinzugefügt",
-				"ru": "Добавить запросы API getmeasure и getroommeasure для ручного использования",
-				"pt": "Adicionar solicitações de API getmeasure e getroommeasure para uso manual",
-				"nl": "Voeg API-verzoeken getmeasure en getroommeasure toe voor handmatig gebruik",
-				"fr": "Ajouter des requêtes API getmeasure et getroommeasure pour une utilisation manuelle",
-				"it": "Aggiungi richieste API getmeasure e getroommeasure per l'uso manuale",
-				"es": "Agregue solicitudes de API getmeasure y getroommeasure para uso manual",
-				"pl": "Dodaj żądania API getmeasure i getroommeasure do ręcznego użycia",
-				"zh-cn": "添加API请求getmeasure和getroommeasure以供手动使用"
 			}
 		},
 		"title": "Netatmo Energy",

@@ -1,4 +1,19 @@
 # Older changes
+### 0.2.4 (2022-02-13)
+* (ioKlausi) Release Script added
+
+### 0.2.3
+* (ioKlausi) AbortController added
+
+### 0.2.2
+* (ioKlausi) Übersetzungen hinzugefügt & Kompaktmodus getestet
+
+### 0.2.1
+* (ioKlausi) Creation of states adapted
+
+### 0.2.0
+* (ioKlausi) Compatibility check to js-controller 4.0
+
 ## 0.1.20
 * (ioKlausi) Bug fixing (Sentry errors)
 

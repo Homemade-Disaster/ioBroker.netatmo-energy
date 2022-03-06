@@ -571,8 +571,9 @@ class NetatmoEnergy extends utils.Adapter {
 									const actPath   = id.substring(0,id.lastIndexOf('.'));
 									const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
 									const newTemp   = await that.getStateAsync(actPath + '.' + Trigger_SetTemp);
+									that.log.debug('Search rooms - Temp: ' + ((newTemp) ? newTemp.val : 'NULL'));
 									if (newTemp) {
-										if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode)) {
+										if (await that.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode, true)) {
 											changesmade = true;
 										}
 									}
@@ -629,26 +630,46 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Apply request to API for temp
 	// @ts-ignore
-	async applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
+	async applyActualTemp(newData, actPath, actParent, NetatmoRequest, mode, temp) {
 		const roomnumber        = await this.getStateAsync(actParent + '.id');
 		const actTemp           = await this.getStateAsync(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature);
 		const actTemp_mode      = await this.getStateAsync(actParent + '.' + Channel_settings + '.' + State_TempChanged_Mode);
 		const actTemp_endtime   = await this.getStateAsync(actParent + '.' + Channel_settings + '.' + State_TempChanged_Endtime);
+		let newTemp				= actTemp;
 
-		if (roomnumber && actTemp && actTemp.val != newTemp.val) {
-			let extend_payload = '&room_id=' + roomnumber.val + '&temp=' + newTemp.val;
+		if (temp === true) {
+			newTemp = newData;
+		}
+		//this.log.info('Payload1: ' + roomnumber + ' _ ' + ((actTemp) ? actTemp.val : '' ) + '-' + ((newTemp) ? newTemp.val : '' ));
+		if (roomnumber && ((actTemp && newTemp && actTemp.val != newTemp.val) || (actTemp_mode && actTemp_mode.val != ''))) {
+			let extend_payload = '&room_id=' + roomnumber.val;
+			//Temperatur
+			if (newTemp) {
+				try {
+					const temperature = Number(newTemp.val);
+					if (!isNaN(temperature)) {
+						extend_payload = extend_payload + '&temp=' + temperature;
+					}
+				} catch(error) {
+					//No Number
+				}
+			}
+			//mode
 			if (actTemp_mode && actTemp_mode.val != '') {
 				extend_payload = extend_payload + '&mode=' + actTemp_mode.val;
 				await this.setState(actParent + '.' + Channel_settings + '.' + State_TempChanged_Mode, '', true);
 			} else {
 				extend_payload = extend_payload + '&mode=' + mode;
 			}
+			//endtime
 			if (actTemp_endtime && actTemp_endtime.val != '') {
 				if (await this.getDateFrom1970(actTemp_endtime.val) > Date.now()) {
 					extend_payload = extend_payload + '&endtime=' + actTemp_endtime.val;
 				}
 				await this.setState(actParent + '.' + Channel_settings + '.' + State_TempChanged_Endtime, '', true);
 			}
+			//this.log.info('Payload2: ' + extend_payload);
+			//send request
 			await this.sendAPIRequest(NetatmoRequest, extend_payload, false, true);
 			return true;
 		} else {
@@ -657,8 +678,8 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Apply single request to API for temp
-	async applySingleActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode) {
-		await this.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode);
+	async applySingleActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode, temp) {
+		await this.applyActualTemp(newTemp,actPath,actParent,NetatmoRequest,mode, temp);
 		if (this.config.getchangesimmediately) {
 			await this.sendAPIRequest(APIRequest_homestatus, '', false, true);
 		}
@@ -910,6 +931,7 @@ class NetatmoEnergy extends utils.Adapter {
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Mode, 'The mode you are applying to this room (def=manual)', '', true, 'text', true, true, List_mode, norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Endtime, 'end time of the schedule mode set (seconds)', '', true, 'value.time', true, true, '', norefresh, false);
 										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp);
+										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Mode);
 										break;
 								}
 							}
@@ -1089,9 +1111,11 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//set trigger after comparing
-	async compareValues(id, state, idtoset) {
-		const adapterstates = await this.getStateAsync(id);
-		if(adapterstates && adapterstates.val != state.val ) {
+	async compareValues(id, id_mode, state, idtoset) {
+		const adapterstates         = await this.getStateAsync(id);
+		const adapterstates_mode    = await this.getStateAsync(id_mode);
+		//const adapterstates_endtime = await this.getStateAsync(id_endtime);
+		if((adapterstates && adapterstates.val != state.val) || (adapterstates_mode && adapterstates_mode.val != '')) {
 			this.setState(idtoset, true, true);
 		} else {
 			this.setState(idtoset, false, true);
@@ -1152,6 +1176,7 @@ class NetatmoEnergy extends utils.Adapter {
 			this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 			if (state.ack === false) {
 				if (id.lastIndexOf('.') >= 0) {
+					//this.log.debug('ID: ' + id);
 					const actState = id.substring(id.lastIndexOf('.') + 1);
 					const actPath = id.substring(0,id.lastIndexOf('.'));
 					const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
@@ -1197,27 +1222,34 @@ class NetatmoEnergy extends utils.Adapter {
 							break;
 
 						// Set Therm Mode for Netatmo Energy
-						case Trigger_SetTemp: {
+						case State_TempChanged_Mode:
+							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
+							if (this.config.applyimmediately) {
+								this.applySingleActualTemp(state,actPath,actParent,APIRequest_setroomthermpoint,APIRequest_setroomthermpoint_manual,false);
+							} else {
+								this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, actParent + '.' + Channel_status + '.' + State_TempChanged_Mode, state, actPath + '.' + State_TempChanged);
+							}
+							break;
+
+						case Trigger_SetTemp:
+							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
 							// @ts-ignore
 							if (!isNaN(state.val)) {
 								if (this.config.applyimmediately) {
-									this.log.debug('SetTemp: ' + mytools.tl('Call API directly', this.systemLang));
-									this.applySingleActualTemp(state,actPath,actParent,APIRequest_setroomthermpoint,APIRequest_setroomthermpoint_manual);
+									this.applySingleActualTemp(state,actPath,actParent,APIRequest_setroomthermpoint,APIRequest_setroomthermpoint_manual,true);
 								} else {
-									this.log.debug('SetTemp: ' + mytools.tl('Set TempChanged manually', this.systemLang));
-									this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, state, actPath + '.' + State_TempChanged);
+									this.compareValues(actParent + '.' + Channel_status + '.' + State_therm_setpoint_temperature, actParent + '.' + Channel_status + '.' + State_TempChanged_Mode, state, actPath + '.' + State_TempChanged);
 								}
 							} else {
 								this.log.debug('SetTemp: ' + mytools.tl('No Number', this.systemLang) + ' ' + state.val);
 							}
 							break;
-						}
+
 						// Apply all changes to Netatmo Cloud
 						case Trigger_applychanges:
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug('API Request setthermpoint - manual: ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.applySingleAPIRequest(APIRequest_setroomthermpoint, APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang) );
 							break;
@@ -1296,6 +1328,7 @@ class NetatmoEnergy extends utils.Adapter {
 					case Trigger_SetTemp:
 					case Trigger_refresh_all:
 					case Trigger_applychanges:
+					case State_TempChanged_Mode:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_away:

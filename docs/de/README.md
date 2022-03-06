@@ -95,6 +95,9 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.1.0 (2022-03-06)
+* (ioKlausi) setroomthermpoint - Trigger für Ventilmodus eingerichtet
+
 ### 1.0.4 (2022-03-05)
 * (ioKlausi) Bugfix - Nachricht senden
 
@@ -106,21 +109,6 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
 
 ### 1.0.0 (2022-02-25)
 * (ioKlausi) Hauptversion veröffentlichen
-
-### 0.2.4 (2022-02-13)
-* (ioKlausi) Release Script hinzugefügt
-
-### 0.2.3
-* (ioKlausi) AbortController hinzugefügt
-
-### 0.2.2
-* (ioKlausi) Übersetzungen hinzugefügt & Kompaktmodus getestet
-
-### 0.2.1
-* (ioKlausi) Erstellen von Objekten angepasst
-
-### 0.2.0
-* (ioKlausi) Kompatibilitätsprüfung für js-controller 4.0
 
 ## Lizenz
 MIT-Lizenz

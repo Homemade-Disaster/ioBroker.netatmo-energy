@@ -96,6 +96,9 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.1.0 (2022-03-06)
+* (ioKlausi) setroomthermpoint - Trigger for valve-mode implemented
+
 ### 1.0.4 (2022-03-05)
 * (ioKlausi) Bugfix - send message
 
