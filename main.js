@@ -36,6 +36,7 @@ const APIRequest_synchomeschedule			= 'synchomeschedule';
 const Trigger_applychanges					= 'applychanges';
 const Trigger_refresh_all					= 'refresh_structure';
 const Trigger_SetTemp						= 'SetTemp';
+const Trigger_SetHome						= 'set_mode_to_home';
 
 // Energy APP Channels / States
 const Device_APIRequests					= 'energyAPP';
@@ -58,9 +59,12 @@ const Channel_settings						= 'settings';
 const Channel_modulestatus					= 'modulestatus';
 
 const State_TempChanged						= 'TempChanged';
+const State_TempChanged_Mode_home			= 'home';
+const State_TempChanged_Mode_schedule		= 'schedule';
 const State_TempChanged_Mode				= 'mode';
 const State_TempChanged_Endtime				= 'endtime';
 const State_therm_setpoint_temperature		= 'therm_setpoint_temperature';
+const State_therm_setpoint_mode				= 'therm_setpoint_mode';
 const State_schedule_id						= 'schedule_id';
 const State_zones							= 'zones';
 const State_timetable						= 'timetable';
@@ -915,8 +919,10 @@ class NetatmoEnergy extends utils.Adapter {
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged, 'temperature manually changed', false, true, 'indicator', false, true, '', norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Mode, 'The mode you are applying to this room (def=manual)', '', true, 'text', true, true, List_mode, norefresh, false);
 										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Endtime, 'end time of the schedule mode set (seconds)', '', true, 'value.time', true, true, '', norefresh, false);
+										await that.createNetatmoStructure(myTargetName + '.' + Channel_settings + '.' + Trigger_SetHome, 'Set the mode for this room to home', false, true, 'button', true, true, '', norefresh, false);
 										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + Trigger_SetTemp);
 										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + State_TempChanged_Mode);
+										await that.subscribeStates(myTargetName + '.' + Channel_settings + '.' + Trigger_SetHome);
 										break;
 								}
 							}
@@ -1104,6 +1110,16 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	//set mode to home
+	async setModeToHome(id, id_mode, id_mode_act) {
+		await this.setState(id, false, true);
+
+		const act_mode   = await this.getStateAsync(id_mode_act);
+		if (act_mode && act_mode.val !== State_TempChanged_Mode_schedule) {
+			await this.setState(id_mode, State_TempChanged_Mode_home, false);
+		}
+	}
+
 	//analyse datapoint for payload
 	async getValuefromDatapoint(payload, id) {
 		const datapoint   = await this.getStateAsync(id);
@@ -1212,6 +1228,12 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							break;
 
+						// Set Therm Mode for Netatmo Energy to home
+						case Trigger_SetHome:
+							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
+							this.setModeToHome(actParent + '.' + Channel_settings + '.' + Trigger_SetHome, actParent + '.' + Channel_settings + '.' + State_TempChanged_Mode, actParent + '.' + Channel_status + '.' + State_therm_setpoint_mode);
+							break;
+
 						case Trigger_SetTemp:
 							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
 							// @ts-ignore
@@ -1309,6 +1331,7 @@ class NetatmoEnergy extends utils.Adapter {
 					case Trigger_refresh_all:
 					case Trigger_applychanges:
 					case State_TempChanged_Mode:
+					case Trigger_SetHome:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_schedule:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_hg:
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_away:

@@ -62,7 +62,7 @@ Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden
 * refresh_structure     ... erzeuge die Requests homesdata und homestatus hintereinander
 
 ### Änderungs-Requests
-* setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen")
+* setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen"). Der Button "set_mode_to_home" im channel "setting" setzt den Ventil-mode "set_mode_to_home" auf "home".
 
 ### Status
 * running               ... hier kann man erkenne ob derzeit ein API Request läuft
