@@ -97,6 +97,7 @@ const List_type_rm							= '{"temperature": "Temperature"}';
 const NotificationEmail						= 'email';
 const NotificationTelegram					= 'telegram';
 const NotificationTelegramUser				= 'getTelegramUser';
+const GetValves								= 'getValves';
 const NotificationPushover					= 'pushover';
 const NotificationWhatsapp					= 'whatsapp-cmb';
 const NoticeTypeLong						= 'longNotice';
@@ -1345,6 +1346,88 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	_getAllModules() {
+		const myModules = [];
+		const searchModules   = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
+
+		let module_id = null;
+		const that = this;
+		return new Promise(
+			function(resolve,reject) {
+				// @ts-ignore
+				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
+					for(const id in states) {
+						if (id.search(searchModules) >= 0) {
+							module_id = await that.getStateAsync(id);
+							if (module_id) {
+								const myTargetName               = id.substring(0,id.length - 3);
+								const deviceName                 = await that.getStateAsync(myTargetName  + '.name');
+								const type                       = await that.getStateAsync(myTargetName  + '.type');
+								const battery_state              = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.battery_state');
+								const firmware_revision          = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.firmware_revision');
+								const rf_strength                = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.rf_strength');
+								const boiler_status              = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.boiler_status');
+								const boiler_valve_comfort_boost = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.boiler_valve_comfort_boost');
+								myModules.push(Object.assign({}, module_id, {type: type}, {deviceName: deviceName}, {boiler_status: ((boiler_status) ? boiler_status.val : null)}, {boiler_valve_comfort_boost: ((boiler_valve_comfort_boost) ? boiler_valve_comfort_boost.val : null)}, {battery_state: battery_state}, {firmware_revision: firmware_revision}, {rf_strength: rf_strength}));
+							}
+						}
+					}
+					if (myModules) {
+						resolve(myModules);
+					} else {
+						reject(null);
+					}
+				});
+			}
+		);
+	}
+
+	//Search rooms
+	_getAllRooms(myModules) {
+		//const searchRooms     = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
+		let room_id = null;
+		const myRooms = [];
+
+		const that = this;
+		return new Promise(
+			function(resolve,reject) {
+				that.getStates(that.namespace + '.homes.*.rooms.*.module_ids.*',async function(error, states) {
+					for(const id in states) {
+						const module_id = await that.getStateAsync(id);
+
+						let myModule = undefined;
+						if (module_id) myModule = myModules.find(element => element.val == module_id.val);
+
+						if (myModule) {
+							const myTargetName = id.substring(0,id.substring(0,id.lastIndexOf('.')).length - 11);
+							room_id = await await that.getStateAsync(myTargetName  + '.id');
+							if (room_id) {
+								const roomName                   = await that.getStateAsync(myTargetName  + '.name');
+								const anticipating               = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.anticipating');
+								const open_window                = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.open_window');
+								const reachable                  = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.reachable');
+								const therm_measured_temperature = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.therm_measured_temperature');
+								const therm_setpoint_mode        = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.therm_setpoint_mode');
+								const therm_setpoint_temperature = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.therm_setpoint_temperature');
+								const heating_power_request      = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.heating_power_request');
+
+								const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
+								const myHome      = await that.getStateAsync(myHomeFolder  + '.name');
+								myRooms.push(Object.assign({}, {myHome: ((myHome) ? myHome.val : 'myHome')}, room_id, {module_id: myModule.val}, {roomName: ((roomName) ? roomName.val : '')}, {anticipating: ((anticipating) ? anticipating.val : false)}, {open_window: ((open_window) ? open_window.val : false)}, {reachable: ((reachable) ? reachable.val : false)}, {heating_power_request: ((heating_power_request) ? heating_power_request.val : 0)}, {therm_measured_temperature: ((therm_measured_temperature) ? therm_measured_temperature.val : 0)}, {therm_setpoint_mode: ((therm_setpoint_mode) ? therm_setpoint_mode.val : '')}, {therm_setpoint_temperature: ((therm_setpoint_temperature) ? therm_setpoint_temperature.val : 0)}, {deviceName: myModule.deviceName.val}, {type: myModule.type.val}, {battery_state: myModule.battery_state.val}, {firmware_revision: myModule.firmware_revision.val}, {rf_strength: myModule.rf_strength.val}, {boiler_valve_comfort_boost: ((myModule.boiler_valve_comfort_boost) ? myModule.boiler_valve_comfort_boost.val : null)}, {boiler_status: ((myModule.boiler_status) ? myModule.boiler_status.val : null)} ));
+							}
+						}
+					}
+					if (myRooms) {
+						resolve(myRooms);
+					} else {
+						reject(null);
+					}
+				});
+			}
+		);
+	}
+
+
 	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
 	// /**
 	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
@@ -1372,6 +1455,25 @@ class NetatmoEnergy extends utils.Adapter {
 	onMessage(obj) {
 		if (typeof obj === 'object' && obj.command) {
 			switch (obj.command) {
+				case GetValves:
+					if (obj.callback) {
+						this._getAllModules()
+							// eslint-disable-next-line no-unused-vars
+							.then(myModules => {
+								this._getAllRooms(myModules)
+									.then(myRooms => {
+										this.sendTo(obj.from, obj.command, myRooms, obj.callback);
+									})
+									.catch(() => {
+									//error during searching for rooms);
+									});
+							})
+							.catch(() => {
+								//error during searching for rooms);
+							});
+					}
+					break;
+
 				case NotificationTelegramUser:
 					if (obj.callback) {
 						try {

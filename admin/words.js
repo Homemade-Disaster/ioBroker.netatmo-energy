@@ -1324,6 +1324,102 @@ const _systemDictionary = {
 		"es": "No se puede crear el canal:",
 		"pl": "Nie można utworzyć kanału:",
 		"zh-cn": "无法创建频道："
+	},
+	"Vales": {
+		"en": "VALVES",
+		"de": "VENTILE",
+		"ru": "КЛАПАНЫ",
+		"pt": "VÁLVULAS",
+		"nl": "KLEPPEN",
+		"fr": "SOUPAPES",
+		"it": "VALVOLE",
+		"es": "VÁLVULAS",
+		"pl": "ZAWORY",
+		"zh-cn": "阀门"
+	},
+	"Actual temperature:": {
+		"en": "Actual temperature:",
+		"de": "Aktuelle Temperatur:",
+		"ru": "Фактическая температура:",
+		"pt": "Temperatura real:",
+		"nl": "Werkelijke temperatuur:",
+		"fr": "Température réelle :",
+		"it": "Temperatura effettiva:",
+		"es": "Temperatura real:",
+		"pl": "Rzeczywista temperatura:",
+		"zh-cn": "实际温度："
+	},
+	"Home:": {
+		"en": "Home:",
+		"de": "Zuhause:",
+		"ru": "Дома:",
+		"pt": "Lar:",
+		"nl": "Thuis:",
+		"fr": "Maison:",
+		"it": "Casa:",
+		"es": "Casa:",
+		"pl": "Dom:",
+		"zh-cn": "家："
+	},
+	"Roomnumber:": {
+		"en": "Roomnumber:",
+		"de": "Raumnummer:",
+		"ru": "Номер комнаты:",
+		"pt": "Número do quarto:",
+		"nl": "Kamernummer:",
+		"fr": "Numéro de chambre:",
+		"it": "Numero di Camera:",
+		"es": "Número de habitación:",
+		"pl": "Numer pokoju:",
+		"zh-cn": "房间号："
+	},
+	"Module ID:": {
+		"en": "Module ID:",
+		"de": "Modul-ID:",
+		"ru": "Идентификатор модуля:",
+		"pt": "Código do módulo:",
+		"nl": "Module-ID:",
+		"fr": "Identifiant du module :",
+		"it": "ID modulo:",
+		"es": "Identificación del módulo:",
+		"pl": "Identyfikator modułu:",
+		"zh-cn": "模块编号："
+	},
+	"Firmware:": {
+		"en": "Firmware:",
+		"de": "Firmware:",
+		"ru": "Прошивка:",
+		"pt": "Firmware:",
+		"nl": "Firmware:",
+		"fr": "Micrologiciel :",
+		"it": "Firmware:",
+		"es": "firmware:",
+		"pl": "Oprogramowanie układowe:",
+		"zh-cn": "固件："
+	},
+	"Signal strength:": {
+		"en": "Signal strength:",
+		"de": "Signalstärke:",
+		"ru": "Сила сигнала:",
+		"pt": "Sinal de força:",
+		"nl": "De signaalsterkte:",
+		"fr": "Force du signal:",
+		"it": "La potenza del segnale:",
+		"es": "Intensidad de señal:",
+		"pl": "Siła sygnału:",
+		"zh-cn": "信号强度："
+	},
+	"Target temperature:": {
+		"en": "Target temperature:",
+		"de": "Zieltemperatur:",
+		"ru": "Целевая температура:",
+		"pt": "Temperatura alvo:",
+		"nl": "Doeltemperatuur:",
+		"fr": "Température cible :",
+		"it": "Temperatura obiettivo:",
+		"es": "Temperatura objetivo:",
+		"pl": "Temperatura docelowa:",
+		"zh-cn": "目标温度："
 	}
 };
 

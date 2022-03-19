@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.1.2",
+		"version": "1.1.3",
 		"news": {
+			"1.1.3": {
+				"en": "Valve page added ",
+				"de": "Ventilseite hinzugefügt",
+				"ru": "Добавлена страница клапана",
+				"pt": "Página de válvula adicionada",
+				"nl": "Valve pagina toegevoegd",
+				"fr": "Page vanne ajoutée",
+				"it": "Pagina della valvola aggiunta",
+				"es": "Página de válvulas añadida",
+				"pl": "Dodano stronę zaworu",
+				"zh-cn": "添加了阀门页面"
+			},	
 			"1.1.2": {
 				"en": "Bugfix Easy Admin",
 				"de": "Fehlerbehebung Easy Admin",
@@ -215,6 +227,25 @@
 		"connectionType": "cloud",
 		"dataSource": "poll",
 		"materialize": true,
+		"materializeTab": true,
+		"adminTab": {
+			"ignoreConfigUpdate": true,
+			"singleton": false,
+			"name": {
+			  "en": "Netatmo Energy",
+			  "de": "Netatmo Energy",
+			  "ru": "Netatmo Energy",
+			  "pt": "Netatmo Energy",
+			  "nl": "Netatmo Energy",
+			  "fr": "Netatmo Energy",
+			  "it": "Netatmo Energy",
+			  "es": "Netatmo Energy",
+			  "pl": "Netatmo Energy",
+			  "zh-cn": "Netatmo Energy"
+			},
+			"link": "",
+			"fa-icon": "</i><img style='width: 20px; margin-bottom: -4px;' src='/adapter/netatmo-energy/netatmo-energy.png'><i>"
+        },
 		"messagebox": true,
 		"dependencies": [
 			{

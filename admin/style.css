@@ -29,4 +29,264 @@ label > i[title] {
 	white-space: nowrap;
 }
 
-/* Add your styles here */
+/* Header section*/
+#header-area {margin-top: 2px; margin-bottom: 1px; background-color:#649470;}
+#header-area #header-logo-title .logo {float:left; margin-right: 10px;}
+#header-area #header-logo-title p {line-height: normal !important; margin: 0 !important; padding: 8px 0 0 8px;}
+#header-area #header-logo-title p>span.h-title {font-size: 2em !important; color:white; }
+#header-area #header-logo-title p>span.h-sub-title {font-size: 1.1em !important; color:white; font-style: italic; }
+
+
+/*  */
+.m .valve {
+	float: left;
+	height: 230px;
+	padding: 5px;
+	width: 400px;
+	-webkit-perspective: 800px;
+	-moz-perspective: 800px;
+	-o-perspective: 800px;
+	perspective: 800px;
+}
+.m .valve .card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	margin: 0px;
+	min-height: 200px;
+	position: relative;
+	width: 100%;
+	-webkit-transition: -webkit-transform 0.5s;
+	-moz-transition: -moz-transform 0.5s;
+	-o-transition: -o-transform 0.5s;
+	transition: transform 0.5s;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+}
+.m .valve .card div {
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+/* */
+.m .valve .card.dcard .card-content {
+	/* height: 100%; */
+	flex-grow: 1;
+	padding: 10px;
+}
+.m .valve .card.dcard .card-header {
+	display: flex;
+	margin-bottom: 5px !important;
+}
+.m .valve .card.dcard .card-header .info {
+	display: flex;
+	line-height: 34px;
+	margin-left: auto;
+}
+.m .valve .card.dcard .card-header .info .el:last-child {
+	padding-right: 0;
+}
+.m .valve .card.dcard .card-header .info .el {
+	padding: 0 5px 0 0;
+}
+.m .valve .card.dcard .card-header .el i {
+	line-height: 24px;
+	/* font-size: 22px; */
+}
+.m .valve .card.dcard .card-header .el div {
+	font-size: 9.8px;
+	line-height: 10px;
+}
+.m .valve .card.dcard .card-title {
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 32px;
+	margin-bottom: 0px;
+}
+
+/* */
+.m .valve .card.dcard .card-action {
+	display: flex;
+	padding: 5px 10px;
+}
+
+/* card-reveal */
+.m .valve .card.dcard .card-reveal {
+	padding: 10px;
+}
+
+.m .valve .card.dcard .card-reveal > div {
+	display: flex !important;
+	flex-direction: column;
+	height: 100%;
+}
+.m .valve .card.dcard .card-reveal > div > div:nth-child(2) {
+	display: flex;
+	flex-grow: 1;
+}
+.m .valve .card.dcard .card-reveal .card-footer {
+	border-top: 1px solid rgba(160,160,160,.2);
+	display: flex;
+	line-height: 32px;
+	padding: 5px 10px;
+	margin: 0 -10px -10px -10px;
+}
+.m .valve .card.dcard .card-reveal .dropdown-content {
+	min-width: 120px;
+}
+.m .valve .card.dcard .card-reveal .dropdown-content li {
+	min-height: 0;
+}
+.m .valve .card.dcard .card-reveal .dropdown-content li > a {
+	font-weight: 500;
+	padding: 10px 12px;
+}
+.m .valve .card.dcard .card-reveal .dropdown-content li > a > i {
+	margin-right: 10px;
+}
+
+/* */
+.m .valve .card.dcard ul > li > div.state,
+.m .valve .card.dcard ul > li > div.detail {
+	display: flex;
+}
+.m .valve .card.dcard ul > li > div.state > div,
+.m .valve .card.dcard ul > li > div.detail > div  {
+	font-size: 12px;
+	height: 14px;
+	line-height: 14px;
+}
+.m .valve .card.dcard ul > li > div.state > div:first-child,
+.m .valve .card.dcard ul > li > div.detail > div:first-child {
+	flex-grow: 1;
+	font-weight: bold;
+}
+.m .valve .card.dcard ul > li > div.state > div:last-child,
+.m .valve .card.dcard ul > li > div.detail > div:last-child {
+	display: flex;
+	justify-content: flex-end;            
+}
+.m .valve .card.dcard ul > li > div.state > div:last-child {
+	width: 95px;
+}
+.m .valve .card.dcard ul > li > div.detail > div:last-child {
+	width: 155px;
+}
+.m .valve .card.dcard ul > li > div.state > div.switch {
+	padding-top: 2px;
+}
+
+/* */
+/* .m .valve .card.dcard div.control,
+.m .valve .card.dcard div.value {
+	display: flex;
+	justify-content: flex-end;
+} */
+
+/* */
+.m .valve .card.dcard div.control.switch span {
+	height: 12px;
+	margin: 0 5px;
+	width: 24px;
+}
+.m .valve .card.dcard div.control.switch span::before,
+.m .valve .card.dcard div.control.switch span::after {
+	height: 12px;
+	top: 0px;
+	width: 12px;
+}
+.m .switch label input[type=checkbox]:checked+.lever:before, 
+.m .switch label input[type=checkbox]:checked+.lever:after {
+	left: 12px !important;
+}
+
+/* */
+.m .valve .card.dcard div.control.check {
+	padding-right: 2px;
+}
+.m .valve .card.dcard div.control.check span {
+	cursor: default;
+	height: 14px;
+	line-height: 14px;
+	padding-left: 12px;
+}
+.m .valve .card.dcard div.control.check span::before {
+	height: 11px;
+	top: -2px;
+	width: 8px;
+	left: -1px;
+}
+.m .valve .card.dcard div.control.check span::after {
+	height: 14px;
+	width: 14px;
+}
+.m .valve .card.dcard div.control.select {
+	font-size: 10px;
+}
+.m .valve .card.dcard div.control.range input[type="range"] {
+	margin: 5px 0 5px;
+}
+
+i.icon-red {
+	color: red;
+}
+i.icon-orange {
+	color: orange;
+}
+i.icon-green {
+	color: green;
+}
+i.icon-grey {
+	color: grey;
+}
+.tooltip {
+	position: relative;
+	text-decoration: none;
+}
+.tooltip:after {
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 130%;
+	left: 20%;
+	background: #ffbd66;
+	padding: 5px 15px;
+	color: black;
+	-webkit-border-radius: 2px;
+	-moz-border-radius : 2px;
+	border-radius : 2px;
+	white-space: nowrap;
+	opacity: 0;
+	-webkit-transition: all 0.4s ease;
+	-moz-transition : all 0.4s ease;
+	transition : all 0.4s ease;
+}
+.tooltip:before {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-top: 5px solid #ffcb66;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	-webkit-transition: all 0.4s ease;
+	-moz-transition : all 0.4s ease;
+	transition : all 0.4s ease;
+	opacity: 0;
+	left: 30%;
+	bottom: 90%;
+}
+.tooltip:hover:after {
+	bottom: 100%;
+}
+.tooltip:hover:before {
+	bottom: 70%;
+}
+.tooltip:hover:after, a:hover:before {
+	opacity: 1;
+}

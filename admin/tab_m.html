@@ -1,0 +1,256 @@
+<html>
+
+<head>
+	<!-- Load ioBroker scripts and styles-->     
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <script type="text/javascript" >var noConfigDialog = true;</script><!-- Deactivate buttons -->
+
+   	<!-- Load our own files -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    
+    <script type="text/javascript">   
+        const namespace = `netatmo-energy.${instance}`;
+
+        function isArray(it) {
+            if (typeof Array.isArray === 'function')
+                return Array.isArray(it);
+
+            return Object.prototype.toString.call(it) === '[object Array]';
+        }
+
+        function load(settings, onChange) {
+            GetValves()
+                .then(valves => {
+                    showValves(valves);
+                })
+                .catch(() => {
+                    //error during searching for rooms);
+                });         
+            onChange(false);
+        }
+        
+        /* Get valves function */
+        function GetValves() {
+            return new Promise(
+                function(resolve,reject) {
+                    sendTo(namespace, 'getValves', {}, function (msg) {
+                        let valves = [];
+                        if (isArray(msg)) {
+                            valves = msg;
+                            //valves = Object.assign(valves, _valves);
+                        }
+                        resolve(valves);
+                    });
+                }
+            );
+        }
+
+        function getBatteryCls(value) {
+            if (value) {
+                if (value == 'low') return {color: 'icon-red', icon: 'battery_alert', text: 'low'}
+                else if (value == 'medium') return {color: 'icon-orange', icon: 'battery_charging_full', text: 'medium'};
+                else return {color: 'icon-green', icon: 'battery_std', text: 'high'};
+            }
+            return undefined;
+        }
+
+        function getWindowCls(value) {
+            if (value != undefined && value != null) {
+                if (value == true) return {color: 'icon-red', icon: 'lock_open', text: 'open'}; 
+                else return {color: 'icon-green', icon: 'lock_outline', text: 'closed'};                    
+            }
+            return undefined;
+        }
+        
+        function getNetworkCls(value) {
+            if (value != undefined && value != null) {
+                if (value == true) return {color: 'icon-green', icon: 'leak_add', text: 'connected'}; 
+                else return {color: 'icon-red', icon: 'leak_remove', text: 'disconnected'};                
+            }
+            return undefined;
+        }
+        
+        function getHeaterCls(value) {
+            if (value != undefined && value != null) {
+                if (value > 0) return {color: 'icon-orange', icon: 'whatshot', text: 'heater on'}; 
+                else return {color: 'icon-grey', icon: 'whatshot', text: 'heater off'};
+            }
+            return undefined;
+        }
+
+        function getAntizipatingCls(value) {
+            if (value != undefined && value != null) {
+                if (value == true) return {color: 'icon-orange', icon: 'notifications_active', text: 'anticipating'}; 
+                else return {color: 'icon-grey', icon: 'notifications_off', text: 'do not anticipate'};
+            }
+            return undefined;
+        }
+        
+        function getBoilerCls(value) {
+            if (value != undefined && value != null) {
+                if (value == true) return 'style="background-color:orange;"'; 
+                else return '';
+            }
+            return '';
+        }
+
+        function getImage(value) {
+            let images = { "images": [
+                            {"type":"NAPlug","img":"img/thermostat.png"},
+                            {"type":"NATherm1","img":"img/thermostat.png"},
+                            {"type":"NRV","img":"img/valve.png"},
+                            ]};
+            let image = images.images.find( record => record.type === value);
+            if (image) return image;
+            else return {"type":"unknown","img":"img/netatmo.png"};
+        }
+
+        function showValves(valves) {
+            var $sel = $('#valves');
+            let cards = "";
+
+            if (valves.length != 0) {
+                for (let valve of valves) {
+                    let id           = valve.val;
+                    let friendlyName = valve.roomName + ' (' + valve.deviceName + ')';
+                    let temp_act     = valve.therm_measured_temperature;
+                    let temp_set     = valve.therm_setpoint_temperature;
+                    let temp_mode    = valve.therm_setpoint_mode;
+                    
+                    let anticipating              = valve.anticipating;
+                    let anticipating_cls          = getAntizipatingCls(anticipating);
+                    
+                    let open_window               = valve.open_window;
+                    let open_window_cls           = getWindowCls(open_window);
+
+                    let reachable                 = valve.reachable;
+                    let reachable_cls             = getNetworkCls(reachable);
+            
+                    let battery_state             = valve.battery_state;
+                    let battery_state_cls         = getBatteryCls(battery_state);
+            
+                    let heating_power_request     = valve.heating_power_request;
+                    let heating_power_request_cls = getHeaterCls(heating_power_request);   
+
+                    let img_src                   = getImage(valve.type);
+                    let module_id                 = valve.module_id;
+                    let name_of_home              = valve.myHome;   
+
+                    let firmware_revision         = valve.firmware_revision;   
+                    let rf_strength               = valve.rf_strength;       
+                    let BoilerStatus              = getBoilerCls(valve.boiler_status);
+                    let boiler_valve_comfort      = valve.boiler_valve_comfort_boost;
+
+                    //${battery_icon}
+                    var card = `<div id="${id}" class="valve" data-friendly-name="${friendlyName}">
+                                    <div class="card dcard" ${BoilerStatus}>
+                                        <div class="card-content">
+                                            <div class="card-header">   
+                                                <div style="height: 100%;">
+                                                    <img src="${img_src.img}" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                                                    <div id="friendly_name" class="card-title truncate" style="margin-right: 5px;">${friendlyName}</div>         
+                                                    <ul style="margin: 0px;"><b class="translate">Actual temperature:</b> ${temp_act}</ul>
+                                                    <ul style="margin: 0px;"><b class="translate">Target temperature:</b> ${temp_set}</ul>
+                                                </div>  
+                                                
+                                                <div class="info">
+                                                    ${boiler_valve_comfort != undefined && boiler_valve_comfort!= null ? `
+                                                        <div id="${id}_boiler_valve_comfort" class="col el">
+                                                            <i class="material-icons icon-orange" style="font-size: 24px; right=10%">mood</i>
+                                                        </div>` : ''}
+                                                    ${battery_state != undefined ? `
+                                                        <div id="${id}_battery" class="col el">
+                                                            <i class="material-icons ${battery_state_cls.color}" style="font-size: 24px; right=10%">${battery_state_cls.icon}</i>
+                                                        </div>` : ''}
+                                                    ${reachable != undefined ? `
+                                                        <div id="${id}_network" class="col el">
+                                                            <i class="material-icons ${reachable_cls.color}" style="font-size: 24px; right=20%">${reachable_cls.icon}</i>
+                                                        </div>` : ''}                                           
+                                                    ${open_window != undefined ? `
+                                                        <div id="${id}_window" class="col el">
+                                                            <i class="material-icons ${open_window_cls.color}" style="font-size: 24px; right=30%">${open_window_cls.icon}</i>
+                                                        </div>` : ''}
+                                                    ${anticipating != undefined ? `
+                                                        <div id="${id}_antizipation" class="col el">
+                                                            <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px; right=40%">${anticipating_cls.icon}</i>
+                                                        </div>` : ''}                                                      
+                                                    ${heating_power_request != undefined ? `
+                                                        <div id="${id}_heater" class="col el">
+                                                            <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px; right=50%">${heating_power_request_cls.icon}</i>
+                                                        </div>` : ''}
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="card-action">
+                                            <div style="margin-left: auto;">
+                                                <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+                                            </div>
+                                        </div>
+                                        <div class="card-reveal">
+                                            <div>
+                                                <div class="card-title card-header">
+                                                    <div style="height: 100%;">
+                                                        <img src="${img_src.img}" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                                                    </div>
+                                                    <div id="friendly_name" class="card-title truncate" style="margin-right: 5px;">${friendlyName}</div>
+                                                    <div style="margin-left: auto;">
+                                                        <i class="material-icons right">close</i>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div style="flex-grow: 1; margin-left: 10px;">
+                                                        <ul style="margin: 0px;"><b class="translate">Home:</b> ${name_of_home}</ul>
+                                                        <ul style="margin: 0px;"><b class="translate">Roomnumber:</b> ${id}</ul>
+                                                        <ul style="margin: 0px;"><b class="translate">Module ID:</b> ${module_id}</ul>
+                                                        <ul style="margin: 0px;"><b class="translate">Firmware:</b> ${firmware_revision}</ul>
+                                                        <ul style="margin: 0px;"><b class="translate">Signal strength:</b> ${rf_strength}</ul>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;            
+                    cards = cards + card;
+                }
+            }                
+            $sel.html(cards);
+            translateAll();
+        }
+
+        function save(callback) {
+            callback(obj);
+        }  
+</script>
+
+</head>
+
+
+<body>
+    <div class="m adapter-container">
+        <!-- Header -->
+        <div id="header-area" class="row">
+            <div id="header-logo-title" class="col s6" >
+                <img class="logo" src="netatmo-energy.png" >
+                <p>
+                    <span class="translate h-title">Netatmo Energy</span><br />
+                </p>
+            </div>
+        </div>
+        <div id="valves" class="row"></div>
+    </div>
+</body>
+
+</html>
