@@ -1420,6 +1420,78 @@ const _systemDictionary = {
 		"es": "Temperatura objetivo:",
 		"pl": "Temperatura docelowa:",
 		"zh-cn": "目标温度："
+	},
+	"Boiler cable used": {
+		"en": "Boiler cable used",
+		"de": "Kesselkabel gebraucht",
+		"ru": "Используемый кабель котла",
+		"pt": "Cabo de caldeira usado",
+		"nl": "Ketelkabel gebruikt",
+		"fr": "Câble de chaudière utilisé",
+		"it": "Cavo caldaia utilizzato",
+		"es": "Cable de caldera usado",
+		"pl": "Użyty kabel kotła",
+		"zh-cn": "使用的锅炉电缆"
+	},
+	"Boiler cable not used": {
+		"en": "Boiler cable not used",
+		"de": "Kesselkabel wird nicht verwendet",
+		"ru": "Кабель котла не используется",
+		"pt": "Cabo da caldeira não usado",
+		"nl": "Boilerkabel niet gebruikt",
+		"fr": "Câble chaudière non utilisé",
+		"it": "Cavo caldaia non utilizzato",
+		"es": "Cable de caldera no utilizado",
+		"pl": "Kabel kotła nie jest używany",
+		"zh-cn": "未使用锅炉电缆"
+	},
+	"Plug is connected to boiler": {
+		"en": "Plug is connected to boiler",
+		"de": "Stecker ist am Boiler angeschlossen",
+		"ru": "Вилка подключена к котлу",
+		"pt": "O plugue está conectado à caldeira",
+		"nl": "Stekker is aangesloten op boiler",
+		"fr": "La prise est connectée à la chaudière",
+		"it": "La spina è collegata alla caldaia",
+		"es": "El enchufe está conectado a la caldera.",
+		"pl": "Wtyczka jest podłączona do kotła",
+		"zh-cn": "插头连接到锅炉"
+	},
+	"Plug is not connected to boiler": {
+		"en": "Plug is not connected to boiler",
+		"de": "Stecker ist nicht am Boiler angeschlossen",
+		"ru": "Вилка не подключена к котлу",
+		"pt": "A ficha não está ligada à caldeira",
+		"nl": "Stekker is niet aangesloten op boiler",
+		"fr": "La prise n'est pas connectée à la chaudière",
+		"it": "La spina non è collegata alla caldaia",
+		"es": "El enchufe no está conectado a la caldera",
+		"pl": "Wtyczka nie jest podłączona do kotła",
+		"zh-cn": "插头未连接到锅炉"
+	},
+	"Wifi strength:": {
+		"en": "Wifi strength:",
+		"de": "WLAN-Stärke:",
+		"ru": "Мощность Wi-Fi:",
+		"pt": "Força Wi-Fi:",
+		"nl": "Wifi-sterkte:",
+		"fr": "Puissance Wi-Fi :",
+		"it": "Potenza Wi-Fi:",
+		"es": "Fuerza wifi:",
+		"pl": "Siła Wi-Fi:",
+		"zh-cn": "无线网络强度："
+	},
+	"Hardware version:": {
+		"en": "Hardware version:",
+		"de": "Hardware Version:",
+		"ru": "Аппаратная версия:",
+		"pt": "Versão do hardware:",
+		"nl": "Hardware Versie:",
+		"fr": "Version matérielle:",
+		"it": "Versione hardware:",
+		"es": "Versión del hardware:",
+		"pl": "Wersja sprzętu:",
+		"zh-cn": "硬件版本："
 	}
 };
 

@@ -58,47 +58,47 @@
         function getBatteryCls(value) {
             if (value) {
                 if (value == 'low') return {color: 'icon-red', icon: 'battery_alert', text: 'low'}
-                else if (value == 'medium') return {color: 'icon-orange', icon: 'battery_charging_full', text: 'medium'};
-                else return {color: 'icon-green', icon: 'battery_std', text: 'high'};
+                else if (value == 'medium') return {color: 'icon-orange', icon: 'battery_charging_full', text: 'med'};
+                else return {color: 'icon-green', icon: 'battery_std', text: 'hi'};
             }
             return undefined;
         }
 
         function getWindowCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return {color: 'icon-red', icon: 'lock_open', text: 'open'}; 
-                else return {color: 'icon-green', icon: 'lock_outline', text: 'closed'};                    
+                if (value == true) return {color: 'icon-red', icon: 'lock_open', text: 'op'}; 
+                else return {color: 'icon-green', icon: 'lock_outline', text: 'cl'};                    
             }
             return undefined;
         }
         
         function getNetworkCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return {color: 'icon-green', icon: 'leak_add', text: 'connected'}; 
-                else return {color: 'icon-red', icon: 'leak_remove', text: 'disconnected'};                
+                if (value == true) return {color: 'icon-green', icon: 'leak_add', text: 'co'}; 
+                else return {color: 'icon-red', icon: 'leak_remove', text: 'dc'};                
             }
             return undefined;
         }
         
         function getHeaterCls(value) {
             if (value != undefined && value != null) {
-                if (value > 0) return {color: 'icon-orange', icon: 'whatshot', text: 'heater on'}; 
-                else return {color: 'icon-grey', icon: 'whatshot', text: 'heater off'};
+                if (value > 0) return {color: 'icon-orange', icon: 'whatshot', text: 'on'}; 
+                else return {color: 'icon-grey', icon: 'whatshot', text: 'off'};
             }
             return undefined;
         }
 
         function getAntizipatingCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return {color: 'icon-orange', icon: 'notifications_active', text: 'anticipating'}; 
-                else return {color: 'icon-grey', icon: 'notifications_off', text: 'do not anticipate'};
+                if (value == true) return {color: 'icon-orange', icon: 'notifications_active', text: 'ap'}; 
+                else return {color: 'icon-grey', icon: 'notifications_off', text: 'not'};
             }
             return undefined;
         }
         
         function getBoilerCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return 'style="background-color:orange;"'; 
+                if (value == true) return 'style="background-color: #ebbe6c;"'; 
                 else return '';
             }
             return '';
@@ -106,7 +106,7 @@
 
         function getImage(value) {
             let images = { "images": [
-                            {"type":"NAPlug","img":"img/thermostat.png"},
+                            {"type":"NAPlug","img":"img/plug.png"},
                             {"type":"NATherm1","img":"img/thermostat.png"},
                             {"type":"NRV","img":"img/valve.png"},
                             ]};
@@ -122,34 +122,44 @@
             if (valves.length != 0) {
                 for (let valve of valves) {
                     let id           = valve.val;
-                    let friendlyName = valve.roomName + ' (' + valve.deviceName + ')';
-                    let temp_act     = valve.therm_measured_temperature;
-                    let temp_set     = valve.therm_setpoint_temperature;
-                    let temp_mode    = valve.therm_setpoint_mode;
+
+                    let friendlyName = '';
+                    if (valve.roomName) friendlyName = valve.roomName + ' (' + valve.deviceName + ')'
+                    else friendlyName = valve.deviceName;
+
+                    let temp_act                    = valve.therm_measured_temperature;
+                    let temp_set                    = valve.therm_setpoint_temperature;
+                    let temp_mode                   = valve.therm_setpoint_mode;
                     
-                    let anticipating              = valve.anticipating;
-                    let anticipating_cls          = getAntizipatingCls(anticipating);
+                    let anticipating                = valve.anticipating;
+                    let anticipating_cls            = getAntizipatingCls(anticipating);
                     
-                    let open_window               = valve.open_window;
-                    let open_window_cls           = getWindowCls(open_window);
+                    let open_window                 = valve.open_window;
+                    let open_window_cls             = getWindowCls(open_window);
 
-                    let reachable                 = valve.reachable;
-                    let reachable_cls             = getNetworkCls(reachable);
+                    let reachable                   = valve.reachable;
+                    let reachable_cls               = getNetworkCls(reachable);
             
-                    let battery_state             = valve.battery_state;
-                    let battery_state_cls         = getBatteryCls(battery_state);
+                    let battery_state               = valve.battery_state;
+                    let battery_state_cls           = getBatteryCls(battery_state);
             
-                    let heating_power_request     = valve.heating_power_request;
-                    let heating_power_request_cls = getHeaterCls(heating_power_request);   
+                    let heating_power_request       = valve.heating_power_request;
+                    let heating_power_request_cls   = getHeaterCls(heating_power_request);   
 
-                    let img_src                   = getImage(valve.type);
-                    let module_id                 = valve.module_id;
-                    let name_of_home              = valve.myHome;   
+                    let img_src                     = getImage(valve.type);
+                    let module_id                   = valve.module_id;
+                    let bridge                      = valve.bridge;
+                    let name_of_home                = valve.myHome;   
 
-                    let firmware_revision         = valve.firmware_revision;   
-                    let rf_strength               = valve.rf_strength;       
-                    let BoilerStatus              = getBoilerCls(valve.boiler_status);
-                    let boiler_valve_comfort      = valve.boiler_valve_comfort_boost;
+                    let firmware_revision           = valve.firmware_revision;   
+                    let rf_strength                 = valve.rf_strength;       
+                    let BoilerStatus                = getBoilerCls(valve.boiler_status);
+                    let boiler_valve_comfort        = valve.boiler_valve_comfort_boost;
+
+                    let wifi_strength               = valve.wifi_strength;
+                    let plug_connected_boiler       = valve.plug_connected_boiler;
+                    let hardware_version            = valve.hardware_version;
+                    let boiler_cable                = valve.boiler_cable;
 
                     //${battery_icon}
                     var card = `<div id="${id}" class="valve" data-friendly-name="${friendlyName}">
@@ -157,36 +167,58 @@
                                         <div class="card-content">
                                             <div class="card-header">   
                                                 <div style="height: 100%;">
-                                                    <img src="${img_src.img}" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
-                                                    <div id="friendly_name" class="card-title truncate" style="margin-right: 5px;">${friendlyName}</div>         
-                                                    <ul style="margin: 0px;"><b class="translate">Actual temperature:</b> ${temp_act}</ul>
-                                                    <ul style="margin: 0px;"><b class="translate">Target temperature:</b> ${temp_set}</ul>
+                                                    ${img_src.img != undefined && img_src.img!= null ? `
+                                                        <img src="${img_src.img}" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                                                    ` : ''}
+                                                    ${friendlyName != undefined && friendlyName!= null ? `
+                                                        <div id="friendly_name" class="card-title truncate" style="margin-right: 5px;">${friendlyName}</div>
+                                                    ` : ''}
+                                                    ${temp_act != undefined && temp_act!= null ? `
+                                                        <ul style="margin: 0px;"><b class="translate">Actual temperature:</b> ${temp_act.toFixed(1)}</ul>
+                                                    ` : ''}
+                                                    ${temp_set != undefined && temp_set!= null ? `
+                                                        <ul style="margin: 0px;"><b class="translate">Target temperature:</b> ${temp_set.toFixed(1)}</ul>
+                                                    ` : ''}
+                                                    ${plug_connected_boiler != undefined && plug_connected_boiler!= null ? ((plug_connected_boiler > 0) ? 
+                                                        `<ul style="margin: 0px;"><b class="translate">Plug is connected to boiler</b></ul>` 
+                                                        :
+                                                        `<ul style="margin: 0px;"><b class="translate">Plug is not connected to boiler</b></ul>`) : ''}
+                                                    ${boiler_cable != undefined && boiler_cable!= null ? ((boiler_cable == true) ? 
+                                                        `<ul style="margin: 0px;"><b class="translate">Boiler cable used</b></ul>` 
+                                                        :
+                                                        `<ul style="margin: 0px;"><b class="translate">Boiler cable not used</b></ul>`) : ''}                                                                                                              
                                                 </div>  
                                                 
                                                 <div class="info">
-                                                    ${boiler_valve_comfort != undefined && boiler_valve_comfort!= null ? `
+                                                    ${boiler_valve_comfort != undefined && boiler_valve_comfort != null && boiler_valve_comfort == true ? `
                                                         <div id="${id}_boiler_valve_comfort" class="col el">
-                                                            <i class="material-icons icon-orange" style="font-size: 24px; right=10%">mood</i>
+                                                            <i class="material-icons icon-green" style="font-size: 24px;padding:left=5px">mood</i>
+                                                            <div class="center translate">hr</div>
                                                         </div>` : ''}
                                                     ${battery_state != undefined ? `
                                                         <div id="${id}_battery" class="col el">
-                                                            <i class="material-icons ${battery_state_cls.color}" style="font-size: 24px; right=10%">${battery_state_cls.icon}</i>
+                                                            <i class="material-icons ${battery_state_cls.color}" style="font-size: 24px;padding:left=5px">${battery_state_cls.icon}</i>
+                                                            <div class="center translate">${battery_state_cls.text}</div>
                                                         </div>` : ''}
                                                     ${reachable != undefined ? `
                                                         <div id="${id}_network" class="col el">
-                                                            <i class="material-icons ${reachable_cls.color}" style="font-size: 24px; right=20%">${reachable_cls.icon}</i>
+                                                            <i class="material-icons ${reachable_cls.color}" style="font-size: 24px;padding:left=5px">${reachable_cls.icon}</i>
+                                                            <div class="center translate">${reachable_cls.text}</div>
                                                         </div>` : ''}                                           
                                                     ${open_window != undefined ? `
                                                         <div id="${id}_window" class="col el">
-                                                            <i class="material-icons ${open_window_cls.color}" style="font-size: 24px; right=30%">${open_window_cls.icon}</i>
+                                                            <i class="material-icons ${open_window_cls.color}" style="font-size: 24px;padding:left=5px">${open_window_cls.icon}</i>
+                                                            <div class="center translate">${open_window_cls.text}</div>
                                                         </div>` : ''}
                                                     ${anticipating != undefined ? `
                                                         <div id="${id}_antizipation" class="col el">
-                                                            <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px; right=40%">${anticipating_cls.icon}</i>
+                                                            <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px;padding:left=5px">${anticipating_cls.icon}</i>
+                                                            <div class="center translate">${anticipating_cls.text}</div>
                                                         </div>` : ''}                                                      
                                                     ${heating_power_request != undefined ? `
                                                         <div id="${id}_heater" class="col el">
-                                                            <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px; right=50%">${heating_power_request_cls.icon}</i>
+                                                            <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px;padding:left=5px">${heating_power_request_cls.icon}</i>
+                                                            <div class="center translate">${heating_power_request_cls.text}</div>
                                                         </div>` : ''}
                                                 </div>  
                                             </div>
@@ -209,15 +241,33 @@
                                                 </div>
                                                 <div>
                                                     <div style="flex-grow: 1; margin-left: 10px;">
-                                                        <ul style="margin: 0px;"><b class="translate">Home:</b> ${name_of_home}</ul>
-                                                        <ul style="margin: 0px;"><b class="translate">Roomnumber:</b> ${id}</ul>
-                                                        <ul style="margin: 0px;"><b class="translate">Module ID:</b> ${module_id}</ul>
-                                                        <ul style="margin: 0px;"><b class="translate">Firmware:</b> ${firmware_revision}</ul>
-                                                        <ul style="margin: 0px;"><b class="translate">Signal strength:</b> ${rf_strength}</ul>
+                                                        ${name_of_home != undefined && name_of_home!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Home:</b> ${name_of_home}</ul>
+                                                        ` : ''}
+                                                        ${id != undefined && id!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Roomnumber:</b> ${id}</ul>
+                                                        ` : ''}
+                                                        ${module_id != undefined && module_id!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Module ID:</b> ${module_id}</ul>
+                                                        ` : ''}
+                                                        ${bridge != undefined && bridge!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Bridge:</b> ${bridge}</ul>
+                                                        ` : ''}
+                                                        ${firmware_revision != undefined && firmware_revision!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Firmware:</b> ${firmware_revision}</ul>
+                                                        ` : ''}
+                                                        ${hardware_version != undefined && hardware_version!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Hardware version:</b> ${hardware_version}</ul>
+                                                        ` : ''}    
+                                                        ${rf_strength != undefined && rf_strength!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Signal strength:</b> ${rf_strength}</ul>                                                      
+                                                        ` : ''}
+                                                        ${wifi_strength != undefined && wifi_strength!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Wifi strength:</b> ${wifi_strength}</ul>
+                                                        ` : ''}
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
-                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -241,15 +291,17 @@
 <body>
     <div class="m adapter-container">
         <!-- Header -->
-        <div id="header-area" class="row">
-            <div id="header-logo-title" class="col s6" >
-                <img class="logo" src="netatmo-energy.png" >
-                <p>
-                    <span class="translate h-title">Netatmo Energy</span><br />
-                </p>
-            </div>
-        </div>
-        <div id="valves" class="row"></div>
+        <div id="header-area" class="row navbar-fixed">
+            <nav class="nav-extended">
+                <div id="header-logo-title" class="nav-wrapper" style="Background-color:#649470;">
+                    <img class="logo" src="netatmo-energy.png" >
+                    <p>
+                        <span class="translate h-title">Netatmo Energy</span><br />
+                    </p>
+                </div>
+            </nav>
+        </div>   
+        <div id="valves" class="row"></div> 
     </div>
 </body>
 

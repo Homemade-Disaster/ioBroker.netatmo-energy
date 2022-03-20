@@ -1346,6 +1346,13 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	//get and check value
+	_getValue(value) {
+		if (value) return value.val;
+		else return null;
+	}
+
+	//get all modules
 	_getAllModules() {
 		const myModules = [];
 		const searchModules   = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
@@ -1363,12 +1370,30 @@ class NetatmoEnergy extends utils.Adapter {
 								const myTargetName               = id.substring(0,id.length - 3);
 								const deviceName                 = await that.getStateAsync(myTargetName  + '.name');
 								const type                       = await that.getStateAsync(myTargetName  + '.type');
+								const bridge                     = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.bridge');
 								const battery_state              = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.battery_state');
 								const firmware_revision          = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.firmware_revision');
 								const rf_strength                = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.rf_strength');
 								const boiler_status              = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.boiler_status');
 								const boiler_valve_comfort_boost = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.boiler_valve_comfort_boost');
-								myModules.push(Object.assign({}, module_id, {type: type}, {deviceName: deviceName}, {boiler_status: ((boiler_status) ? boiler_status.val : null)}, {boiler_valve_comfort_boost: ((boiler_valve_comfort_boost) ? boiler_valve_comfort_boost.val : null)}, {battery_state: battery_state}, {firmware_revision: firmware_revision}, {rf_strength: rf_strength}));
+								const wifi_strength              = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.wifi_strength');
+								const plug_connected_boiler      = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.plug_connected_boiler');
+								const hardware_version      	 = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.hardware_version');
+								const boiler_cable      	 	 = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.boiler_cable');
+
+								myModules.push(Object.assign({}, module_id,
+									{type: that._getValue(type)},
+									{deviceName: that._getValue(deviceName)},
+									{bridge: that._getValue(bridge)},
+									{boiler_status: that._getValue(boiler_status)},
+									{boiler_valve_comfort_boost: that._getValue(boiler_valve_comfort_boost)},
+									{battery_state: that._getValue(battery_state)},
+									{firmware_revision: that._getValue(firmware_revision)},
+									{rf_strength: that._getValue(rf_strength)},
+									{wifi_strength: that._getValue(wifi_strength)},
+									{plug_connected_boiler: that._getValue(plug_connected_boiler)},
+									{hardware_version: that._getValue(hardware_version)},
+									{boiler_cable: that._getValue(boiler_cable)}));
 							}
 						}
 					}
@@ -1392,6 +1417,7 @@ class NetatmoEnergy extends utils.Adapter {
 		return new Promise(
 			function(resolve,reject) {
 				that.getStates(that.namespace + '.homes.*.rooms.*.module_ids.*',async function(error, states) {
+					let myHome = null;
 					for(const id in states) {
 						const module_id = await that.getStateAsync(id);
 
@@ -1412,9 +1438,61 @@ class NetatmoEnergy extends utils.Adapter {
 								const heating_power_request      = await that.getStateAsync(myTargetName  + '.' + Channel_status + '.heating_power_request');
 
 								const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
-								const myHome      = await that.getStateAsync(myHomeFolder  + '.name');
-								myRooms.push(Object.assign({}, {myHome: ((myHome) ? myHome.val : 'myHome')}, room_id, {module_id: myModule.val}, {roomName: ((roomName) ? roomName.val : '')}, {anticipating: ((anticipating) ? anticipating.val : false)}, {open_window: ((open_window) ? open_window.val : false)}, {reachable: ((reachable) ? reachable.val : false)}, {heating_power_request: ((heating_power_request) ? heating_power_request.val : 0)}, {therm_measured_temperature: ((therm_measured_temperature) ? therm_measured_temperature.val : 0)}, {therm_setpoint_mode: ((therm_setpoint_mode) ? therm_setpoint_mode.val : '')}, {therm_setpoint_temperature: ((therm_setpoint_temperature) ? therm_setpoint_temperature.val : 0)}, {deviceName: myModule.deviceName.val}, {type: myModule.type.val}, {battery_state: myModule.battery_state.val}, {firmware_revision: myModule.firmware_revision.val}, {rf_strength: myModule.rf_strength.val}, {boiler_valve_comfort_boost: ((myModule.boiler_valve_comfort_boost) ? myModule.boiler_valve_comfort_boost.val : null)}, {boiler_status: ((myModule.boiler_status) ? myModule.boiler_status.val : null)} ));
+								myHome      = await that.getStateAsync(myHomeFolder  + '.name');
+
+								myRooms.push(Object.assign({},
+									{myHome: that._getValue(myHome)},
+									room_id,
+									{module_id: that._getValue(myModule)},
+									{roomName: that._getValue(roomName)},
+									{anticipating: that._getValue(anticipating)},
+									{open_window: that._getValue(open_window)},
+									{reachable: that._getValue(reachable)},
+									{heating_power_request: that._getValue(heating_power_request)},
+									{therm_measured_temperature: that._getValue(therm_measured_temperature)},
+									{therm_setpoint_mode: that._getValue(therm_setpoint_mode)},
+									{therm_setpoint_temperature: that._getValue(therm_setpoint_temperature)},
+									{bridge: myModule.bridge},
+									{deviceName: myModule.deviceName},
+									{type: myModule.type},
+									{battery_state: myModule.battery_state},
+									{firmware_revision: myModule.firmware_revision},
+									{rf_strength: myModule.rf_strength},
+									{boiler_valve_comfort_boost: myModule.boiler_valve_comfort_boost},
+									{boiler_status: myModule.boiler_status},
+									{wifi_strength: myModule.wifi_strength},
+									{plug_connected_boiler: myModule.plug_connected_boiler},
+									{hardware_version: myModule.hardware_version},
+									{boiler_cable: myModule.boiler_cable} ));
 							}
+						}
+					}
+					for(const myModule in myModules) {
+						if (myModules[myModule].type == APIRequest_homesdata_NAPlug) {
+							myRooms.push(Object.assign({},
+								{myHome: that._getValue(myHome)},
+								null,
+								{module_id: that._getValue(myModules[myModule].val)},
+								{roomName: null},
+								{anticipating: null},
+								{open_window: null},
+								{reachable: null},
+								{heating_power_request: null},
+								{therm_measured_temperature: null},
+								{therm_setpoint_mode: null},
+								{therm_setpoint_temperature: null},
+								{bridge: myModules[myModule].bridge},
+								{deviceName: myModules[myModule].deviceName},
+								{type: myModules[myModule].type},
+								{battery_state: myModules[myModule].battery_state},
+								{firmware_revision: myModules[myModule].firmware_revision},
+								{rf_strength: myModules[myModule].rf_strength},
+								{boiler_valve_comfort_boost: myModules[myModule].boiler_valve_comfort_boost},
+								{boiler_status: myModules[myModule].boiler_status},
+								{wifi_strength: myModules[myModule].wifi_strength},
+								{plug_connected_boiler: myModules[myModule].plug_connected_boiler},
+								{hardware_version: myModules[myModule].hardware_version},
+								{boiler_cable: myModules[myModule].boiler_cable} ));
 						}
 					}
 					if (myRooms) {

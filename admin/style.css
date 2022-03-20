@@ -30,7 +30,7 @@ label > i[title] {
 }
 
 /* Header section*/
-#header-area {margin-top: 2px; margin-bottom: 1px; background-color:#649470;}
+#header-area {margin-top: 0px; margin-bottom: 1px; background-color:#649470;}
 #header-area #header-logo-title .logo {float:left; margin-right: 10px;}
 #header-area #header-logo-title p {line-height: normal !important; margin: 0 !important; padding: 8px 0 0 8px;}
 #header-area #header-logo-title p>span.h-title {font-size: 2em !important; color:white; }
@@ -248,6 +248,7 @@ i.icon-grey {
 .tooltip {
 	position: relative;
 	text-decoration: none;
+	z-index: 1;
 }
 .tooltip:after {
 	content: attr(data-tooltip);
