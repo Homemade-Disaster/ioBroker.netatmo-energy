@@ -21,6 +21,7 @@
     <script type="text/javascript">   
         const namespace = `netatmo-energy.${instance}`;
 
+        //check if it is an array
         function isArray(it) {
             if (typeof Array.isArray === 'function')
                 return Array.isArray(it);
@@ -28,6 +29,7 @@
             return Object.prototype.toString.call(it) === '[object Array]';
         }
 
+        //Load page
         function load(settings, onChange) {
             GetValves()
                 .then(valves => {
@@ -35,10 +37,77 @@
                 })
                 .catch(() => {
                     //error during searching for rooms);
-                });         
+                });   
+            
             onChange(false);
+
+            $('#netatmo_energy_refresh').on('click', () => {
+                var $sel = $('#messages');
+                const wait_html=`<div style="float: left">
+                                    <img src="img/progress.gif" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                                </div>
+                                <div class="col">    
+                                    <h6 class="translate">Refreshing data in progress</h6>
+                                </div>`;
+                $sel.html(wait_html);
+                translateAll();
+
+                GetValves()
+                    .then(valves => {
+                        showValves(valves);
+                    })
+                    .catch(() => {
+                        var $sel = $('#messages');
+                        $sel.html('');
+                        translateAll();
+                    });   
+            });
+
+            $('#netatmo_energy_homesdata').on('click', () => {
+                CreateAPIRequest('getHomesdata');
+            });            
         }
         
+        /* Get homesdata */
+        function SendMessageToInstance(myFunction) {
+            return new Promise(
+                function(resolve,reject) {
+                    sendTo(namespace, myFunction, {}, function (msg) {
+                        let message = [];
+                        if (isArray(msg)) {
+                            message = msg;
+                            //valves = Object.assign(valves, _valves);
+                        }
+                        resolve(message);
+                    });
+                }
+            );
+        }
+        function CreateAPIRequest(myFunction) {
+            SendMessageToInstance(myFunction)
+                .then(messages => {
+                    var $sel = $('#messages');
+                    let wait_html = '';
+
+                    for (let message of messages) {
+                        wait_html = `<div style="float: left">
+                                        <img src="img/progress.gif" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                                    </div>
+                                    <div class="col">    
+                                        <h6 class="translate">${message.msgtxt}</h6>
+                                    </div>
+                                    <a id="netatmo_energy_close" class="btn-floating waves-effect waves-light red tooltipped center-align hoverable translateT" title="close">
+                                        <i class="material-icons large icon-blue">close</i>
+                                    </a>`;
+                    }
+                    $sel.html(wait_html);
+                    translateAll();
+                })
+                .catch(() => {
+                    //error 
+                });  
+        }        
+
         /* Get valves function */
         function GetValves() {
             return new Promise(
@@ -55,47 +124,53 @@
             );
         }
 
+        //get battery infos
         function getBatteryCls(value) {
             if (value) {
                 if (value == 'low') return {color: 'icon-red', icon: 'battery_alert', text: 'low'}
-                else if (value == 'medium') return {color: 'icon-orange', icon: 'battery_charging_full', text: 'med'};
-                else return {color: 'icon-green', icon: 'battery_std', text: 'hi'};
+                else if (value == 'medium') return {color: 'icon-orange', icon: 'battery_charging_full', text: 'medium'};
+                else return {color: 'icon-green', icon: 'battery_std', text: 'high'};
             }
             return undefined;
         }
 
+        //get window infos
         function getWindowCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return {color: 'icon-red', icon: 'lock_open', text: 'op'}; 
-                else return {color: 'icon-green', icon: 'lock_outline', text: 'cl'};                    
+                if (value == true) return {color: 'icon-red', icon: 'lock_open', text: 'Window open'}; 
+                else return {color: 'icon-green', icon: 'lock_outline', text: 'Window closed'};                    
             }
             return undefined;
         }
         
+        //get network infos
         function getNetworkCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return {color: 'icon-green', icon: 'leak_add', text: 'co'}; 
-                else return {color: 'icon-red', icon: 'leak_remove', text: 'dc'};                
+                if (value == true) return {color: 'icon-green', icon: 'leak_add', text: 'connected'}; 
+                else return {color: 'icon-red', icon: 'leak_remove', text: 'disconnected'};                
             }
             return undefined;
         }
         
+        //get heating infos
         function getHeaterCls(value) {
             if (value != undefined && value != null) {
-                if (value > 0) return {color: 'icon-orange', icon: 'whatshot', text: 'on'}; 
-                else return {color: 'icon-grey', icon: 'whatshot', text: 'off'};
+                if (value > 0) return {color: 'icon-orange', icon: 'whatshot', text: 'heating requested'}; 
+                else return {color: 'icon-grey', icon: 'whatshot', text: 'heating not necessary'};
             }
             return undefined;
         }
 
-        function getAntizipatingCls(value) {
+        //get anticipating infos
+        function getAnticipatingCls(value) {
             if (value != undefined && value != null) {
-                if (value == true) return {color: 'icon-orange', icon: 'notifications_active', text: 'ap'}; 
-                else return {color: 'icon-grey', icon: 'notifications_off', text: 'not'};
+                if (value == true) return {color: 'icon-orange', icon: 'notifications_active', text: 'anticipate'}; 
+                else return {color: 'icon-grey', icon: 'notifications_off', text: 'not anticipating'};
             }
             return undefined;
         }
         
+        //get boiler infos
         function getBoilerCls(value) {
             if (value != undefined && value != null) {
                 if (value == true) return 'style="background-color: #ebbe6c;"'; 
@@ -104,6 +179,7 @@
             return '';
         }
 
+        //get device infos
         function getImage(value) {
             let images = { "images": [
                             {"type":"NAPlug","img":"img/plug.png"},
@@ -115,6 +191,7 @@
             else return {"type":"unknown","img":"img/netatmo.png"};
         }
 
+        //show valves infos
         function showValves(valves) {
             var $sel = $('#valves');
             let cards = "";
@@ -132,7 +209,7 @@
                     let temp_mode                   = valve.therm_setpoint_mode;
                     
                     let anticipating                = valve.anticipating;
-                    let anticipating_cls            = getAntizipatingCls(anticipating);
+                    let anticipating_cls            = getAnticipatingCls(anticipating);
                     
                     let open_window                 = valve.open_window;
                     let open_window_cls             = getWindowCls(open_window);
@@ -160,6 +237,8 @@
                     let plug_connected_boiler       = valve.plug_connected_boiler;
                     let hardware_version            = valve.hardware_version;
                     let boiler_cable                = valve.boiler_cable;
+                    let act_date                    = new Date();
+                    let act_date_text               = act_date.toLocaleString();
 
                     //${battery_icon}
                     var card = `<div id="${id}" class="valve" data-friendly-name="${friendlyName}">
@@ -192,33 +271,39 @@
                                                 <div class="info">
                                                     ${boiler_valve_comfort != undefined && boiler_valve_comfort != null && boiler_valve_comfort == true ? `
                                                         <div id="${id}_boiler_valve_comfort" class="col el">
-                                                            <i class="material-icons icon-green" style="font-size: 24px;padding:left=5px">mood</i>
-                                                            <div class="center translate">hr</div>
+                                                            <a id="mood_icon" class="tooltipped translateT" title="Comfort boost requested">
+                                                                <i class="material-icons icon-green" style="font-size: 24px;padding:left=5px">mood</i>
+                                                            </a>
                                                         </div>` : ''}
                                                     ${battery_state != undefined ? `
                                                         <div id="${id}_battery" class="col el">
-                                                            <i class="material-icons ${battery_state_cls.color}" style="font-size: 24px;padding:left=5px">${battery_state_cls.icon}</i>
-                                                            <div class="center translate">${battery_state_cls.text}</div>
+                                                            <a id="battery_icon" class="tooltipped translateT" title="${battery_state_cls.text}">
+                                                                <i class="material-icons ${battery_state_cls.color}" style="font-size: 24px;padding:left=5px">${battery_state_cls.icon}</i>
+                                                            </a>
                                                         </div>` : ''}
                                                     ${reachable != undefined ? `
                                                         <div id="${id}_network" class="col el">
-                                                            <i class="material-icons ${reachable_cls.color}" style="font-size: 24px;padding:left=5px">${reachable_cls.icon}</i>
-                                                            <div class="center translate">${reachable_cls.text}</div>
+                                                            <a id="mood_icon" class="tooltipped translateT" title="${reachable_cls.text}">
+                                                                <i class="material-icons ${reachable_cls.color}" style="font-size: 24px;padding:left=5px">${reachable_cls.icon}</i>
+                                                            </a>
                                                         </div>` : ''}                                           
                                                     ${open_window != undefined ? `
                                                         <div id="${id}_window" class="col el">
-                                                            <i class="material-icons ${open_window_cls.color}" style="font-size: 24px;padding:left=5px">${open_window_cls.icon}</i>
-                                                            <div class="center translate">${open_window_cls.text}</div>
+                                                            <a id="battery_icon" class="tooltipped translateT" title="${open_window_cls.text}">
+                                                                <i class="material-icons ${open_window_cls.color}" style="font-size: 24px;padding:left=5px">${open_window_cls.icon}</i>
+                                                            </a>
                                                         </div>` : ''}
                                                     ${anticipating != undefined ? `
                                                         <div id="${id}_antizipation" class="col el">
-                                                            <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px;padding:left=5px">${anticipating_cls.icon}</i>
-                                                            <div class="center translate">${anticipating_cls.text}</div>
+                                                            <a id="battery_icon" class="tooltipped translateT" title="${anticipating_cls.text}">
+                                                                <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px;padding:left=5px">${anticipating_cls.icon}</i>
+                                                            </a>
                                                         </div>` : ''}                                                      
                                                     ${heating_power_request != undefined ? `
                                                         <div id="${id}_heater" class="col el">
-                                                            <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px;padding:left=5px">${heating_power_request_cls.icon}</i>
-                                                            <div class="center translate">${heating_power_request_cls.text}</div>
+                                                            <a id="battery_icon" class="tooltipped translateT" title="${heating_power_request_cls.text}">
+                                                                <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px;padding:left=5px">${heating_power_request_cls.icon}</i>
+                                                            </a>
                                                         </div>` : ''}
                                                 </div>  
                                             </div>
@@ -268,6 +353,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="card-footer">
+                                                    <i class="material-icons icon-green" style="font-size: 18px;float: left">refresh</i>
+                                                    <div class="translate"> Refreshed: </div>
+                                                    <div> ${act_date_text}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,6 +365,11 @@
                 }
             }                
             $sel.html(cards);
+            
+            var $sel = $('#messages');
+            let messages = "";
+            $sel.html(messages);
+            
             translateAll();
         }
 
@@ -291,16 +384,29 @@
 <body>
     <div class="m adapter-container">
         <!-- Header -->
-        <div id="header-area" class="row navbar-fixed">
-            <nav class="nav-extended">
-                <div id="header-logo-title" class="nav-wrapper" style="Background-color:#649470;">
-                    <img class="logo" src="netatmo-energy.png" >
-                    <p>
-                        <span class="translate h-title">Netatmo Energy</span><br />
-                    </p>
+        <div class="row navbar-fixed">
+            <nav class="nav-extended" style="Background-color:#649470;">
+                <div class="nav-wrapper">
+                    <div class="col" style="float: left">
+                        <img class="logo" src="netatmo-energy.png" >
+                    </div>
+                    <div class="col">    
+                        <h5 class="translate">Netatmo Energy</h5>
+                    </div>
+                    <ul id="nav-mobile" class="right">
+                        <li>
+                            <a id="netatmo_energy_homesdata" class="btn-floating waves-effect waves-light brown tooltipped center-align hoverable translateT" title="API Request refresh all">
+                                <i class="material-icons large icon-blue">cloud_download</i>
+                            </a>                              
+                            <a id="netatmo_energy_refresh" class="btn-floating waves-effect waves-light orange tooltipped center-align hoverable translateT" title="refresh">
+                                <i class="material-icons large icon-blue">sync</i>
+                            </a>                          
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>   
+        <div id="messages" class="row"></div> 
         <div id="valves" class="row"></div> 
     </div>
 </body>

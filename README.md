@@ -85,6 +85,10 @@ Please insert the necessary informations to connect to the service you choose.
 
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
+## Admin-Tab
+On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and alse request an API refresh.
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
+
 ## Widget
 Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other fields dynamically out of the "rooms"-structure.
 
@@ -96,11 +100,14 @@ Widget for VIS to show a complete valve. You have only to define the "SetTemp" -
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.1.5 (2022-03-23)
+* (ioKlausi) Refresh functionality added to admin tab
+
 ### 1.1.4 (2022-03-20)
-* (ioKlausi) Plug added to tab page 
+* (ioKlausi) Plug added to admin tab 
 
 ### 1.1.3 (2022-03-19)
-* (ioKlausi) Valve page added 
+* (ioKlausi) Admin tab for valves added 
 
 ### 1.1.2 (2022-03-06)
 * (ioKlausi) Bugfix Easy Admin 

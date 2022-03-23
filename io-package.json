@@ -1,31 +1,43 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.1.4",
+		"version": "1.1.5",
 		"news": {
+			"1.1.5": {
+				"en": "Refresh functionality added to admin tab",
+				"de": "Aktualisierungsfunktion zum Admin-Tab hinzugefügt",
+				"ru": "Функция обновления добавлена на вкладку администратора",
+				"pt": "Atualize a funcionalidade adicionada à guia de administração",
+				"nl": "Vernieuwingsfunctionaliteit toegevoegd aan beheerderstabblad",
+				"fr": "Fonctionnalité d'actualisation ajoutée à l'onglet admin",
+				"it": "Funzionalità di aggiornamento aggiunta alla scheda amministratore",
+				"es": "Funcionalidad de actualización agregada a la pestaña de administración",
+				"pl": "Dodano funkcję odświeżania do karty administratora",
+				"zh-cn": "刷新功能添加到管理选项卡"
+			},
 			"1.1.4": {
-				"en": "Bridge added to tab page",
-				"de": "Bridge zur Hauptseite hinzugefügt",
-				"ru": "Мост добавлен на вкладку",
-				"pt": "Ponte adicionada à página da guia",
-				"nl": "Bridge toegevoegd aan tabblad",
-				"fr": "Pont ajouté à la page d'onglet",
-				"it": "Bridge aggiunto alla scheda",
-				"es": "Puente agregado a la página de pestañas",
-				"pl": "Mostek dodany do strony zakładki",
-				"zh-cn": "桥添加到标签页"
+				"en": "Bridge added to admin tab",
+				"de": "Bridge zum Admin-Tab hinzugefügt",
+				"ru": "Мост добавлен на вкладку администратора",
+				"pt": "Bridge adicionado à guia de administração",
+				"nl": "Bridge toegevoegd aan beheerderstabblad",
+				"fr": "Pont ajouté à l'onglet admin",
+				"it": "Bridge aggiunto alla scheda amministratore",
+				"es": "Bridge agregado a la pestaña de administración",
+				"pl": "Bridge dodany do karty administratora",
+				"zh-cn": "桥添加到管理选项卡"
 			},	
 			"1.1.3": {
-				"en": "Valve page added ",
-				"de": "Ventilseite hinzugefügt",
-				"ru": "Добавлена страница клапана",
-				"pt": "Página de válvula adicionada",
-				"nl": "Valve pagina toegevoegd",
-				"fr": "Page vanne ajoutée",
-				"it": "Pagina della valvola aggiunta",
-				"es": "Página de válvulas añadida",
-				"pl": "Dodano stronę zaworu",
-				"zh-cn": "添加了阀门页面"
+				"en": "Admin tab for valves added",
+				"de": "Admin-Tab für Ventile hinzugefügt",
+				"ru": "Добавлена вкладка администратора для клапанов",
+				"pt": "Aba de administração para válvulas adicionadas",
+				"nl": "Admin-tabblad voor kleppen toegevoegd",
+				"fr": "Onglet Admin pour les vannes ajoutées",
+				"it": "Aggiunta la scheda Admin per le valvole",
+				"es": "Pestaña de administración para válvulas añadidas",
+				"pl": "Dodano zakładkę Admin dla zaworów",
+				"zh-cn": "添加了阀门的管理选项卡"
 			},	
 			"1.1.2": {
 				"en": "Bugfix Easy Admin",

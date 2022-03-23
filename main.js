@@ -98,6 +98,7 @@ const NotificationEmail						= 'email';
 const NotificationTelegram					= 'telegram';
 const NotificationTelegramUser				= 'getTelegramUser';
 const GetValves								= 'getValves';
+const GetHomesdata							= 'getHomesdata';
 const NotificationPushover					= 'pushover';
 const NotificationWhatsapp					= 'whatsapp-cmb';
 const NoticeTypeLong						= 'longNotice';
@@ -1505,7 +1506,6 @@ class NetatmoEnergy extends utils.Adapter {
 		);
 	}
 
-
 	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
 	// /**
 	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
@@ -1533,6 +1533,17 @@ class NetatmoEnergy extends utils.Adapter {
 	onMessage(obj) {
 		if (typeof obj === 'object' && obj.command) {
 			switch (obj.command) {
+				case GetHomesdata:
+					if (obj.callback) {
+						this.RefreshWholeStructure(false);
+
+						const myMessages = [];
+						const msgtxt = mytools.tl('Start refresh request', this.systemLang);
+						myMessages.push(Object.assign({}, {msgtxt: msgtxt} ));
+						this.sendTo(obj.from, obj.command, myMessages, obj.callback);
+					}
+					break;
+
 				case GetValves:
 					if (obj.callback) {
 						this._getAllModules()

@@ -84,6 +84,11 @@ Folgende Dienste sind verfügbar.
 
     <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_de.png" alt="settingsAPI" width="70%"/>
 
+
+## Admin-Tab
+Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist ea auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten.
+<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/admintab_de.png" alt="admintab" width="70%"/>
+
 ## Widget
 Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "SetTemp" - Datenpunkt eintragen. Alle anderen Informationen werden dynamisch aus der "rooms"-Struktur ermittelt.
 
@@ -95,11 +100,14 @@ Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "Se
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.1.5 (2022-03-23)
+* (ioKlausi) Aktualisierungsfunktion zur Admin Tab hinzugefügt
+
 ### 1.1.4 (2022-03-20)
-* (ioKlausi) Bridge zu Hauptseite hinzugefügt
+* (ioKlausi) Bridge zu Admin Tab hinzugefügt
 
 ### 1.1.3 (2022-03-19)
-* (ioKlausi) Hauptseite mit Ventilen hinzugefügt
+* (ioKlausi) Admin Tab für Ventile hinzugefügt
 
 ### 1.1.2 (2022-03-06)
 * (ioKlausi) Bugfix Easy Admin 
