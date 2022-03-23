@@ -87,6 +87,7 @@ Folgende Dienste sind verfügbar.
 
 ## Admin-Tab
 Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist ea auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten.
+
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/admintab_de.png" alt="admintab" width="70%"/>
 
 ## Widget

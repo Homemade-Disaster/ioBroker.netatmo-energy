@@ -87,6 +87,7 @@ Please insert the necessary informations to connect to the service you choose.
 
 ## Admin-Tab
 On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and alse request an API refresh.
+
 <img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
 
 ## Widget
