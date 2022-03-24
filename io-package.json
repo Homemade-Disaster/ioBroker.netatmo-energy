@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.1.5",
+		"version": "1.1.6",
 		"news": {
+			"1.1.6": {
+				"en": "Rework README.MD",
+				"de": "README.MD überarbeiten",
+				"ru": "Переработка README.MD",
+				"pt": "Retrabalhar README.MD",
+				"nl": "Herwerk README.MD",
+				"fr": "Retravailler README.MD",
+				"it": "Rielabora README.MD",
+				"es": "Reelaborar README.MD",
+				"pl": "Przerób README.MD",
+				"zh-cn": "返工 README.MD"
+			},
 			"1.1.5": {
 				"en": "Refresh functionality added to admin tab",
 				"de": "Aktualisierungsfunktion zum Admin-Tab hinzugefügt",

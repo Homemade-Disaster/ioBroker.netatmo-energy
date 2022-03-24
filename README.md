@@ -16,12 +16,12 @@
 ## netatmo-energy adapter for ioBroker
 Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
 
-[Detailed description here](docs/en/README.md)
+[Detailed description of Netatmo Energy Adapter in english](docs/en/README.md)
 
 ## netatmo-energy Adapter für ioBroker
 Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch Request für den Datentransfer zur Netatmo Energy API. Offizielle Dokumentation der API: https://dev.netatmo.com/apidocumentation/energy.
 
-[Detaillierte Beschreibung hier](docs/de/README.md)
+[Detailbeschreibung des Netatmo Energy Adapter in deutsch](docs/de/README.md)
 
 **If you like it, please consider a donation:**
   
@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.1.6 (2022-03-24)
+* (ioKlausi) Rework README.md & WIKI
+
 ### 1.1.5 (2022-03-23)
 * (ioKlausi) Refresh functionality added to admin tab
 
