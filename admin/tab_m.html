@@ -198,11 +198,12 @@
 
             if (valves.length != 0) {
                 for (let valve of valves) {
-                    let id           = valve.val;
+                    let id                          = valve.val;
 
-                    let friendlyName = '';
-                    if (valve.roomName) friendlyName = valve.roomName + ' (' + valve.deviceName + ')'
-                    else friendlyName = valve.deviceName;
+                    let friendlyName                = '';
+                    if (valve.roomName) 
+                         friendlyName               = valve.roomName + ' (' + valve.deviceName + ')'
+                    else friendlyName               = valve.deviceName;
 
                     let temp_act                    = valve.therm_measured_temperature;
                     let temp_set                    = valve.therm_setpoint_temperature;
