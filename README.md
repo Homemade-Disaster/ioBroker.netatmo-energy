@@ -24,6 +24,11 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 [Detaillierte Beschreibung hier](docs/de/README.md)
 
+**If you like it, please consider a donation:**
+  
+[![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=V3HZWGDD44GEN)
+![QR-Code](docs/img/QR-Code.png)
+
 ## Changelog
 [Older changes](CHANGELOG_OLD.md)
 <!--
