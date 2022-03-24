@@ -1468,12 +1468,13 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 						}
 					}
+					room_id = null;
 					for(const myModule in myModules) {
 						if (myModules[myModule].type == APIRequest_homesdata_NAPlug) {
 							myRooms.push(Object.assign({},
 								{myHome: that._getValue(myHome)},
-								null,
-								{module_id: that._getValue(myModules[myModule].val)},
+								room_id,
+								{module_id: myModules[myModule].val},
 								{roomName: null},
 								{anticipating: null},
 								{open_window: null},
