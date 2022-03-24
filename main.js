@@ -1382,7 +1382,7 @@ class NetatmoEnergy extends utils.Adapter {
 								const hardware_version      	 = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.hardware_version');
 								const boiler_cable      	 	 = await that.getStateAsync(myTargetName  + '.' + Channel_modulestatus + '.boiler_cable');
 
-								myModules.push(Object.assign({}, that._getValue(module_id),
+								myModules.push(Object.assign({}, module_id,
 									{type: that._getValue(type)},
 									{deviceName: that._getValue(deviceName)},
 									{bridge: that._getValue(bridge)},
@@ -1443,7 +1443,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 								myRooms.push(Object.assign({},
 									{myHome: that._getValue(myHome)},
-									that._getValue(room_id),
+									room_id,
 									{module_id: that._getValue(myModule)},
 									{roomName: that._getValue(roomName)},
 									{anticipating: that._getValue(anticipating)},
@@ -1473,7 +1473,7 @@ class NetatmoEnergy extends utils.Adapter {
 							myRooms.push(Object.assign({},
 								{myHome: that._getValue(myHome)},
 								null,
-								{module_id: myModules[myModule].val},
+								{module_id: that._getValue(myModules[myModule].val)},
 								{roomName: null},
 								{anticipating: null},
 								{open_window: null},
