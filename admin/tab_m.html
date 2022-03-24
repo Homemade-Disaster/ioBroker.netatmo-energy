@@ -104,7 +104,9 @@
                     translateAll();
                 })
                 .catch(() => {
-                    //error 
+                    var $sel = $('#messages');
+                    $sel.html('');
+                    translateAll();
                 });  
         }        
 
@@ -195,8 +197,15 @@
         function showValves(valves) {
             var $sel = $('#valves');
             let cards = "";
+            let bridges = [];
 
             if (valves.length != 0) {
+                for (let valve of valves) {
+                    if (valve.type == 'NAPlug') {
+                            bridges.push({id: valve.module_id, name: valve.deviceName});
+                        }
+                }
+
                 for (let valve of valves) {
                     let id                          = valve.val;
 
@@ -241,6 +250,17 @@
                     let act_date                    = new Date();
                     let act_date_text               = act_date.toLocaleString();
 
+                    let id_bridge = bridge;
+                    if (valve.type == 'NAPlug') {
+                        id_bridge = module_id;
+                    }
+                    let bridge_devicename = '';
+                    for (let bridge_name of bridges) {
+                        if (bridge_name.id == id_bridge) {
+                                bridge_devicename = bridge_name.name;
+                                break;
+                            }
+                    }
                     //${battery_icon}
                     var card = `<div id="${id}" class="valve" data-friendly-name="${friendlyName}">
                                     <div class="card dcard" ${BoilerStatus}>
@@ -311,9 +331,9 @@
                                         </div>
                                         <div class="card-action">
                                             <div style="margin-left: auto;">
-                                                <span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+                                                <span class="card-title activator grey-text text-darken-4">${bridge_devicename}<i class="material-icons right">more_vert</i></span>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                         <div class="card-reveal">
                                             <div>
                                                 <div class="card-title card-header">

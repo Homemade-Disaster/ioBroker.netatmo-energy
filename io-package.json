@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.1.6",
+		"version": "1.1.7",
 		"news": {
+			"1.1.7": {
+				"en": "Bridge assignment added to each card",
+				"de": "Bridge Zuordnung zu jeder Karte hinzugefügt",
+				"ru": "Назначение моста добавлено к каждой карте",
+				"pt": "Atribuição de ponte adicionada a cada cartão",
+				"nl": "Brugopdracht toegevoegd aan elke kaart",
+				"fr": "Affectation de pont ajoutée à chaque carte",
+				"it": "Assegnazione bridge aggiunta a ciascuna carta",
+				"es": "Asignación de puente añadida a cada tarjeta",
+				"pl": "Przypisanie pomostu dodane do każdej karty",
+				"zh-cn": "每张卡片都添加了桥牌分配"
+			},
 			"1.1.6": {
 				"en": "Rework README.MD",
 				"de": "README.MD überarbeiten",
