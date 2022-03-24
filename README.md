@@ -1,4 +1,4 @@
-![Logo](https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png)
+![Logo](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/admin/netatmo-energy.png)
 # ioBroker.netatmo-energy
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.netatmo-energy.svg)](https://www.npmjs.com/package/iobroker.netatmo-energy)
@@ -35,9 +35,9 @@ Account at Netatmo Cloud
 
 A detailed description is available on adapter wiki (https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki).
 
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_login_en.png" alt="settingsLogin" width="70%"/>
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/settings_login_en.png" alt="settingsLogin" width="70%"/>
 
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/settings_api_en.png" alt="settingsAPI" width="70%"/>
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/settings_api_en.png" alt="settingsAPI" width="70%"/>
 
 ## netatmo-energy adapter for ioBroker
 Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
@@ -68,7 +68,7 @@ If an API request need parameters, you can find these in the channel "parameters
 * running               ... here you can see if API Requests are running right now
 
 ### Request structure
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP_measure.png" alt="settingsLogin" width="80%"/><img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="80%"/>
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/EnergyAPP_measure.png" alt="settingsLogin" width="80%"/><img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="80%"/>
 
 ## Build structure
 If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
@@ -79,21 +79,21 @@ Depending on the adapter settings it will refresh theses data after sending an A
 If you have activated a notification service in the adapter configuration you get specific messages using a notification service.
 Following services are available.
 
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_types_en.png" alt="settingsAPI" width="30%"/>
+<img src="https://github.com.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_types_en.png" alt="settingsAPI" width="30%"/>
 
 Please insert the necessary informations to connect to the service you choose.
 
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
 ## Admin-Tab
 On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and alse request an API refresh.
 
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
 
 ## Widget
 Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other fields dynamically out of the "rooms"-structure.
 
-<img src="https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/valve_widget_en.png" alt="settingsAPI" width="250px"/>
 
 ## Changelog
 [Older changes](CHANGELOG_OLD.md)
