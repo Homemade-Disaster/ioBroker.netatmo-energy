@@ -14,14 +14,12 @@
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 ## netatmo-energy adapter for ioBroker
-Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. 
-The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
+Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
 
 [Detailed description of Netatmo Energy Adapter in english](docs/en/README.md)
 
 ## netatmo-energy Adapter für ioBroker
-Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch Request für den Datentransfer zur Netatmo Energy API. 
-Offizielle Dokumentation der API: https://dev.netatmo.com/apidocumentation/energy.
+Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch Request für den Datentransfer zur Netatmo Energy API. Offizielle Dokumentation der API: https://dev.netatmo.com/apidocumentation/energy.
 
 [Detailbeschreibung des Netatmo Energy Adapter in deutsch](docs/de/README.md)
 
