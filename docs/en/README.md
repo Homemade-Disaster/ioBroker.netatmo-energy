@@ -62,7 +62,8 @@ If an API request need parameters, you can find these in the channel "parameters
 * refresh_structure     ... create request homesdata and homestatus in sequenz
 
 ### Update requests
-* setroomthermpoint     ... depending on the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges"). In the channel "setting" you can use the button "set_mode_to_home" to set "home"-Mode for the valve.
+* setroomthermpoint     ... depending on the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges"). 
+* set_mode_to_home      ... In the channel "setting" you can use the button "set_mode_to_home" to set "home"-Mode for the valve.
 
 ### Status
 * running               ... here you can see if API Requests are running right now
