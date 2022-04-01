@@ -169,8 +169,10 @@
 
 		if ($('#notificationEnabled').prop('checked')) {
 			$('.tabNotification').show();
+			$('.tabSubscribes').show();
 		} else {
 			$('.tabNotification').hide();
+			$('.tabSubscribes').hide();
 		}
 	}
 	</script>
@@ -193,6 +195,7 @@
 						<li class="tab col tabLogon"><a href="#tabLogon" class="translate active">Logon information</a></li>
 						<li class="tab col tabAPI"><a href="#tabAPI" class="translate">API settings</a></li>
 						<li class="tab col tabNotification"><a href="#tabNotification" class="translate">Notifications</a></li>
+						<li class="tab col tabSubscribes"><a href="#tabSubscribes" class="translate">Messages</a></li>
 					</ul>
 				</div>
 
@@ -358,35 +361,110 @@
 						</div>
 					</div>
 		    	</div>
-			</div>
 
-			<!-- ++++++++++ TAB: API settings ++++++++++ -->
-			<div id="tabAPI"    class="col s12 page">
-				<div class="row">
-					<div class="col s12">
-					<h6 class="title translate">General settings</h6>
+
+				<!-- ++++++++++ TAB: API settings ++++++++++ -->
+				<div id="tabAPI"    class="col s12 page">
+					<div class="row">
+						<div class="col s12">
+						<h6 class="title translate">General settings</h6>
+						</div>
+					</div>
+					
+					<div class="row">
+					<div class="col s6 input-field">
+						<input type="checkbox" class="value" id="applyimmediately" size="30" />
+						<label for="applyimmediately" class="translate">apply immediately</label>
+					</div>
+					<div class="col s6 input-field">
+						<input type="checkbox" class="value" id="getchangesimmediately" size="30" />
+						<label for="getchangesimmediately" class="translate">read API states immediately</label>
+					</div>
+					</div>
+					
+					<div class="row">
+					<div class="input-field col s6 col-refreshstates">
+						<input class="value" type="number" id="refreshstates" />
+						<label class="translate" for="refreshstates">Refresh states every x seconds</label>
+					</div>
 					</div>
 				</div>
-				
-				<div class="row">
-				<div class="col s6 input-field">
-					<input type="checkbox" class="value" id="applyimmediately" size="30" />
-					<label for="applyimmediately" class="translate">apply immediately</label>
-				</div>
-				<div class="col s6 input-field">
-					<input type="checkbox" class="value" id="getchangesimmediately" size="30" />
-					<label for="getchangesimmediately" class="translate">read API states immediately</label>
-				</div>
-				</div>
-				
-				<div class="row">
-				<div class="input-field col s6 col-refreshstates">
-					<input class="value" type="number" id="refreshstates" />
-					<label class="translate" for="refreshstates">Refresh states every x seconds</label>
-				</div>
-				</div>
-			</div>
-			
+
+				<!-- ++++++++++ TAB: API settings ++++++++++ -->
+				<div id="tabSubscribes"    class="col s12 page">
+					<div class="row">
+						<div class="col s12">
+						<h6 class="title translate">Messages</h6>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="checkbox" class="value" id="notify_bat_low" size="30" />
+							<label for="notify_bat_low" class="translate">Low battery</label>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="notify_bat_low_txt" size="30" />
+							<label for="notify_bat_low_txt" class="translate">Message if battery goes low</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="checkbox" class="value" id="notify_bat_medium" size="30" />
+							<label for="notify_bat_medium" class="translate">Medium battery</label>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="notify_bat_medium_txt" size="30" />
+							<label for="notify_bat_medium_txt" class="translate">Message if battery goes medium</label>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="checkbox" class="value" id="notify_connection_no" size="30" />
+							<label for="notify_connection_no" class="translate">Connection</label>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="notify_connection_no_txt" size="30" />
+							<label for="notify_connection_no_txt" class="translate">Message if valve lost connection</label>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="checkbox" class="value" id="notify_window_open" size="30" />
+							<label for="notify_window_open" class="translate">Window open</label>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="notify_window_open_txt" size="30" />
+							<label for="notify_window_open_txt" class="translate">Message if window is open</label>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="checkbox" class="value" id="notify_heating_power_request" size="30" />
+							<label for="notify_heating_power_request" class="translate">Heating request</label>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="notify_heating_power_request_txt" size="30" />
+							<label for="notify_heating_power_request_txt" class="translate">Message if valve creates a heating request</label>
+						</div>
+					</div>	
+					
+					<div class="row">
+						<div class="col s6 input-field">
+							<input type="checkbox" class="value" id="notify_anticipating" size="30" />
+							<label for="notify_anticipating" class="translate">Anticipating</label>
+						</div>
+						<div class="col s6 input-field">
+							<input type="text" class="value" id="notify_anticipating_txt" size="30" />
+							<label for="notify_anticipating_txt" class="translate">Message if boiler anticipates</label>
+						</div>
+					</div>	
+				</div>				
+			</div>			
 		</div>
 	</div>
 

@@ -106,6 +106,13 @@ const ErrorNotification						= 'Error';
 const InfoNotification						= 'Info';
 const WarningNotification					= 'Warn';
 
+//subscribed states
+const state_anticipating					= 'anticipating';
+const state_open_window						= 'open_window';
+const state_reachable						= 'reachable';
+const state_battery_state					= 'battery_state';
+const state_heating_power_request			= 'heating_power_request';
+
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
 
@@ -775,6 +782,15 @@ class NetatmoEnergy extends utils.Adapter {
 			} else {
 				if (mytools.netatmoTagsDetail(myobj_selected) === true && API_Request === APIRequest_homesdata) {
 					await this.createNetatmoStructure(mytools.getPrefixPath(Netatmo_Path + '.') + object_name, object_name, obj[object_name], true, '', false, true, '', false, false);
+					switch(object_name) {
+						case state_anticipating:
+						case state_open_window:
+						case state_reachable:
+						case state_battery_state:
+						case state_heating_power_request:
+							await this.subscribeStates(mytools.getPrefixPath(Netatmo_Path + '.') + object_name);
+							break;
+					}
 				}
 			}
 		}
@@ -1026,13 +1042,13 @@ class NetatmoEnergy extends utils.Adapter {
 			} else if (rooms.test(id)) {
 				role = 'value.roomname';
 				forced = true;
-			} else if (object_name.indexOf('anticipating') >= 0) {
+			} else if (object_name.indexOf(state_anticipating) >= 0) {
 				role = 'indicator.anticipating';
 				forced = true;
-			} else if (object_name.indexOf('reachable') >= 0) {
+			} else if (object_name.indexOf(state_reachable) >= 0) {
 				role = 'indicator.reachable';
 				forced = true;
-			} else if (object_name.indexOf('open_window') >= 0) {
+			} else if (object_name.indexOf(state_open_window) >= 0) {
 				role = 'indicator.window';
 				forced = true;
 			} else if (object_name.indexOf('therm_setpoint_temperature') >= 0) {
@@ -1310,6 +1326,35 @@ class NetatmoEnergy extends utils.Adapter {
 							this.log.debug(mytools.tl('Refresh whole structure:', this.systemLang) + ' ' + id + ' - ' + state.val);
 							this.setState(id, false, true);
 							this.RefreshWholeStructure(false);
+							break;
+
+						//Reaction of states
+						//anticipating
+						case state_anticipating:
+							if (this.config.notify_anticipating == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
+							break;
+						//Window open
+						case state_open_window:
+							if (this.config.notify_window_open == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_window_open_txt);
+							break;
+						//No Connection
+						case state_reachable:
+							if (this.config.notify_connection_no == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_connection_no_txt);
+							break;
+						//Battery state
+						case state_battery_state:
+							if (state.val == 'low') {
+								if (this.config.notify_bat_low == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_low_txt);
+								break;
+							}
+							if (state.val == 'medium') {
+								if (this.config.notify_bat_medium == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_medium_txt);
+								break;
+							}
+							break;
+						//Heating request
+						case state_heating_power_request:
+							if (this.config.notify_heating_power_request == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
 							break;
 					}
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {

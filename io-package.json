@@ -347,7 +347,19 @@
 			"dependencies": [
 				"jqui-mfd",
 				"basic"
-			]
+			],
+		"notify_bat_low": true,
+		"notify_bat_low_txt": "",
+		"notify_bat_medium": true,
+		"notify_bat_medium_txt": "",
+		"notify_connection_no": true,
+		"notify_connection_no_txt": "",
+		"notify_window_open": true,
+		"notify_window_open_txt": "",
+		"notify_heating_power_request": true,
+		"notify_heating_power_request_txt": "",
+		"notify_anticipating": true,
+		"notify_anticipating_txt": ""		 
 	},
 	"objects": [],
 	"instanceObjects": [

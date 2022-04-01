@@ -231,6 +231,110 @@
                     "lg": 4            
                 }              
             }
-        }        
+        },
+        "tabSubscribes": {
+            "type": "panel",
+            "label": "Notifications",
+            "disabled": "data.notificationEnabled !== true",
+            "items": {   
+                "notify_bat_low":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Low battery",
+                    "sm": 6,
+                    "md": 3,
+                    "lg": 2                    
+                },
+                "notify_bat_low_txt":{
+                    "type": "text",
+                    "label": "Message:",
+                    "help": "Message if battery goes low",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },
+                "notify_bat_medium":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Medium battery",
+                    "sm": 6,
+                    "md": 3,
+                    "lg": 2                    
+                },
+                "notify_bat_medium_txt":{
+                    "type": "text",
+                    "label": "Message:",
+                    "help": "Message if battery goes medium",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                                
+                },
+                "notify_connection_no":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Connection",
+                    "sm": 6,
+                    "md": 3,
+                    "lg": 2                    
+                },
+                "notify_connection_no_txt":{
+                    "type": "text",
+                    "label": "Message:",
+                    "help": "Message if valve lost connection",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4   
+                },
+                "notify_window_open":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Window open",
+                    "sm": 6,
+                    "md": 3,
+                    "lg": 2                    
+                },
+                "notify_window_open_txt":{
+                    "type": "text",
+                    "label": "Message:",
+                    "help": "Message if window is open",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4   
+                },
+                "notify_heating_power_request":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Heating request",
+                    "sm": 6,
+                    "md": 3,
+                    "lg": 2                    
+                },
+                "notify_heating_power_request_txt":{
+                    "type": "text",
+                    "label": "Message:",
+                    "help": "Message if valve creates a heating request",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4   
+                },
+                "notify_anticipating":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Anticipating",
+                    "sm": 6,
+                    "md": 3,
+                    "lg": 2                    
+                },
+                "notify_anticipating_txt":{
+                    "newLine": true,
+                    "type": "text",
+                    "label": "Message:",
+                    "help": "Message if boiler anticipates",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4   
+                }
+            }
+        }                
     }
 }
