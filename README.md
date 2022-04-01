@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.2.0 (2022-03-01)
+* (ioKlausi) Close message functionality added on admin tab
+
 ### 1.1.7 (2022-03-24)
 * (ioKlausi) Bridge information added to each card
 

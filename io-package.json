@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.1.7",
+		"version": "1.2.0",
 		"news": {
+			"1.2.0": {
+				"en": "Close message functionality added on admin tab",
+				"de": "Funktion zum Schließen von Nachrichten auf der Registerkarte „Admin“ hinzugefügt",
+				"ru": "Добавлена функция закрытия сообщений на вкладке администратора",
+				"pt": "Fechar funcionalidade de mensagem adicionada na guia de administração",
+				"nl": "Sluit berichtfunctionaliteit toegevoegd op het beheerderstabblad",
+				"fr": "Fermer la fonctionnalité de message ajoutée sur l'onglet admin",
+				"it": "Funzionalità di chiusura del messaggio aggiunta nella scheda amministratore",
+				"es": "Cerrar funcionalidad de mensaje agregada en la pestaña de administración",
+				"pl": "Dodano funkcję zamykania wiadomości na karcie administratora",
+				"zh-cn": "在管理选项卡上添加了关闭消息功能"
+			},
 			"1.1.7": {
 				"en": "Bridge assignment added to each card",
 				"de": "Bridge Zuordnung zu jeder Karte hinzugefügt",

@@ -41,6 +41,8 @@
             
             onChange(false);
 
+            $('#netatmo_energy_close_all').hide();
+
             $('#netatmo_energy_refresh').on('click', () => {
                 var $sel = $('#messages');
                 const wait_html=`<div style="float: left">
@@ -50,6 +52,7 @@
                                     <h6 class="translate">Refreshing data in progress</h6>
                                 </div>`;
                 $sel.html(wait_html);
+                $('#netatmo_energy_close_all').show();
                 translateAll();
 
                 GetValves()
@@ -65,9 +68,20 @@
 
             $('#netatmo_energy_homesdata').on('click', () => {
                 CreateAPIRequest('getHomesdata');
+            });
+
+            $('#netatmo_energy_close_all').on('click', () => {
+                CloseMessage();
             });            
         }
         
+        /* Close messages */
+        function CloseMessage() {
+            const $sel = $('#messages');
+            $sel.html('');
+            $('#netatmo_energy_close_all').hide();
+        }
+
         /* Get homesdata */
         function SendMessageToInstance(myFunction) {
             return new Promise(
@@ -95,12 +109,10 @@
                                     </div>
                                     <div class="col">    
                                         <h6 class="translate">${message.msgtxt}</h6>
-                                    </div>
-                                    <a id="netatmo_energy_close" class="btn-floating waves-effect waves-light red tooltipped center-align hoverable translateT" title="close">
-                                        <i class="material-icons large icon-blue">close</i>
-                                    </a>`;
+                                    </div>`;
                     }
                     $sel.html(wait_html);
+                    $('#netatmo_energy_close_all').show();
                     translateAll();
                 })
                 .catch(() => {
@@ -390,6 +402,7 @@
             var $sel = $('#messages');
             let messages = "";
             $sel.html(messages);
+            $('#netatmo_energy_close_all').hide();
             
             translateAll();
         }
@@ -416,6 +429,9 @@
                     </div>
                     <ul id="nav-mobile" class="right">
                         <li>
+                            <a id="netatmo_energy_close_all" class="btn-floating waves-effect waves-light red tooltipped center-align hoverable translateT" title="close">
+                                <i class="material-icons large icon-blue">close</i>
+                            </a>
                             <a id="netatmo_energy_homesdata" class="btn-floating waves-effect waves-light brown tooltipped center-align hoverable translateT" title="API Request refresh all">
                                 <i class="material-icons large icon-blue">cloud_download</i>
                             </a>                              
