@@ -1795,7 +1795,7 @@ const _systemDictionary = {
 	},
 	"Medium battery": {
 		"en": "Medium battery",
-		"de": "Mittlerer Akku",
+		"de": "Mittlerer Batteriestatus",
 		"ru": "Средняя батарея",
 		"pt": "Bateria média",
 		"nl": "Medium batterij",
@@ -1807,7 +1807,7 @@ const _systemDictionary = {
 	},
 	"Message if battery goes medium": {
 		"en": "Message if battery goes medium",
-		"de": "Meldung, wenn der Akku mittel wird",
+		"de": "Meldung, wenn der Batteriestatus mittel wird",
 		"ru": "Сообщение, если батарея разряжена",
 		"pt": "Mensagem se a bateria ficar média",
 		"nl": "Bericht als batterij bijna leeg is",
@@ -1891,7 +1891,7 @@ const _systemDictionary = {
 	},
 	"Message if boiler anticipates": {
 		"en": "Message if boiler anticipates",
-		"de": "Meldung, wenn Kessel antizipiert",
+		"de": "Meldung, wenn der Boiler antizipiert",
 		"ru": "Сообщение, если котел ожидает",
 		"pt": "Mensagem se a caldeira antecipar",
 		"nl": "Bericht als ketel anticipeert",
