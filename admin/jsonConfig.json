@@ -234,7 +234,7 @@
         },
         "tabSubscribes": {
             "type": "panel",
-            "label": "Notifications",
+            "label": "Messages",
             "disabled": "data.notificationEnabled !== true",
             "items": {   
                 "notify_bat_low":{
