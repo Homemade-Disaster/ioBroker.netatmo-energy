@@ -85,6 +85,10 @@ Bitte geben sie für den von ihnen gewählten Benachrichtigungsdienst die notwen
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_de.png" alt="settingsAPI" width="70%"/>
 
+## Nachrichten
+Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslösen. Die gewünschte Nachricht können sie hinterlegen.
+
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_de.png" alt="settingsAPI" width="70%"/>
 
 ## Admin-Tab
 Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist ea auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten.

@@ -1912,6 +1912,18 @@ const _systemDictionary = {
 		"es": "Advertencia",
 		"pl": "Ostrzeżenie",
 		"zh-cn": "警告"
+	},
+	"Event triggered:": {
+		"en": "Event triggered:",
+		"de": "Ereignis ausgelöst:",
+		"ru": "Событие запущено:",
+		"pt": "Evento desencadeado:",
+		"nl": "Gebeurtenis geactiveerd:",
+		"fr": "Événement déclenché:",
+		"it": "Evento attivato:",
+		"es": "Evento activado:",
+		"pl": "Wyzwolone zdarzenie:",
+		"zh-cn": "事件触发："
 	}
 };
 

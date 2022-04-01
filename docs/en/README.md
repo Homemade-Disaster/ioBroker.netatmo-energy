@@ -86,6 +86,11 @@ Please insert the necessary informations to connect to the service you choose.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
+## Messages
+You can send messages depending on status changes of specific states. The messages can be defined by yourself.
+
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_en.png" alt="settingsAPI" width="70%"/>## Admin-Tab
+
 ## Admin-Tab
 On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and also request an API refresh.
 
