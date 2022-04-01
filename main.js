@@ -105,6 +105,7 @@ const NoticeTypeLong						= 'longNotice';
 const ErrorNotification						= 'Error';
 const InfoNotification						= 'Info';
 const WarningNotification					= 'Warn';
+const SendNotification						= 'Notification';
 
 //subscribed states
 const state_anticipating					= 'anticipating';
@@ -357,7 +358,7 @@ class NetatmoEnergy extends utils.Adapter {
 	// send notifications
 	sendNotification(adapter, errortype, subject, messageText) {
 		if(!this.config.notificationEnabled) return;
-		if (!((this.config.notifications.substring(0,1) != '0' && errortype == InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == ErrorNotification))) return;
+		if ((errortype == SendNotification) ||   !((this.config.notifications.substring(0,1) != '0' && errortype == InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == ErrorNotification))) return;
 		switch(this.config.notificationsType) {
 			//email
 			case NotificationEmail:
@@ -1331,30 +1332,30 @@ class NetatmoEnergy extends utils.Adapter {
 						//Reaction of states
 						//anticipating
 						case state_anticipating:
-							if (this.config.notify_anticipating == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
+							if (this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
 							break;
 						//Window open
 						case state_open_window:
-							if (this.config.notify_window_open == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_window_open_txt);
+							if (this.config.notify_window_open == true && this.config.notify_window_open_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_window_open_txt);
 							break;
 						//No Connection
 						case state_reachable:
-							if (this.config.notify_connection_no == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_connection_no_txt);
+							if (this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_connection_no_txt);
 							break;
 						//Battery state
 						case state_battery_state:
 							if (state.val == 'low') {
-								if (this.config.notify_bat_low == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_low_txt);
+								if (this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_low_txt);
 								break;
 							}
 							if (state.val == 'medium') {
-								if (this.config.notify_bat_medium == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_medium_txt);
+								if (this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_medium_txt);
 								break;
 							}
 							break;
 						//Heating request
 						case state_heating_power_request:
-							if (this.config.notify_heating_power_request == true) this.sendRequestNotification(null, WarningNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
+							if (this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
 							break;
 					}
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {
