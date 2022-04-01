@@ -247,7 +247,7 @@
                 },
                 "notify_bat_low_txt":{
                     "type": "text",
-                    "label": "Message:",
+                    "label": "Message",
                     "help": "Message if battery goes low",
                     "sm": 12,
                     "md": 6,
@@ -263,7 +263,7 @@
                 },
                 "notify_bat_medium_txt":{
                     "type": "text",
-                    "label": "Message:",
+                    "label": "Message",
                     "help": "Message if battery goes medium",
                     "sm": 12,
                     "md": 6,
@@ -279,7 +279,7 @@
                 },
                 "notify_connection_no_txt":{
                     "type": "text",
-                    "label": "Message:",
+                    "label": "Message",
                     "help": "Message if valve lost connection",
                     "sm": 12,
                     "md": 6,
@@ -295,7 +295,7 @@
                 },
                 "notify_window_open_txt":{
                     "type": "text",
-                    "label": "Message:",
+                    "label": "Message",
                     "help": "Message if window is open",
                     "sm": 12,
                     "md": 6,
@@ -311,7 +311,7 @@
                 },
                 "notify_heating_power_request_txt":{
                     "type": "text",
-                    "label": "Message:",
+                    "label": "Message",
                     "help": "Message if valve creates a heating request",
                     "sm": 12,
                     "md": 6,
@@ -327,7 +327,7 @@
                 },
                 "notify_anticipating_txt":{
                     "type": "text",
-                    "label": "Message:",
+                    "label": "Message",
                     "help": "Message if boiler anticipates",
                     "sm": 12,
                     "md": 6,
