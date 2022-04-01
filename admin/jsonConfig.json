@@ -326,7 +326,6 @@
                     "lg": 2                    
                 },
                 "notify_anticipating_txt":{
-                    "newLine": true,
                     "type": "text",
                     "label": "Message:",
                     "help": "Message if boiler anticipates",
