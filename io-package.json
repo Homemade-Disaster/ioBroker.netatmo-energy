@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.2.0",
+		"version": "1.2.1",
 		"news": {
+			"1.2.1": {
+				"en": "Messages for specific events created",
+				"de": "Nachrichten für bestimmte Ereignisse erstellt",
+				"ru": "Созданы сообщения для определенных событий",
+				"pt": "Mensagens para eventos específicos criados",
+				"nl": "Berichten voor specifieke evenementen aangemaakt",
+				"fr": "Messages pour des événements spécifiques créés",
+				"it": "Messaggi per eventi specifici creati",
+				"es": "Mensajes para eventos específicos creados",
+				"pl": "Wiadomości dla określonych wydarzeń utworzonych",
+				"zh-cn": "为特定事件创建的消息"
+			},
 			"1.2.0": {
 				"en": "Close message functionality added on admin tab",
 				"de": "Funktion zum Schließen von Nachrichten auf der Registerkarte „Admin“ hinzugefügt",

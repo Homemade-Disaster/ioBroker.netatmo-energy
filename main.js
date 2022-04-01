@@ -1148,6 +1148,12 @@ class NetatmoEnergy extends utils.Adapter {
 		return '';
 	}
 
+	//Message because of state changes
+	async sendMessage(id, message) {
+		const name = await this.getStateAsync(id);
+		this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), message + '(' + name +')');
+	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
@@ -1333,34 +1339,34 @@ class NetatmoEnergy extends utils.Adapter {
 						//anticipating
 						case state_anticipating:
 							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_anticipating_txt && this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
+							if (this.config.notify_anticipating_txt && this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '') this.sendMessage(actParent + '.name', this.config.notify_heating_power_request_txt);
 							break;
 						//Window open
 						case state_open_window:
 							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_window_open_txt);
+							if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '') this.sendMessage(actParent + '.name', this.config.notify_window_open_txt);
 							break;
 						//No Connection
 						case state_reachable:
 							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_connection_no_txt && this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_connection_no_txt);
+							if (this.config.notify_connection_no_txt && this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '') this.sendMessage(actParent + '.name', this.config.notify_connection_no_txt);
 							break;
 						//Battery state
 						case state_battery_state:
 							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
 							if (state.val == 'low') {
-								if (this.config.notify_bat_low_txt && this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_low_txt);
+								if (this.config.notify_bat_low_txt && this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '') this.sendMessage(actParent + '.name', this.config.notify_bat_low_txt);
 								break;
 							}
 							if (state.val == 'medium') {
-								if (this.config.notify_bat_medium_txt && this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_bat_medium_txt);
+								if (this.config.notify_bat_medium_txt && this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '') this.sendMessage(actParent + '.name', this.config.notify_bat_medium_txt);
 								break;
 							}
 							break;
 						//Heating request
 						case state_heating_power_request:
 							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_heating_power_request_txt && this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '') this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), this.config.notify_heating_power_request_txt);
+							if (this.config.notify_heating_power_request_txt && this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '') this.sendMessage(actParent + '.name', this.config.notify_heating_power_request_txt);
 							break;
 					}
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {

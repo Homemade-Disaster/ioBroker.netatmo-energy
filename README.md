@@ -33,7 +33,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### 1.2.0 (2022-03-01)
+### 1.2.1 (2022-04-01)
+* (ioKlausi) Messages for specific events created
+
+### 1.2.0 (2022-03-31)
 * (ioKlausi) Close message functionality added on admin tab
 
 ### 1.1.7 (2022-03-24)
