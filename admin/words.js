@@ -221,7 +221,7 @@ const _systemDictionary = {
 	},
 	"Notifications": {
 		"en": "Notifications",
-		"de": "Benachrichtigungen",
+		"de": "Nachrichten",
 		"ru": "уведомление",
 		"pt": "Notificações",
 		"nl": "Meldingen",
