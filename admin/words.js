@@ -1769,17 +1769,17 @@ const _systemDictionary = {
 		"pl": "Niski poziom baterii",
 		"zh-cn": "低电量"
 	},
-	"Message:": {
-		"en": "Message:",
-		"de": "Nachricht:",
-		"ru": "Сообщение:",
-		"pt": "Mensagem:",
-		"nl": "Bericht:",
-		"fr": "Un message:",
-		"it": "Messaggio:",
-		"es": "Mensaje:",
-		"pl": "Wiadomość:",
-		"zh-cn": "信息："
+	"Message": {
+		"en": "Message",
+		"de": "Nachricht",
+		"ru": "Сообщение",
+		"pt": "Mensagem",
+		"nl": "Bericht",
+		"fr": "Un message",
+		"it": "Messaggio",
+		"es": "Mensaje",
+		"pl": "Wiadomość",
+		"zh-cn": "信息"
 	},
 	"Message if battery goes low": {
 		"en": "Message if battery goes low",

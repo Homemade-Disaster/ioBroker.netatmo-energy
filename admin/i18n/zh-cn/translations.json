@@ -67,7 +67,7 @@
     "Message if valve creates a heating request": "阀门创建加热请求时的消息",
     "Message if valve lost connection": "阀门断开连接时的消息",
     "Message if window is open": "窗口打开时的消息",
-    "Message:": "信息：",
+    "Message": "信息",
     "Messages": "留言",
     "Mode for your heating system was set to": "您的供暖系统的模式设置为",
     "Module ID:": "模块编号：",
