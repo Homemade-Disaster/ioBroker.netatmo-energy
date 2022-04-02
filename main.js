@@ -252,7 +252,9 @@ class NetatmoEnergy extends utils.Adapter {
 	// send notifications
 	sendNotification(adapter, errortype, subject, messageText) {
 		if(!this.config.notificationEnabled) return;
-		if ((errortype == glob.SendNotification) ||   !((this.config.notifications.substring(0,1) != '0' && errortype == glob.InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == glob.WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == glob.ErrorNotification))) return;
+		if (errortype != glob.SendNotification) {
+			if (!((this.config.notifications.substring(0,1) != '0' && errortype == glob.InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == glob.WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == glob.ErrorNotification))) return;
+		}
 		switch(this.config.notificationsType) {
 			//email
 			case glob.NotificationEmail:
