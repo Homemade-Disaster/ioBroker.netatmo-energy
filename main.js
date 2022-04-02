@@ -148,6 +148,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.pushover					= {};
 		this.email						= {};
 		this.adapterIntervals			= [];
+		this.mySubscribedStates			= [];
 		this.FetchAbortController		= new abort.AbortController();
 	}
 
@@ -753,6 +754,31 @@ class NetatmoEnergy extends utils.Adapter {
 			});
 	}
 
+	//Subscribe specific state
+	async _subscribeStates(id){
+		const actState = id.substring(id.lastIndexOf('.') + 1);
+		let oldValue = null;
+		let index = -1;
+		switch(actState) {
+			case state_anticipating:
+			case state_open_window:
+			case state_reachable:
+			case state_battery_state:
+			case state_heating_power_request:
+				index = this.mySubscribedStates.findIndex(element => {
+					return element.id === id;
+				});
+				if (index >= 0) this.mySubscribedStates.splice(index,1);
+
+				oldValue = await this.getStateAsync(id);
+				this.mySubscribedStates.push({id: id, state: (oldValue) ? oldValue.val : null});
+
+				await this.unsubscribeStatesAsync(id);
+				await this.subscribeStatesAsync(id);
+				break;
+		}
+	}
+
 	//Parse values from Netatmo response
 	async getValuesFromNetatmo(API_Request,obj,obj_name,obj_selected,Netatmo_Path,norefresh) {
 		const relevantTag = 'home\\.\\b(?:rooms|modules)\\.\\d+\\.id';
@@ -783,15 +809,6 @@ class NetatmoEnergy extends utils.Adapter {
 			} else {
 				if (mytools.netatmoTagsDetail(myobj_selected) === true && API_Request === APIRequest_homesdata) {
 					await this.createNetatmoStructure(mytools.getPrefixPath(Netatmo_Path + '.') + object_name, object_name, obj[object_name], true, '', false, true, '', false, false);
-					switch(object_name) {
-						case state_anticipating:
-						case state_open_window:
-						case state_reachable:
-						case state_battery_state:
-						case state_heating_power_request:
-							await this.subscribeStates(mytools.getPrefixPath(Netatmo_Path + '.') + object_name);
-							break;
-					}
 				}
 			}
 		}
@@ -1103,12 +1120,14 @@ class NetatmoEnergy extends utils.Adapter {
 				// @ts-ignore
 				await this.setObjectAsync(id, myObject);
 				if (!norefresh) {
+					await this._subscribeStates(id);
 					await this.setState(id, value, ack);
 				}
 			} else {
 				// @ts-ignore
 				await this.setObjectNotExistsAsync(id, myObject);
 				if (!norefresh) {
+					await this._subscribeStates(id);
 					await this.setState(id, value, ack);
 				}
 			}
@@ -1151,7 +1170,8 @@ class NetatmoEnergy extends utils.Adapter {
 	//Message because of state changes
 	async sendMessage(id, message) {
 		const name = await this.getStateAsync(id);
-		this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), message + '(' + name +')');
+		this.log.info('SendMessage: ' + ((name) ? '(' + name.val + ')' : ''));
+		this.sendRequestNotification(null, SendNotification, mytools.tl('Warning', this.systemLang), message + ((name) ? '(' + name.val + ')' : '') );
 	}
 
 	/**
@@ -1167,6 +1187,55 @@ class NetatmoEnergy extends utils.Adapter {
 			callback();
 		} catch (e) {
 			callback();
+		}
+	}
+
+	_getOldValue(id) {
+		const result = this.mySubscribedStates.find((element) => element.id == id);
+		if (result && result != undefined) {
+			return result.state;
+		} else {
+			return null;
+		}
+	}
+
+	//State changed - ack not checked
+	_onStateChanged(id,state) {
+		if (id.lastIndexOf('.') >= 0) {
+			const actState = id.substring(id.lastIndexOf('.') + 1);
+			const actPath = id.substring(0,id.lastIndexOf('.'));
+			const actParent = actPath.substring(0,actPath.lastIndexOf('.'));
+
+			switch(actState) {
+				//Reaction of states
+				//anticipating
+				case state_anticipating:
+					if (this.config.notify_anticipating_txt && this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actParent + '.name', this.config.notify_heating_power_request_txt);
+					break;
+				//Window open
+				case state_open_window:
+					if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actParent + '.name', this.config.notify_window_open_txt);
+					break;
+				//No Connection
+				case state_reachable:
+					if (this.config.notify_connection_no_txt && this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actParent + '.name', this.config.notify_connection_no_txt);
+					break;
+				//Battery state
+				case state_battery_state:
+					if (state.val == 'low') {
+						if (this.config.notify_bat_low_txt && this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actParent + '.name', this.config.notify_bat_low_txt);
+						break;
+					}
+					if (state.val == 'medium') {
+						if (this.config.notify_bat_medium_txt && this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actParent + '.name', this.config.notify_bat_medium_txt);
+						break;
+					}
+					break;
+				//Heating request
+				case state_heating_power_request:
+					if (this.config.notify_heating_power_request_txt && this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actParent + '.name', this.config.notify_heating_power_request_txt);
+					break;
+			}
 		}
 	}
 
@@ -1335,39 +1404,8 @@ class NetatmoEnergy extends utils.Adapter {
 							this.RefreshWholeStructure(false);
 							break;
 
-						//Reaction of states
-						//anticipating
-						case state_anticipating:
-							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_anticipating_txt && this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '') this.sendMessage(actParent + '.name', this.config.notify_heating_power_request_txt);
-							break;
-						//Window open
-						case state_open_window:
-							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '') this.sendMessage(actParent + '.name', this.config.notify_window_open_txt);
-							break;
-						//No Connection
-						case state_reachable:
-							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_connection_no_txt && this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '') this.sendMessage(actParent + '.name', this.config.notify_connection_no_txt);
-							break;
-						//Battery state
-						case state_battery_state:
-							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (state.val == 'low') {
-								if (this.config.notify_bat_low_txt && this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '') this.sendMessage(actParent + '.name', this.config.notify_bat_low_txt);
-								break;
-							}
-							if (state.val == 'medium') {
-								if (this.config.notify_bat_medium_txt && this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '') this.sendMessage(actParent + '.name', this.config.notify_bat_medium_txt);
-								break;
-							}
-							break;
-						//Heating request
-						case state_heating_power_request:
-							this.log.debug(mytools.tl('Event triggered:', this.systemLang) + ' ' + id + ' - ' + state.val + ' | ' + actState + ' / ' + actParent);
-							if (this.config.notify_heating_power_request_txt && this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '') this.sendMessage(actParent + '.name', this.config.notify_heating_power_request_txt);
-							break;
+						default:
+							this._onStateChanged(id,state);
 					}
 					if (actState.search(APIRequest_switchhomeschedule) == 0) {
 						if (state.val === true) {
@@ -1377,6 +1415,8 @@ class NetatmoEnergy extends utils.Adapter {
 						}
 					}
 				}
+			} else {
+				this._onStateChanged(id, state);
 			}
 		} else {
 			// The state was deleted
@@ -1399,6 +1439,7 @@ class NetatmoEnergy extends utils.Adapter {
 					case APIRequest_setthermmode + '_' + APIRequest_setthermmode_away:
 					case APIRequest_synchomeschedule:
 						this.createEnergyAPP();
+						break;
 				}
 			}
 		}
