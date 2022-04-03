@@ -15,19 +15,10 @@
 
    	<!-- Load our own files -->
 	<link rel="stylesheet" type="text/css" href="style.css" />
-	<script type="text/javascript" src="words.js"></script>
-    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <script type="text/javascript" src="words.js"></script>
     
     <script type="text/javascript">   
         const namespace = `netatmo-energy.${instance}`;
-
-        //check if it is an array
-        function isArray(it) {
-            if (typeof Array.isArray === 'function')
-                return Array.isArray(it);
-
-            return Object.prototype.toString.call(it) === '[object Array]';
-        }
 
         //Load page
         function load(settings, onChange) {
@@ -67,14 +58,96 @@
             });
 
             $('#netatmo_energy_homesdata').on('click', () => {
-                CreateAPIRequest('getHomesdata');
+                CreateRequest('getHomesdata', {});
             });
 
             $('#netatmo_energy_close_all').on('click', () => {
                 CloseMessage();
-            });            
+            });
+
+            $('#netatmo_energy_save_all').on('click', () => {
+                CreateRequest('applyChanges', {});
+            });      
+            
+            $('#netatmo_energy_home_mode').on('click', () => {
+                setRoomMode();
+            }); 
         }
         
+        //check if it is an array
+        function isArray(it) {
+            if (typeof Array.isArray === 'function')
+                return Array.isArray(it);
+
+            return Object.prototype.toString.call(it) === '[object Array]';
+        }
+
+        /* Change Modes */
+        function setRoomMode() {
+            let sel_class = '.NRV';
+            let elements  = $(sel_class);
+            let myRooms   = [];
+
+            for (element in elements) {
+                sel_element = elements[element];
+                if (sel_element && sel_element.id && sel_element.id != "") {
+                    let folder = $(sel_element).attr('data_folder');
+                    const result = myRooms.find((element) => element.folder == folder);
+                    if (!result) {
+                        myRooms.push({folder: folder});
+                        CreateRequest('homeMode', {folder: folder});
+                    }
+                } else { 
+                    break; 
+                }
+            };
+        }
+
+        /* Change temperature*/
+        function setTempValve(value, obj) {
+            let set_val_html = '<b>' + translateWord('Target temperature:') + ' </b>' + value;
+            let set_val = 7;
+            let setTempArray = [];
+            try{
+                set_val_html = '<b>' + translateWord('Target temperature:') + ' </b>' + Number(value).toFixed(1);
+            } catch(e) {
+                //error
+            }
+            try{
+                set_val = Number(value);
+            } catch(e) {
+                //error
+            }
+            //Temp set
+            const temp_id  = obj.id.substring(0, obj.id.indexOf('_'));
+            let sel_class = '.' + temp_id + '_setTemp_Class';
+            let elements  = $(sel_class);
+            for (element in elements) {
+                sel_element = elements[element];
+                if (sel_element && sel_element.id && sel_element.id != "") {
+                    let oldTemp = $(sel_element).attr('data_point');
+                    $(sel_element).html((oldTemp) ? (set_val_html + ' [' + oldTemp + ']') : set_val_html);
+                } else { 
+                    break; 
+                }
+            };
+
+            //Slider value
+            let datapoint = null;
+            let sel_class_slider = '.' + temp_id + '_slider_Class';
+            let elements_slider  = $(sel_class_slider);
+            for (element in elements_slider) {
+                sel_element = elements_slider[element];
+                if (sel_element && sel_element.id && sel_element.id != "") {
+                    datapoint = $(sel_element).attr('data_point');
+                    $(sel_element).val(set_val);
+                } else { 
+                    break; 
+                }
+            };
+            if (datapoint) CreateRequest('saveTemperature', {datapoint: datapoint, temp: set_val});
+        }
+
         /* Close messages */
         function CloseMessage() {
             const $sel = $('#messages');
@@ -82,11 +155,11 @@
             $('#netatmo_energy_close_all').hide();
         }
 
-        /* Get homesdata */
-        function SendMessageToInstance(myFunction) {
+        /* Send request */
+        function SendMessageToInstance(myFunction, senddata) {
             return new Promise(
                 function(resolve,reject) {
-                    sendTo(namespace, myFunction, {}, function (msg) {
+                    sendTo(namespace, myFunction, senddata, function (msg) {
                         let message = [];
                         if (isArray(msg)) {
                             message = msg;
@@ -97,15 +170,17 @@
                 }
             );
         }
-        function CreateAPIRequest(myFunction) {
-            SendMessageToInstance(myFunction)
+
+        /* Get homesdata */
+        function CreateRequest(myFunction, senddata) {
+            SendMessageToInstance(myFunction, senddata)
                 .then(messages => {
                     var $sel = $('#messages');
                     let wait_html = '';
 
                     for (let message of messages) {
                         wait_html = `<div style="float: left">
-                                        <img src="img/progress.gif" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                                        <img src="img/check.png" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
                                     </div>
                                     <div class="col">    
                                         <h6 class="translate">${message.msgtxt}</h6>
@@ -262,6 +337,9 @@
                     let act_date                    = new Date();
                     let act_date_text               = act_date.toLocaleString();
 
+                    let setTemp                     = valve.Set_Temp;
+                    let setMode                     = valve.Set_Mode;
+
                     let id_bridge = bridge;
                     if (valve.type == 'NAPlug') {
                         id_bridge = module_id;
@@ -273,8 +351,9 @@
                                 break;
                             }
                     }
+                    let mod_id_internal = module_id.replace(/:/g, '');
                     //${battery_icon}
-                    var card = `<div id="${id}" class="valve" data-friendly-name="${friendlyName}">
+                    var card = `<div id="${mod_id_internal}" class="valve" data-friendly-name="${friendlyName}">
                                     <div class="card dcard" ${BoilerStatus}>
                                         <div class="card-content">
                                             <div class="card-header">   
@@ -289,7 +368,10 @@
                                                         <ul style="margin: 0px;"><b class="translate">Actual temperature:</b> ${temp_act.toFixed(1)}</ul>
                                                     ` : ''}
                                                     ${temp_set != undefined && temp_set!= null ? `
-                                                        <ul style="margin: 0px;"><b class="translate">Target temperature:</b> ${temp_set.toFixed(1)}</ul>
+                                                        <ul id="${mod_id_internal}_setTemp_TempValve" data_point="${temp_set.toFixed(1)}" data_folder="${setMode}" class="${id}_setTemp_Class ${valve.type}" style="margin: 0px;"><b class="translate">Target temperature:</b> ${temp_set.toFixed(1)}</ul>
+                                                    ` : ''}
+                                                    ${temp_set != undefined && temp_set!= null ? `
+                                                        <input id="${id}_setTemp" data_point="${setTemp}" type="range" min="7" max="30" step="0.5" value="${temp_set}" class="myslider ${id}_slider_Class" onchange="setTempValve(this.value, this)">
                                                     ` : ''}
                                                     ${plug_connected_boiler != undefined && plug_connected_boiler!= null ? ((plug_connected_boiler > 0) ? 
                                                         `<ul style="margin: 0px;"><b class="translate">Plug is connected to boiler</b></ul>` 
@@ -303,37 +385,37 @@
                                                 
                                                 <div class="info">
                                                     ${boiler_valve_comfort != undefined && boiler_valve_comfort != null && boiler_valve_comfort == true ? `
-                                                        <div id="${id}_boiler_valve_comfort" class="col el">
+                                                        <div id="${mod_id_internal}_boiler_valve_comfort" class="col el">
                                                             <a id="mood_icon" class="tooltipped translateT" title="Comfort boost requested">
                                                                 <i class="material-icons icon-green" style="font-size: 24px;padding:left=5px">mood</i>
                                                             </a>
                                                         </div>` : ''}
                                                     ${battery_state != undefined ? `
-                                                        <div id="${id}_battery" class="col el">
+                                                        <div id="${mod_id_internal}_battery" class="col el">
                                                             <a id="battery_icon" class="tooltipped translateT" title="${battery_state_cls.text}">
                                                                 <i class="material-icons ${battery_state_cls.color}" style="font-size: 24px;padding:left=5px">${battery_state_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}
                                                     ${reachable != undefined ? `
-                                                        <div id="${id}_network" class="col el">
+                                                        <div id="${mod_id_internal}_network" class="col el">
                                                             <a id="mood_icon" class="tooltipped translateT" title="${reachable_cls.text}">
                                                                 <i class="material-icons ${reachable_cls.color}" style="font-size: 24px;padding:left=5px">${reachable_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}                                           
                                                     ${open_window != undefined ? `
-                                                        <div id="${id}_window" class="col el">
+                                                        <div id="${mod_id_internal}_window" class="col el">
                                                             <a id="battery_icon" class="tooltipped translateT" title="${open_window_cls.text}">
                                                                 <i class="material-icons ${open_window_cls.color}" style="font-size: 24px;padding:left=5px">${open_window_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}
                                                     ${anticipating != undefined ? `
-                                                        <div id="${id}_antizipation" class="col el">
+                                                        <div id="${mod_id_internal}_antizipation" class="col el">
                                                             <a id="battery_icon" class="tooltipped translateT" title="${anticipating_cls.text}">
                                                                 <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px;padding:left=5px">${anticipating_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}                                                      
                                                     ${heating_power_request != undefined ? `
-                                                        <div id="${id}_heater" class="col el">
+                                                        <div id="${mod_id_internal}_heater" class="col el">
                                                             <a id="battery_icon" class="tooltipped translateT" title="${heating_power_request_cls.text}">
                                                                 <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px;padding:left=5px">${heating_power_request_cls.icon}</i>
                                                             </a>
@@ -427,19 +509,27 @@
                     <div class="col">    
                         <h5 class="translate">Netatmo Energy</h5>
                     </div>
+                </div>
+                <div class="nav-content">
                     <ul id="nav-mobile" class="right">
                         <li>
                             <a id="netatmo_energy_close_all" class="btn-floating waves-effect waves-light red tooltipped center-align hoverable translateT" title="close">
                                 <i class="material-icons large icon-blue">close</i>
                             </a>
+                            <a id="netatmo_energy_save_all" class="btn-floating waves-effect waves-light blue tooltipped center-align hoverable translateT" title="save">
+                                <i class="material-icons large icon-blue">save</i>
+                            </a>
+                            <a id="netatmo_energy_home_mode" class="btn-floating waves-effect waves-light green tooltipped center-align hoverable translateT" title="default mode">
+                                <i class="material-icons large icon-blue">today</i>
+                            </a>                            
                             <a id="netatmo_energy_homesdata" class="btn-floating waves-effect waves-light brown tooltipped center-align hoverable translateT" title="API Request refresh all">
                                 <i class="material-icons large icon-blue">cloud_download</i>
                             </a>                              
                             <a id="netatmo_energy_refresh" class="btn-floating waves-effect waves-light orange tooltipped center-align hoverable translateT" title="refresh">
                                 <i class="material-icons large icon-blue">sync</i>
-                            </a>                          
+                            </a>  
                         </li>
-                    </ul>
+                    </ul> 
                 </div>
             </nav>
         </div>   

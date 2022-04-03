@@ -482,17 +482,16 @@ class NetatmoEnergy extends utils.Adapter {
 					const searchstring = 'rooms\\.\\d+\\.' + glob.Channel_settings + '\\.' + glob.State_TempChanged + '';
 					let changesmade = false;
 					// @ts-ignore
-					that.getStates(that._getDP([that.namespace + '.homes.*.rooms.*.' + glob.Channel_settings, glob.State_TempChanged]),async function(error, states) {
+					that.getStates(that.namespace + '.homes.*.rooms.*.' + glob.Channel_settings + '.' + glob.State_TempChanged,async function(error, states) {
 						for(const id in states) {
 							const adapterstates = await that.getStateAsync(id);
 							if (id.search(searchstring) >= 0) {
 								if (adapterstates && adapterstates.val === true) {
 									await that.setState(id, false, true);
 									const actId = mytools.splitID(id);
-
 									const newTemp   = await that.getStateAsync(that._getDP([actId.path, glob.Trigger_SetTemp]));
 									if (newTemp) {
-										if (await that.applyActualTemp(newTemp,actId.path,actId.parent,NetatmoRequest,mode, true)) {
+										if (await that.applyActualTemp(newTemp,actId.parent,NetatmoRequest,mode, true)) {
 											changesmade = true;
 										}
 									}
@@ -517,6 +516,7 @@ class NetatmoEnergy extends utils.Adapter {
 						break;
 
 					case glob.APIRequest_switchhomeschedule:
+						that.log.info('API-Home:' + glob.payload_schedule_id + mode);
 						createAPIasync(NetatmoRequest, glob.payload_schedule_id + mode, that);
 						break;
 
@@ -1057,14 +1057,30 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//set mode to home
 	async setModeToHome(id, id_mode, id_mode_act) {
-		await this.setState(id, false, true);
-
 		const act_mode   = await this.getStateAsync(id_mode_act);
 		if (act_mode && act_mode.val !== glob.State_TempChanged_Mode_schedule) {
 			await this.setState(id_mode, glob.State_TempChanged_Mode_home, false);
+		} else {
+			await this.setState(id, false, true);
 		}
 	}
 
+	//Set schedule mude
+	async _setTempChangedMode(id, state) {
+		const actId = mytools.splitID(id);
+		this.log.debug(mytools.tl('Set room attributes', this.systemLang));
+		const trigger_id = this._getDP([actId.parent, glob.Channel_settings, glob.Trigger_SetHome]);
+		const trigger = await this.getStateAsync(trigger_id);
+		this.log.info('CHangeMode0: ' + trigger_id);
+		this.log.info('CHangeMode1: ' + ((trigger) ? trigger.val : ''));
+		if (this.config.applyimmediately || (trigger && trigger.val == true)) {
+			if (trigger && trigger.val == true) await this.setState(trigger_id, false, true);
+			this.log.info('CHangeMode2: ' + actId.parent);
+			await this.applySingleActualTemp(state,actId.parent,glob.APIRequest_setroomthermpoint,glob.APIRequest_setroomthermpoint_manual,false);
+		} else {
+			await this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state, this._getDP([actId.path, glob.State_TempChanged]));
+		}
+	}
 	//analyse datapoint for payload
 	async getValuefromDatapoint(payload, id) {
 		const datapoint   = await this.getStateAsync(id);
@@ -1200,12 +1216,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 						// Set Therm Mode for Netatmo Energy
 						case glob.State_TempChanged_Mode:
-							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
-							if (this.config.applyimmediately) {
-								this.applySingleActualTemp(state,actId.parent,glob.APIRequest_setroomthermpoint,glob.APIRequest_setroomthermpoint_manual,false);
-							} else {
-								this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state, this._getDP([actId.path, glob.State_TempChanged]));
-							}
+							this._setTempChangedMode(id, state);
 							break;
 
 						// Set Therm Mode for Netatmo Energy to home
@@ -1213,7 +1224,7 @@ class NetatmoEnergy extends utils.Adapter {
 							if (state.val === false) {
 								break;
 							}
-							this.log.debug(mytools.tl('Set room attributes', this.systemLang));
+							this.log.debug(mytools.tl('Mode set to home mode!', this.systemLang));
 							this.setModeToHome(this._getDP([actId.parent, glob.Channel_settings, glob.Trigger_SetHome]), this._getDP([actId.parent, glob.Channel_settings, glob.State_TempChanged_Mode]), this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_mode]));
 							break;
 
@@ -1421,6 +1432,8 @@ class NetatmoEnergy extends utils.Adapter {
 								const therm_setpoint_mode        = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_setpoint_mode']));
 								const therm_setpoint_temperature = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_setpoint_temperature']));
 								const heating_power_request      = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'heating_power_request']));
+								const Set_Temp      			 = that._getDP([myTargetName, glob.Channel_settings, glob.Trigger_SetTemp]);
+								const Set_Mode      			 = myTargetName;
 
 								const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
 								myHome      = await that.getStateAsync(myHomeFolder  + '.name');
@@ -1428,6 +1441,8 @@ class NetatmoEnergy extends utils.Adapter {
 								myRooms.push(Object.assign({},
 									{myHome: that._getValue(myHome)},
 									room_id,
+									{Set_Temp: Set_Temp},
+									{Set_Mode: Set_Mode},
 									{module_id: that._getValue(myModule)},
 									{roomName: that._getValue(roomName)},
 									{anticipating: that._getValue(anticipating)},
@@ -1458,6 +1473,8 @@ class NetatmoEnergy extends utils.Adapter {
 							myRooms.push(Object.assign({},
 								{myHome: that._getValue(myHome)},
 								room_id,
+								{Set_Temp: null},
+								{Set_Mode: null},
 								{module_id: myModules[myModule].val},
 								{roomName: null},
 								{anticipating: null},
@@ -1500,6 +1517,50 @@ class NetatmoEnergy extends utils.Adapter {
 	onMessage(obj) {
 		if (typeof obj === 'object' && obj.command) {
 			switch (obj.command) {
+				case glob.HomeMode:
+					if (obj.callback) {
+						let setData = {};
+						setData = obj.message;
+						this.setState(this._getDP([setData.folder, glob.Channel_settings, glob.Trigger_SetHome]), true, false);
+
+						const myMessages = [];
+						const msgtxt = mytools.tl('Mode set to home mode!', this.systemLang);
+						myMessages.push(Object.assign({}, {msgtxt: msgtxt} ));
+
+						this.sendTo(obj.from, obj.command, myMessages, obj.callback);
+					}
+					break;
+
+				case glob.ApplyChanges:
+					if (obj.callback) {
+						this.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang) );
+						const myMessages = [];
+						const msgtxt = mytools.tl('Changes are saved now!', this.systemLang);
+						myMessages.push(Object.assign({}, {msgtxt: msgtxt} ));
+
+						this.sendTo(obj.from, obj.command, myMessages, obj.callback);
+					}
+					break;
+
+				case glob.SaveTemperature:
+					if (obj.callback) {
+						let setData = {};
+						setData = obj.message;
+						const myMessages = [];
+						let msgtxt = '';
+						try {
+							this.setState(setData.datapoint, setData.temp, false);
+
+							msgtxt = mytools.tl('Room temperature changed to ', this.systemLang) + Number(setData.temp);
+							myMessages.push(Object.assign({}, {msgtxt: msgtxt} ));
+						} catch(e) {
+							msgtxt = mytools.tl('Could not change room temperature!', this.systemLang);
+							myMessages.push(Object.assign({}, {msgtxt: msgtxt} ));
+						}
+						this.sendTo(obj.from, obj.command, myMessages, obj.callback);
+					}
+					break;
+
 				case glob.GetHomesdata:
 					if (obj.callback) {
 						this.RefreshWholeStructure(false);

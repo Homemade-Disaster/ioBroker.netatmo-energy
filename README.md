@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.2.2 (2022-04-03)
+* (ioKlausi) Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud 
+
 ### 1.2.1 (2022-04-01)
 * (ioKlausi) Messages for specific events created
 

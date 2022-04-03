@@ -63,7 +63,7 @@ If an API request need parameters, you can find these in the channel "parameters
 
 ### Update requests
 * setroomthermpoint     ... depending on the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges"). 
-* set_mode_to_home      ... In the channel "setting" you can use the button "set_mode_to_home" to set "home"-Mode for the valve.
+* set_mode_to_home      ... In the channel "setting" you can use the button "set_mode_to_home" to set "home"-Mode for the valve. The API request to transfer the changes will start immediately.
 
 ### Status
 * running               ... here you can see if API Requests are running right now
@@ -92,7 +92,7 @@ You can send messages depending on status changes of specific states. The messag
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_en.png" alt="settingsAPI" width="70%"/>## Admin-Tab
 
 ## Admin-Tab
-On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and also request an API refresh.
+On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and also request an API refresh. You have alse the option to save changes into the cloud and to switch from manual mode to schedule mode.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
 

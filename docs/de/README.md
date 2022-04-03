@@ -63,7 +63,7 @@ Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden
 
 ### Änderungs-Requests
 * setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen"). 
-* set_mode_to_home      ... Der Button "set_mode_to_home" im channel "setting" setzt den Ventil-mode "set_mode_to_home" auf "home".
+* set_mode_to_home      ... Der Button "set_mode_to_home" im channel "setting" setzt den Ventil-mode "set_mode_to_home" auf "home". Außerdem wird der API Request sofort ausgelöst um die Änderung zu übertragen.
 
 ### Status
 * running               ... hier kann man erkenne ob derzeit ein API Request läuft
@@ -91,7 +91,7 @@ Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslöse
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_de.png" alt="settingsAPI" width="70%"/>
 
 ## Admin-Tab
-Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist ea auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten.
+Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist ea auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten. Zusätzlich hat man die Möglichkeit die Änderungen in die Cloud zu übertragen und von einem eventuellen manuellen Modus wieder auf den Standardmodus umzuschalten.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/admintab_de.png" alt="admintab" width="70%"/>
 

@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.2.1",
+		"version": "1.2.2",
 		"news": {
+			"1.2.2": {
+				"en": "Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud",
+				"de": "Es wurde jedem Ventil ein Schieberegler hinzugefügt, um die Temperatur zu ändern, und einige API-Anforderungen zum Admin-Tab hinzugefügt, um Änderungen in die Cloud zu übertragen",
+				"ru": "Добавлен ползунок для каждого клапана для изменения температуры и добавлены некоторые запросы API на вкладку администратора для передачи изменений в облако.",
+				"pt": "Adicionou um controle deslizante para cada válvula para alterar a temperatura e adicionou algumas solicitações de API à guia de administração para transferir as alterações para a nuvem",
+				"nl": "Een schuifregelaar toegevoegd aan elke klep om de temperatuur te wijzigen en enkele API-verzoeken toegevoegd aan het beheerderstabblad om wijzigingen naar de cloud over te brengen",
+				"fr": "Ajout d'un curseur à chaque vanne pour modifier la température et ajout de quelques requêtes API à l'onglet admin pour transférer les modifications vers le cloud",
+				"it": "Aggiunto un dispositivo di scorrimento a ciascuna valvola per modificare la temperatura e aggiunte alcune richieste API alla scheda amministratore per trasferire le modifiche al cloud",
+				"es": "Se agregó un control deslizante a cada válvula para cambiar la temperatura y se agregaron algunas solicitudes de API a la pestaña de administración para transferir los cambios a la nube.",
+				"pl": "Dodano suwak do każdego zaworu, aby zmienić temperaturę i dodano kilka żądań API do zakładki administratora, aby przenieść zmiany do chmury",
+				"zh-cn": "为每个阀门添加了一个滑块以更改温度，并向管理选项卡添加了一些 API 请求以将更改传输到云"
+			},
 			"1.2.1": {
 				"en": "Messages for specific events created",
 				"de": "Nachrichten für bestimmte Ereignisse erstellt",
@@ -182,67 +194,7 @@
 				"es": "Crear versión principal",
 				"pl": "Utwórz wersję główną",
 				"zh-cn": "创建主要版本"
-		  },
-			"0.2.4": {
-				"en": "Release script added",
-				"de": "Release script hinzugefügt",
-				"ru": "Добавлен сценарий выпуска",
-				"pt": "Script de lançamento adicionado",
-				"nl": "Releasescript toegevoegd",
-				"fr": "Script de version ajouté",
-				"it": "Script di rilascio aggiunto",
-				"es": "Se agregó el script de lanzamiento",
-				"pl": "Dodano skrypt wydania",
-				"zh-cn": "添加了发布脚本"
-			},
-			"0.2.3": {
-				"en": "Add abort controller",
-				"de": "Abbruchcontroller hinzufügen",
-				"ru": "Добавить контроллер прерывания",
-				"pt": "Adicionar controlador de aborto",
-				"nl": "Abort-controller toevoegen",
-				"fr": "Ajouter un contrôleur d'abandon",
-				"it": "Aggiungi controller di interruzione",
-				"es": "Agregar controlador de cancelación",
-				"pl": "Dodaj kontroler przerwania",
-				"zh-cn": "添加中止控制器"
-			},
-			"0.2.2": {
-				"en": "Added translations & Compact mode tested",
-				"de": "Übersetzungen hinzugefügt & Kompaktmodus getestet",
-				"ru": "Добавлены переводы и протестирован компактный режим",
-				"pt": "Traduções adicionadas e modo compacto testado",
-				"nl": "Toegevoegde vertalingen & Compacte modus getest",
-				"fr": "Traductions ajoutées et mode compact testé",
-				"it": "Aggiunte traduzioni e modalità compatta testata",
-				"es": "Traducciones añadidas y modo compacto probado",
-				"pl": "Dodano tłumaczenia i przetestowano tryb kompaktowy",
-				"zh-cn": "添加了翻译和压缩模式测试"
-			},
-			"0.2.1": {
-				"en": "Creation of states adapted",
-				"de": "Aufbau von Zuständen angepasst",
-				"ru": "Создание штатов адаптировано",
-				"pt": "Criação de estados adaptados",
-				"nl": "Oprichting van staten aangepast",
-				"fr": "Création d'états adaptés",
-				"it": "Creazione di stati adattati",
-				"es": "Creación de estados adaptados",
-				"pl": "Tworzenie dostosowanych państw",
-				"zh-cn": "适应状态的创建"
-			},
-			"0.2.0": {
-				"en": "Compatibility check to js-controller 4.0",
-				"de": "Kompatibilitätsprüfung für js-controller 4.0",
-				"ru": "Проверка совместимости с js-контроллером 4.0",
-				"pt": "Verificação de compatibilidade com js-controller 4.0",
-				"nl": "Compatibiliteitscontrole met js-controller 4.0",
-				"fr": "Vérification de la compatibilité avec js-controller 4.0",
-				"it": "Verifica della compatibilità con js-controller 4.0",
-				"es": "Comprobación de compatibilidad con js-controller 4.0",
-				"pl": "Sprawdzenie zgodności z kontrolerem js 4.0",
-				"zh-cn": "对 js-controller 4.0 的兼容性检查"
-			}
+		  }
 		},
 		"title": "Netatmo Energy",
 		"titleLang": {

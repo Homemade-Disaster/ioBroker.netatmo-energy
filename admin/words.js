@@ -1924,6 +1924,78 @@ const _systemDictionary = {
 		"es": "Evento activado:",
 		"pl": "Wyzwolone zdarzenie:",
 		"zh-cn": "事件触发："
+	},
+	"Room temperature changed to ": {
+		"en": "Room temperature changed to ",
+		"de": "Raumtemperatur geändert auf ",
+		"ru": "Комнатная температура изменилась на ",
+		"pt": "A temperatura ambiente mudou para ",
+		"nl": "Kamertemperatuur gewijzigd in ",
+		"fr": "La température ambiante est passée à ",
+		"it": "La temperatura ambiente è cambiata in ",
+		"es": "La temperatura ambiente cambió a ",
+		"pl": "Temperatura w pomieszczeniu zmieniona na ",
+		"zh-cn": "室温改为 "
+	},
+	"Could not change room temperature!": {
+		"en": "Could not change room temperature!",
+		"de": "Raumtemperatur konnte nicht geändert werden!",
+		"ru": "Не удалось изменить комнатную температуру!",
+		"pt": "Não foi possível alterar a temperatura ambiente!",
+		"nl": "Kon de kamertemperatuur niet wijzigen!",
+		"fr": "Impossible de changer la température de la chambre !",
+		"it": "Impossibile modificare la temperatura ambiente!",
+		"es": "¡No se pudo cambiar la temperatura ambiente!",
+		"pl": "Nie można zmienić temperatury w pomieszczeniu!",
+		"zh-cn": "无法改变室温！"
+	},
+	"Changes are saved now!": {
+		"en": "Changes are saved now!",
+		"de": "Änderungen werden jetzt gespeichert!",
+		"ru": "Изменения сохранены!",
+		"pt": "As alterações são salvas agora!",
+		"nl": "Wijzigingen worden nu opgeslagen!",
+		"fr": "Les modifications sont enregistrées maintenant !",
+		"it": "Le modifiche sono state salvate ora!",
+		"es": "¡Los cambios se guardan ahora!",
+		"pl": "Zmiany zostały zapisane!",
+		"zh-cn": "更改已保存！"
+	},
+	"save": {
+		"en": "save",
+		"de": "speichern",
+		"ru": "сохранить",
+		"pt": "salvar",
+		"nl": "opslaan",
+		"fr": "sauver",
+		"it": "salvare",
+		"es": "ahorrar",
+		"pl": "zapisać",
+		"zh-cn": "保存"
+	},
+	"default mode": {
+		"en": "default mode",
+		"de": "Standardmodus",
+		"ru": "режим по умолчанию",
+		"pt": "modo padrão",
+		"nl": "standaard modus",
+		"fr": "mode par défaut",
+		"it": "modalità di default",
+		"es": "modo por defecto",
+		"pl": "tryb domyślny",
+		"zh-cn": "默认模式"
+	},
+	"Mode set to home mode!": {
+		"en": "Mode set to home mode!",
+		"de": "Modus auf Standardmodus gesetzt!",
+		"ru": "Режим установлен на режим по умолчанию!",
+		"pt": "Modo definido para o modo padrão!",
+		"nl": "Modus ingesteld op standaardmodus!",
+		"fr": "Mode défini sur le mode par défaut !",
+		"it": "Modalità impostata sulla modalità predefinita!",
+		"es": "¡Modo establecido en el modo predeterminado!",
+		"pl": "Tryb ustawiony na tryb domyślny!",
+		"zh-cn": "模式设置为默认模式！"
 	}
 };
 
