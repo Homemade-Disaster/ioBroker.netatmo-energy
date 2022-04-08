@@ -244,52 +244,7 @@ i.icon-green {
 i.icon-grey {
 	color: grey;
 }
-.tooltip {
-	position: relative;
-	text-decoration: none;
-	z-index: 1;
-}
-.tooltip:after {
-	content: attr(data-tooltip);
-	position: absolute;
-	bottom: 130%;
-	left: 20%;
-	background: #ffbd66;
-	padding: 5px 15px;
-	color: black;
-	-webkit-border-radius: 2px;
-	-moz-border-radius : 2px;
-	border-radius : 2px;
-	white-space: nowrap;
-	opacity: 0;
-	-webkit-transition: all 0.4s ease;
-	-moz-transition : all 0.4s ease;
-	transition : all 0.4s ease;
-}
-.tooltip:before {
-	content: "";
-	position: absolute;
-	width: 0;
-	height: 0;
-	border-top: 5px solid #ffcb66;
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;
-	-webkit-transition: all 0.4s ease;
-	-moz-transition : all 0.4s ease;
-	transition : all 0.4s ease;
-	opacity: 0;
-	left: 30%;
-	bottom: 90%;
-}
-.tooltip:hover:after {
-	bottom: 100%;
-}
-.tooltip:hover:before {
-	bottom: 70%;
-}
-.tooltip:hover:after, a:hover:before {
-	opacity: 1;
-}
+
 .myslider {
 	-webkit-appearance: none;
 	background: #d3d3d3;
@@ -297,12 +252,16 @@ i.icon-grey {
 	opacity: 0.7;
 	-webkit-transition: .2s;
 	transition: opacity .2s;
-  }
-  
+  }  
 .myslider:hover {
 	opacity: 1;
 }
-
+.myslider::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 6px;
+	background: #ff0000;
+	border: none;
+  }
 .myslider::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	appearance: none;
@@ -311,7 +270,6 @@ i.icon-grey {
 	background: #04AA6D;
 	cursor: pointer;
 }
-
 .myslider::-moz-range-thumb {
 	width: 25px;
 	height: 25px;

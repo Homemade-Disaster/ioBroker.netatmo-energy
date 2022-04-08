@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.2.2",
+		"version": "1.2.3",
 		"news": {
+			"1.2.3": {
+				"en": "Added status icons to plug",
+				"de": "Statussymbole zum Stecker hinzugefügt",
+				"ru": "Добавлены значки состояния для плагина",
+				"pt": "Adicionados ícones de status para conectar",
+				"nl": "Statuspictogrammen toegevoegd om aan te sluiten",
+				"fr": "Ajout d'icônes d'état à brancher",
+				"it": "Aggiunte icone di stato da collegare",
+				"es": "Se agregaron íconos de estado para conectar",
+				"pl": "Dodano ikony stanu do wtyczki",
+				"zh-cn": "添加了状态图标以插入"
+			},
 			"1.2.2": {
 				"en": "Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud",
 				"de": "Es wurde jedem Ventil ein Schieberegler hinzugefügt, um die Temperatur zu ändern, und einige API-Anforderungen zum Admin-Tab hinzugefügt, um Änderungen in die Cloud zu übertragen",

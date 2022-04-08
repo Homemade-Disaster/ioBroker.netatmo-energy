@@ -1996,6 +1996,90 @@ const _systemDictionary = {
 		"es": "¡Modo establecido en el modo predeterminado!",
 		"pl": "Tryb ustawiony na tryb domyślny!",
 		"zh-cn": "模式设置为默认模式！"
+	},
+	"manually": {
+		"en": "manually",
+		"de": "manuell",
+		"ru": "вручную",
+		"pt": "manualmente",
+		"nl": "handmatig",
+		"fr": "manuellement",
+		"it": "manualmente",
+		"es": "a mano",
+		"pl": "ręcznie",
+		"zh-cn": "手动"
+	},
+	"max": {
+		"en": "max",
+		"de": "max",
+		"ru": "Максимум",
+		"pt": "máximo",
+		"nl": "max",
+		"fr": "maximum",
+		"it": "max",
+		"es": "máximo",
+		"pl": "maks",
+		"zh-cn": "最大限度"
+	},
+	"away": {
+		"en": "away",
+		"de": "Weg",
+		"ru": "прочь",
+		"pt": "um jeito",
+		"nl": "weg",
+		"fr": "une façon",
+		"it": "lontano",
+		"es": "fuera",
+		"pl": "z dala",
+		"zh-cn": "离开"
+	},
+	"frost guardian": {
+		"en": "frost guardian",
+		"de": "Frostwächter",
+		"ru": "хранитель мороза",
+		"pt": "guardião do gelo",
+		"nl": "vorst bewaker",
+		"fr": "gardien du gel",
+		"it": "guardiano del gelo",
+		"es": "guardián de las heladas",
+		"pl": "strażnik mrozu",
+		"zh-cn": "冰霜守护者"
+	},
+	"scheduled": {
+		"en": "schedule",
+		"de": "Zeitplan",
+		"ru": "график",
+		"pt": "cronograma",
+		"nl": "schema",
+		"fr": "programme",
+		"it": "programma",
+		"es": "calendario",
+		"pl": "harmonogram",
+		"zh-cn": "时间表"
+	},
+	"very low": {
+		"en": "very low",
+		"de": "sehr niedrig",
+		"ru": "очень низкий",
+		"pt": "muito baixo",
+		"nl": "heel laag",
+		"fr": "très lent",
+		"it": "molto basso",
+		"es": "muy bajo",
+		"pl": "bardzo niski",
+		"zh-cn": "非常低"
+	},
+	"full": {
+		"en": "full",
+		"de": "voll",
+		"ru": "полный",
+		"pt": "cheio",
+		"nl": "vol",
+		"fr": "plein",
+		"it": "completo",
+		"es": "completo",
+		"pl": "pełny",
+		"zh-cn": "满的"
 	}
 };
 
