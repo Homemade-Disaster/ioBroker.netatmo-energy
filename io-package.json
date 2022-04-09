@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.2.3",
+		"version": "1.2.4",
 		"news": {
+			"1.2.4": {
+				"en": "i18n files for npm added",
+				"de": "i18n-Dateien für npm hinzugefügt",
+				"ru": "Добавлены файлы i18n для npm",
+				"pt": "Arquivos i18n para npm adicionados",
+				"nl": "i18n-bestanden voor npm toegevoegd",
+				"fr": "fichiers i18n pour npm ajoutés",
+				"it": "Aggiunti i file i18n per npm",
+				"es": "Archivos i18n para npm agregados",
+				"pl": "Dodano pliki i18n dla npm",
+				"zh-cn": "添加了 npm 的 i18n 文件"
+			},
 			"1.2.3": {
 				"en": "Added status icons to plug",
 				"de": "Statussymbole zum Stecker hinzugefügt",

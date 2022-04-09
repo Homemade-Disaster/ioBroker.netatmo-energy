@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.2.4 (2022-04-09)
+* (ioKlausi) i18n files for npm added
+
 ### 1.2.3 (2022-04-08)
 * (ioKlausi) Added status icons to plug
 
