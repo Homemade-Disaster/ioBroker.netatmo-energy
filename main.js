@@ -981,10 +981,15 @@ class NetatmoEnergy extends utils.Adapter {
 				forced = true;
 			} else if (object_name.indexOf('temperature') >= 0 || object_name.indexOf('temp') >= 0) {
 				role = 'value.temperature';
-			} else if (id.indexOf('coordinates.0') >= 0) {
+			} else if (id.indexOf('altitude') >= 0) {
 				role = 'value.gps.elevation';
+				forced = true;
+			} else if (id.indexOf('coordinates.0') >= 0) {
+				role = 'value.gps.longitude';
+				forced = true;
 			} else if (id.indexOf('coordinates.1') >= 0) {
 				role = 'value.gps.latitude';
+				forced = true;
 			} else if (object_name.indexOf('timezone') >= 0) {
 				role = 'state';
 			} else if (object_name.indexOf('_date') >= 0 || object_name.indexOf('time') >= 0) {
