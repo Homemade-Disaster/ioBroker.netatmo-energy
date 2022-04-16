@@ -2080,6 +2080,54 @@ const _systemDictionary = {
 		"es": "completo",
 		"pl": "pełny",
 		"zh-cn": "满的"
+	},
+	"Rename": {
+		"en": "Rename",
+		"de": "Umbenennen",
+		"ru": "Переименовать",
+		"pt": "Renomear",
+		"nl": "Hernoemen",
+		"fr": "Renommer",
+		"it": "Rinominare",
+		"es": "Rebautizar",
+		"pl": "Przemianować",
+		"zh-cn": "改名"
+	},
+	"Apply": {
+		"en": "Apply",
+		"de": "Anwenden",
+		"ru": "Применять",
+		"pt": "Aplicar",
+		"nl": "Toepassen",
+		"fr": "Appliquer",
+		"it": "Applicare",
+		"es": "Aplicar",
+		"pl": "Stosować",
+		"zh-cn": "申请"
+	},
+	"Name": {
+		"en": "Name",
+		"de": "Name",
+		"ru": "Имя",
+		"pt": "Nome",
+		"nl": "Naam",
+		"fr": "Nom",
+		"it": "Nome",
+		"es": "Nombre",
+		"pl": "Nazwać",
+		"zh-cn": "姓名"
+	},
+	"Actual plan:": {
+		"en": "Actual plan:",
+		"de": "Aktueller Plan:",
+		"ru": "Фактический план:",
+		"pt": "Plano real:",
+		"nl": "Werkelijk plan:",
+		"fr": "Plan réel :",
+		"it": "Piano effettivo:",
+		"es": "plano real:",
+		"pl": "Aktualny plan:",
+		"zh-cn": "实际计划："
 	}
 };
 

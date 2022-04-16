@@ -39,7 +39,7 @@ body > div:nth-child(2) {
 /*  */
 .m .valve {
 	float: left;
-	height: 240px;
+	height: 300px;
 	padding: 5px;
 	width: 400px;
 	-webkit-perspective: 800px;
@@ -137,7 +137,7 @@ body > div:nth-child(2) {
 	margin: 0 -10px -10px -10px;
 }
 .m .valve .card.dcard .card-reveal .dropdown-content {
-	min-width: 120px;
+	min-width: 220px;
 }
 .m .valve .card.dcard .card-reveal .dropdown-content li {
 	min-height: 0;
@@ -230,6 +230,44 @@ body > div:nth-child(2) {
 }
 .m .valve .card.dcard div.control.range input[type="range"] {
 	margin: 5px 0 5px;
+}
+
+/* MODAL EDIT */
+.m .modal .modal-content {
+	width: 100% !important;
+	height: 100% !important;
+	padding-bottom: 0;
+}
+.m .modal .modal-content .row {
+	margin-bottom: 0;
+}
+.m .modal .modal-content .row > .col {
+	margin-bottom: 0 !important;
+	padding: 0 !important;
+}
+.m .modal .modal-footer {
+	padding: 4px 20px;
+	width: 100% !important;
+}
+.m #modal_rename.modal {
+	width: 450px;
+}
+.m #modal_yaml.modal {
+	width: 450px;
+}
+.m #modal_yaml.modal .modal-content .row > .col {
+	margin-top: 0 !important;
+}
+.m #modal_yaml.modal textarea {
+	border: 1px solid #9e9e9e;
+	font-size: 14px;
+	height: 300px !important;
+	overflow-y: scroll;
+	padding: 5px 4px !important;
+}
+.m #modal_yaml.modal textarea:focus {
+	border: 1px solid #2196f3;
+	box-shadow: 0 1px 0 0 #2196f3;
 }
 
 i.icon-red {

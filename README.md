@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.2.5 (2022-04-16)
+* (ioKlausi) Dropdown menu to change heating plan added to the thermostat card in the admin page
+
 ### 1.2.4 (2022-04-09)
 * (ioKlausi) i18n files for npm added
 

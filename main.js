@@ -689,11 +689,15 @@ class NetatmoEnergy extends utils.Adapter {
 	//Parse values from Netatmo response
 	async getValuesFromNetatmo(API_Request,obj,obj_name,obj_selected,Netatmo_Path,norefresh) {
 		const relevantTag = 'home\\.\\b(?:rooms|modules)\\.\\d+\\.id';
+		const searchSchedule = 'homes\\.\\d+\\.' + glob.Channel_schedules + '\\.\\d+$';
 		let myobj_selected = obj_name;
 
 		if (mytools.netatmoTags(obj_name) === true) {
 			if (API_Request === glob.APIRequest_homesdata) {
 				await this.createMyChannel(Netatmo_Path, myobj_selected);
+				if (Netatmo_Path.search(searchSchedule) >= 0) {
+					await this.createNetatmoStructure(this._getDP([Netatmo_Path, glob.State_selected]), glob.State_selected, false, true, 'indicator', false, true, '', false, false);
+				}
 			}
 		} else {
 			myobj_selected = obj_selected;
@@ -1353,6 +1357,58 @@ class NetatmoEnergy extends utils.Adapter {
 		else return null;
 	}
 
+	// Get activ schedule
+	_getActiveSchedule() {
+		const searchSchedule   = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
+
+		let myActiveSchedule = '';
+		const that = this;
+
+		return new Promise(
+			// eslint-disable-next-line no-unused-vars
+			function(resolve,reject) {
+				// @ts-ignore
+				that.getStates(that.namespace + '.homes.*.schedules.*', async function(error, states) {
+					for(const id in states) {
+						if (id.search(searchSchedule) >= 0) {
+							const myTargetName = id.substring(0,id.length - 3);
+							const plan_active  = await that.getStateAsync(that._getDP([myTargetName, 'selected']));
+							if (plan_active && plan_active.val == true) {
+								const Schedule_Name = await that.getStateAsync(that._getDP([myTargetName, 'name']));
+								if (Schedule_Name) {
+									myActiveSchedule = Schedule_Name.val;
+								}
+							}
+
+						}
+					}
+					resolve(myActiveSchedule);
+				});
+			}
+		);
+	}
+
+	// Get API Schedules
+	_getAllAPISchedules() {
+		const searchSchedules = this._getDP([this.globalAPIChannel, glob.Channel_switchhomeschedule, glob.APIRequest_switchhomeschedule]) + '*';
+		const mySchedules = [];
+
+		const that = this;
+		return new Promise(
+			// eslint-disable-next-line no-unused-vars
+			function(resolve,reject) {
+				// @ts-ignore
+				that.getStates(searchSchedules,async function(error, states) {
+					for(const id in states) {
+						const schedule_name = id.substring(searchSchedules.length);
+						mySchedules.push(Object.assign({},{name: schedule_name.replace(/_/g, ' '), id: id, request: glob.APIRequest_switchhomeschedule + '_' + schedule_name}));
+					}
+					resolve(mySchedules);
+				});
+			}
+		);
+	}
+
 	//get all modules
 	_getAllModules() {
 		const myModules = [];
@@ -1369,7 +1425,8 @@ class NetatmoEnergy extends utils.Adapter {
 							module_id = await that.getStateAsync(id);
 							if (module_id) {
 								const myTargetName               = id.substring(0,id.length - 3);
-								const deviceName                 = await that.getStateAsync(that._getDP([myTargetName, 'name']));
+								const ModuleName_ID				 = that._getDP([myTargetName, 'name']);
+								const deviceName                 = await that.getStateAsync(ModuleName_ID);
 								const type                       = await that.getStateAsync(that._getDP([myTargetName, 'type']));
 								const bridge                     = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'bridge']));
 								const battery_state              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'battery_state']));
@@ -1385,6 +1442,7 @@ class NetatmoEnergy extends utils.Adapter {
 								myModules.push(Object.assign({}, module_id,
 									{type: that._getValue(type)},
 									{deviceName: that._getValue(deviceName)},
+									{ModuleName_ID: ModuleName_ID},
 									{bridge: that._getValue(bridge)},
 									{boiler_status: that._getValue(boiler_status)},
 									{boiler_valve_comfort_boost: that._getValue(boiler_valve_comfort_boost)},
@@ -1409,7 +1467,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Search rooms
-	_getAllRooms(myModules) {
+	_getAllRooms(myModules, mySchedules, myActiveSchedule) {
 		//const searchRooms     = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
 		let room_id = null;
 		const myRooms = [];
@@ -1443,11 +1501,21 @@ class NetatmoEnergy extends utils.Adapter {
 								const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
 								myHome      = await that.getStateAsync(myHomeFolder  + '.name');
 
+								let schedule_programs_local = mySchedules;
+								let myActiveSchedule_local = myActiveSchedule;
+								if (myModule.type != glob.APIRequest_homesdata_NAPTherm1) {
+									schedule_programs_local = null;
+									myActiveSchedule_local = null;
+								}
+
 								myRooms.push(Object.assign({},
 									{myHome: that._getValue(myHome)},
 									room_id,
 									{Set_Temp: Set_Temp},
 									{Set_Mode: Set_Mode},
+									{ModuleName_ID: myModule.ModuleName_ID},
+									{schedule_programs: schedule_programs_local},
+									{active_schedule: myActiveSchedule_local},
 									{module_id: that._getValue(myModule)},
 									{roomName: that._getValue(roomName)},
 									{anticipating: that._getValue(anticipating)},
@@ -1480,6 +1548,9 @@ class NetatmoEnergy extends utils.Adapter {
 								room_id,
 								{Set_Temp: null},
 								{Set_Mode: null},
+								{ModuleName_ID: myModules[myModule].ModuleName_ID},
+								{schedule_programs: null},
+								{active_schedule: null},
 								{module_id: myModules[myModule].val},
 								{roomName: null},
 								{anticipating: null},
@@ -1513,6 +1584,41 @@ class NetatmoEnergy extends utils.Adapter {
 		);
 	}
 
+	//Get all valves
+	_getAllValves(obj, mySchedules, myActiveSchedule) {
+		this._getAllModules()
+			// eslint-disable-next-line no-unused-vars
+			.then(myModules => {
+				this._getAllRooms(myModules, mySchedules, myActiveSchedule)
+					.then(myRooms => {
+						this.sendTo(obj.from, obj.command, myRooms, obj.callback);
+					})
+					.catch(() => {
+					//error during searching for rooms);
+					});
+			})
+			.catch(() => {
+				//error during searching for rooms);
+			});
+	}
+
+	//rename Valve
+	async _renameValve(from, command, message) {
+		const {id, object: common} = message;
+		const _object = await this.getForeignObjectAsync(id);
+
+		if (_object != undefined && common != undefined) {
+			await this.setForeignObjectAsync(id, Object.assign(
+				_object,
+				{
+					from: `system.adapter.${this.namespace}`,
+					ts: Date.now()
+				},
+				{common: Object.assign(_object.common, common)}
+			));
+		}
+	}
+
 	//React on al subsribed fields
 	/**
 	  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
@@ -1521,7 +1627,25 @@ class NetatmoEnergy extends utils.Adapter {
 	*/
 	onMessage(obj) {
 		if (typeof obj === 'object' && obj.command) {
-			switch (obj.command) {
+			let local_command = obj.command;
+
+			if (local_command.search(glob.APIRequest_switchhomeschedule) == 0) {
+				local_command = glob.APIRequest_switchhomeschedule;
+			}
+
+			switch (local_command) {
+				case glob.APIRequest_switchhomeschedule:
+					try {
+						this.setState(this._getDP([this.globalAPIChannel, glob.Channel_switchhomeschedule, obj.command]), true, false);
+					} catch(e) {
+						//Error
+					}
+					break;
+
+				case glob.ModifyDeviceObject:
+					this._renameValve(obj.from, obj.command, obj.message);
+					break;
+
 				case glob.HomeMode:
 					if (obj.callback) {
 						let setData = {};
@@ -1579,15 +1703,15 @@ class NetatmoEnergy extends utils.Adapter {
 
 				case glob.GetValves:
 					if (obj.callback) {
-						this._getAllModules()
+						this._getAllAPISchedules()
 							// eslint-disable-next-line no-unused-vars
-							.then(myModules => {
-								this._getAllRooms(myModules)
-									.then(myRooms => {
-										this.sendTo(obj.from, obj.command, myRooms, obj.callback);
+							.then(MySchedules => {
+								this._getActiveSchedule()
+									.then(myActiveSchedule => {
+										this._getAllValves(obj, MySchedules, myActiveSchedule);
 									})
 									.catch(() => {
-									//error during searching for rooms);
+
 									});
 							})
 							.catch(() => {

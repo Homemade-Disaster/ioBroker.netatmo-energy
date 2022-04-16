@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.2.4",
+		"version": "1.2.5",
 		"news": {
+			"1.2.5": {
+				"en": "switchhomeschedule added to cards",
+				"de": "switchhomeschedule zu Karten hinzugefügt",
+				"ru": "расписание switchhome добавлено в карточки",
+				"pt": "switchhomeschedule adicionado aos cartões",
+				"nl": "switchhomeschedule toegevoegd aan kaarten",
+				"fr": "switchhomeschedule ajouté aux cartes",
+				"it": "switchhomeschedule aggiunto alle carte",
+				"es": "switchhomeschedule agregado a las tarjetas",
+				"pl": "harmonogram przełączania dodany do kart",
+				"zh-cn": "switchhomeschedule 添加到卡片"
+			},
 			"1.2.4": {
 				"en": "i18n files for npm added",
 				"de": "i18n-Dateien für npm hinzugefügt",
