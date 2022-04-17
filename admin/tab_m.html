@@ -353,14 +353,23 @@
                     let DeviceName_ID               = valve.ModuleName_ID;
 
                     let schedules                   = valve.schedule_programs;
-                    let sub_menus = '';
+                    let sub_menus_schedules         = '';
                     if (schedules) {
                         for (let schedule of schedules) {
-                            sub_menus = sub_menus + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${schedule.request}"><i class="material-icons icon-orange">room_service</i>${schedule.name}</a></li>`;
+                            sub_menus_schedules = sub_menus_schedules + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${schedule.request}"><i class="material-icons icon-orange">room_service</i>${schedule.name}</a></li>`;
                         }
                     }
                     
+                    let thermmodes                  = valve.thermmode_programs;
+                    let sub_menus_thermmodes        = '';
+                    if (thermmodes) {
+                        for (let thermmode of thermmodes) {
+                            sub_menus_thermmodes = sub_menus_thermmodes + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${thermmode.request}"><i class="material-icons icon-green">room_service</i>${thermmode.name}</a></li>`;
+                        }
+                    }
+
                     let plan_active                 = valve.active_schedule;
+                    let thermmode_active            = valve.active_thermmode;
 
                     let temp_act                    = valve.therm_measured_temperature;
                     let temp_set                    = valve.therm_setpoint_temperature;
@@ -558,25 +567,41 @@
                                                     <i class="material-icons icon-green" style="font-size: 18px;float: left">refresh</i>
                                                     <div class="translate"> Refreshed: </div>
                                                     <div style="float: left"> ${act_date_text}</div>
-                                                    ${sub_menus != '' ? `
-                                                        <div style="margin-left: auto;">
+                                                    ${sub_menus_thermmodes != '' ? `
+                                                        <div style="margin-left: auto; float: left;">
+                                                            <!-- Dropdown Trigger -->
+                                                            
+                                                                ${sub_menus_thermmodes != undefined && sub_menus_thermmodes!= null ? `
+                                                                    <a href="#" class="dropdown-trigger grey-text text-darken-4 tooltipped" title="${thermmode_active}" data-target="dropdown_thermmode_${mod_id_internal}">
+                                                                        <i class="material-icons icon-green">ac_unit</i>
+                                                                    </a>
+                                                                    ` : ``}
+                                                        </div>
+                                                        <!-- Dropdown Structure -->
+                                                        <ul id="dropdown_thermmode_${mod_id_internal}" class="dropdown-content">
+                                                            ${sub_menus_thermmodes}
+                                                        </ul>
+                                                    ` : ''}   
+                                                    
+                                                    ${sub_menus_schedules != '' ? `
+                                                        <div style="margin-left: auto; float: left;">
                                                             <!-- Dropdown Trigger -->
                                                             
                                                                 ${plan_active != undefined && plan_active!= null ? `
-                                                                    <a href="#" class="dropdown-trigger grey-text text-darken-4 tooltipped" title="${plan_active}" data-target="dropdown_${mod_id_internal}">
+                                                                    <a href="#" class="dropdown-trigger grey-text text-darken-4 tooltipped" title="${plan_active}" data-target="dropdown_schedule_${mod_id_internal}">
                                                                         <i class="material-icons icon-orange">timelapse</i>
                                                                     </a>
                                                                     ` : `
-                                                                    <a href="#" class="dropdown-trigger grey-text text-darken-4" data-target="dropdown_${mod_id_internal}">
+                                                                    <a href="#" class="dropdown-trigger grey-text text-darken-4" data-target="dropdown_schedule_${mod_id_internal}">
                                                                         <i class="material-icons">more_vert</i>
                                                                     </a>
                                                                     `}
                                                         </div>
                                                         <!-- Dropdown Structure -->
-                                                        <ul id="dropdown_${mod_id_internal}" class="dropdown-content">
-                                                            ${sub_menus}
+                                                        <ul id="dropdown_schedule_${mod_id_internal}" class="dropdown-content">
+                                                            ${sub_menus_schedules}
                                                         </ul>
-                                                    ` : ''}
+                                                    ` : ''}                                                 
                                                 </div>
                                             </div>
                                         </div>

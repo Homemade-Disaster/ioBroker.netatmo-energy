@@ -483,23 +483,27 @@ class NetatmoEnergy extends utils.Adapter {
 					let changesmade = false;
 					// @ts-ignore
 					that.getStates(that.namespace + '.homes.*.rooms.*.' + glob.Channel_settings + '.' + glob.State_TempChanged,async function(error, states) {
-						for(const id in states) {
-							const adapterstates = await that.getStateAsync(id);
-							if (id.search(searchstring) >= 0) {
-								if (adapterstates && adapterstates.val === true) {
-									await that.setState(id, false, true);
-									const actId = mytools.splitID(id);
-									const newTemp   = await that.getStateAsync(that._getDP([actId.path, glob.Trigger_SetTemp]));
-									if (newTemp) {
-										if (await that.applyActualTemp(newTemp,actId.parent,NetatmoRequest,mode, true)) {
-											changesmade = true;
+						if (states && !error) {
+							for(const id in states) {
+								const adapterstates = await that.getStateAsync(id);
+								if (id.search(searchstring) >= 0) {
+									if (adapterstates && adapterstates.val === true) {
+										await that.setState(id, false, true);
+										const actId = mytools.splitID(id);
+										const newTemp   = await that.getStateAsync(that._getDP([actId.path, glob.Trigger_SetTemp]));
+										if (newTemp) {
+											if (await that.applyActualTemp(newTemp,actId.parent,NetatmoRequest,mode, true)) {
+												changesmade = true;
+											}
 										}
 									}
 								}
 							}
-						}
-						if (changesmade) {
-							resolve(true);
+							if (changesmade) {
+								resolve(true);
+							} else {
+								reject(false);
+							}
 						} else {
 							reject(false);
 						}
@@ -780,18 +784,22 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.rooms.*',async function(error, states) {
-					for(const id in states) {
-						if (id.search(searchRooms) >= 0) {
-							room_id = await that.getStateAsync(id);
-							if (room_id && room_id.val == statevalue) {
-								const myTargetName = id.substring(0,id.length - 3);
-								room_name = await that.getStateAsync(myTargetName + '.name');
-								break;
+					if (states && !error) {
+						for(const id in states) {
+							if (id.search(searchRooms) >= 0) {
+								room_id = await that.getStateAsync(id);
+								if (room_id && room_id.val == statevalue) {
+									const myTargetName = id.substring(0,id.length - 3);
+									room_name = await that.getStateAsync(myTargetName + '.name');
+									break;
+								}
 							}
 						}
-					}
-					if (room_name) {
-						resolve(room_name.val);
+						if (room_name) {
+							resolve(room_name.val);
+						} else {
+							reject(statevalue);
+						}
 					} else {
 						reject(statevalue);
 					}
@@ -814,18 +822,22 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
-					for(const id in states) {
-						if (id.search(searchModules) >= 0) {
-							device_id = await that.getStateAsync(id);
-							if (device_id && device_id.val == statevalue) {
-								const myTargetName = id.substring(0,id.length - 3);
-								device_name = await that.getStateAsync(myTargetName + '.name');
-								break;
+					if (states && !error) {
+						for(const id in states) {
+							if (id.search(searchModules) >= 0) {
+								device_id = await that.getStateAsync(id);
+								if (device_id && device_id.val == statevalue) {
+									const myTargetName = id.substring(0,id.length - 3);
+									device_name = await that.getStateAsync(myTargetName + '.name');
+									break;
+								}
 							}
 						}
-					}
-					if (device_name) {
-						resolve(device_name.val);
+						if (device_name) {
+							resolve(device_name.val);
+						} else {
+							reject(statevalue);
+						}
 					} else {
 						reject(statevalue);
 					}
@@ -1360,50 +1372,102 @@ class NetatmoEnergy extends utils.Adapter {
 	// Get activ schedule
 	_getActiveSchedule() {
 		const searchSchedule   = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
-
-		let myActiveSchedule = '';
 		const that = this;
 
 		return new Promise(
 			// eslint-disable-next-line no-unused-vars
 			function(resolve,reject) {
 				// @ts-ignore
-				that.getStates(that.namespace + '.homes.*.schedules.*', async function(error, states) {
-					for(const id in states) {
-						if (id.search(searchSchedule) >= 0) {
-							const myTargetName = id.substring(0,id.length - 3);
-							const plan_active  = await that.getStateAsync(that._getDP([myTargetName, 'selected']));
-							if (plan_active && plan_active.val == true) {
-								const Schedule_Name = await that.getStateAsync(that._getDP([myTargetName, 'name']));
-								if (Schedule_Name) {
-									myActiveSchedule = Schedule_Name.val;
+				let myActiveSchedule = mytools.tl('Can not get active heating plan!', that.systemLang);
+				that.getStates(that.namespace + '.homes.*.schedules.*.id', async function(error, states) {
+					if (states && !error) {
+						for(const id in states) {
+							if (id.search(searchSchedule) >= 0) {
+								const myTargetName = id.substring(0,id.length - 3);
+								const plan_active  = await that.getStateAsync(that._getDP([myTargetName, 'selected']));
+								if (plan_active && plan_active.val == true) {
+									const Schedule_Name = await that.getStateAsync(that._getDP([myTargetName, 'name']));
+									if (Schedule_Name && Schedule_Name.val != null) {
+										myActiveSchedule = Schedule_Name.val.toString();
+									}
 								}
-							}
 
+							}
 						}
+						resolve(myActiveSchedule);
+					} else {
+						resolve(myActiveSchedule);
 					}
-					resolve(myActiveSchedule);
 				});
 			}
 		);
 	}
 
-	// Get API Schedules
-	_getAllAPISchedules() {
-		const searchSchedules = this._getDP([this.globalAPIChannel, glob.Channel_switchhomeschedule, glob.APIRequest_switchhomeschedule]) + '*';
-		const mySchedules = [];
+	// Get activ thermmode
+	_getActiveThermMode(conv_name_list) {
+		const searchHomeID   = 'homes\\.\\d+\\.id';
+		const that = this;
+
+		return new Promise(
+			// eslint-disable-next-line no-unused-vars
+			function(resolve,reject) {
+				// @ts-ignore
+				let myActiveThermMode = mytools.tl('Can not get active therm mode!', that.systemLang);
+				that.getStates(that.namespace + '.homes.*.id', async function(error, states) {
+					if (states && !error) {
+						for(const id in states) {
+							if (id.search(searchHomeID) >= 0) {
+								const myTargetName = id.substring(0,id.length - 3);
+								const thermmode_active  = await that.getStateAsync(that._getDP([myTargetName, 'therm_mode']));
+								if (thermmode_active && thermmode_active != null) {
+									myActiveThermMode = thermmode_active.val;
+									try {
+										myActiveThermMode = mytools.tl(JSON.parse(conv_name_list)[myActiveThermMode], that.systemLang);
+									} catch(e) {
+										//no JSON
+									}
+								}
+
+							}
+						}
+						resolve(myActiveThermMode);
+					} else {
+						resolve(myActiveThermMode);
+					}
+				});
+			}
+		);
+	}
+
+	// Get API Requests
+	_getAllAPIRequests(channel, API_Request, conv_name_list) {
+		const searchModes = this._getDP([this.globalAPIChannel, channel, API_Request]) + '*';
+		const myAPIRequests = [];
 
 		const that = this;
 		return new Promise(
 			// eslint-disable-next-line no-unused-vars
 			function(resolve,reject) {
-				// @ts-ignore
-				that.getStates(searchSchedules,async function(error, states) {
-					for(const id in states) {
-						const schedule_name = id.substring(searchSchedules.length);
-						mySchedules.push(Object.assign({},{name: schedule_name.replace(/_/g, ' '), id: id, request: glob.APIRequest_switchhomeschedule + '_' + schedule_name}));
+				that.getStates(searchModes,async function(error, states) {
+					if (states && !error) {
+						for(const id in states) {
+							const name = id.substring(searchModes.length);
+							let converted_name = null;
+							try {
+								converted_name = mytools.tl(JSON.parse(conv_name_list)[name], that.systemLang);
+							} catch(e) {
+								//no JSON
+							}
+							if (converted_name && converted_name != '') {
+								myAPIRequests.push(Object.assign({},{name: converted_name, id: id, request: API_Request + '_' + name}));
+							} else {
+								myAPIRequests.push(Object.assign({},{name: name.replace(/_/g, ' '), id: id, request: API_Request + '_' + name}));
+							}
+						}
+						resolve(myAPIRequests);
+					} else {
+						resolve(myAPIRequests);
 					}
-					resolve(mySchedules);
 				});
 			}
 		);
@@ -1420,44 +1484,48 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 				// @ts-ignore
 				that.getStates(that.namespace + '.homes.*.modules.*',async function(error, states) {
-					for(const id in states) {
-						if (id.search(searchModules) >= 0) {
-							module_id = await that.getStateAsync(id);
-							if (module_id) {
-								const myTargetName               = id.substring(0,id.length - 3);
-								const ModuleName_ID				 = that._getDP([myTargetName, 'name']);
-								const deviceName                 = await that.getStateAsync(ModuleName_ID);
-								const type                       = await that.getStateAsync(that._getDP([myTargetName, 'type']));
-								const bridge                     = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'bridge']));
-								const battery_state              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'battery_state']));
-								const firmware_revision          = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'firmware_revision']));
-								const rf_strength                = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'rf_strength']));
-								const boiler_status              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_status']));
-								const boiler_valve_comfort_boost = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_valve_comfort_boost']));
-								const wifi_strength              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'wifi_strength']));
-								const plug_connected_boiler      = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'plug_connected_boiler']));
-								const hardware_version      	 = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'hardware_version']));
-								const boiler_cable      	 	 = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_cable']));
+					if (states && !error) {
+						for(const id in states) {
+							if (id.search(searchModules) >= 0) {
+								module_id = await that.getStateAsync(id);
+								if (module_id) {
+									const myTargetName               = id.substring(0,id.length - 3);
+									const ModuleName_ID				 = that._getDP([myTargetName, 'name']);
+									const deviceName                 = await that.getStateAsync(ModuleName_ID);
+									const type                       = await that.getStateAsync(that._getDP([myTargetName, 'type']));
+									const bridge                     = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'bridge']));
+									const battery_state              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'battery_state']));
+									const firmware_revision          = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'firmware_revision']));
+									const rf_strength                = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'rf_strength']));
+									const boiler_status              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_status']));
+									const boiler_valve_comfort_boost = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_valve_comfort_boost']));
+									const wifi_strength              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'wifi_strength']));
+									const plug_connected_boiler      = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'plug_connected_boiler']));
+									const hardware_version      	 = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'hardware_version']));
+									const boiler_cable      	 	 = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_cable']));
 
-								myModules.push(Object.assign({}, module_id,
-									{type: that._getValue(type)},
-									{deviceName: that._getValue(deviceName)},
-									{ModuleName_ID: ModuleName_ID},
-									{bridge: that._getValue(bridge)},
-									{boiler_status: that._getValue(boiler_status)},
-									{boiler_valve_comfort_boost: that._getValue(boiler_valve_comfort_boost)},
-									{battery_state: that._getValue(battery_state)},
-									{firmware_revision: that._getValue(firmware_revision)},
-									{rf_strength: that._getValue(rf_strength)},
-									{wifi_strength: that._getValue(wifi_strength)},
-									{plug_connected_boiler: that._getValue(plug_connected_boiler)},
-									{hardware_version: that._getValue(hardware_version)},
-									{boiler_cable: that._getValue(boiler_cable)}));
+									myModules.push(Object.assign({}, module_id,
+										{type: that._getValue(type)},
+										{deviceName: that._getValue(deviceName)},
+										{ModuleName_ID: ModuleName_ID},
+										{bridge: that._getValue(bridge)},
+										{boiler_status: that._getValue(boiler_status)},
+										{boiler_valve_comfort_boost: that._getValue(boiler_valve_comfort_boost)},
+										{battery_state: that._getValue(battery_state)},
+										{firmware_revision: that._getValue(firmware_revision)},
+										{rf_strength: that._getValue(rf_strength)},
+										{wifi_strength: that._getValue(wifi_strength)},
+										{plug_connected_boiler: that._getValue(plug_connected_boiler)},
+										{hardware_version: that._getValue(hardware_version)},
+										{boiler_cable: that._getValue(boiler_cable)}));
+								}
 							}
 						}
-					}
-					if (myModules) {
-						resolve(myModules);
+						if (myModules) {
+							resolve(myModules);
+						} else {
+							reject(null);
+						}
 					} else {
 						reject(null);
 					}
@@ -1467,7 +1535,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Search rooms
-	_getAllRooms(myModules, mySchedules, myActiveSchedule) {
+	_getAllRooms(myModules, mySchedules, myActiveSchedule, myActiveModes, myActiveThermMode) {
 		//const searchRooms     = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
 		let room_id = null;
 		const myRooms = [];
@@ -1476,106 +1544,119 @@ class NetatmoEnergy extends utils.Adapter {
 		return new Promise(
 			function(resolve,reject) {
 				that.getStates(that.namespace + '.homes.*.rooms.*.module_ids.*',async function(error, states) {
-					let myHome = null;
-					for(const id in states) {
-						const module_id = await that.getStateAsync(id);
+					if (states && !error) {
+						let myHome = null;
+						for(const id in states) {
+							const module_id = await that.getStateAsync(id);
 
-						let myModule = undefined;
-						if (module_id) myModule = myModules.find(element => element.val == module_id.val);
+							let myModule = undefined;
+							if (module_id) myModule = myModules.find(element => element.val == module_id.val);
 
-						if (myModule) {
-							const myTargetName = id.substring(0,id.substring(0,id.lastIndexOf(glob.dot)).length - 11);
-							room_id = await await that.getStateAsync(myTargetName  + '.id');
-							if (room_id) {
-								const roomName                   = await that.getStateAsync(that._getDP([myTargetName, 'name']));
-								const anticipating               = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'anticipating']));
-								const open_window                = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'open_window']));
-								const reachable                  = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'reachable']));
-								const therm_measured_temperature = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_measured_temperature']));
-								const therm_setpoint_mode        = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_setpoint_mode']));
-								const therm_setpoint_temperature = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_setpoint_temperature']));
-								const heating_power_request      = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'heating_power_request']));
-								const Set_Temp      			 = that._getDP([myTargetName, glob.Channel_settings, glob.Trigger_SetTemp]);
-								const Set_Mode      			 = myTargetName;
+							if (myModule) {
+								const myTargetName = id.substring(0,id.substring(0,id.lastIndexOf(glob.dot)).length - 11);
+								room_id = await await that.getStateAsync(myTargetName  + '.id');
+								if (room_id) {
+									const roomName                   = await that.getStateAsync(that._getDP([myTargetName, 'name']));
+									const anticipating               = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'anticipating']));
+									const open_window                = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'open_window']));
+									const reachable                  = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'reachable']));
+									const therm_measured_temperature = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_measured_temperature']));
+									const therm_setpoint_mode        = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_setpoint_mode']));
+									const therm_setpoint_temperature = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'therm_setpoint_temperature']));
+									const heating_power_request      = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_status, 'heating_power_request']));
+									const Set_Temp      			 = that._getDP([myTargetName, glob.Channel_settings, glob.Trigger_SetTemp]);
+									const Set_Mode      			 = myTargetName;
 
-								const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
-								myHome      = await that.getStateAsync(myHomeFolder  + '.name');
+									const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
+									myHome      = await that.getStateAsync(myHomeFolder  + '.name');
 
-								let schedule_programs_local = mySchedules;
-								let myActiveSchedule_local = myActiveSchedule;
-								if (myModule.type != glob.APIRequest_homesdata_NAPTherm1) {
-									schedule_programs_local = null;
-									myActiveSchedule_local = null;
+									let schedule_programs_local = mySchedules;
+									let myActiveSchedule_local	= myActiveSchedule;
+									let myActiveModes_local		= myActiveModes;
+									let myActiveThermMode_local	= myActiveThermMode;
+
+									if (myModule.type != glob.APIRequest_homesdata_NAPTherm1) {
+										schedule_programs_local = null;
+										myActiveSchedule_local	= null;
+										myActiveModes_local		= null;
+										myActiveThermMode_local = null;
+									}
+
+									myRooms.push(Object.assign({},
+										{myHome: that._getValue(myHome)},
+										room_id,
+										{Set_Temp: Set_Temp},
+										{Set_Mode: Set_Mode},
+										{ModuleName_ID: myModule.ModuleName_ID},
+										{schedule_programs: schedule_programs_local},
+										{active_schedule: myActiveSchedule_local},
+										{thermmode_programs: myActiveModes_local},
+										{active_thermmode: myActiveThermMode_local},
+										{module_id: that._getValue(myModule)},
+										{roomName: that._getValue(roomName)},
+										{anticipating: that._getValue(anticipating)},
+										{open_window: that._getValue(open_window)},
+										{reachable: that._getValue(reachable)},
+										{heating_power_request: that._getValue(heating_power_request)},
+										{therm_measured_temperature: that._getValue(therm_measured_temperature)},
+										{therm_setpoint_mode: that._getValue(therm_setpoint_mode)},
+										{therm_setpoint_temperature: that._getValue(therm_setpoint_temperature)},
+										{bridge: myModule.bridge},
+										{deviceName: myModule.deviceName},
+										{type: myModule.type},
+										{battery_state: myModule.battery_state},
+										{firmware_revision: myModule.firmware_revision},
+										{rf_strength: myModule.rf_strength},
+										{boiler_valve_comfort_boost: myModule.boiler_valve_comfort_boost},
+										{boiler_status: myModule.boiler_status},
+										{wifi_strength: myModule.wifi_strength},
+										{plug_connected_boiler: myModule.plug_connected_boiler},
+										{hardware_version: myModule.hardware_version},
+										{boiler_cable: myModule.boiler_cable} ));
 								}
-
+							}
+						}
+						room_id = null;
+						for(const myModule in myModules) {
+							if (myModules[myModule].type == glob.APIRequest_homesdata_NAPlug) {
 								myRooms.push(Object.assign({},
 									{myHome: that._getValue(myHome)},
 									room_id,
-									{Set_Temp: Set_Temp},
-									{Set_Mode: Set_Mode},
-									{ModuleName_ID: myModule.ModuleName_ID},
-									{schedule_programs: schedule_programs_local},
-									{active_schedule: myActiveSchedule_local},
-									{module_id: that._getValue(myModule)},
-									{roomName: that._getValue(roomName)},
-									{anticipating: that._getValue(anticipating)},
-									{open_window: that._getValue(open_window)},
-									{reachable: that._getValue(reachable)},
-									{heating_power_request: that._getValue(heating_power_request)},
-									{therm_measured_temperature: that._getValue(therm_measured_temperature)},
-									{therm_setpoint_mode: that._getValue(therm_setpoint_mode)},
-									{therm_setpoint_temperature: that._getValue(therm_setpoint_temperature)},
-									{bridge: myModule.bridge},
-									{deviceName: myModule.deviceName},
-									{type: myModule.type},
-									{battery_state: myModule.battery_state},
-									{firmware_revision: myModule.firmware_revision},
-									{rf_strength: myModule.rf_strength},
-									{boiler_valve_comfort_boost: myModule.boiler_valve_comfort_boost},
-									{boiler_status: myModule.boiler_status},
-									{wifi_strength: myModule.wifi_strength},
-									{plug_connected_boiler: myModule.plug_connected_boiler},
-									{hardware_version: myModule.hardware_version},
-									{boiler_cable: myModule.boiler_cable} ));
+									{Set_Temp: null},
+									{Set_Mode: null},
+									{ModuleName_ID: myModules[myModule].ModuleName_ID},
+									{schedule_programs: null},
+									{active_schedule: null},
+									{thermmode_programs: null},
+									{active_thermmode: null},
+									{module_id: myModules[myModule].val},
+									{roomName: null},
+									{anticipating: null},
+									{open_window: null},
+									{reachable: null},
+									{heating_power_request: null},
+									{therm_measured_temperature: null},
+									{therm_setpoint_mode: null},
+									{therm_setpoint_temperature: null},
+									{bridge: myModules[myModule].bridge},
+									{deviceName: myModules[myModule].deviceName},
+									{type: myModules[myModule].type},
+									{battery_state: myModules[myModule].battery_state},
+									{firmware_revision: myModules[myModule].firmware_revision},
+									{rf_strength: myModules[myModule].rf_strength},
+									{boiler_valve_comfort_boost: myModules[myModule].boiler_valve_comfort_boost},
+									{boiler_status: myModules[myModule].boiler_status},
+									{wifi_strength: myModules[myModule].wifi_strength},
+									{plug_connected_boiler: myModules[myModule].plug_connected_boiler},
+									{hardware_version: myModules[myModule].hardware_version},
+									{boiler_cable: myModules[myModule].boiler_cable} ));
 							}
 						}
-					}
-					room_id = null;
-					for(const myModule in myModules) {
-						if (myModules[myModule].type == glob.APIRequest_homesdata_NAPlug) {
-							myRooms.push(Object.assign({},
-								{myHome: that._getValue(myHome)},
-								room_id,
-								{Set_Temp: null},
-								{Set_Mode: null},
-								{ModuleName_ID: myModules[myModule].ModuleName_ID},
-								{schedule_programs: null},
-								{active_schedule: null},
-								{module_id: myModules[myModule].val},
-								{roomName: null},
-								{anticipating: null},
-								{open_window: null},
-								{reachable: null},
-								{heating_power_request: null},
-								{therm_measured_temperature: null},
-								{therm_setpoint_mode: null},
-								{therm_setpoint_temperature: null},
-								{bridge: myModules[myModule].bridge},
-								{deviceName: myModules[myModule].deviceName},
-								{type: myModules[myModule].type},
-								{battery_state: myModules[myModule].battery_state},
-								{firmware_revision: myModules[myModule].firmware_revision},
-								{rf_strength: myModules[myModule].rf_strength},
-								{boiler_valve_comfort_boost: myModules[myModule].boiler_valve_comfort_boost},
-								{boiler_status: myModules[myModule].boiler_status},
-								{wifi_strength: myModules[myModule].wifi_strength},
-								{plug_connected_boiler: myModules[myModule].plug_connected_boiler},
-								{hardware_version: myModules[myModule].hardware_version},
-								{boiler_cable: myModules[myModule].boiler_cable} ));
+						if (myRooms) {
+							resolve(myRooms);
+						} else {
+							reject(null);
 						}
-					}
-					if (myRooms) {
-						resolve(myRooms);
 					} else {
 						reject(null);
 					}
@@ -1585,11 +1666,11 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Get all valves
-	_getAllValves(obj, mySchedules, myActiveSchedule) {
+	_getAllValves(obj, mySchedules, myActiveSchedule, myActiveModes, myActiveThermMode) {
 		this._getAllModules()
 			// eslint-disable-next-line no-unused-vars
 			.then(myModules => {
-				this._getAllRooms(myModules, mySchedules, myActiveSchedule)
+				this._getAllRooms(myModules, mySchedules, myActiveSchedule, myActiveModes, myActiveThermMode)
 					.then(myRooms => {
 						this.sendTo(obj.from, obj.command, myRooms, obj.callback);
 					})
@@ -1632,11 +1713,15 @@ class NetatmoEnergy extends utils.Adapter {
 			if (local_command.search(glob.APIRequest_switchhomeschedule) == 0) {
 				local_command = glob.APIRequest_switchhomeschedule;
 			}
+			if (local_command.search(glob.APIRequest_setthermmode) == 0) {
+				local_command = glob.APIRequest_setthermmode;
+			}
 
 			switch (local_command) {
+				case glob.APIRequest_setthermmode:
 				case glob.APIRequest_switchhomeschedule:
 					try {
-						this.setState(this._getDP([this.globalAPIChannel, glob.Channel_switchhomeschedule, obj.command]), true, false);
+						this.setState(this._getDP([this.globalAPIChannel, local_command, obj.command]), true, false);
 					} catch(e) {
 						//Error
 					}
@@ -1703,15 +1788,24 @@ class NetatmoEnergy extends utils.Adapter {
 
 				case glob.GetValves:
 					if (obj.callback) {
-						this._getAllAPISchedules()
+						this._getAllAPIRequests(glob.Channel_switchhomeschedule, glob.APIRequest_switchhomeschedule, {})
 							// eslint-disable-next-line no-unused-vars
 							.then(MySchedules => {
-								this._getActiveSchedule()
-									.then(myActiveSchedule => {
-										this._getAllValves(obj, MySchedules, myActiveSchedule);
+								this._getAllAPIRequests(glob.Channel_setthermmode, glob.APIRequest_setthermmode, glob.List_thermmode)
+									.then(myActiveModes => {
+										this._getActiveSchedule()
+											.then(myActiveSchedule => {
+												this._getActiveThermMode(glob.List_thermmode)
+													.then(myActiveThermMode => {
+														this._getAllValves(obj, MySchedules, myActiveSchedule, myActiveModes, myActiveThermMode);
+													})
+													.catch(() => {
+													});
+											})
+											.catch(() => {
+											});
 									})
 									.catch(() => {
-
 									});
 							})
 							.catch(() => {

@@ -1241,6 +1241,42 @@ const _systemDictionary = {
 		"pl": "„ochrona przed mrozem”",
 		"zh-cn": "“防冻罩”"
 	},
+	"switchhomeschedule away from home": {
+		"en": "Away from home",
+		"de": "Nicht zu Hause",
+		"ru": "Вдали от дома",
+		"pt": "Longe de casa",
+		"nl": "Weg van huis",
+		"fr": "Loin de la maison",
+		"it": "Lontano da casa",
+		"es": "Lejos de casa",
+		"pl": "Daleko od domu",
+		"zh-cn": "离开家"
+	},
+	"switchhomeschedule schedule": {
+		"en": "Time schedule",
+		"de": "Zeitplan",
+		"ru": "График",
+		"pt": "Horário",
+		"nl": "Tijdschema",
+		"fr": "Horaire",
+		"it": "Orario",
+		"es": "Horario",
+		"pl": "Harmonogram czasowy",
+		"zh-cn": "时间表"
+	},
+	"switchhomeschedule frost guard": {
+		"en": "Frost guard",
+		"de": "Frostwächter",
+		"ru": "Морозный страж",
+		"pt": "Guarda-gelo",
+		"nl": "Vorstbewaker",
+		"fr": "Garde de gel",
+		"it": "Protezione antigelo",
+		"es": "Guardia de escarcha",
+		"pl": "Strażnik mrozu",
+		"zh-cn": "霜卫士"
+	},
 	"Refresh whole structure:": {
 		"en": "Refresh whole structure:",
 		"de": "Gesamte Struktur aktualisieren:",
@@ -2128,6 +2164,42 @@ const _systemDictionary = {
 		"es": "plano real:",
 		"pl": "Aktualny plan:",
 		"zh-cn": "实际计划："
+	},
+	"Can not get active heating plan!": {
+		"en": "Can not get active heating plan!",
+		"de": "Aktiver Heizplan kann nicht abgerufen werden!",
+		"ru": "Не могу получить активный план отопления!",
+		"pt": "Não é possível obter o plano de aquecimento ativo!",
+		"nl": "Kan geen actief verwarmingsplan krijgen!",
+		"fr": "Impossible d'activer le plan de chauffage !",
+		"it": "Impossibile ottenere un piano di riscaldamento attivo!",
+		"es": "¡No se puede activar el plan de calefacción!",
+		"pl": "Nie można uzyskać aktywnego planu ogrzewania!",
+		"zh-cn": "无法获得主动供暖计划！"
+	},
+	"Can not get active mode!": {
+		"en": "Can not get active mode!",
+		"de": "Kann den aktiven Modus nicht erhalten!",
+		"ru": "Не могу получить активный режим!",
+		"pt": "Não é possível obter o modo ativo!",
+		"nl": "Kan de actieve modus niet krijgen!",
+		"fr": "Impossible d'obtenir le mode actif !",
+		"it": "Impossibile ottenere la modalità attiva!",
+		"es": "¡No se puede obtener el modo activo!",
+		"pl": "Nie można uzyskać aktywnego trybu!",
+		"zh-cn": "无法进入活动模式！"
+	},
+	"Can not get active thermostat mode!": {
+		"en": "Can not get active thermostat mode!",
+		"de": "Der aktive Thermostatmodus kann nicht aufgerufen werden!",
+		"ru": "Не удается получить активный режим термостата!",
+		"pt": "Não é possível obter o modo de termostato ativo!",
+		"nl": "Kan geen actieve thermostaatmodus krijgen!",
+		"fr": "Impossible d'activer le mode thermostat !",
+		"it": "Impossibile ottenere la modalità termostato attiva!",
+		"es": "¡No se puede activar el modo de termostato!",
+		"pl": "Nie można uzyskać aktywnego trybu termostatu!",
+		"zh-cn": "无法获得主动恒温器模式！"
 	}
 };
 

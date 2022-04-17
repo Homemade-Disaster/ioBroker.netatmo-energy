@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.2.5",
+		"version": "1.3.0",
 		"news": {
+			"1.3.0": {
+				"en": "Change thermostat mode functionality added to thermostat card",
+				"de": "Funktion zum Ändern des Thermostatmodus zur Thermostatkarte hinzugefügt",
+				"ru": "В карточку термостата добавлена функция изменения режима термостата.",
+				"pt": "Alterar a funcionalidade do modo termostato adicionada ao cartão do termostato",
+				"nl": "Functie van thermostaatmodus wijzigen toegevoegd aan thermostaatkaart",
+				"fr": "Modifier la fonctionnalité du mode thermostat ajoutée à la carte du thermostat",
+				"it": "Funzionalità Modifica modalità termostato aggiunta alla scheda termostato",
+				"es": "Cambiar la funcionalidad del modo de termostato agregada a la tarjeta del termostato",
+				"pl": "Funkcja zmiany trybu termostatu dodana do karty termostatu",
+				"zh-cn": "更改恒温器模式功能添加到恒温器卡"
+			},
 			"1.2.5": {
 				"en": "switchhomeschedule added to cards",
 				"de": "switchhomeschedule zu Karten hinzugefügt",

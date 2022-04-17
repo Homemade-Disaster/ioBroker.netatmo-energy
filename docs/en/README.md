@@ -96,7 +96,7 @@ On the Admin-Tab you can see all thermostates, plugs and valves from your netatm
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
 
-On each card you can find status icons, which show you the actual state of each thermostat, valve and plug.
+On each card you can find status icons, which show you the actual state of each thermostat, valve and plug. On the second page of the thermostat you can find major API requests to change the thermostat mode and the schedule mode.
 
 ## Widget
 Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other fields dynamically out of the "rooms"-structure.
