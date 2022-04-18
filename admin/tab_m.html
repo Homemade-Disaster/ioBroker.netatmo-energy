@@ -387,6 +387,7 @@
             
                     let battery_state               = valve.battery_state;
                     let battery_state_cls           = getBatteryCls(battery_state);
+                    let battery_level               = valve.battery_level;
             
                     let heating_power_request       = valve.heating_power_request;
                     let heating_power_request_cls   = getHeaterCls(heating_power_request);   
@@ -433,30 +434,7 @@
                                                 <div style="height: 100%;">
                                                     ${img_src.img != undefined && img_src.img!= null ? `
                                                         <img src="${img_src.img}" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
-                                                    ` : ''}
-                                                    ${friendlyName != undefined && friendlyName!= null ? `
-                                                        <div id="friendly_name" class="card-title truncate" style="margin-right: 5px;">${friendlyName}  
-                                                        </div>
-                                                    ` : ''}
-                                                    ${temp_act != undefined && temp_act!= null ? `
-                                                        <ul style="margin: 0px;"><b class="translate">Actual temperature:</b> ${temp_act.toFixed(1)}</ul>
-                                                    ` : ''}
-                                                    ${temp_set != undefined && temp_set!= null ? `
-                                                        <ul id="${mod_id_internal}_setTemp_TempValve" data_point="${temp_set.toFixed(1)}" data_folder="${setMode}" class="${id}_setTemp_Class ${valve.type}" style="margin: 0px;">
-                                                            <b class="translate">Target temperature:</b> ${temp_set.toFixed(1)} 
-                                                        </ul>
-                                                    ` : ''}
-                                                    ${temp_set != undefined && temp_set!= null ? `
-                                                        <input id="${id}_setTemp" data_point="${setTemp}" type="range" min="7" max="30" step="0.5" value="${temp_set}" class="myslider ${id}_slider_Class" onchange="setTempValve(this.value, this)">
-                                                    ` : ''}
-                                                    ${plug_connected_boiler != undefined && plug_connected_boiler!= null ? ((plug_connected_boiler.value > 0) ? 
-                                                        `<ul style="margin: 0px;"><b class="translate">Plug is connected to boiler</b></ul>` 
-                                                        :
-                                                        `<ul style="margin: 0px;"><b class="translate">Plug is not connected to boiler</b></ul>`) : ''}
-                                                    ${boiler_cable != undefined && boiler_cable!= null ? ((boiler_cable.value == true) ? 
-                                                        `<ul style="margin: 0px;"><b class="translate">Boiler cable used</b></ul>` 
-                                                        :
-                                                        `<ul style="margin: 0px;"><b class="translate">Boiler cable not used</b></ul>`) : ''}                                                                                                              
+                                                    ` : ''}                                                                                                          
                                                 </div>  
                                                 
                                                 <div class="info">
@@ -516,6 +494,37 @@
                                                         </div>` : ''}
                                                 </div>  
                                             </div>
+                                            <div class="card-details">
+                                                ${friendlyName != undefined && friendlyName!= null ? `
+                                                    <div id="friendly_name" class="card-title truncate" style="margin-right: 5px;">${friendlyName}  
+                                                    </div>
+                                                ` : ''}
+                                                ${temp_act != undefined && temp_act!= null ? `
+                                                    <ul style="margin: 0px;"><b class="translate">Actual temperature:</b> ${temp_act.toFixed(1)}</ul>
+                                                ` : ''}
+                                                ${temp_set != undefined && temp_set!= null ? `
+                                                    <ul id="${mod_id_internal}_setTemp_TempValve" data_point="${temp_set.toFixed(1)}" data_folder="${setMode}" class="${id}_setTemp_Class ${valve.type}" style="margin: 0px;">
+                                                        <b class="translate">Target temperature:</b> ${temp_set.toFixed(1)} 
+                                                    </ul>
+                                                ` : ''}
+                                                ${temp_set != undefined && temp_set!= null ? `
+                                                    <input id="${id}_setTemp" data_point="${setTemp}" type="range" min="7" max="30" step="0.5" value="${temp_set}" class="myslider ${id}_slider_Class" onchange="setTempValve(this.value, this)">
+                                                ` : ''}
+                                                ${plan_active != undefined && plan_active!= null ? `
+                                                    <ul style="margin: 0px;"><b class="translate">Heating Plan:</b> ${plan_active}</ul>
+                                                ` : ''}
+                                                ${thermmode_active != undefined && thermmode_active!= null ? `
+                                                    <ul style="margin: 0px;"><b class="translate">Mode:</b> ${thermmode_active}</ul>
+                                                ` : ''}
+                                                ${plug_connected_boiler != undefined && plug_connected_boiler!= null ? ((plug_connected_boiler.value > 0) ? 
+                                                    `<ul style="margin: 0px;"><b class="translate">Plug is connected to boiler</b></ul>` 
+                                                    :
+                                                    `<ul style="margin: 0px;"><b class="translate">Plug is not connected to boiler</b></ul>`) : ''}
+                                                ${boiler_cable != undefined && boiler_cable!= null ? ((boiler_cable.value == true) ? 
+                                                    `<ul style="margin: 0px;"><b class="translate">Boiler cable used</b></ul>` 
+                                                    :
+                                                    `<ul style="margin: 0px;"><b class="translate">Boiler cable not used</b></ul>`) : ''}    
+                                            </div>
                                         </div>
                                         <div class="card-action">
                                             <div style="margin-left: auto;">
@@ -560,6 +569,9 @@
                                                         ` : ''}
                                                         ${wifi_strength != undefined && wifi_strength!= null ? `
                                                             <ul style="margin: 0px;"><b class="translate">Wifi strength:</b> ${wifi_strength}</ul>
+                                                        ` : ''}
+                                                        ${battery_level != undefined && battery_level!= null ? `
+                                                            <ul style="margin: 0px;"><b class="translate">Battery voltage:</b> ${battery_level} V</ul>
                                                         ` : ''}
                                                     </div>
                                                 </div>
@@ -625,6 +637,17 @@
                 const id       = $trigger.data('api-request');
                 
                 sendTo(namespace, id, {id}, function (data) {});
+                var $sel = $('#messages');
+                let wait_html = '';
+                wait_html = `<div style="float: left">
+                                <img src="img/check.png" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                            </div>
+                            <div class="col">    
+                                <h6 class="translate">Request was sent to Netatmo Cloud</h6>
+                            </div>`;
+                $sel.html(wait_html);
+                $('#netatmo_energy_close_all').show();
+                translateAll();
             });
 
             /* Open modal for device friendly name editing */

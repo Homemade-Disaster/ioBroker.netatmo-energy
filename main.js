@@ -1495,6 +1495,7 @@ class NetatmoEnergy extends utils.Adapter {
 									const type                       = await that.getStateAsync(that._getDP([myTargetName, 'type']));
 									const bridge                     = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'bridge']));
 									const battery_state              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'battery_state']));
+									const battery_level              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'battery_level']));
 									const firmware_revision          = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'firmware_revision']));
 									const rf_strength                = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'rf_strength']));
 									const boiler_status              = await that.getStateAsync(that._getDP([myTargetName, glob.Channel_modulestatus, 'boiler_status']));
@@ -1512,6 +1513,7 @@ class NetatmoEnergy extends utils.Adapter {
 										{boiler_status: that._getValue(boiler_status)},
 										{boiler_valve_comfort_boost: that._getValue(boiler_valve_comfort_boost)},
 										{battery_state: that._getValue(battery_state)},
+										{battery_level: that._getValue(battery_level)},
 										{firmware_revision: that._getValue(firmware_revision)},
 										{rf_strength: that._getValue(rf_strength)},
 										{wifi_strength: that._getValue(wifi_strength)},
@@ -1605,6 +1607,7 @@ class NetatmoEnergy extends utils.Adapter {
 										{deviceName: myModule.deviceName},
 										{type: myModule.type},
 										{battery_state: myModule.battery_state},
+										{battery_level: myModule.battery_level},
 										{firmware_revision: myModule.firmware_revision},
 										{rf_strength: myModule.rf_strength},
 										{boiler_valve_comfort_boost: myModule.boiler_valve_comfort_boost},

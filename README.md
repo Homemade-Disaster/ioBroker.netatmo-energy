@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 1.3.1 (2022-04-18)
+* (ioKlausi) Additional informations added to admin tab cards
+
 ### 1.3.0 (2022-04-17)
 * (ioKlausi) Change thermostat mode functionality added to thermostat card
 

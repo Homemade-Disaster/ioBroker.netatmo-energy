@@ -2200,6 +2200,54 @@ const _systemDictionary = {
 		"es": "¡No se puede activar el modo de termostato!",
 		"pl": "Nie można uzyskać aktywnego trybu termostatu!",
 		"zh-cn": "无法获得主动恒温器模式！"
+	},
+	"Heating Plan:": {
+		"en": "Heating Plan:",
+		"de": "Heizplan:",
+		"ru": "План отопления:",
+		"pt": "Plano de aquecimento:",
+		"nl": "Verwarmingsplan:",
+		"fr": "Plan de chauffage :",
+		"it": "Piano di riscaldamento:",
+		"es": "Plan de calefacción:",
+		"pl": "Plan ogrzewania:",
+		"zh-cn": "供暖计划："
+	},
+	"Mode:": {
+		"en": "Mode:",
+		"de": "Modus:",
+		"ru": "Режим:",
+		"pt": "Modo:",
+		"nl": "Modus:",
+		"fr": "Mode:",
+		"it": "Modalità:",
+		"es": "Modo:",
+		"pl": "Tryb:",
+		"zh-cn": "模式："
+	},
+	"Request was sent to Netatmo Cloud": {
+		"en": "Request was sent to Netatmo Cloud",
+		"de": "Anfrage wurde an Netatmo Cloud gesendet",
+		"ru": "Запрос отправлен в облако Netatmo",
+		"pt": "A solicitação foi enviada para o Netatmo Cloud",
+		"nl": "Verzoek is verzonden naar Netatmo Cloud",
+		"fr": "La demande a été envoyée à Netatmo Cloud",
+		"it": "La richiesta è stata inviata a Netatmo Cloud",
+		"es": "La solicitud fue enviada a Netatmo Cloud",
+		"pl": "Żądanie zostało wysłane do Netatmo Cloud",
+		"zh-cn": "请求已发送到 Netatmo Cloud"
+	},
+	"Battery voltage:": {
+		"en": "Battery voltage:",
+		"de": "Batteriespannung:",
+		"ru": "Напряжение батареи:",
+		"pt": "Voltagem da bateria:",
+		"nl": "Batterij voltage:",
+		"fr": "Voltage de batterie:",
+		"it": "Voltaggio batteria:",
+		"es": "Voltaje de la batería:",
+		"pl": "Napięcie baterii:",
+		"zh-cn": "电池电压："
 	}
 };
 

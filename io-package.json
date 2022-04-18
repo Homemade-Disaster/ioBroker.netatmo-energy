@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "netatmo-energy",
-		"version": "1.3.0",
+		"version": "1.3.1",
 		"news": {
+			"1.3.1": {
+				"en": "Additional informations added to admin tab cards",
+				"de": "Zusätzliche Informationen zu Admin-Tab Registerkarten hinzugefügt",
+				"ru": "Добавлена дополнительная информация на карточки вкладок администратора",
+				"pt": "Informações adicionais adicionadas aos cartões da guia do administrador",
+				"nl": "Aanvullende informatie toegevoegd aan beheerderstabbladen",
+				"fr": "Informations supplémentaires ajoutées aux onglets d'administration",
+				"it": "Informazioni aggiuntive aggiunte alle schede della scheda amministratore",
+				"es": "Información adicional agregada a las tarjetas de pestañas de administración",
+				"pl": "Dodatkowe informacje dodane do kart admina",
+				"zh-cn": "添加到管理选项卡的附加信息"
+			},
 			"1.3.0": {
 				"en": "Change thermostat mode functionality added to thermostat card",
 				"de": "Funktion zum Ändern des Thermostatmodus zur Thermostatkarte hinzugefügt",
@@ -86,163 +98,7 @@
 				"es": "Cerrar funcionalidad de mensaje agregada en la pestaña de administración",
 				"pl": "Dodano funkcję zamykania wiadomości na karcie administratora",
 				"zh-cn": "在管理选项卡上添加了关闭消息功能"
-			},
-			"1.1.7": {
-				"en": "Bridge assignment added to each card",
-				"de": "Bridge Zuordnung zu jeder Karte hinzugefügt",
-				"ru": "Назначение моста добавлено к каждой карте",
-				"pt": "Atribuição de ponte adicionada a cada cartão",
-				"nl": "Brugopdracht toegevoegd aan elke kaart",
-				"fr": "Affectation de pont ajoutée à chaque carte",
-				"it": "Assegnazione bridge aggiunta a ciascuna carta",
-				"es": "Asignación de puente añadida a cada tarjeta",
-				"pl": "Przypisanie pomostu dodane do każdej karty",
-				"zh-cn": "每张卡片都添加了桥牌分配"
-			},
-			"1.1.6": {
-				"en": "Rework README.MD",
-				"de": "README.MD überarbeiten",
-				"ru": "Переработка README.MD",
-				"pt": "Retrabalhar README.MD",
-				"nl": "Herwerk README.MD",
-				"fr": "Retravailler README.MD",
-				"it": "Rielabora README.MD",
-				"es": "Reelaborar README.MD",
-				"pl": "Przerób README.MD",
-				"zh-cn": "返工 README.MD"
-			},
-			"1.1.5": {
-				"en": "Refresh functionality added to admin tab",
-				"de": "Aktualisierungsfunktion zum Admin-Tab hinzugefügt",
-				"ru": "Функция обновления добавлена на вкладку администратора",
-				"pt": "Atualize a funcionalidade adicionada à guia de administração",
-				"nl": "Vernieuwingsfunctionaliteit toegevoegd aan beheerderstabblad",
-				"fr": "Fonctionnalité d'actualisation ajoutée à l'onglet admin",
-				"it": "Funzionalità di aggiornamento aggiunta alla scheda amministratore",
-				"es": "Funcionalidad de actualización agregada a la pestaña de administración",
-				"pl": "Dodano funkcję odświeżania do karty administratora",
-				"zh-cn": "刷新功能添加到管理选项卡"
-			},
-			"1.1.4": {
-				"en": "Bridge added to admin tab",
-				"de": "Bridge zum Admin-Tab hinzugefügt",
-				"ru": "Мост добавлен на вкладку администратора",
-				"pt": "Bridge adicionado à guia de administração",
-				"nl": "Bridge toegevoegd aan beheerderstabblad",
-				"fr": "Pont ajouté à l'onglet admin",
-				"it": "Bridge aggiunto alla scheda amministratore",
-				"es": "Bridge agregado a la pestaña de administración",
-				"pl": "Bridge dodany do karty administratora",
-				"zh-cn": "桥添加到管理选项卡"
-			},	
-			"1.1.3": {
-				"en": "Admin tab for valves added",
-				"de": "Admin-Tab für Ventile hinzugefügt",
-				"ru": "Добавлена вкладка администратора для клапанов",
-				"pt": "Aba de administração para válvulas adicionadas",
-				"nl": "Admin-tabblad voor kleppen toegevoegd",
-				"fr": "Onglet Admin pour les vannes ajoutées",
-				"it": "Aggiunta la scheda Admin per le valvole",
-				"es": "Pestaña de administración para válvulas añadidas",
-				"pl": "Dodano zakładkę Admin dla zaworów",
-				"zh-cn": "添加了阀门的管理选项卡"
-			},	
-			"1.1.2": {
-				"en": "Bugfix Easy Admin",
-				"de": "Fehlerbehebung Easy Admin",
-				"ru": "Исправление ошибки Easy Admin",
-				"pt": "Correção de bugs fácil de administração",
-				"nl": "Bugfix Eenvoudige Admin",
-				"fr": "Correction de bugs Administrateur facile",
-				"it": "Bugfix Easy Admin",
-				"es": "Fácil administración de corrección de errores",
-				"pl": "Łatwy administrator naprawiania błędów",
-				"zh-cn": "错误修复 轻松管理"
-			},				
-			"1.1.1": {
-				"en": "Bugfix: setroomthermpoint",
-				"de": "Bugfix: Raumthermopunkt setzen",
-				"ru": "Исправление: setroomthermpoint",
-				"pt": "Correção de bug: setroomthermpoint",
-				"nl": "Bugfix: setroomthermpoint",
-				"fr": "Correctif : setroomthermpoint",
-				"it": "Bugfix: setroomthermpoint",
-				"es": "Corrección de errores: setroomthermpoint",
-				"pl": "Poprawka: setroomthermpoint",
-				"zh-cn": "错误修正：setroomthermpoint"
-			  },
-			"1.1.0": {
-				"en": "Trigger for valve-mode implemented",
-				"de": "Trigger für Ventilmodus implementiert",
-				"ru": "Реализован триггер для режима клапана",
-				"pt": "Gatilho para modo de válvula implementado",
-				"nl": "Trigger voor klepmodus geïmplementeerd",
-				"fr": "Déclencheur pour le mode valve implémenté",
-				"it": "Attivato il trigger per la modalità valvola",
-				"es": "Disparador para modo de válvula implementado",
-				"pl": "Wdrożony wyzwalacz dla trybu zaworu",
-				"zh-cn": "已实现阀门模式的触发器"
-			  },
-			"1.0.4": {
-				"en": "Bugfix: Send message",
-				"de": "Bugfix: Nachricht senden",
-				"ru": "Исправлено: отправить сообщение",
-				"pt": "Correção de bug: Enviar mensagem",
-				"nl": "Bugfix: bericht verzenden",
-				"fr": "Correction de bug : Envoyer un message",
-				"it": "Bugfix: Invia messaggio",
-				"es": "Corrección de errores: Enviar mensaje",
-				"pl": "Bugfix: Wyślij wiadomość",
-				"zh-cn": "错误修正：发送消息"
-			  },
-			"1.0.3": {
-				"en": "Transfered Customizing-UI to json",
-				"de": "Customizing-UI nach json übertragen",
-				"ru": "Переведен Customizing-UI в json",
-				"pt": "Customizing-UI transferido para json",
-				"nl": "Customizing-UI overgezet naar json",
-				"fr": "Transfert de l'interface utilisateur de personnalisation vers json",
-				"it": "Trasferito Customizing-UI in json",
-				"es": "Transferencia de Customizing-UI a json",
-				"pl": "Przeniesiono dostosowywanie-UI do json",
-				"zh-cn": "将定制 UI 转移到 json"
-			  },
-			"1.0.2": {
-				"en": "Redesign coding",
-				"de": "Codierung neu gestalten",
-				"ru": "Редизайн кодирования",
-				"pt": "Redesign de codificação",
-				"nl": "Codering opnieuw ontwerpen",
-				"fr": "Refonte du codage",
-				"it": "Riprogettare la codifica",
-				"es": "Codificación de rediseño",
-				"pl": "Przeprojektuj kodowanie",
-				"zh-cn": "重新设计编码"
-			  },
-			"1.0.1": {
-				"en": "Redesign coding",
-				"de": "Codierung neu gestalten",
-				"ru": "Редизайн кодирования",
-				"pt": "Redesign de codificação",
-				"nl": "Codering opnieuw ontwerpen",
-				"fr": "Refonte du codage",
-				"it": "Riprogettare la codifica",
-				"es": "Codificación de rediseño",
-				"pl": "Przeprojektuj kodowanie",
-				"zh-cn": "重新设计编码"
-			  },
-			"1.0.0": {
-				"en": "Create major version",
-				"de": "Hauptversion erstellen",
-				"ru": "Создать основную версию",
-				"pt": "Criar versão principal",
-				"nl": "Hoofdversie maken",
-				"fr": "Créer une version majeure",
-				"it": "Crea la versione principale",
-				"es": "Crear versión principal",
-				"pl": "Utwórz wersję główną",
-				"zh-cn": "创建主要版本"
-		  }
+			}
 		},
 		"title": "Netatmo Energy",
 		"titleLang": {
