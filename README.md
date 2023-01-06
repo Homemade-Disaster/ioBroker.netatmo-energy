@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.0.1 (2023-01-06)
+* (ioKlausi) Corrections for OAuth2
+
 ### 2.0.0 (2023-01-06)
 * (ioKlausi) New authentication method established
 
