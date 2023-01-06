@@ -128,6 +128,7 @@ class NetatmoEnergy extends utils.Adapter {
 		if (((this.config.NewOAuthMethode != true) && (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password)) || ((this.config.NewOAuthMethode == true) && (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID))) {
 			this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
 			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
+			return;
 		}
 		//Passwort decryption
 		// @ts-ignore
@@ -1186,11 +1187,8 @@ class NetatmoEnergy extends utils.Adapter {
 		this.log.debug(mytools.tl('Set room attributes', this.systemLang));
 		const trigger_id = this._getDP([actId.parent, glob.Channel_settings, glob.Trigger_SetHome]);
 		const trigger = await this.getStateAsync(trigger_id);
-		this.log.info('CHangeMode0: ' + trigger_id);
-		this.log.info('CHangeMode1: ' + ((trigger) ? trigger.val : ''));
 		if (this.config.applyimmediately || (trigger && trigger.val == true)) {
 			if (trigger && trigger.val == true) await this.setState(trigger_id, false, true);
-			this.log.info('CHangeMode2: ' + actId.parent);
 			await this.applySingleActualTemp(state,actId.parent,glob.APIRequest_setroomthermpoint,glob.APIRequest_setroomthermpoint_manual,false);
 		} else {
 			await this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state, this._getDP([actId.path, glob.State_TempChanged]));
@@ -2069,7 +2067,7 @@ class NetatmoEnergy extends utils.Adapter {
 					if (!this.config.ClientId || !this.config.ClientSecretID) {
 						if (this.config.ClientId || this.config.ClientSecretID) {
 							this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
-							//this.log.warn(mytools.tl('Only one of client_id or client_secret was set, using default values!', this.systemLang));
+							return;
 						}
 					}
 					auth_args.ClientId = this.config.ClientId;
@@ -2084,7 +2082,6 @@ class NetatmoEnergy extends utils.Adapter {
 					if (redirectData != null) {
 						this.storedOAuthData[redirectData.state] = auth_args;
 						this.log.debug(mytools.tl('Get OAuth start link: ', this.systemLang) + redirectData.url);
-						this.log.warn('OBJ: Cb ' + obj.callback + ' -F ' + obj.from + ' -C ' + obj.command );
 						obj.callback && this.sendTo(obj.from, obj.command, {openUrl: redirectData.url}, obj.callback);
 					}
 					break;

@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.0.0",
+        "version": "2.0.1",
         "news": {
+            "2.0.1": {
+                "en": "Corrections for OAuth2",
+                "de": "Korrekturen für OAuth2",
+                "ru": "Исправления для OAuth2",
+                "pt": "Correções para OAuth2",
+                "nl": "Vertaling:",
+                "fr": "Corrections pour OAuth2",
+                "it": "Correzioni per OAuth2",
+                "es": "Correcciones para OAuth2",
+                "pl": "OAuth2 (ang.)",
+                "uk": "Корекції для OAuth2",
+                "zh-cn": "Auth2号更正"
+            },
             "2.0.0": {
                 "en": "New authentication method established",
                 "de": "Neue Authentifizierungsmethode etabliert",
@@ -278,7 +291,7 @@
         "NewOAuthMethode": true,
         "applyimmediately": false,
         "getchangesimmediately": true,
-        "refreshstates": 0,
+        "refreshstates": 180,
         "notifications": "000",
         "notificationEnabled": false,
         "notificationsType": "telegram",
