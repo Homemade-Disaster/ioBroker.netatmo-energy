@@ -16,7 +16,7 @@
 ## Voraussetzungen & Konfiguration
 Netatmo Energy Hardware (Thermostat, Ventile)
 Konto bei Netatmo Cloud
-- Der Adapter arbeitet mit admin => 3 und nodejs >= 12
+- Der Adapter arbeitet mit admin => 3 und nodejs >= 14
 - Erstelle dein eigenes Konto https://auth.netatmo.com/de-de/access/signup
 - Login in die API durchführen https://dev.netatmo.com/apidocumentation/energy
 - Erzeuge deine eigene APP durch Anklicken deines Kontos (oben / links), und drücke den Knopf "Create"
