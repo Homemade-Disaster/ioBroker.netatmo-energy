@@ -3,6 +3,7 @@
 // Load modules
 const utils   = require('@iobroker/adapter-core');
 const abort   = require('abort-controller');
+const fs 	  = require('fs');
 // @ts-ignore
 const fetch   = require('fetch');
 const mytools = require('./lib/mytools');
@@ -22,6 +23,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 
+		//Objects
 		this.globalDevice				= null;
 		this.globalAPIChannel			= '';
 		this.globalAPIChannelTrigger	= null;
@@ -36,14 +38,27 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalRoomIdArray			= [];
 		this.globalDeviceId				= {};
 		this.globalDeviceIdArray		= [];
+
+		//Language
 		this.systemlang					= 'de';
+
+		//Notifications
 		this.telegram					= {};
 		this.whatsapp					= {};
 		this.pushover					= {};
 		this.email						= {};
+
+		//Adapter status
+		this.FetchAbortController		= new abort.AbortController();
 		this.adapterIntervals			= [];
 		this.mySubscribedStates			= [];
-		this.FetchAbortController		= new abort.AbortController();
+		this.AdapterStarted				= false;
+
+		//Authentication
+		this.scope 						= '';
+		this.storedOAuthData			= {};
+		this.storedOAuthStates			= {};
+		this.dataDir					= '';
 	}
 
 	// Decrypt password
@@ -67,10 +82,50 @@ class NetatmoEnergy extends utils.Adapter {
 		return address;
 	}
 
+	//Get stored token from adapter data directory
+	_getStoredToken() {
+		this.dataDir = utils.getAbsoluteInstanceDataDir(this);
+		try {
+			if (!fs.existsSync(this.dataDir)) {
+				fs.mkdirSync(this.dataDir);
+			}
+			if (fs.existsSync(`${this.dataDir}/tokens.json`)) {
+				const tokens = JSON.parse(fs.readFileSync(`${this.dataDir}/tokens.json`, 'utf8'));
+				if (tokens.client_id !== this.config.ClientId) {
+					this.log.info(mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
+					fs.unlinkSync(`${this.dataDir}/tokens.json`);
+				} else {
+					if (!tokens.access_token || !tokens.refresh_token) {
+						this.globalNetatmo_AccessToken = null;
+						this.globalRefreshToken        = null;
+						this.scope                     = '';
+						this.log.error(mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
+					} else {
+						this.globalNetatmo_AccessToken = tokens.access_token;
+						this.globalRefreshToken        = tokens.refresh_token;
+						this.scope                     = tokens.scope;
+						this.log.info(mytools.tl('Using stored tokens to initialize ... ', this.systemLang) + JSON.stringify(tokens));
+						if (tokens.scope !== this.scope) {
+							this.log.info(mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
+						}
+					}
+				}
+			} else {
+				this.globalNetatmo_AccessToken = null;
+				this.globalRefreshToken        = null;
+				this.scope                     = '';
+				this.log.error(mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
+			}
+		} catch (err) {
+			// @ts-ignore
+			this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
+		}
+	}
+
 	// Is called when databases are connected and adapter received configuration
 	async onReady() {
 		//Check adapter configuration
-		if (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password) {
+		if (((this.config.NewOAuthMethode != true) && (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID || !this.config.User || !this.config.Password)) || ((this.config.NewOAuthMethode == true) && (!this.config.HomeId || !this.config.ClientId || !this.config.ClientSecretID))) {
 			this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
 			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
 		}
@@ -95,6 +150,9 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// Start initialization adapter
 	initAdapter(systemLang) {
+		//Get stored token
+		this._getStoredToken();
+
 		// define global constants
 		this.globalDevice				= this._getDP([this.namespace, glob.Device_APIRequests]);
 		this.globalAPIChannel			= this._getDP([this.namespace, glob.Device_APIRequests, glob.Channel_APIRequests]);
@@ -134,9 +192,17 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// Start initialization
 	async startAdapter() {
+		// Check if it is neccessary
+		if (this.AdapterStarted == true) return;
+
 		// Set polling intervall
 		const refreshtime = this.config.refreshstates;
 		const that = this;
+
+		if ((this.config.NewOAuthMethode == true) && (this.globalNetatmo_AccessToken == null || this.globalRefreshToken == null)) {
+			return;
+		}
+
 		const updateAPIStatus = async function () {
 			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + glob.blank + refreshtime + mytools.tl('sec', that.systemLang));
 			await that.RefreshWholeStructure(true);
@@ -147,6 +213,7 @@ class NetatmoEnergy extends utils.Adapter {
 			that.adapterIntervals.push(setInterval(updateAPIStatus, refreshtime * 1000));
 		}
 		//Start initial requests for adapter
+		this.AdapterStarted = true;
 		await this.createEnergyAPP();
 		await this.RefreshWholeStructure(false);
 	}
@@ -307,14 +374,42 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	//Authenticate refresh token
+	async _authenticate_refresh_token(redirect_uri, code) {
+		this.log.info(mytools.tl('Start Token-Refresh:', this.systemLang));
+		await this.getToken(this.config.HomeId, this.config.ClientId, this.config.ClientSecretID, this.config.User, this.config.Password, redirect_uri, code, this.config.NewOAuthMethode)
+			.then(tokenvalues => {
+				this.globalNetatmo_AccessToken	= tokenvalues.access_token;
+				this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
+				this.globalRefreshToken			= tokenvalues.refresh_token;
+				this._saveToken();
+
+				//this.adapterIntervals.push(setInterval(this._authenticate_refresh_token, this.storedOAuthData.redirect_uri, this.storedOAuthData.code, (tokenvalues.expires_in - 20) * 1000), this.globalRefreshToken);
+
+				this.log.debug(mytools.tl('Token OK:', this.systemLang) + glob.blank + this.globalNetatmo_AccessToken);
+				this.startAdapter();
+			})
+			.catch(async (error) => {
+				this.globalNetatmo_AccessToken	= null;
+				this.globalRefreshToken			= null;
+				this.globalNetatmo_ExpiresIn	= 0;
+				this._saveToken();
+				this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+				await this.sendRequestNotification(null, glob.ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+			});
+	}
+
 	// Send API inkluding tokenrequest
-	async sendAPIRequest(APIRequest, setpayload, norefresh, lastrequest) {
+	async sendAPIRequest(API_URI, APIRequest, setpayload, norefresh, lastrequest) {
 		const Netatmo_Path = this.namespace;
 
 		// Refresh the token after it nearly expires
 		const expirationTimeInSeconds = this.globalNetatmo_ExpiresIn;
 		const nowInSeconds = (new Date()).getTime() / 1000;
 		const shouldRefresh = nowInSeconds >= expirationTimeInSeconds;
+		if ((this.config.NewOAuthMethode == true) && (this.globalNetatmo_AccessToken == null || this.globalRefreshToken == null)) {
+			return;
+		}
 
 		this.log.debug(mytools.tl('Start refresh request', this.systemLang));
 		await this.setState(this._getDP([this.globalAPIChannelStatus, glob.State_Status_API_running]), true, true);
@@ -322,31 +417,18 @@ class NetatmoEnergy extends utils.Adapter {
 		//Send Token request to API
 		if (shouldRefresh || !this.globalNetatmo_AccessToken) {
 			this.log.info(mytools.tl('Start Token-request:', this.systemLang) + glob.blank + APIRequest + glob.blank + setpayload);
-			await this.getToken(this.config.HomeId, this.config.ClientId, this.config.ClientSecretID, this.config.User, this.config.Password)
-				.then(tokenvalues => {
-					this.globalNetatmo_AccessToken	= tokenvalues.access_token;
-					this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
-					this.globalRefreshToken			= tokenvalues.refresh_token;
-					this.log.debug(mytools.tl('Token OK:', this.systemLang) + glob.blank + this.globalNetatmo_AccessToken);
-				})
-				.catch(async (error) => {
-					this.globalNetatmo_AccessToken	= null;
-					this.globalRefreshToken			= null;
-					this.globalNetatmo_ExpiresIn	= 0;
-					this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
-					await this.sendRequestNotification(null, glob.ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
-				});
+			await this._authenticate_refresh_token(this.storedOAuthData.redirect_uri, this.storedOAuthData.code);
 		}
 
 		// only send API request if we get the token
-		if (this.globalNetatmo_AccessToken != '' || this.globalNetatmo_AccessToken) {
+		if (this.globalNetatmo_AccessToken != '' && this.globalNetatmo_AccessToken) {
 			if (APIRequest == glob.APIRequest_homestatus) {
 				this.globalRoomIdArray   = [];
 				this.globalDeviceIdArray = [];
 			}
-
+			this.log.info('Token:' + this.globalNetatmo_AccessToken);
 			this.log.info(mytools.tl('Start API-request:', this.systemLang) + glob.blank + APIRequest);
-			await this.getAPIRequest(APIRequest,setpayload)
+			await this.getAPIRequest(API_URI, APIRequest,setpayload, this.config.NewOAuthMethode)
 				.then(async (response) => {
 					switch(APIRequest) {
 						case glob.APIRequest_getroommeasure:
@@ -385,23 +467,34 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//get token from Netatmo
 	// @ts-ignore
-	getToken(HomeId, ClientId, ClientSecretID, User, Password) {
+	getToken(HomeId, ClientId, ClientSecretID, User, Password, redirect_uri, code, NewOAuth) {
 		this.globalNetatmo_AccessToken = null;
 		let payload = '';
 
-		if (!this.globalRefreshToken) {
-			payload = 'grant_type=password' + glob.payload_client_id + ClientId + glob.payload_client_secret + ClientSecretID + glob.payload_username + User + glob.payload_password + Password + glob.payload_scope + 'read_thermostat write_thermostat';
+		if (NewOAuth) {
+			if (!this.globalRefreshToken) {
+				payload = 'code=' + code + '&redirect_uri=' + redirect_uri + '&grant_type=authorization_code' + glob.payload_client_id + ClientId + glob.payload_client_secret + ClientSecretID + glob.payload_scope + this.scope;
+			} else {
+				payload  = 'grant_type=refresh_token' + glob.payload_refresh_token + this.globalRefreshToken + glob.payload_client_id + ClientId + glob.payload_client_secret + ClientSecretID;
+			}
 		} else {
-			payload  = 'grant_type=refresh_token' + glob.payload_refresh_token + this.globalRefreshToken + glob.payload_client_id + ClientId + glob.payload_client_secret + ClientSecretID;
+			if (!this.globalRefreshToken) {
+				payload = 'grant_type=password' + glob.payload_client_id + ClientId + glob.payload_client_secret + ClientSecretID + glob.payload_username + User + glob.payload_password + Password + glob.payload_scope + this.scope;
+			} else {
+				payload  = 'grant_type=refresh_token' + glob.payload_refresh_token + this.globalRefreshToken + glob.payload_client_id + ClientId + glob.payload_client_secret + ClientSecretID;
+			}
 		}
-		return this._myFetch(glob.Netatmo_TokenRequest_URL, payload);
+		return this._myFetch(glob.Netatmo_TokenRequest_URL, payload, NewOAuth);
 	}
 
 	//API request main routine
-	getAPIRequest(NetatmoRequest, extend_payload) {
-		const payload = 'access_token=' + this.globalNetatmo_AccessToken + glob.payload_home_id + this.config.HomeId + extend_payload;
-		this.log.debug(mytools.tl('Request:', this.systemLang) + glob.blank + glob.Netatmo_APIrequest_URL + NetatmoRequest + ((payload) ? '?' + payload : payload));
-		return this._myFetch(glob.Netatmo_APIrequest_URL + NetatmoRequest, payload);
+	getAPIRequest(API_URI, NetatmoRequest, extend_payload, NewOAuth) {
+		let payload = extend_payload;
+		if (API_URI != glob.Netatmo_TokenRequest_URL) {
+			payload = 'access_token=' + this.globalNetatmo_AccessToken + glob.payload_home_id + this.config.HomeId + payload;
+		}
+		this.log.debug(mytools.tl('Request:', this.systemLang) + glob.blank + API_URI + NetatmoRequest + ((payload) ? '?' + payload : payload));
+		return this._myFetch(API_URI + NetatmoRequest, payload, NewOAuth);
 	}
 
 	// send homesdata API Request
@@ -410,13 +503,13 @@ class NetatmoEnergy extends utils.Adapter {
 		if ((gateway_types.match(/&/g) || []).length != 1) {
 			gateway_types = glob.payload_gateway_types + glob.APIRequest_homesdata_NAPlug;
 		}
-		await this.sendAPIRequest(APIRequest, gateway_types, norefresh, true);
+		await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, gateway_types, norefresh, true);
 	}
 
 	// send homesdata API Request
 	async sendHomestatusAPIRequest (APIRequest, norefresh) {
 		const device_types = await this.getValuefromDatapoint(glob.payload_device_types, this._getDP([this.globalAPIChannel, glob.Channel_homestatus, glob.Channel_parameters, glob.State_device_types]));
-		await this.sendAPIRequest(APIRequest, device_types, norefresh, true);
+		await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, device_types, norefresh, true);
 	}
 
 	// send getroomsmeasure API Request
@@ -434,7 +527,7 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_limit,      this._getDP([this.globalAPIChannel, glob.Channel_getroommeasure, glob.Channel_parameters, glob.State_limit]));
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_optimize,   this._getDP([this.globalAPIChannel, glob.Channel_getroommeasure, glob.Channel_parameters, glob.State_optimize]));
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_real_time,  this._getDP([this.globalAPIChannel, glob.Channel_getroommeasure, glob.Channel_parameters, glob.State_real_time]));
-			await this.sendAPIRequest(APIRequest, measure_payload, norefresh, true);
+			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getroosmeasure request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, glob.WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
@@ -455,7 +548,7 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_limit,      this._getDP([this.globalAPIChannel, glob.Channel_getmeasure, glob.Channel_parameters, glob.State_limit]));
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_optimize,   this._getDP([this.globalAPIChannel, glob.Channel_getmeasure, glob.Channel_parameters, glob.State_optimize]));
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_real_time,  this._getDP([this.globalAPIChannel, glob.Channel_getmeasure, glob.Channel_parameters, glob.State_real_time]));
-			await this.sendAPIRequest(APIRequest, measure_payload, norefresh, true);
+			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getmeasure request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, glob.WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
@@ -469,7 +562,7 @@ class NetatmoEnergy extends utils.Adapter {
 			function(resolve,reject) {
 
 				const createAPIasync = async function(NetatmoRequest, mode, that) {
-					await that.sendAPIRequest(NetatmoRequest, mode, false, true);
+					await that.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, mode, false, true);
 					resolve(true);
 				};
 
@@ -547,8 +640,8 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Refresh whole structure
 	async RefreshWholeStructure (norefresh) {
-		await this.sendAPIRequest(glob.APIRequest_homesdata, '', norefresh, false);
-		await this.sendAPIRequest(glob.APIRequest_homestatus, '', norefresh, true);
+		await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, glob.APIRequest_homesdata, '', norefresh, false);
+		await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, glob.APIRequest_homestatus, '', norefresh, true);
 	}
 
 	//Apply request to API for temp
@@ -591,7 +684,7 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.setState(this._getDP([actParent, glob.Channel_settings, glob.State_TempChanged_Endtime]), '', true);
 			}
 			//send request
-			await this.sendAPIRequest(NetatmoRequest, extend_payload, false, true);
+			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, extend_payload, false, true);
 			return true;
 		} else {
 			return false;
@@ -602,7 +695,7 @@ class NetatmoEnergy extends utils.Adapter {
 	async applySingleActualTemp(newTemp,actParent,NetatmoRequest,mode, temp) {
 		await this.applyActualTemp(newTemp,actParent,NetatmoRequest,mode, temp);
 		if (this.config.getchangesimmediately) {
-			await this.sendAPIRequest(glob.APIRequest_homestatus, '', false, true);
+			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, glob.APIRequest_homestatus, '', false, true);
 		}
 	}
 
@@ -616,7 +709,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		if ((syncmode.match(/&/g) || []).length == 4) {
 			syncmode = syncmode + await this.getValuefromDatapoint(glob.payload_schedule_id, this._getDP([this.globalAPIChannel, glob.Channel_synchomeschedule, glob.Channel_parameters, glob.State_schedule_id]));
-			await this.sendAPIRequest(NetatmoRequest, syncmode, norefresh, true);
+			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-synchomeschedule request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, glob.WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters' + 'Actual payload: ' + syncmode);
@@ -624,7 +717,8 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//fetch API request
-	_myFetch(url, payload) {
+	// eslint-disable-next-line no-unused-vars
+	_myFetch(url, payload, NewOAuth) {
 		const that = this;
 		return new Promise(
 			function(resolve,reject) {
@@ -1114,7 +1208,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//Message because of state changes
 	async sendMessage(id, message) {
 		const name = await this.getStateAsync(id);
-		this.log.info('SendMessage: ' + ((name) ? ' (' + name.val + ')' : ''));
+		this.log.info(mytools.tl('SendMessage: ', this.systemLang) + ((name) ? ' (' + name.val + ')' : ''));
 		this.sendRequestNotification(null, glob.SendNotification, mytools.tl('Warning', this.systemLang), message + ((name) ? '(' + name.val + ')' : '') );
 	}
 
@@ -1133,6 +1227,7 @@ class NetatmoEnergy extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
+			this.AdapterStarted = false;
 			this.FetchAbortController.abort();
 			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
@@ -1703,6 +1798,94 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	_getOAuth2AuthenticateStartLink(args) {
+		if (!args) {
+			this.log.error(mytools.tl('Authenticate "args" not set!', this.systemLang));
+			return null;
+		}
+
+		const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		let randomState = '';
+		for (let i = 0; i < 40; i++) {
+			randomState += validChars.charAt(Math.floor(Math.random() * validChars.length));
+		}
+
+		const url = `${glob.Netatmo_BASE_URL}/oauth2/authorize?client_id=${encodeURIComponent(args.client_id)}&redirect_uri=${encodeURIComponent(args.redirect_uri)}&scope=${encodeURIComponent(args.scope)}&state=${randomState}`;
+		this.storedOAuthStates[randomState] = args;
+
+		return {
+			url,
+			state: randomState
+		};
+	}
+
+
+	/**
+	 * http://dev.netatmo.com/doc/authentication
+	 * @param args
+	 */
+	async _authenticate(args, obj) {
+
+		if (!args) {
+			this.log.error(mytools.tl('Authenticate "args" not set!', this.systemLang));
+			return null;
+		}
+		if (args.state && this.storedOAuthStates[args.state]) {
+			args = Object.assign(args, this.storedOAuthStates[args.state]);
+			delete this.storedOAuthStates[args.state];
+		}
+
+		this.scope = args.scope || glob.OAuthScope;
+
+		if (!args.redirect_uri || !args.code) return;
+
+		if (args.access_token) {
+			// Get token from API - args.redirect_uri, args.code
+			this._authenticate_refresh_token(args.redirect_uri, args.code);
+		} else {
+			const setpayload = 'code=' + args.code + '&redirect_uri=' + args.redirect_uri + '&grant_type=authorization_code' + glob.payload_client_id + this.config.ClientId + glob.payload_client_secret + this.config.ClientSecretID + glob.payload_scope + glob.OAuthScope;
+			await this.getAPIRequest(glob.Netatmo_TokenRequest_URL, '', setpayload, this.config.NewOAuthMethode)
+				// eslint-disable-next-line no-unused-vars
+				.then(async (tokenvalues) => {
+					this.globalNetatmo_AccessToken	= tokenvalues.access_token;
+					this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
+					this.globalRefreshToken			= tokenvalues.refresh_token;
+					this._saveToken();
+					//this.startAdapter();
+					obj.callback && this.sendTo(obj.from, obj.command, {result: `${mytools.tl('Tokens updated successfully.', this.systemLang)}`}, obj.callback);
+
+					this.log.info(mytools.tl('Update data in adapter configuration ... restarting ...', this.systemLang));
+					this.extendForeignObject(`system.adapter.${this.namespace}`, {});
+				})
+				.catch(error => {
+					this.globalNetatmo_AccessToken	= null;
+					this.globalRefreshToken			= null;
+					this.globalNetatmo_ExpiresIn	= 0;
+					this._saveToken();
+					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+					this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token' + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+					this.log.error(`OAuthRedirectReceived: ${error}`);
+					obj.callback && this.sendTo(obj.from, obj.command, {error: `${mytools.tl('Error getting new tokens from Netatmo: ', this.systemLang)} ${error} ${mytools.tl('. Please try again.', this.systemLang)}`}, obj.callback);
+				});
+		}
+	}
+
+	_saveToken() {
+		if (!this.config.NewOAuthMethode) return;
+		const tokenData = {
+			access_token: this.globalNetatmo_AccessToken,
+			refresh_token: this.globalRefreshToken,
+			scope: this.scope,
+			client_id: this.config.ClientId
+		};
+		try {
+			fs.writeFileSync(`${this.dataDir}/tokens.json`, JSON.stringify(tokenData), 'utf8');
+			this.log.debug(`Token saved: ${this.dataDir}/tokens.json`);
+		} catch (err) {
+			this.log.error(mytools.tl('Cannot write token file: ', this.systemLang)  +  err);
+		}
+	}
+
 	//React on al subsribed fields
 	/**
 	  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
@@ -1870,6 +2053,61 @@ class NetatmoEnergy extends utils.Adapter {
 						}
 					}
 					break;
+
+				case glob.GetOAuthStartLink: {
+
+					let auth_args = {};
+					// @ts-ignore
+					auth_args = obj.message;
+
+					this.log.debug(mytools.tl('Received OAuth start message: ', this.systemLang) + JSON.stringify(auth_args));
+					auth_args.scope = glob.OAuthScope;
+					if (!this.config.ClientId || !this.config.ClientSecretID) {
+						this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
+						return;
+					}
+					if (!this.config.ClientId || !this.config.ClientSecretID) {
+						if (this.config.ClientId || this.config.ClientSecretID) {
+							this.log.error('*** Adapter deactivated, missing adaper configuration !!! ***');
+							//this.log.warn(mytools.tl('Only one of client_id or client_secret was set, using default values!', this.systemLang));
+						}
+					}
+					auth_args.ClientId = this.config.ClientId;
+					auth_args.client_secret = this.config.ClientSecretID;
+
+					if (!auth_args.redirect_uri_base.endsWith('/')) auth_args.redirect_uri_base += '/';
+					auth_args.redirect_uri = `${auth_args.redirect_uri_base}oauth2_callbacks/${this.namespace}/`;
+					delete auth_args.redirect_uri_base;
+
+					this.log.debug(mytools.tl('Get OAuth start link data: ', this.systemLang) + JSON.stringify(auth_args));
+					const redirectData = this._getOAuth2AuthenticateStartLink(auth_args);
+					if (redirectData != null) {
+						this.storedOAuthData[redirectData.state] = auth_args;
+						this.log.debug(mytools.tl('Get OAuth start link: ', this.systemLang) + redirectData.url);
+						this.log.warn('OBJ: Cb ' + obj.callback + ' -F ' + obj.from + ' -C ' + obj.command );
+						obj.callback && this.sendTo(obj.from, obj.command, {openUrl: redirectData.url}, obj.callback);
+					}
+					break;
+				}
+
+				case glob.GetOAuthCallback: {
+					let auth_args = {};
+					auth_args = obj.message;
+					this.log.debug(`OAuthRedirectReceived: ${JSON.stringify(auth_args)}`);
+
+					if (!auth_args.state || !auth_args.code) {
+						this.log.warn(mytools.tl('Error on OAuth callback: ', this.systemLang) + JSON.stringify(auth_args));
+						if (auth_args.error) {
+							obj.callback && this.sendTo(obj.from, obj.command, {error: `Netatmo error: ${auth_args.error}. Please try again.`}, obj.callback);
+						} else {
+							obj.callback && this.sendTo(obj.from, obj.command, {error: `Netatmo invalid response: ${JSON.stringify(auth_args)}. Please try again.`}, obj.callback);
+						}
+						return;
+					}
+
+					this._authenticate(auth_args, obj);
+					break;
+				}
 			}
 		}
 	}

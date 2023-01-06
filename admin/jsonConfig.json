@@ -6,6 +6,39 @@
             "type": "panel",
             "label": "Logon information",
             "items": {
+                "NewOAuthMethode":{
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "OAuth2 authentication methode",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                    
+                },
+                "authenticate": {
+                    "newLine": true,
+                    "variant": "contained",
+                    "color": "primary",
+                    "disabled": "!_alive || data.NewOAuthMethode != true",
+                    "type": "sendTo",
+                    "error": {
+                        "connect timeout": "Connection timeout"
+                    },
+                    "icon": "auth",
+                    "command": "getOAuthStartLink",
+                    "jsonData": "{\"client_id\": \"${data.ClientId}\",\"client_secret\": \"${data.ClientSecretID}\",\"redirect_uri_base\": \"${data._origin}\"}",
+                    "label": "Authenticate with Netatmo",
+                    "openUrl": true,
+                    "window": "Login with Netatmo"
+                },
+                "authinfo": {
+                    "type": "header",
+                    "size": 4,
+                    "style": {
+                        "marginTop": 20
+                    },
+                    "sm": 12,
+                    "text": "Authentication information"
+                },                
                 "HomeId":{
                     "type": "text",
                     "label": "Home-ID:",
@@ -32,6 +65,7 @@
                     "newLine": true,
                     "type": "text",
                     "label": "Username:",
+                    "disabled": "data.NewOAuthMethode == true",
                     "help": "Username from your Netatmo Account",
                     "sm": 12,
                     "md": 6,
@@ -40,8 +74,8 @@
                 "Password": {
                     "type": "password",
                     "label": "Password",
-                    "visible": true,
-                    "hidden": "Password from your Netatmo Account",
+                    "disabled": "data.NewOAuthMethode == true",
+                    "help": "Password from your Netatmo Account",
                     "sm": 12,
                     "md": 6,
                     "lg": 4

@@ -1,243 +1,324 @@
 {
-	"common": {
-		"name": "netatmo-energy",
-		"version": "1.3.1",
-		"news": {
-			"1.3.1": {
-				"en": "Additional informations added to admin tab cards",
-				"de": "Zusätzliche Informationen zu Admin-Tab Registerkarten hinzugefügt",
-				"ru": "Добавлена дополнительная информация на карточки вкладок администратора",
-				"pt": "Informações adicionais adicionadas aos cartões da guia do administrador",
-				"nl": "Aanvullende informatie toegevoegd aan beheerderstabbladen",
-				"fr": "Informations supplémentaires ajoutées aux onglets d'administration",
-				"it": "Informazioni aggiuntive aggiunte alle schede della scheda amministratore",
-				"es": "Información adicional agregada a las tarjetas de pestañas de administración",
-				"pl": "Dodatkowe informacje dodane do kart admina",
-				"zh-cn": "添加到管理选项卡的附加信息"
-			},
-			"1.3.0": {
-				"en": "Change thermostat mode functionality added to thermostat card",
-				"de": "Funktion zum Ändern des Thermostatmodus zur Thermostatkarte hinzugefügt",
-				"ru": "В карточку термостата добавлена функция изменения режима термостата.",
-				"pt": "Alterar a funcionalidade do modo termostato adicionada ao cartão do termostato",
-				"nl": "Functie van thermostaatmodus wijzigen toegevoegd aan thermostaatkaart",
-				"fr": "Modifier la fonctionnalité du mode thermostat ajoutée à la carte du thermostat",
-				"it": "Funzionalità Modifica modalità termostato aggiunta alla scheda termostato",
-				"es": "Cambiar la funcionalidad del modo de termostato agregada a la tarjeta del termostato",
-				"pl": "Funkcja zmiany trybu termostatu dodana do karty termostatu",
-				"zh-cn": "更改恒温器模式功能添加到恒温器卡"
-			},
-			"1.2.5": {
-				"en": "switchhomeschedule added to cards",
-				"de": "switchhomeschedule zu Karten hinzugefügt",
-				"ru": "расписание switchhome добавлено в карточки",
-				"pt": "switchhomeschedule adicionado aos cartões",
-				"nl": "switchhomeschedule toegevoegd aan kaarten",
-				"fr": "switchhomeschedule ajouté aux cartes",
-				"it": "switchhomeschedule aggiunto alle carte",
-				"es": "switchhomeschedule agregado a las tarjetas",
-				"pl": "harmonogram przełączania dodany do kart",
-				"zh-cn": "switchhomeschedule 添加到卡片"
-			},
-			"1.2.4": {
-				"en": "i18n files for npm added",
-				"de": "i18n-Dateien für npm hinzugefügt",
-				"ru": "Добавлены файлы i18n для npm",
-				"pt": "Arquivos i18n para npm adicionados",
-				"nl": "i18n-bestanden voor npm toegevoegd",
-				"fr": "fichiers i18n pour npm ajoutés",
-				"it": "Aggiunti i file i18n per npm",
-				"es": "Archivos i18n para npm agregados",
-				"pl": "Dodano pliki i18n dla npm",
-				"zh-cn": "添加了 npm 的 i18n 文件"
-			},
-			"1.2.3": {
-				"en": "Added status icons to plug",
-				"de": "Statussymbole zum Stecker hinzugefügt",
-				"ru": "Добавлены значки состояния для плагина",
-				"pt": "Adicionados ícones de status para conectar",
-				"nl": "Statuspictogrammen toegevoegd om aan te sluiten",
-				"fr": "Ajout d'icônes d'état à brancher",
-				"it": "Aggiunte icone di stato da collegare",
-				"es": "Se agregaron íconos de estado para conectar",
-				"pl": "Dodano ikony stanu do wtyczki",
-				"zh-cn": "添加了状态图标以插入"
-			},
-			"1.2.2": {
-				"en": "Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud",
-				"de": "Es wurde jedem Ventil ein Schieberegler hinzugefügt, um die Temperatur zu ändern, und einige API-Anforderungen zum Admin-Tab hinzugefügt, um Änderungen in die Cloud zu übertragen",
-				"ru": "Добавлен ползунок для каждого клапана для изменения температуры и добавлены некоторые запросы API на вкладку администратора для передачи изменений в облако.",
-				"pt": "Adicionou um controle deslizante para cada válvula para alterar a temperatura e adicionou algumas solicitações de API à guia de administração para transferir as alterações para a nuvem",
-				"nl": "Een schuifregelaar toegevoegd aan elke klep om de temperatuur te wijzigen en enkele API-verzoeken toegevoegd aan het beheerderstabblad om wijzigingen naar de cloud over te brengen",
-				"fr": "Ajout d'un curseur à chaque vanne pour modifier la température et ajout de quelques requêtes API à l'onglet admin pour transférer les modifications vers le cloud",
-				"it": "Aggiunto un dispositivo di scorrimento a ciascuna valvola per modificare la temperatura e aggiunte alcune richieste API alla scheda amministratore per trasferire le modifiche al cloud",
-				"es": "Se agregó un control deslizante a cada válvula para cambiar la temperatura y se agregaron algunas solicitudes de API a la pestaña de administración para transferir los cambios a la nube.",
-				"pl": "Dodano suwak do każdego zaworu, aby zmienić temperaturę i dodano kilka żądań API do zakładki administratora, aby przenieść zmiany do chmury",
-				"zh-cn": "为每个阀门添加了一个滑块以更改温度，并向管理选项卡添加了一些 API 请求以将更改传输到云"
-			},
-			"1.2.1": {
-				"en": "Messages for specific events created",
-				"de": "Nachrichten für bestimmte Ereignisse erstellt",
-				"ru": "Созданы сообщения для определенных событий",
-				"pt": "Mensagens para eventos específicos criados",
-				"nl": "Berichten voor specifieke evenementen aangemaakt",
-				"fr": "Messages pour des événements spécifiques créés",
-				"it": "Messaggi per eventi specifici creati",
-				"es": "Mensajes para eventos específicos creados",
-				"pl": "Wiadomości dla określonych wydarzeń utworzonych",
-				"zh-cn": "为特定事件创建的消息"
-			},
-			"1.2.0": {
-				"en": "Close message functionality added on admin tab",
-				"de": "Funktion zum Schließen von Nachrichten auf der Registerkarte „Admin“ hinzugefügt",
-				"ru": "Добавлена функция закрытия сообщений на вкладке администратора",
-				"pt": "Fechar funcionalidade de mensagem adicionada na guia de administração",
-				"nl": "Sluit berichtfunctionaliteit toegevoegd op het beheerderstabblad",
-				"fr": "Fermer la fonctionnalité de message ajoutée sur l'onglet admin",
-				"it": "Funzionalità di chiusura del messaggio aggiunta nella scheda amministratore",
-				"es": "Cerrar funcionalidad de mensaje agregada en la pestaña de administración",
-				"pl": "Dodano funkcję zamykania wiadomości na karcie administratora",
-				"zh-cn": "在管理选项卡上添加了关闭消息功能"
-			}
-		},
-		"title": "Netatmo Energy",
-		"titleLang": {
-			"en": "Netatmo Energy",
-			"de": "Netatmo Energy",
-			"ru": "Netatmo Energy",
-			"pt": "Energia Netatmo",
-			"nl": "Netatmo Energy",
-			"fr": "Netatmo Energy",
-			"it": "Netatmo Energy",
-			"es": "Energía Netatmo",
-			"pl": "Netatmo Energy",
-			"zh-cn": "耐特莫能源"
-		},
-		"desc": {
-			"en": "Get and set data using Netatmo Energy API",
-			"de": "Abrufen und Festlegen von Daten mithilfe der Netatmo Energy API",
-			"ru": "Получение и установка данных с помощью Netatmo Energy API",
-			"pt": "Obtenha e defina dados usando a API Netatmo Energy",
-			"nl": "Gegevens ophalen en instellen met Netatmo Energy API",
-			"fr": "Obtenez et définissez des données à l'aide de l'API Netatmo Energy",
-			"it": "Ottieni e imposta i dati utilizzando Netatmo Energy API",
-			"es": "Obtenga y configure datos usando la API de Netatmo Energy",
-			"pl": "Pobierz i ustaw dane za pomocą Netatmo Energy API",
-			"zh-cn": "使用Netatmo Energy API获取和设置数据"
-		},
-		"authors": [
-			"ioKlausi <nii@gmx.at>"
-		],
-		"keywords": [
-			"netatmo",
-			"energy",
-			"thermostat",
-			"climate",
-			"temperature"
-		],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "netatmo-energy.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png",
-		"readme": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/blob/master/README.md",
-		"docs": { "en": "docs/en/README.md",
-							"de": "docs/de/README.md"
-		},
-		"loglevel": "info",
-		"restartAdapters": [
-			"vis"
-		],
-		"mode": "daemon",
-		"type": "climate-control",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "poll",
-		"materialize": true,
-		"materializeTab": true,
-		"adminTab": {
-			"ignoreConfigUpdate": true,
-			"singleton": false,
-			"name": {
-			  "en": "Netatmo Energy",
-			  "de": "Netatmo Energy",
-			  "ru": "Netatmo Energy",
-			  "pt": "Netatmo Energy",
-			  "nl": "Netatmo Energy",
-			  "fr": "Netatmo Energy",
-			  "it": "Netatmo Energy",
-			  "es": "Netatmo Energy",
-			  "pl": "Netatmo Energy",
-			  "zh-cn": "Netatmo Energy"
-			},
-			"link": "",
-			"fa-icon": "</i><img style='width: 20px; margin-bottom: -4px;' src='/adapter/netatmo-energy/netatmo-energy.png'><i>"
+    "common": {
+        "name": "netatmo-energy",
+        "version": "2.0.0",
+        "news": {
+            "2.0.0": {
+                "en": "New authentication method established",
+                "de": "Neue Authentifizierungsmethode etabliert",
+                "ru": "Новый метод аутентификации установлен",
+                "pt": "Novo método de autenticação estabelecido",
+                "nl": "Nieuwe authenticatie methode",
+                "fr": "Nouvelle méthode d ' authentification",
+                "it": "Nuovo metodo di autenticazione stabilito",
+                "es": "Nuevo método de autenticación establecido",
+                "pl": "Nowa metoda autentyczności ustanowiła nową metodę identyfikacji",
+                "zh-cn": "确立的新核证方法",
+                "uk": "Встановлено новий метод автентифікації"
+            },
+            "1.3.1": {
+                "en": "Additional informations added to admin tab cards",
+                "de": "Zusätzliche Informationen zu Admin-Tab Registerkarten hinzugefügt",
+                "ru": "Добавлена дополнительная информация на карточки вкладок администратора",
+                "pt": "Informações adicionais adicionadas aos cartões da guia do administrador",
+                "nl": "Aanvullende informatie toegevoegd aan beheerderstabbladen",
+                "fr": "Informations supplémentaires ajoutées aux onglets d'administration",
+                "it": "Informazioni aggiuntive aggiunte alle schede della scheda amministratore",
+                "es": "Información adicional agregada a las tarjetas de pestañas de administración",
+                "pl": "Dodatkowe informacje dodane do kart admina",
+                "zh-cn": "添加到管理选项卡的附加信息",
+                "uk": "Додаткова інформація додана до карток вкладок адміністратора"
+            },
+            "1.3.0": {
+                "en": "Change thermostat mode functionality added to thermostat card",
+                "de": "Funktion zum Ändern des Thermostatmodus zur Thermostatkarte hinzugefügt",
+                "ru": "В карточку термостата добавлена функция изменения режима термостата.",
+                "pt": "Alterar a funcionalidade do modo termostato adicionada ao cartão do termostato",
+                "nl": "Functie van thermostaatmodus wijzigen toegevoegd aan thermostaatkaart",
+                "fr": "Modifier la fonctionnalité du mode thermostat ajoutée à la carte du thermostat",
+                "it": "Funzionalità Modifica modalità termostato aggiunta alla scheda termostato",
+                "es": "Cambiar la funcionalidad del modo de termostato agregada a la tarjeta del termostato",
+                "pl": "Funkcja zmiany trybu termostatu dodana do karty termostatu",
+                "zh-cn": "更改恒温器模式功能添加到恒温器卡",
+                "uk": "На картку термостата додано функцію зміни режиму термостата"
+            },
+            "1.2.5": {
+                "en": "switchhomeschedule added to cards",
+                "de": "switchhomeschedule zu Karten hinzugefügt",
+                "ru": "расписание switchhome добавлено в карточки",
+                "pt": "switchhomeschedule adicionado aos cartões",
+                "nl": "switchhomeschedule toegevoegd aan kaarten",
+                "fr": "switchhomeschedule ajouté aux cartes",
+                "it": "switchhomeschedule aggiunto alle carte",
+                "es": "switchhomeschedule agregado a las tarjetas",
+                "pl": "harmonogram przełączania dodany do kart",
+                "zh-cn": "switchhomeschedule 添加到卡片",
+                "uk": "switchhomeschedule додано до карток"
+            },
+            "1.2.4": {
+                "en": "i18n files for npm added",
+                "de": "i18n-Dateien für npm hinzugefügt",
+                "ru": "Добавлены файлы i18n для npm",
+                "pt": "Arquivos i18n para npm adicionados",
+                "nl": "i18n-bestanden voor npm toegevoegd",
+                "fr": "fichiers i18n pour npm ajoutés",
+                "it": "Aggiunti i file i18n per npm",
+                "es": "Archivos i18n para npm agregados",
+                "pl": "Dodano pliki i18n dla npm",
+                "zh-cn": "添加了 npm 的 i18n 文件",
+                "uk": "Додано файли i18n для npm"
+            },
+            "1.2.3": {
+                "en": "Added status icons to plug",
+                "de": "Statussymbole zum Stecker hinzugefügt",
+                "ru": "Добавлены значки состояния для плагина",
+                "pt": "Adicionados ícones de status para conectar",
+                "nl": "Statuspictogrammen toegevoegd om aan te sluiten",
+                "fr": "Ajout d'icônes d'état à brancher",
+                "it": "Aggiunte icone di stato da collegare",
+                "es": "Se agregaron íconos de estado para conectar",
+                "pl": "Dodano ikony stanu do wtyczki",
+                "zh-cn": "添加了状态图标以插入",
+                "uk": "До розетки додано значки стану"
+            },
+            "1.2.2": {
+                "en": "Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud",
+                "de": "Es wurde jedem Ventil ein Schieberegler hinzugefügt, um die Temperatur zu ändern, und einige API-Anforderungen zum Admin-Tab hinzugefügt, um Änderungen in die Cloud zu übertragen",
+                "ru": "Добавлен ползунок для каждого клапана для изменения температуры и добавлены некоторые запросы API на вкладку администратора для передачи изменений в облако.",
+                "pt": "Adicionou um controle deslizante para cada válvula para alterar a temperatura e adicionou algumas solicitações de API à guia de administração para transferir as alterações para a nuvem",
+                "nl": "Een schuifregelaar toegevoegd aan elke klep om de temperatuur te wijzigen en enkele API-verzoeken toegevoegd aan het beheerderstabblad om wijzigingen naar de cloud over te brengen",
+                "fr": "Ajout d'un curseur à chaque vanne pour modifier la température et ajout de quelques requêtes API à l'onglet admin pour transférer les modifications vers le cloud",
+                "it": "Aggiunto un dispositivo di scorrimento a ciascuna valvola per modificare la temperatura e aggiunte alcune richieste API alla scheda amministratore per trasferire le modifiche al cloud",
+                "es": "Se agregó un control deslizante a cada válvula para cambiar la temperatura y se agregaron algunas solicitudes de API a la pestaña de administración para transferir los cambios a la nube.",
+                "pl": "Dodano suwak do każdego zaworu, aby zmienić temperaturę i dodano kilka żądań API do zakładki administratora, aby przenieść zmiany do chmury",
+                "zh-cn": "为每个阀门添加了一个滑块以更改温度，并向管理选项卡添加了一些 API 请求以将更改传输到云",
+                "uk": "Додано повзунок до кожного клапана для зміни температури та додано деякі запити API на вкладку адміністратора для передачі змін у хмару"
+            },
+            "1.2.1": {
+                "en": "Messages for specific events created",
+                "de": "Nachrichten für bestimmte Ereignisse erstellt",
+                "ru": "Созданы сообщения для определенных событий",
+                "pt": "Mensagens para eventos específicos criados",
+                "nl": "Berichten voor specifieke evenementen aangemaakt",
+                "fr": "Messages pour des événements spécifiques créés",
+                "it": "Messaggi per eventi specifici creati",
+                "es": "Mensajes para eventos específicos creados",
+                "pl": "Wiadomości dla określonych wydarzeń utworzonych",
+                "zh-cn": "为特定事件创建的消息",
+                "uk": "Створено повідомлення для конкретних подій"
+            },
+            "1.2.0": {
+                "en": "Close message functionality added on admin tab",
+                "de": "Funktion zum Schließen von Nachrichten auf der Registerkarte „Admin“ hinzugefügt",
+                "ru": "Добавлена функция закрытия сообщений на вкладке администратора",
+                "pt": "Fechar funcionalidade de mensagem adicionada na guia de administração",
+                "nl": "Sluit berichtfunctionaliteit toegevoegd op het beheerderstabblad",
+                "fr": "Fermer la fonctionnalité de message ajoutée sur l'onglet admin",
+                "it": "Funzionalità di chiusura del messaggio aggiunta nella scheda amministratore",
+                "es": "Cerrar funcionalidad de mensaje agregada en la pestaña de administración",
+                "pl": "Dodano funkcję zamykania wiadomości na karcie administratora",
+                "zh-cn": "在管理选项卡上添加了关闭消息功能",
+                "uk": "Функцію закриття повідомлень додано на вкладку адміністратора"
+            }
         },
-		"messagebox": true,
-		"dependencies": [
-			{
-				"js-controller": ">=3.0.0"
-			}
-		],
-		"plugins": {
-		"sentry": {
-			"dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
-				}
-			},
-		"adminUI": {
-			"config": "json"
-		}
-	},
-	"native": {
-		"HomeId": "",
-		"ClientId": "",
-		"ClientSecretID": "",
-		"User": "",
-		"Password": "",
-		"applyimmediately": false,
-		"getchangesimmediately": true,
-		"refreshstates": 0,
-		"notifications": "000",
-		"notificationEnabled": false,
-		"notificationsType": "telegram",
-		"telegramInstance": "telegram.0",
-		"telegramUser": "All Receiver",
-		"telegramSilentNotice": false,
-		"whatsappInstance": "whatsapp-cmb.0",
-		"pushoverInstance": "pushover.0",
-		"pushoverSilentNotice": false,
-		"pushoverDeviceID": "",
-		"emailReceiver": "xxx@xxx.com",
-		"emailSender": "xxx@xxx.com",
-		"emailInstance": "email.0",
-		"NoticeType": "longNotice",
-			"dependencies": [
-				"jqui-mfd",
-				"basic"
-			],
-		"notify_bat_low": true,
-		"notify_bat_low_txt": "",
-		"notify_bat_medium": true,
-		"notify_bat_medium_txt": "",
-		"notify_connection_no": true,
-		"notify_connection_no_txt": "",
-		"notify_window_open": true,
-		"notify_window_open_txt": "",
-		"notify_heating_power_request": true,
-		"notify_heating_power_request_txt": "",
-		"notify_anticipating": true,
-		"notify_anticipating_txt": ""		 
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "energyAPP",
-			"type": "device",
-			"common": {
-				"name": "Netatmo Energy APP"
-			},
-			"native": {}
-		}
-	]
+        "title": "Netatmo Energy",
+        "titleLang": {
+            "en": "Netatmo Energy",
+            "de": "Netatmo Energy",
+            "ru": "Netatmo Energy",
+            "pt": "Energia Netatmo",
+            "nl": "Netatmo Energy",
+            "fr": "Netatmo Energy",
+            "it": "Netatmo Energy",
+            "es": "Energía Netatmo",
+            "pl": "Netatmo Energy",
+            "zh-cn": "耐特莫能源",
+            "uk": "Netatmo Energy"
+        },
+        "desc": {
+            "en": "Get and set data using Netatmo Energy API",
+            "de": "Abrufen und Festlegen von Daten mithilfe der Netatmo Energy API",
+            "ru": "Получение и установка данных с помощью Netatmo Energy API",
+            "pt": "Obtenha e defina dados usando a API Netatmo Energy",
+            "nl": "Gegevens ophalen en instellen met Netatmo Energy API",
+            "fr": "Obtenez et définissez des données à l'aide de l'API Netatmo Energy",
+            "it": "Ottieni e imposta i dati utilizzando Netatmo Energy API",
+            "es": "Obtenga y configure datos usando la API de Netatmo Energy",
+            "pl": "Pobierz i ustaw dane za pomocą Netatmo Energy API",
+            "zh-cn": "使用Netatmo Energy API获取和设置数据",
+            "uk": "Отримайте та налаштуйте дані за допомогою Netatmo Energy API"
+        },
+        "authors": [
+            "ioKlausi <nii@gmx.at>"
+        ],
+        "keywords": [
+            "netatmo",
+            "energy",
+            "thermostat",
+            "climate",
+            "temperature"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "netatmo-energy.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png",
+        "readme": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/blob/master/README.md",
+        "docs": {
+            "en": "docs/en/README.md",
+            "de": "docs/de/README.md"
+        },
+        "loglevel": "info",
+        "restartAdapters": [
+            "vis"
+        ],
+        "mode": "daemon",
+        "type": "climate-control",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "materialize": true,
+        "materializeTab": true,
+        "adminTab": {
+            "ignoreConfigUpdate": true,
+            "singleton": false,
+            "name": {
+                "en": "Netatmo Energy",
+                "de": "Netatmo Energy",
+                "ru": "Netatmo Energy",
+                "pt": "Netatmo Energy",
+                "nl": "Netatmo Energy",
+                "fr": "Netatmo Energy",
+                "it": "Netatmo Energy",
+                "es": "Netatmo Energy",
+                "pl": "Netatmo Energy",
+                "zh-cn": "Netatmo Energy"
+            },
+            "link": "",
+            "fa-icon": "</i><img style='width: 20px; margin-bottom: -4px;' src='/adapter/netatmo-energy/netatmo-energy.png'><i>"
+        },
+        "messagebox": true,
+        "dependencies": [
+            {
+                "js-controller": ">=3.0.0"
+            }
+        ],
+        "plugins": {
+            "sentry": {
+                "dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
+            }
+        },
+        "messages": [
+            {
+                "condition": {
+                    "operand": "and",
+                    "rules": [
+                        "oldVersion<2.0.0",
+                        "newVersion>=2.0.0"
+                    ]
+                },
+                "title": {
+                    "en": "Netatmo has changed the authentication method.",
+                    "de": "Netatmo hat die Authentifizierungsmethode geändert.",
+                    "ru": "Netatmo изменил метод аутентификации.",
+                    "pt": "Netatmo mudou o método de autenticação.",
+                    "nl": "Netatmo heeft de authenticatie methode veranderd.",
+                    "fr": "Netatmo a changé la méthode d'authentification.",
+                    "it": "Netatmo ha cambiato il metodo di autenticazione.",
+                    "es": "Netatmo ha cambiado el método de autenticación.",
+                    "pl": "Netatmo zmienił metodę uwierzytelniania.",
+                    "uk": "Netatmo змінив метод автентифікації.",
+                    "zh-cn": "净化改变了核证方法。."
+                },
+                "text": {
+                    "en": "From now on, the OAuth2 authorization code flow must be followed for authentication. After you have installed the new version, you have to authenticate your APP using the new authentication dialog in the adapter configuration.",
+                    "de": "Ab sofort muss der OAuth2 Autorisierungscode-Flow zur Authentifizierung verfolgt werden. Nachdem Sie die neue Version installiert haben, müssen Sie Ihre APP mit dem neuen Authentifizierungsdialog in der Adapterkonfiguration authentifizieren.",
+                    "ru": "Отныне поток кодов авторизации OAuth2 должен соблюдаться для аутентификации. После того, как вы установили новую версию, вы должны подтвердить свое приложение, используя новый диалог аутентификации в конфигурации адаптера.",
+                    "pt": "A partir de agora, o fluxo de código de autorização OAuth2 deve ser seguido para autenticação. Depois de ter instalado a nova versão, você tem que autenticar seu APP usando a nova caixa de diálogo de autenticação na configuração do adaptador.",
+                    "nl": "Vanaf nu moet de OAuth2 toestemmingscodestroom worden gevolgd voor authenticatie. Nadat je de nieuwe versie hebt geïnstalleerd, moet je je APP authenticeren met de nieuwe authenticatie dialoog in het adaptergeheim.",
+                    "fr": "A partir de maintenant, le flux de code d'autorisation OAuth2 doit être suivi pour l'authentification. Après avoir installé la nouvelle version, vous devez authentifier votre APP en utilisant le nouveau dialogue d'authentification dans la configuration de l'adaptateur.",
+                    "it": "D'ora in poi, il flusso del codice di autorizzazione OAuth2 deve essere seguito per l'autenticazione. Dopo aver installato la nuova versione, è necessario autenticare la APP utilizzando la nuova finestra di dialogo di autenticazione nella configurazione dell'adattatore.",
+                    "es": "A partir de ahora, se debe seguir el flujo de código de autorización OAuth2. Después de instalar la nueva versión, debe autenticar su APP utilizando el nuevo diálogo de autenticación en la configuración del adaptador.",
+                    "pl": "Od tamtego czasu, płynie kodu OAuth2 musi być poprzedzone autentycznością. Po zainstalowaniu nowej wersji, musisz uwierzyć w swój APP używając nowego, autentycznego dialogu w konfiguracji adapterów.",
+                    "uk": "Відтепер процес авторизації OAuth2 необхідно дотримуватися автентичності. Після того, як ви встановили нову версію, ви повинні автентифікувати ваш APP за допомогою нового діалогу автентифікації в конфігурації адаптера.",
+                    "zh-cn": "从现在起,必须遵循OAuth2号授权守则的流通。 在你安装了新的版本之后,你必须利用适应人员组合中新的核证的口号来核证你的《援助计划》。."
+                },
+                "level": "warn",
+                "buttons": [
+                    "agree",
+                    "cancel"
+                ],
+                "link": "https://dev.netatmo.com/apidocumentation/oauth",
+                "linkText": {
+                    "en": "More details",
+                    "de": "Mehr Details",
+                    "ru": "Подробнее",
+                    "pt": "Mais detalhes",
+                    "nl": "Meer details",
+                    "fr": "Plus de détails",
+                    "it": "Maggiori dettagli",
+                    "es": "Más detalles",
+                    "pl": "Szczegóły",
+                    "uk": "Детальніше",
+                    "zh-cn": "详情"
+                }
+            }
+        ],
+        "adminUI": {
+            "config": "json"
+        }
+    },
+    "native": {
+        "HomeId": "",
+        "ClientId": "",
+        "ClientSecretID": "",
+        "User": "",
+        "Password": "",
+        "NewOAuthMethode": true,
+        "applyimmediately": false,
+        "getchangesimmediately": true,
+        "refreshstates": 0,
+        "notifications": "000",
+        "notificationEnabled": false,
+        "notificationsType": "telegram",
+        "telegramInstance": "telegram.0",
+        "telegramUser": "All Receiver",
+        "telegramSilentNotice": false,
+        "whatsappInstance": "whatsapp-cmb.0",
+        "pushoverInstance": "pushover.0",
+        "pushoverSilentNotice": false,
+        "pushoverDeviceID": "",
+        "emailReceiver": "xxx@xxx.com",
+        "emailSender": "xxx@xxx.com",
+        "emailInstance": "email.0",
+        "NoticeType": "longNotice",
+        "dependencies": [
+            "jqui-mfd",
+            "basic"
+        ],
+        "notify_bat_low": true,
+        "notify_bat_low_txt": "",
+        "notify_bat_medium": true,
+        "notify_bat_medium_txt": "",
+        "notify_connection_no": true,
+        "notify_connection_no_txt": "",
+        "notify_window_open": true,
+        "notify_window_open_txt": "",
+        "notify_heating_power_request": true,
+        "notify_heating_power_request_txt": "",
+        "notify_anticipating": true,
+        "notify_anticipating_txt": ""
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "energyAPP",
+            "type": "device",
+            "common": {
+                "name": "Netatmo Energy APP"
+            },
+            "native": {}
+        }
+    ]
 }

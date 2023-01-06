@@ -508,8 +508,8 @@
                                                     </ul>
                                                 ` : ''}
                                                 ${temp_set != undefined && temp_set!= null ? `
-                                                    <input id="${id}_setTemp" data_point="${setTemp}" type="range" min="7" max="30" step="0.5" value="${temp_set}" class="myslider ${id}_slider_Class" onchange="setTempValve(this.value, this)">
-                                                ` : ''}
+                                                    <input id="${id}_setTemp" data_point="${setTemp}" type="range" min="7" max="30" step="0.5" value="${temp_set}" class="myNewSlider ${id}_slider_Class" onchange="setTempValve(this.value, this)">
+                                                    ` : ''}
                                                 ${plan_active != undefined && plan_active!= null ? `
                                                     <ul style="margin: 0px;"><b class="translate">Heating Plan:</b> ${plan_active}</ul>
                                                 ` : ''}

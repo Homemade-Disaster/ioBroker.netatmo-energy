@@ -24,13 +24,18 @@ Account at Netatmo Cloud
   - Copy your own client ID and client secret to the adapter config
 	- Go back to the Documentation of Netatmo Energy API https://dev.netatmo.com/apidocumentation/energy
 	- Select "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
-		- you will get a response including your home id
-		- copy it to your adapter config
-	- insert your user and password from Netatmo Cloud to your adapter config
+	  - you will get a response including your home id
+	  - copy it to your adapter config
+	- Start the Netatmo Energy Adapter and authenticate yourself to the Netatmo API
+	  - Select the new authentication method (OAuth2)
+	  - Press the button "Authenticate with Netatmo"
+	  - Log into your account if necessary
+	  - Confirm 3rd party permissions for your Netatmo APP 
+	  - Close the browser window
 	- choose "general settings options" and "Save and close" the adapter config
-		- apply temperature immediately ... send API request after changing "SetTemp" object
-		- read API states immediately ... send API homestatus request after changing fields in API
-		- Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
+	  - apply temperature immediately ... send API request after changing "SetTemp" object
+	  - read API states immediately ... send API homestatus request after changing fields in API
+	  - Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
   - As an option you can activate the notification assistant. Therefore, you have to activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get informations, warnings and errors.
 
 A detailed description is available on adapter wiki (https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki).

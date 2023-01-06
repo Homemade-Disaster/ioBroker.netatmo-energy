@@ -25,6 +25,7 @@ const languages = {
 	it: {},
 	es: {},
 	pl: {},
+	uk: {},
 	'zh-cn': {}
 };
 
@@ -238,6 +239,7 @@ gulp.task('adminLanguages2words', function (done) {
 
 gulp.task('updatePackages', function (done) {
 	iopackage.common.version = pkg.version;
+	// @ts-ignore
 	iopackage.common.news = iopackage.common.news || {};
 	if (!iopackage.common.news[pkg.version]) {
 		const news = iopackage.common.news;
@@ -253,6 +255,7 @@ gulp.task('updatePackages', function (done) {
 			it: 'notizie',
 			es: 'noticias',
 			pl: 'nowości',
+			uk: 'новини',
 			'zh-cn': '新'
 		};
 		iopackage.common.news = Object.assign(newNews, news);

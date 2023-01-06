@@ -33,6 +33,9 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.0.0 (2023-01-06)
+* (ioKlausi) New authentication method established
+
 ### 1.3.1 (2022-04-18)
 * (ioKlausi) Additional informations added to admin tab cards
 
@@ -96,7 +99,7 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 ## License
 MIT License
 
-Copyright (c) 2022 ioKlausi <nii@gmx.at>
+Copyright (c) 2021-2023 ioKlausi <nii@gmx.at>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

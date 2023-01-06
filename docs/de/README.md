@@ -26,7 +26,12 @@ Konto bei Netatmo Cloud
   - Wählen sie "GET homesdata" - "Try it out" - "EXECUTE / HOMESDATA"
     - du wirst ein response erhalten in der du deine home-ID findest
     - Übernimm sie in die Adapter Konfiguration
-  - gib deinen User und Passwort der Netatmo Cloud in die Adapter Konfiguration
+    - Starte den Netatmo-Energy Adapter und authentifiziere dich bei Netatmo API
+      - Selektieren sie die neue Authentifizierungsmethode (OAuth2)
+      - Bestätigen sie den Knopf "Authentifizieren Sie sich bei Netatmo"
+      - Loggen sie sich in ihr Konto ein, sofern es notwendig ist
+      - Bestätigen sie die Berechtigung für Drittanbieter für ihre Netatmo-APP
+      - Schließen sie das Browserfenster
   - Wähle die gewünschten Optionen in den "API-Einstellungen" und speichern sie die Adapterkonfiguration
     - Temperaturänderungen sofort übertragen ... sofortiges übertragen der Temperaturänderungen in State "SetTemp" an die API
     - API Zustände nach Änderung sofort lesen ... API Daten mittels homestatus sofort nach Aktualisierung der API abholen
