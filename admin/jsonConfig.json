@@ -80,10 +80,10 @@
                     "md": 6,
                     "lg": 4
                 },
-                "Informations":{
+                "Information":{
                     "type": "header",
                     "size": "2",
-                    "text": "Informations"
+                    "text": "Information"
                 },     
                 "notificationEnabled":{
                     "type": "checkbox",
@@ -251,10 +251,10 @@
                     "type": "select",
                     "options": [
                       {"label": "no notifications", "value": "000"},
-                      {"label": "informations", "value": "i00"},
-                      {"label": "informations, warnings", "value": "iw0"},
-                      {"label": "informations, errors", "value": "i0e"},
-                      {"label": "informations, warnings, errors", "value": "iwe"},
+                      {"label": "information", "value": "i00"},
+                      {"label": "information, warnings", "value": "iw0"},
+                      {"label": "information, errors", "value": "i0e"},
+                      {"label": "information, warnings, errors", "value": "iwe"},
                       {"label": "warnings", "value": "0w0"},
                       {"label": "warnings, errors", "value": "0we"},
                       {"label": "errors", "value": "00e"}                                                                  

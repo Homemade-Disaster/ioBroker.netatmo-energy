@@ -43,7 +43,7 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 * (ioKlausi) New authentication method established
 
 ### 1.3.1 (2022-04-18)
-* (ioKlausi) Additional informations added to admin tab cards
+* (ioKlausi) Additional information added to admin tab cards
 
 ### 1.3.0 (2022-04-17)
 * (ioKlausi) Change thermostat mode functionality added to thermostat card

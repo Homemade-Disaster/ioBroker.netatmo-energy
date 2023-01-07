@@ -36,7 +36,7 @@ Account at Netatmo Cloud
 	  - apply temperature immediately ... send API request after changing "SetTemp" object
 	  - read API states immediately ... send API homestatus request after changing fields in API
 	  - Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
-  - As an option you can activate the notification assistant. Therefore, you have to activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get informations, warnings and errors.
+  - As an option you can activate the notification assistant. Therefore, you must activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get information's, warnings and errors.
 
 A detailed description is available on adapter wiki (https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki).
 
@@ -50,8 +50,8 @@ Get and set data using Netatmo-Energy API. This adapter uses the fetch command t
 It also creates a device called "energyAPP" including channels "APIRequests", "trigger".
 
 ### API Requests
-* homesdata             ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter as default).You can set specific parameters.
-* homestatus            ... get the status and the technical information of your valves assigned in your rooms. If you want to get the information of a specific device type you can choose specific parameters.
+* homesdata             ... get the whole structure of your Netatmo energy environment (using NAPlug-Parameter as default). You can set specific parameters.
+* homestatus            ... get the status and the technical information of your valves assigned in your rooms. If you want to get the information of a specific device type, you can choose specific parameters.
 * getroommeasure        ... Retrieve data history of a room. The response of this request will be stored in the response field.
 * getmeasure            ... Retrieve boiler historical data. The response of this request will be stored in the response field.
 * setthermmode_schedule ... set the mode of your Netatmo Energy to schedule (default)  
@@ -60,7 +60,7 @@ It also creates a device called "energyAPP" including channels "APIRequests", "t
 * switchhomeschedule    ... set the schedule mode of all available schedule types. All possible combinations of the API request an its parameters are listed in channel switchhomeschedule as separate API requests.
 * synchomeschedule      ... set the thermostat schedule of a home. To edit a particular schedule, you need to enter the schedule_id, if you don't specify one, the modification will be applied to the current schedule. Please specify the necessary parameters and send the request using synchomeschedule.
 
-If an API request need parameters, you can find these in the channel "parameters" in the corresponding API request channel.
+If an API request needs parameters, you can find these in the channel "parameters" in the corresponding API request channel.
 
 ### Trigger
 * applychanges          ... transfer all manually changes of your valves to Netatmo Energy
@@ -77,8 +77,8 @@ If an API request need parameters, you can find these in the channel "parameters
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/EnergyAPP_measure.png" alt="settingsLogin" width="80%"/><img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/EnergyAPP.png" alt="settingsLogin" width="80%"/>
 
 ## Build structure
-If you start the adapter it will be generating the actual "homes"-environment of your Netatmo Energy APP.
-It will automatically be built up the whole homes-structure, and also the actual status of your valves.
+If you start the adapter, it will be generating the actual "homes"-environment of your Netatmo Energy APP.
+It will automatically be built up the whole homes-structure, and the actual status of your valves.
 Depending on the adapter settings it will refresh theses data after sending an API setthermmode request or an API setroomthermpoint request.
 
 ## Notifications
@@ -87,7 +87,7 @@ Following services are available.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_types_en.png" alt="settingsAPI" width="30%"/>
 
-Please insert the necessary informations to connect to the service you choose.
+Please insert the necessary information's to connect to the service you choose.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
 
@@ -97,11 +97,11 @@ You can send messages depending on status changes of specific states. The messag
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_en.png" alt="settingsAPI" width="70%"/>## Admin-Tab
 
 ## Admin-Tab
-On the Admin-Tab you can see all thermostates, plugs and valves from your netatmo energy instance. From there you can refresh the view and also request an API refresh. You have alse the option to save changes into the cloud and to switch from manual mode to schedule mode.
+On the Admin-Tab you can see all thermostats, plugs and valves from your netatmo energy instance. From there you can refresh the view and also request an API refresh. You have also the option to save changes into the cloud and to switch from manual mode to schedule mode.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/admintab_en.png" alt="admintab" width="70%"/>
 
-On each card you can find status icons, which show you the actual state of each thermostat, valve and plug. On the second page of the thermostat you can find major API requests to change the thermostat mode and the schedule mode.
+On each card you can find status icons, which show you the actual state of each thermostat, valve and plug. On the second page of the thermostat, you can find major API requests to change the thermostat mode and the schedule mode.
 
 ## Widget
 Widget for VIS to show a complete valve. You have only to define the "SetTemp" - datapoint. The widget will get all other fields dynamically out of the "rooms"-structure.

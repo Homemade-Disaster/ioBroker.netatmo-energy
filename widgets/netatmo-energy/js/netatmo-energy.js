@@ -433,7 +433,7 @@ vis.binds.netatmobasic = {
 		}
 	},
 
-	//create temperatur informations
+	//create temperatur information
 	gettemperatures: function(el, wid, data) {
 		const bound = [];
 		const $wid = $('#' + wid);

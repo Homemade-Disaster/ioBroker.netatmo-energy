@@ -51,16 +51,16 @@ Der Adapter erzeugt ein eigenes Device "energyAPP" welches die "APIRequests" und
 
 ### API Requests
 * homesdata             ... holt die gesamte Struktur der Netatmo Energy Installation (dabei wird der Parameter NAPlug verwendet). Sie können alle weiteren Parameter für manuelle Requests selbst auswählen.
-* homestatus            ... ermittelt und überträgt den Status und die technischen Informationen ihrer zugeordneten Ventile. Wenn sie Informationen zu einem spezifischen Geräteart möchten können sie diese selbst auswählen.
+* homestatus            ... ermittelt und überträgt den Status und die technischen Informationen ihrer zugeordneten Ventile. Wenn sie Informationen zu einem spezifischen Geräteart möchten, können sie diese selbst auswählen.
 * getroommeasure        ... Hiermit erhalten sie historische Daten ihrer Räume. Das Ergebnis wird in das "response" Feld eingetragen.
 * getmeasure            ... Hiermit erhalten sie die historischen Daten ihres Boilers. Das Ergebnis wird in das "response" Feld eingetragen.
 * setthermmode_schedule ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "Schedule" (Standard)
 * setthermmode_hq       ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "hq" (Frostwächter)
 * setthermmode_away     ... Setzt den Betriebsmodus der Netatmo Energy Installation auf "away" (nicht zu Hause)
 * switchhomeschedule    ... Setzt den "schedule mode" der Netatmo Energy API. Alle möglichen Modi sind im Channel "switchhomeschedule" aufgelistet.
-* synchomeschedule      ... Setzt die Heizpläne deiner Netatmo Energy APP. Um einen spezifischen Heizplan zu ändern geben sie eine an. Andernfalls wird der aktuell eingestellte abgeändert. Bitte tragen sie die notwendigen Parameter ein und lösen sie den synchomeschedule Request aus.
+* synchomeschedule      ... Setzt die Heizpläne deiner Netatmo Energy APP. Um einen spezifischen Heizplan zu ändern, geben sie eine an. Andernfalls wird der aktuell eingestellte abgeändert. Bitte tragen sie die notwendigen Parameter ein und lösen sie den synchomeschedule Request aus.
 
-Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden Request Channel im Channel "parameters" finden.
+Wenn ein API Request Parameter benötigt, können sie diese im korrespondierenden Request Channel im Channel "parameters" finden.
 
 ### Trigger
 * applychanges          ... übermittelt alle noch offenen manuellen Änderungen deiner Ventile an die Netatmo Energy APP
@@ -68,7 +68,7 @@ Wenn ein API Request Parameter benötigt können sie diese im korrespondierenden
 
 ### Änderungs-Requests
 * setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen"). 
-* set_mode_to_home      ... Der Button "set_mode_to_home" im channel "setting" setzt den Ventil-mode "set_mode_to_home" auf "home". Außerdem wird der API Request sofort ausgelöst um die Änderung zu übertragen.
+* set_mode_to_home      ... Der Button "set_mode_to_home" im channel "setting" setzt den Ventil-mode "set_mode_to_home" auf "home". Außerdem wird der API Request sofort ausgelöst, um die Änderung zu übertragen.
 
 ### Status
 * running               ... hier kann man erkenne ob derzeit ein API Request läuft
@@ -96,13 +96,13 @@ Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslöse
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_de.png" alt="settingsAPI" width="70%"/>
 
 ## Admin-Tab
-Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist ea auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten. Zusätzlich hat man die Möglichkeit die Änderungen in die Cloud zu übertragen und von einem eventuellen manuellen Modus wieder auf den Standardmodus umzuschalten.
+Auf der Admin-Tab können sie alle Thermostate, Bridges und Ventile ihrer netatmo energy instance anzeigen lassen. Dort ist es auch möglich diese Ansicht zu aktualisieren bzw. eine vollständige API Aktualisierung zu starten. Zusätzlich hat man die Möglichkeit die Änderungen in die Cloud zu übertragen und von einem eventuellen manuellen Modus wieder auf den Standardmodus umzuschalten.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/admintab_de.png" alt="admintab" width="70%"/>
 
-Auf jeder Karte werden Statussysmbole angezeigt, welche den aktuellen Zustand des Thermostats, der Ventile und des Steckers darstellt. Auf der zweiten Seite des Thermostats finden sie diverse API Requests um den Thermostat-Mode bzw. den Heizplan einzustellen.
+Auf jeder Karte werden Statussymbole angezeigt, welche den aktuellen Zustand des Thermostats, der Ventile und des Steckers darstellt. Auf der zweiten Seite des Thermostats finden sie diverse API Requests, um den Thermostat-Mode bzw. den Heizplan einzustellen.
 
 ## Widget
-Widget für VIS um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "SetTemp" - Datenpunkt eintragen. Alle anderen Informationen werden dynamisch aus der "rooms"-Struktur ermittelt.
+Widget für VIS, um ein komplettes Thermostat anzuzeigen. Sie müssen nur den "SetTemp" - Datenpunkt eintragen. Alle anderen Informationen werden dynamisch aus der "rooms"-Struktur ermittelt.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/valve_widget_de.png" alt="settingsAPI" width="250px"/>
