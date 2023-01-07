@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.0.1",
+        "version": "2.0.2",
         "news": {
+            "2.0.2": {
+                "en": "Revision of the documentation",
+                "de": "Überarbeitung der Dokumentation",
+                "ru": "Редакция документации",
+                "pt": "Revisão da documentação",
+                "nl": "Herziening van de documentatie",
+                "fr": "Révision de la documentation",
+                "it": "Revisione della documentazione",
+                "es": "Revisión de la documentación",
+                "pl": "Rewizja dokumentacji",
+                "uk": "Виконання документації",
+                "zh-cn": "文件的修订"
+            },
             "2.0.1": {
                 "en": "Corrections for OAuth2",
                 "de": "Korrekturen für OAuth2",
@@ -206,6 +219,7 @@
                 "it": "Netatmo Energy",
                 "es": "Netatmo Energy",
                 "pl": "Netatmo Energy",
+                "uk": "Netatmo Energy",
                 "zh-cn": "Netatmo Energy"
             },
             "link": "",

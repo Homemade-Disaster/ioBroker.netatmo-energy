@@ -12,6 +12,7 @@ const glob    = require('./lib/globals');
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
 
+	//Class Constructor
 	constructor(options) {
 		super(Object.assign(options || {}, {
 			name: 'netatmo-energy',
@@ -1210,6 +1211,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.sendRequestNotification(null, glob.SendNotification, mytools.tl('Warning', this.systemLang), message + ((name) ? '(' + name.val + ')' : '') );
 	}
 
+	//Get old states
 	_getOldValue(id) {
 		const result = this.mySubscribedStates.find((element) => element.id == id);
 		if (result && result != undefined) {
@@ -1818,7 +1820,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 
-	/**
+	/** authenticate Netatmo API
 	 * http://dev.netatmo.com/doc/authentication
 	 * @param args
 	 */
@@ -1849,7 +1851,7 @@ class NetatmoEnergy extends utils.Adapter {
 					this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
 					this.globalRefreshToken			= tokenvalues.refresh_token;
 					this._saveToken();
-					//this.startAdapter();
+					//send OK-acknowlage to OAuth2
 					obj.callback && this.sendTo(obj.from, obj.command, {result: `${mytools.tl('Tokens updated successfully.', this.systemLang)}`}, obj.callback);
 
 					this.log.info(mytools.tl('Update data in adapter configuration ... restarting ...', this.systemLang));
@@ -1863,11 +1865,13 @@ class NetatmoEnergy extends utils.Adapter {
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 					this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token' + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 					this.log.error(`OAuthRedirectReceived: ${error}`);
+					//send NOK-acknowlage to OAuth2
 					obj.callback && this.sendTo(obj.from, obj.command, {error: `${mytools.tl('Error getting new tokens from Netatmo: ', this.systemLang)} ${error} ${mytools.tl('. Please try again.', this.systemLang)}`}, obj.callback);
 				});
 		}
 	}
 
+	//Save token to file system
 	_saveToken() {
 		if (!this.config.NewOAuthMethode) return;
 		const tokenData = {
@@ -1902,6 +1906,7 @@ class NetatmoEnergy extends utils.Adapter {
 			}
 
 			switch (local_command) {
+				//Initiate API Request (Admin Tab)
 				case glob.APIRequest_setthermmode:
 				case glob.APIRequest_switchhomeschedule:
 					try {
@@ -1911,10 +1916,12 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Rename valve (Admin Tab)
 				case glob.ModifyDeviceObject:
 					this._renameValve(obj.from, obj.command, obj.message);
 					break;
 
+				//Set Home Mode (Admin Tab)
 				case glob.HomeMode:
 					if (obj.callback) {
 						let setData = {};
@@ -1929,6 +1936,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Save changes (Admin Tab)
 				case glob.ApplyChanges:
 					if (obj.callback) {
 						this.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang) );
@@ -1940,6 +1948,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Save changed temperatures (Admin Tab)
 				case glob.SaveTemperature:
 					if (obj.callback) {
 						let setData = {};
@@ -1959,6 +1968,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Start homesdata API Request (Admin Tab)
 				case glob.GetHomesdata:
 					if (obj.callback) {
 						this.RefreshWholeStructure(false);
@@ -1970,6 +1980,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Get valves (Admin Tab)
 				case glob.GetValves:
 					if (obj.callback) {
 						this._getAllAPIRequests(glob.Channel_switchhomeschedule, glob.APIRequest_switchhomeschedule, {})
@@ -1998,6 +2009,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Get Telegram user
 				case glob.NotificationTelegramUser:
 					if (obj.callback) {
 						try {
@@ -2031,6 +2043,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Get all instances for diferent notification services
 				case glob.NotificationTelegram:
 				case glob.NotificationPushover:
 				case glob.NotificationWhatsapp:
@@ -2052,6 +2065,7 @@ class NetatmoEnergy extends utils.Adapter {
 					}
 					break;
 
+				//Get starter link for OAuth2
 				case glob.GetOAuthStartLink: {
 
 					let auth_args = {};
@@ -2087,6 +2101,7 @@ class NetatmoEnergy extends utils.Adapter {
 					break;
 				}
 
+				//Callback from OAuth2
 				case glob.GetOAuthCallback: {
 					let auth_args = {};
 					auth_args = obj.message;
@@ -2102,6 +2117,7 @@ class NetatmoEnergy extends utils.Adapter {
 						return;
 					}
 
+					//Start authentication request
 					this._authenticate(auth_args, obj);
 					break;
 				}
