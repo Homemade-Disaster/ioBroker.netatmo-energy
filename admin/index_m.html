@@ -67,14 +67,15 @@
 		getAdapterInstances('telegram', function (instances) {
 			fillInstances('telegramInstance', instances, settings['telegramInstance']);
 		});
+		getAdapterInstances('signal-cmb', function (instances) {
+			fillInstances('signalInstance', instances, settings['signalInstance']);
+		});
 		getAdapterInstances('whatsapp-cmb', function (instances) {
 			fillInstances('whatsappInstance', instances, settings['whatsappInstance']);
 		});
-
 		getAdapterInstances('email', function (instances) {
 			fillInstances('emailInstance', instances, settings['emailInstance']);
 		});
-
 		getAdapterInstances('pushover', function (instances) {
 			fillInstances('pushoverInstance', instances, settings['pushoverInstance']);
 		});
@@ -143,21 +144,31 @@
 			$('.pushover').hide();
 			$('.telegram').show();
 			$('.whatsapp').hide();
+			$('.signal').hide();
 		} else if ($(this).val() === 'email') {
 			$('.email').show();
 			$('.telegram').hide();
 			$('.pushover').hide();
 			$('.whatsapp').hide();
+			$('.signal').hide();
 		} else if ($(this).val() === 'pushover') {
 			$('.pushover').show();
 			$('.telegram').hide();
 			$('.email').hide();
 			$('.whatsapp').hide();
+			$('.signal').hide();
 		} else if ($(this).val() === 'whatsapp-cmb') {
 			$('.whatsapp').show();
 			$('.telegram').hide();
 			$('.email').hide();
 			$('.pushover').hide();
+			$('.signal').hide();
+		} else if ($(this).val() === 'signal-cmb') {
+			$('.whatsapp').hide();
+			$('.telegram').hide();
+			$('.email').hide();
+			$('.pushover').hide();	
+			$('.signal').show();		
 		}
 		}).trigger('change');
 
@@ -264,6 +275,7 @@
 								<option value="email" class="translate">E-Mail</option>
 								<option value="pushover" class="translate">Pushover</option>
 								<option value="whatsapp-cmb" class="translate">WhatsApp</option>
+								<option value="signal-cmb" class="translate">Signal</option>
 							</select>
 							<label for="notificationsType" class="translate">notifications type</label>
 						</div>
@@ -293,7 +305,13 @@
 							<label for="whatsappInstance" class="translate">WhatsApp instance</label>
 						</div>
 					</div>
-
+					<!-- Signal -->
+					<div class="row signal">
+						<div class="input-field col s12 m6 l3 signal">
+							<select id="signalInstance" class="value"></select>
+							<label for="signalInstance" class="translate">Signal instance</label>
+						</div>
+					</div>
 					<!-- Pushover -->
 					<div class="row pushover">
 						<div class="input-field col s12 m6 l3 pushover">

@@ -129,7 +129,8 @@
                       {"label": "Telegram", "value": "telegram"},
                       {"label": "E-Mail",   "value": "email"},
                       {"label": "Pushover", "value": "pushover"},
-                      {"label": "WhatsApp", "value": "whatsapp-cmb"}
+                      {"label": "WhatsApp", "value": "whatsapp-cmb"},
+                      {"label": "Signal", "value": "signal-cmb"}
                     ],
                     "label": "notifications type",
                     "sm": 12,
@@ -174,6 +175,17 @@
                     "lg": 4            
                 },
                 
+                "signalInstance":{
+                    "newLine": true,
+                    "type": "selectSendTo",
+                    "command": "signal-cmb",
+                    "label": "Signal instance",
+                    "hidden": "data.notificationsType !== 'signal-cmb'",
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4            
+                },
+
                 "pushoverInstance":{
                     "newLine": true,
                     "type": "selectSendTo",

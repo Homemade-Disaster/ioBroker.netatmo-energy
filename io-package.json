@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "news": {
+            "2.0.3": {
+                "en": "Added Signal as a new message type",
+                "de": "Signal als neuer Nachrichtentyp hinzugefügt",
+                "ru": "Добавлен сигнал как новый тип сообщения",
+                "pt": "Sinal adicionado como um novo tipo de mensagem",
+                "nl": "Vertaling:",
+                "fr": "Ajout du signal comme nouveau type de message",
+                "it": "Aggiunto Segnale come un nuovo tipo di messaggio",
+                "es": "Signal añadido como un nuevo tipo de mensaje",
+                "pl": "Added Signal jako nowy typ wiadomości",
+                "uk": "Додано Signal як новий тип повідомлення",
+                "zh-cn": "增加作为新信息类型的信号"
+            },
             "2.0.2": {
                 "en": "Revision of the documentation",
                 "de": "Überarbeitung der Dokumentation",
@@ -312,6 +325,7 @@
         "telegramInstance": "telegram.0",
         "telegramUser": "All Receiver",
         "telegramSilentNotice": false,
+        "signalInstance": "signal-cmb.0",
         "whatsappInstance": "whatsapp-cmb.0",
         "pushoverInstance": "pushover.0",
         "pushoverSilentNotice": false,
