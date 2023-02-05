@@ -268,6 +268,17 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_synchomeschedule, glob.Channel_parameters, glob.State_away_temp]), 'Away temperature value', 12, true, 'number', true, true, '', false, false);
 		await this.subscribeStates(this._getDP([this.globalAPIChannel, glob.Channel_synchomeschedule, glob.APIRequest_synchomeschedule]));
 
+		// Channel createnewhomeschedule
+		await this.createMyChannel(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule]), 'API createnewhomeschedule');
+		await this.createMyChannel(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters]), 'parameters');
+		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.APIRequest_createnewhomeschedule]), 'createnewhomeschedule', false, true, 'button', true, true, '', false, false);
+		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_name]), 'Name of the schedule', '', true, 'text', true, true, '', false, false);
+		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_zones]), 'Array of data used to define time periods to build a schedule. More info on the Thermostat page. id of zone | type of zone | Name of zone | Temperature', '', true, 'list', true, true, '', false, false);
+		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_timetable]), 'Array describing the timetable. More info on the Thermostat page. ID of the zone - offset in minutes since Monday 00:00:01', '', true, 'list', true, true, '', false, false);
+		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_hg_temp]), 'Frost guard temperature value', 7, true, 'number', true, true, '', false, false);
+		await this.createNetatmoStructure(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_away_temp]), 'Away temperature value', 12, true, 'number', true, true, '', false, false);
+		await this.subscribeStates(this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.APIRequest_createnewhomeschedule]));
+
 		// Channel getroommeasure
 		await this.createMyChannel(this._getDP([this.globalAPIChannel, glob.Channel_getroommeasure]), 'API getroommeasure');
 		await this.createMyChannel(this._getDP([this.globalAPIChannel, glob.Channel_getroommeasure, glob.Channel_parameters]), 'parameters');
@@ -323,6 +334,9 @@ class NetatmoEnergy extends utils.Adapter {
 				break;
 			case glob.APIRequest_synchomeschedule:
 				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + glob.blank + addText + glob.blank + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				break;
+			case glob.APIRequest_createnewhomeschedule:
+				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Create a thermostat weekly schedule', this.systemLang) + glob.blank + addText + glob.blank + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			//get requests
 			case glob.APIRequest_getroommeasure:
@@ -587,6 +601,11 @@ class NetatmoEnergy extends utils.Adapter {
 					resolve(true);
 				};
 
+				const createAPIAsync_createnewschedule = async function (NetatmoRequest, that) {
+					await that.sendSingleNewSchedule(NetatmoRequest, false);
+					resolve(true);
+				};
+
 				const createAPIapplyAsync_syncrequest = async function(NetatmoRequest, mode, that) {
 					const searchstring = 'rooms\\.\\d+\\.' + glob.Channel_settings + '\\.' + glob.State_TempChanged + '';
 					let changesmade = false;
@@ -635,6 +654,10 @@ class NetatmoEnergy extends utils.Adapter {
 
 					case glob.APIRequest_synchomeschedule:
 						createAPIAsync_syncrequest(NetatmoRequest, that);
+						break;
+
+					case glob.APIRequest_createnewhomeschedule:
+						createAPIAsync_createnewschedule(NetatmoRequest, that);
 						break;
 				}
 			});
@@ -728,6 +751,23 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-synchomeschedule request is missing parameters', this.systemLang));
+			await this.sendRequestNotification(null, glob.WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters' + 'Actual payload: ' + syncmode);
+		}
+	}
+
+	// send createnewschedule API Request
+	async sendSingleNewSchedule(NetatmoRequest, norefresh) {
+		let syncmode = '';
+		syncmode = syncmode + await this.getValuefromDatapoint(glob.payload_zones, this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_zones]));
+		syncmode = syncmode + await this.getValuefromDatapoint(glob.payload_timetable, this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_timetable]));
+		syncmode = syncmode + await this.getValuefromDatapoint(glob.payload_hg_temp, this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_hg_temp]));
+		syncmode = syncmode + await this.getValuefromDatapoint(glob.payload_away_temp, this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_away_temp]));
+
+		if ((syncmode.match(/&/g) || []).length == 4) {
+			syncmode = syncmode + await this.getValuefromDatapoint(glob.payload_name, this._getDP([this.globalAPIChannel, glob.Channel_createnewhomeschedule, glob.Channel_parameters, glob.State_name]));
+			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, syncmode, norefresh, true);
+		} else {
+			this.log.error(mytools.tl('API-createnewhomeschedule request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, glob.WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters' + 'Actual payload: ' + syncmode);
 		}
 	}
@@ -1418,7 +1458,17 @@ class NetatmoEnergy extends utils.Adapter {
 							}
 							this.log.debug(mytools.tl('API Request synchomeschedule:', this.systemLang) + glob.blank + id + ' - ' + state.val);
 							this.setState(id, false, true);
-							this.sendSingleActualTemp(glob.APIRequest_setthermmode, false);
+							this.sendSingleActualTemp(glob.APIRequest_synchomeschedule, false);
+							break;
+
+						// Set createnewhomeschedule for Netatmo Energy
+						case glob.APIRequest_createnewhomeschedule:
+							if (state.val === false) {
+								break;
+							}
+							this.log.debug(mytools.tl('API Request createnewhomeschedule:', this.systemLang) + glob.blank + id + ' - ' + state.val);
+							this.setState(id, false, true);
+							this.sendSingleNewSchedule(glob.APIRequest_createnewhomeschedule, false);
 							break;
 
 						//Refresh whole structure
@@ -1465,6 +1515,7 @@ class NetatmoEnergy extends utils.Adapter {
 					case glob.APIRequest_setthermmode + '_' + glob.APIRequest_setthermmode_hg:
 					case glob.APIRequest_setthermmode + '_' + glob.APIRequest_setthermmode_away:
 					case glob.APIRequest_synchomeschedule:
+					case glob.APIRequest_createnewhomeschedule:
 						this.createEnergyAPP();
 						break;
 				}

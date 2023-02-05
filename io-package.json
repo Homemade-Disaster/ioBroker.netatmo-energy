@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.0.3",
+        "version": "2.1.0",
         "news": {
+            "2.1.0": {
+                "en": "Added new API request 'createnewhomeschedule'",
+                "de": "Neue API-Anforderung 'createnewhomeschedule'",
+                "ru": "Добавлен новый запрос API 'createnewhomeschedule'",
+                "pt": "Adicionado novo pedido API 'createnewhomeschedule'",
+                "nl": "Verzocht nieuwe API verzoek 'createnewhomeschedule'",
+                "fr": "Ajout d'une nouvelle requête API 'createnewhomeschedule'",
+                "it": "Aggiunto nuova richiesta API 'createnewhomeschedule'",
+                "es": "Añadido nueva solicitud de API 'createnewhomeschedule'",
+                "pl": "Wprowadzone nowe API żąda utworzenia 'createnewhomeschedule'",
+                "uk": "Додано новий API-запитування",
+                "zh-cn": "增加新优惠贷款要求创造新的整套时间"
+            },
             "2.0.3": {
                 "en": "Added Signal as a new message type",
                 "de": "Signal als neuer Nachrichtentyp hinzugefügt",

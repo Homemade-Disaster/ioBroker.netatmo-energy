@@ -214,5 +214,9 @@
     "switchhomeschedule schedule": "时间表",
     "very low": "非常低",
     "warnings": "警告",
-    "warnings, errors": "警告，错误"
+    "warnings, errors": "警告，错误",
+    "Create a thermostat weekly schedule": "每周设立动荡情况",
+    "API-createnewhomeschedule request is missing parameters": "API-增聘时间表是遗漏的参数。",
+    "API Request createnewhomeschedule:": "导 言 3. 请求设立新的表格:",
+    "Name of the schedule": "附表姓名"
 }

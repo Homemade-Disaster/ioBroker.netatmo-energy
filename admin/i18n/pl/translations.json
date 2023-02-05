@@ -214,5 +214,9 @@
     "switchhomeschedule schedule": "Harmonogram czasowy",
     "very low": "bardzo niski",
     "warnings": "ostrzeżenia",
-    "warnings, errors": "ostrzeżenia, błędy"
+    "warnings, errors": "ostrzeżenia, błędy",
+    "Create a thermostat weekly schedule": "Stworzona jest cotygodniowo cotygodniowy plan",
+    "API-createnewhomeschedule request is missing parameters": "Żądanie API-createnewhomeschedule jest zaniedbaniem parametrów",
+    "API Request createnewhomeschedule:": "API Request - Request - Complex (ang.)",
+    "Name of the schedule": "Nazwa harmonogramu"
 }

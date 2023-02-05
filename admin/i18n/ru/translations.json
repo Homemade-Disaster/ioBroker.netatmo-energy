@@ -214,5 +214,9 @@
     "switchhomeschedule schedule": "График",
     "very low": "очень низкий",
     "warnings": "предупреждения",
-    "warnings, errors": "предупреждения, ошибки"
+    "warnings, errors": "предупреждения, ошибки",
+    "Create a thermostat weekly schedule": "Создание еженедельного графика термостата",
+    "API-createnewhomeschedule request is missing parameters": "API-createnewhomeschedule запрос отсутствует параметры",
+    "API Request createnewhomeschedule:": "API Запросить созданиеnewhomeschedule:",
+    "Name of the schedule": "Наименование графика"
 }

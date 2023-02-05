@@ -214,5 +214,9 @@
     "switchhomeschedule schedule": "середній0",
     "very low": "середній1",
     "warnings": "середній2",
-    "warnings, errors": "середній3"
+    "warnings, errors": "середній3",
+    "Create a thermostat weekly schedule": "Створення термостату щотижневий графік",
+    "API-createnewhomeschedule request is missing parameters": "Запит API-createnewhomeschedule відсутні параметри",
+    "API Request createnewhomeschedule:": "Контакти Заявка на створення новоїмоделі:",
+    "Name of the schedule": "Назва графіка"
 }

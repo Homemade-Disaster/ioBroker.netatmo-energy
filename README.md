@@ -1,4 +1,5 @@
 ![Logo](https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/admin/netatmo-energy.png)
+
 # ioBroker.netatmo-energy
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.netatmo-energy.svg)](https://www.npmjs.com/package/iobroker.netatmo-energy)
@@ -14,12 +15,14 @@
 **This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 ## netatmo-energy adapter for ioBroker
-Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: https://dev.netatmo.com/apidocumentation/energy.
+
+Get and set data using Netatmo-Energy API. This adapter uses the fetch command to execute http requests to Netatmo Energy API. The official documentation of this API: <https://dev.netatmo.com/apidocumentation/energy>.
 
 [Detailed description of Netatmo Energy Adapter in english](docs/en/README.md)
 
 ## netatmo-energy Adapter für ioBroker
-Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch Request für den Datentransfer zur Netatmo Energy API. Offizielle Dokumentation der API: https://dev.netatmo.com/apidocumentation/energy.
+
+Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. geändert. Der Adapter verwendet den fetch Request für den Datentransfer zur Netatmo Energy API. Offizielle Dokumentation der API: <https://dev.netatmo.com/apidocumentation/energy>.
 
 [Detailbeschreibung des Netatmo Energy Adapter in deutsch](docs/de/README.md)
 
@@ -28,84 +31,114 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 [![paypal](https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=V3HZWGDD44GEN)
 
 ## Changelog
+
 [Older changes](CHANGELOG_OLD.md)
 <!--
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.1.0 (2023-02-05)
+
+* (ioKlausi) Added new API request 'createnewhomeschedule'
+
 ### 2.0.3 (2023-02-04)
+
 * (ioKlausi) Added Signal as a new message type
 
 ### 2.0.2 (2023-01-07)
+
 * (ioKlausi) Revision of the documentation
 
 ### 2.0.1 (2023-01-06)
+
 * (ioKlausi) Corrections for OAuth2
 
 ### 2.0.0 (2023-01-06)
+
 * (ioKlausi) New authentication method established
 
 ### 1.3.1 (2022-04-18)
+
 * (ioKlausi) Additional information added to admin tab cards
 
 ### 1.3.0 (2022-04-17)
+
 * (ioKlausi) Change thermostat mode functionality added to thermostat card
 
 ### 1.2.5 (2022-04-16)
+
 * (ioKlausi) Dropdown menu to change heating plan added to the thermostat card in the admin page
 
 ### 1.2.4 (2022-04-09)
+
 * (ioKlausi) i18n files for npm added
 
 ### 1.2.3 (2022-04-08)
+
 * (ioKlausi) Added status icons to plug
 
 ### 1.2.2 (2022-04-03)
-* (ioKlausi) Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud 
+
+* (ioKlausi) Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud
 
 ### 1.2.1 (2022-04-01)
+
 * (ioKlausi) Messages for specific events created
 
 ### 1.2.0 (2022-03-31)
+
 * (ioKlausi) Close message functionality added on admin tab
 
 ### 1.1.7 (2022-03-24)
+
 * (ioKlausi) Bridge information added to each card
 
 ### 1.1.6 (2022-03-24)
+
 * (ioKlausi) Rework README.md & WIKI
 
 ### 1.1.5 (2022-03-23)
+
 * (ioKlausi) Refresh functionality added to admin tab
 
 ### 1.1.4 (2022-03-20)
-* (ioKlausi) Plug added to admin tab 
+
+* (ioKlausi) Plug added to admin tab
 
 ### 1.1.3 (2022-03-19)
-* (ioKlausi) Admin tab for valves added 
+
+* (ioKlausi) Admin tab for valves added
 
 ### 1.1.2 (2022-03-06)
-* (ioKlausi) Bugfix Easy Admin 
+
+* (ioKlausi) Bugfix Easy Admin
 
 ### 1.1.1 (2022-03-06)
-* (ioKlausi) Bugfix setroomthermpoint 
+
+* (ioKlausi) Bugfix setroomthermpoint
 
 ### 1.1.0 (2022-03-06)
+
 * (ioKlausi) setroomthermpoint - Trigger for valve-mode implemented
 
 ### 1.0.4 (2022-03-05)
+
 * (ioKlausi) Bugfix - send message
 
 ### 1.0.3 (2022-03-05)
+
 * (ioKlausi) Transfered Customizing-UI to json
 
 ### 1.0.2 (2022-02-27)
+
 * (ioKlausi) Redesign coding
 
 ### 1.0.0 (2022-02-25)
+
 * (ioKlausi) Create major version
 
 ## License
+
 MIT License
 
 Copyright (c) 2021-2023 ioKlausi <nii@gmx.at>

@@ -214,5 +214,9 @@
     "switchhomeschedule schedule": "Horario",
     "very low": "muy bajo",
     "warnings": "advertencias",
-    "warnings, errors": "advertencias, errores"
+    "warnings, errors": "advertencias, errores",
+    "Create a thermostat weekly schedule": "Crear un programa semanal de termostato",
+    "API-createnewhomeschedule request is missing parameters": "API-createnewhomeschedule solicitud falta parámetros",
+    "API Request createnewhomeschedule:": "API Solicitar crearnewhomeschedule:",
+    "Name of the schedule": "Nombre del calendario"
 }
