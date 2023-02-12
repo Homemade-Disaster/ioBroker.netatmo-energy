@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.1.0",
+        "version": "2.1.1",
         "news": {
+            "2.1.1": {
+                "en": "Timer established for token refresh",
+                "de": "Timer etabliert für Tokenauffrischung",
+                "ru": "Таймер создан для обновления токенов",
+                "pt": "Temporizador estabelecido para atualização de token",
+                "nl": "Timer is gevestigd voor token verfrissing",
+                "fr": "Timer établi pour rafraîchir les jetons",
+                "it": "Timer stabilito per rinfrescare token",
+                "es": "Timer establecido para el refresco de token",
+                "pl": "Timer zakładał odświeżenie odczucia tokenu",
+                "uk": "Таймер, встановлений для освіження токени",
+                "zh-cn": "设立精神病修士时间"
+            },
             "2.1.0": {
                 "en": "Added new API request 'createnewhomeschedule'",
                 "de": "Neue API-Anforderung 'createnewhomeschedule'",

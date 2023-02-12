@@ -52,6 +52,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		//Adapter status
 		this.FetchAbortController		= new abort.AbortController();
+		this.RefreshTokenInterval       = null;
 		this.adapterIntervals			= [];
 		this.mySubscribedStates			= [];
 		this.AdapterStarted				= false;
@@ -404,8 +405,24 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
+	_setTokenIntervall(setTimer) {
+		const that = this;
+		const refreshTokenbyTimer = function () {
+			that._authenticate_refresh_token(that.storedOAuthData.redirect_uri, that.storedOAuthData.code);
+		};
+
+		if (this.RefreshTokenInterval != null) {
+			clearInterval(this.RefreshTokenInterval);
+			this.RefreshTokenInterval = null;
+		}
+		if (setTimer || this.globalNetatmo_ExpiresIn > 0) {
+			this.RefreshTokenInterval = setInterval(refreshTokenbyTimer, this.globalNetatmo_ExpiresIn);
+		}
+	}
+
 	//Authenticate refresh token
 	async _authenticate_refresh_token(redirect_uri, code) {
+		this._setTokenIntervall(false);
 		this.log.info(mytools.tl('Start Token-Refresh:', this.systemLang));
 		await this.getToken(this.config.HomeId, this.config.ClientId, this.config.ClientSecretID, this.config.User, this.config.Password, redirect_uri, code, this.config.NewOAuthMethode)
 			.then(tokenvalues => {
@@ -414,7 +431,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalRefreshToken			= tokenvalues.refresh_token;
 				this._saveToken();
 
-				//this.adapterIntervals.push(setInterval(this._authenticate_refresh_token, this.storedOAuthData.redirect_uri, this.storedOAuthData.code, (tokenvalues.expires_in - 20) * 1000), this.globalRefreshToken);
+				this._setTokenIntervall(true);
 
 				this.log.debug(mytools.tl('Token OK:', this.systemLang) + glob.blank + this.globalNetatmo_AccessToken);
 				this.startAdapter();
@@ -1283,6 +1300,7 @@ class NetatmoEnergy extends utils.Adapter {
 		try {
 			this.AdapterStarted = false;
 			this.FetchAbortController.abort();
+			this._setTokenIntervall(false);
 			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
 			this.sendRequestNotification(null, glob.WarningNotification, mytools.tl('Status', this.systemLang) + '\n' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + glob.blank + this.namespace);
@@ -1909,6 +1927,7 @@ class NetatmoEnergy extends utils.Adapter {
 			this._authenticate_refresh_token(args.redirect_uri, args.code);
 		} else {
 			const setpayload = 'code=' + args.code + '&redirect_uri=' + args.redirect_uri + '&grant_type=authorization_code' + glob.payload_client_id + this.config.ClientId + glob.payload_client_secret + this.config.ClientSecretID + glob.payload_scope + glob.OAuthScope;
+			this._setTokenIntervall(false);
 			await this.getAPIRequest(glob.Netatmo_TokenRequest_URL, '', setpayload, this.config.NewOAuthMethode)
 				// eslint-disable-next-line no-unused-vars
 				.then(async (tokenvalues) => {
@@ -1918,6 +1937,7 @@ class NetatmoEnergy extends utils.Adapter {
 					this._saveToken();
 					//send OK-acknowlage to OAuth2
 					obj.callback && this.sendTo(obj.from, obj.command, {result: `${mytools.tl('Tokens updated successfully.', this.systemLang)}`}, obj.callback);
+					this._setTokenIntervall(true);
 
 					this.log.info(mytools.tl('Update data in adapter configuration ... restarting ...', this.systemLang));
 					this.extendForeignObject(`system.adapter.${this.namespace}`, {});
@@ -1927,6 +1947,7 @@ class NetatmoEnergy extends utils.Adapter {
 					this.globalRefreshToken			= null;
 					this.globalNetatmo_ExpiresIn	= 0;
 					this._saveToken();
+
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 					this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token' + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 					this.log.error(`OAuthRedirectReceived: ${error}`);
