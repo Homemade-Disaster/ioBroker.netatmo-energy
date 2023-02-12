@@ -37,6 +37,14 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.3.0 (2023-02-12)
+
+* (ioKlausi) Rework of signal notifications
+
+### 2.2.2 (2023-02-12)
+
+* (ioKlausi) Send No-Token-Error as a notification
+
 ### 2.2.1 (2023-02-12)
 
 * (ioKlausi) Timer established for token refresh
@@ -68,78 +76,6 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 ### 1.3.0 (2022-04-17)
 
 * (ioKlausi) Change thermostat mode functionality added to thermostat card
-
-### 1.2.5 (2022-04-16)
-
-* (ioKlausi) Dropdown menu to change heating plan added to the thermostat card in the admin page
-
-### 1.2.4 (2022-04-09)
-
-* (ioKlausi) i18n files for npm added
-
-### 1.2.3 (2022-04-08)
-
-* (ioKlausi) Added status icons to plug
-
-### 1.2.2 (2022-04-03)
-
-* (ioKlausi) Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud
-
-### 1.2.1 (2022-04-01)
-
-* (ioKlausi) Messages for specific events created
-
-### 1.2.0 (2022-03-31)
-
-* (ioKlausi) Close message functionality added on admin tab
-
-### 1.1.7 (2022-03-24)
-
-* (ioKlausi) Bridge information added to each card
-
-### 1.1.6 (2022-03-24)
-
-* (ioKlausi) Rework README.md & WIKI
-
-### 1.1.5 (2022-03-23)
-
-* (ioKlausi) Refresh functionality added to admin tab
-
-### 1.1.4 (2022-03-20)
-
-* (ioKlausi) Plug added to admin tab
-
-### 1.1.3 (2022-03-19)
-
-* (ioKlausi) Admin tab for valves added
-
-### 1.1.2 (2022-03-06)
-
-* (ioKlausi) Bugfix Easy Admin
-
-### 1.1.1 (2022-03-06)
-
-* (ioKlausi) Bugfix setroomthermpoint
-
-### 1.1.0 (2022-03-06)
-
-* (ioKlausi) setroomthermpoint - Trigger for valve-mode implemented
-
-### 1.0.4 (2022-03-05)
-
-* (ioKlausi) Bugfix - send message
-
-### 1.0.3 (2022-03-05)
-
-* (ioKlausi) Transfered Customizing-UI to json
-
-### 1.0.2 (2022-02-27)
-
-* (ioKlausi) Redesign coding
-
-### 1.0.0 (2022-02-25)
-
-* (ioKlausi) Create major version
 
 ## License
 

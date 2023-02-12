@@ -86,7 +86,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//Get stored token from adapter data directory
-	_getStoredToken() {
+	async _getStoredToken() {
 		this.dataDir = utils.getAbsoluteInstanceDataDir(this);
 		try {
 			if (!fs.existsSync(this.dataDir)) {
@@ -96,6 +96,7 @@ class NetatmoEnergy extends utils.Adapter {
 				const tokens = JSON.parse(fs.readFileSync(`${this.dataDir}/tokens.json`, 'utf8'));
 				if (tokens.client_id !== this.config.ClientId) {
 					this.log.info(mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
+					await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
 					fs.unlinkSync(`${this.dataDir}/tokens.json`);
 				} else {
 					if (!tokens.access_token || !tokens.refresh_token) {
@@ -103,13 +104,16 @@ class NetatmoEnergy extends utils.Adapter {
 						this.globalRefreshToken        = null;
 						this.scope                     = '';
 						this.log.error(mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
+						await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
 					} else {
 						this.globalNetatmo_AccessToken = tokens.access_token;
 						this.globalRefreshToken        = tokens.refresh_token;
 						this.scope                     = tokens.scope;
 						this.log.info(mytools.tl('Using stored tokens to initialize ... ', this.systemLang) + JSON.stringify(tokens));
+						await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', 'Test of mee');
 						if (tokens.scope !== this.scope) {
 							this.log.info(mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
+							await this.sendRequestNotification(null, glob.WarningNotification, 'Get Token', mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
 						}
 					}
 				}
@@ -118,10 +122,13 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalRefreshToken        = null;
 				this.scope                     = '';
 				this.log.error(mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
+				await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
 			}
 		} catch (err) {
 			// @ts-ignore
 			this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
+			// @ts-ignore
+			await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
 		}
 	}
 
@@ -148,15 +155,12 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		});
-		this.initAdapter(this.systemLang);
-		this.startAdapter();
+		await this.initAdapter(this.systemLang);
+		await this.startAdapter();
 	}
 
 	// Start initialization adapter
-	initAdapter(systemLang) {
-		//Get stored token
-		this._getStoredToken();
-
+	async initAdapter(systemLang) {
 		// define global constants
 		this.globalDevice				= this._getDP([this.namespace, glob.Device_APIRequests]);
 		this.globalAPIChannel			= this._getDP([this.namespace, glob.Device_APIRequests, glob.Channel_APIRequests]);
@@ -198,6 +202,9 @@ class NetatmoEnergy extends utils.Adapter {
 			emailSender: this.config.emailSender,
 			systemLang
 		};
+
+		//Get stored token
+		await this._getStoredToken();
 	}
 
 	// Start initialization
@@ -325,19 +332,19 @@ class NetatmoEnergy extends utils.Adapter {
 		switch(NetatmoRequest) {
 			//set requests
 			case glob.APIRequest_setroomthermpoint:
-				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Target temperature changed', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				await this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Target temperature changed', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case glob.APIRequest_setthermmode:
-				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Mode for your heating system was set to', this.systemLang) + glob.blank + addText + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				await this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Mode for your heating system was set to', this.systemLang) + glob.blank + addText + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case glob.APIRequest_switchhomeschedule:
-				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed schedule for your heating system to', this.systemLang) + glob.blank +  addText + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				await this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed schedule for your heating system to', this.systemLang) + glob.blank +  addText + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case glob.APIRequest_synchomeschedule:
-				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + glob.blank + addText + glob.blank + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				await this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Changed weekly schedule', this.systemLang) + glob.blank + addText + glob.blank + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			case glob.APIRequest_createnewhomeschedule:
-				this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Create a thermostat weekly schedule', this.systemLang) + glob.blank + addText + glob.blank + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
+				await this.sendNotification(this, NotificationType, NetatmoRequest, mytools.tl('Create a thermostat weekly schedule', this.systemLang) + glob.blank + addText + glob.blank + mytools.tl('for your heating system', this.systemLang) + ((this.config.NoticeType == glob.NoticeTypeLong && longText != '') ? '\n' + longText : ''));
 				break;
 			//get requests
 			case glob.APIRequest_getroommeasure:
@@ -354,6 +361,9 @@ class NetatmoEnergy extends utils.Adapter {
 
 	// send notifications
 	sendNotification(adapter, errortype, subject, messageText) {
+		let MesgText = '';
+		let Subject = '';
+
 		if(!this.config.notificationEnabled) return;
 		if (errortype != glob.SendNotification) {
 			if (!((this.config.notifications.substring(0,1) != '0' && errortype == glob.InfoNotification) || (this.config.notifications.substring(1,2) != '0' && errortype == glob.WarningNotification) || (this.config.notifications.substring(2,3) != '0' && errortype == glob.ErrorNotification))) return;
@@ -362,7 +372,9 @@ class NetatmoEnergy extends utils.Adapter {
 			//email
 			case glob.NotificationEmail:
 				if (this.email.instance !== '' && this.email.instance !== null && this.email.instance !== undefined) {
-					adapter.sendTo(adapter.email.instance, 'send', { text: 'Netatmo Energy:\n' + messageText, to: adapter.email.emailReceiver, subject: ((subject !== undefined && subject !== null) ? (subject) : (mytools.tl('Message', this.systemLang))), from: adapter.email.emailSender });
+					MesgText = 'Netatmo Energy:\n' + messageText;
+					Subject = ((subject !== undefined && subject !== null) ? (subject) : (mytools.tl('Message', this.systemLang)));
+					adapter.sendTo(adapter.email.instance, 'send', { text: MesgText, to: adapter.email.emailReceiver, subject: Subject, from: adapter.email.emailSender });
 					return;
 				}
 				break;
@@ -370,10 +382,12 @@ class NetatmoEnergy extends utils.Adapter {
 			//pushover
 			case glob.NotificationPushover:
 				if (this.pushover.instance !== '' && this.pushover.instance !== null && this.pushover.instance !== undefined) {
+					MesgText = 'Netatmo Energy:\n' + messageText;
+					Subject = ((subject !== undefined && subject !== null) ? (subject) : (mytools.tl('Message', this.systemLang)));
 					if (this.pushover.SilentNotice === 'true' || this.pushover.SilentNotice === true) {
-						adapter.sendTo(adapter.pushover.instance, 'send', { message: 'Netatmo Energy:\n' + messageText, sound: '', priority: -1, title: ((subject !== undefined && subject !== null) ? (subject) : (mytools.tl('Message', this.systemLang))), device: adapter.pushover.deviceID });
+						adapter.sendTo(adapter.pushover.instance, 'send', { message: MesgText, sound: '', priority: -1, title: Subject, device: adapter.pushover.deviceID });
 					} else {
-						adapter.sendTo(adapter.pushover.instance, 'send', { message: 'Netatmo Energy:\n' + messageText, sound: '', title: ((subject !== undefined && subject !== null) ? (subject) : (mytools.tl('Message', this.systemLang))), device: adapter.pushover.deviceID });
+						adapter.sendTo(adapter.pushover.instance, 'send', { message: MesgText, sound: '', title: Subject, device: adapter.pushover.deviceID });
 					}
 				}
 				break;
@@ -381,10 +395,11 @@ class NetatmoEnergy extends utils.Adapter {
 			//telegram
 			case glob.NotificationTelegram:
 				if (this.telegram.instance !== '' && this.telegram.instance !== null && this.telegram.instance !== undefined) {
+					MesgText = 'Netatmo Energy:\n' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText));
 					if (this.telegram.User && (this.telegram.User === 'allTelegramUsers' || this.telegram.User === '')) {
-						adapter.sendTo(adapter.telegram.instance, 'send', { text: 'Netatmo Energy:\n' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText)), disable_notification: adapter.telegram.SilentNotice });
+						adapter.sendTo(adapter.telegram.instance, 'send', { text: MesgText, disable_notification: adapter.telegram.SilentNotice });
 					} else {
-						adapter.sendTo(adapter.telegram.instance, 'send', { user: adapter.telegram.User, text: 'Netatmo Energy:\n' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText)), disable_notification: adapter.telegram.SilentNotice });
+						adapter.sendTo(adapter.telegram.instance, 'send', { user: adapter.telegram.User, text: MesgText, disable_notification: adapter.telegram.SilentNotice });
 					}
 				}
 				break;
@@ -392,14 +407,16 @@ class NetatmoEnergy extends utils.Adapter {
 			//signal
 			case glob.NotificationSignal:
 				if (this.signal.instance !== '' && this.signal.instance !== null && this.signal.instance !== undefined) {
-					adapter.sendTo(adapter.signal.instance, 'send', { text: 'Netatmo Energy:\n' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText))});
+					MesgText = 'Netatmo Energy: ' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText));
+					adapter.sendTo(adapter.signal.instance, 'send', { text: MesgText });
 				}
 				break;
 
 			//whatsapp
 			case glob.NotificationWhatsapp:
 				if (this.whatsapp.instance !== '' && this.whatsapp.instance !== null && this.whatsapp.instance !== undefined) {
-					adapter.sendTo(adapter.whatsapp.instance, 'send', { text: 'Netatmo Energy:\n' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText))});
+					MesgText = 'Netatmo Energy:\n' + ((subject !== undefined && subject !== null) ? (subject + ' - ' + messageText) : (messageText));
+					adapter.sendTo(adapter.whatsapp.instance, 'send', { text: MesgText });
 				}
 				break;
 		}
@@ -425,24 +442,24 @@ class NetatmoEnergy extends utils.Adapter {
 		this._setTokenIntervall(false);
 		this.log.info(mytools.tl('Start Token-Refresh:', this.systemLang));
 		await this.getToken(this.config.HomeId, this.config.ClientId, this.config.ClientSecretID, this.config.User, this.config.Password, redirect_uri, code, this.config.NewOAuthMethode)
-			.then(tokenvalues => {
+			.then(async (tokenvalues) => {
 				this.globalNetatmo_AccessToken	= tokenvalues.access_token;
 				this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
 				this.globalRefreshToken			= tokenvalues.refresh_token;
-				this._saveToken();
+				await this._saveToken();
 
 				this._setTokenIntervall(true);
 
 				this.log.debug(mytools.tl('Token OK:', this.systemLang) + glob.blank + this.globalNetatmo_AccessToken);
-				this.startAdapter();
+				await this.startAdapter();
 			})
 			.catch(async (error) => {
 				this.globalNetatmo_AccessToken	= null;
 				this.globalRefreshToken			= null;
 				this.globalNetatmo_ExpiresIn	= 0;
-				this._saveToken();
+				await this._saveToken();
 				this.log.error(mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
-				await this.sendRequestNotification(null, glob.ErrorNotification, mytools.tl('API Token', this.systemLang) + '\n', mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+				await this.sendRequestNotification(null, glob.ErrorNotification, mytools.tl('API Token', this.systemLang), mytools.tl('Did not get a tokencode:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 			});
 	}
 
@@ -501,9 +518,9 @@ class NetatmoEnergy extends utils.Adapter {
 						await this.setState(this._getDP([this.globalAPIChannelStatus, glob.State_Status_API_running]), false, true);
 					}
 				})
-				.catch(error => {
+				.catch(async (error) => {
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
-					this.sendRequestNotification(null, glob.ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+					await this.sendRequestNotification(null, glob.ErrorNotification, APIRequest + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 				});
 		} else {
 			if (lastrequest) {
@@ -577,7 +594,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getroosmeasure request is missing parameters', this.systemLang));
-			await this.sendRequestNotification(null, glob.WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
+			await this.sendRequestNotification(null, glob.WarningNotification, APIRequest, mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
 		}
 	}
 
@@ -768,7 +785,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-synchomeschedule request is missing parameters', this.systemLang));
-			await this.sendRequestNotification(null, glob.WarningNotification, NetatmoRequest + '\n', 'Request is missing parameters' + 'Actual payload: ' + syncmode);
+			await this.sendRequestNotification(null, glob.WarningNotification, NetatmoRequest, 'Request is missing parameters' + 'Actual payload: ' + syncmode);
 		}
 	}
 
@@ -1279,7 +1296,7 @@ class NetatmoEnergy extends utils.Adapter {
 	async sendMessage(id, message) {
 		const name = await this.getStateAsync(id);
 		this.log.info(mytools.tl('SendMessage: ', this.systemLang) + ((name) ? ' (' + name.val + ')' : ''));
-		this.sendRequestNotification(null, glob.SendNotification, mytools.tl('Warning', this.systemLang), message + ((name) ? '(' + name.val + ')' : '') );
+		await this.sendRequestNotification(null, glob.SendNotification, mytools.tl('Warning', this.systemLang), message + ((name) ? '(' + name.val + ')' : '') );
 	}
 
 	//Get old states
@@ -1303,7 +1320,7 @@ class NetatmoEnergy extends utils.Adapter {
 			this._setTokenIntervall(false);
 			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
-			this.sendRequestNotification(null, glob.WarningNotification, mytools.tl('Status', this.systemLang) + '\n' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + glob.blank + this.namespace);
+			this.sendRequestNotification(null, glob.WarningNotification, mytools.tl('Status', this.systemLang) + ':' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + glob.blank + this.namespace);
 			callback();
 		} catch (e) {
 			callback();
@@ -1934,22 +1951,22 @@ class NetatmoEnergy extends utils.Adapter {
 					this.globalNetatmo_AccessToken	= tokenvalues.access_token;
 					this.globalNetatmo_ExpiresIn	= tokenvalues.expires_in + ((new Date()).getTime() / 1000) - 20;
 					this.globalRefreshToken			= tokenvalues.refresh_token;
-					this._saveToken();
+					await this._saveToken();
 					//send OK-acknowlage to OAuth2
 					obj.callback && this.sendTo(obj.from, obj.command, {result: `${mytools.tl('Tokens updated successfully.', this.systemLang)}`}, obj.callback);
-					this._setTokenIntervall(true);
+					await this._setTokenIntervall(true);
 
 					this.log.info(mytools.tl('Update data in adapter configuration ... restarting ...', this.systemLang));
 					this.extendForeignObject(`system.adapter.${this.namespace}`, {});
 				})
-				.catch(error => {
+				.catch(async (error) => {
 					this.globalNetatmo_AccessToken	= null;
 					this.globalRefreshToken			= null;
 					this.globalNetatmo_ExpiresIn	= 0;
-					this._saveToken();
+					await this._saveToken();
 
 					this.log.error(mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
-					this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token' + '\n', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
+					await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('API request not OK:', this.systemLang) + ((error !== undefined && error !== null) ? (glob.blank + error.error + ': ' + error.error_description) : ''));
 					this.log.error(`OAuthRedirectReceived: ${error}`);
 					//send NOK-acknowlage to OAuth2
 					obj.callback && this.sendTo(obj.from, obj.command, {error: `${mytools.tl('Error getting new tokens from Netatmo: ', this.systemLang)} ${error} ${mytools.tl('. Please try again.', this.systemLang)}`}, obj.callback);

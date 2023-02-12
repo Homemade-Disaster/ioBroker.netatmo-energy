@@ -1,8 +1,34 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.2.1",
+        "version": "2.3.0",
         "news": {
+            "2.3.0": {
+                "en": "Rework of Signal notifications",
+                "de": "Nacharbeiten von Signal Meldungen",
+                "ru": "Переработка сигнальных уведомлений",
+                "pt": "Retrabalho de notificações de Signal",
+                "nl": "Reageer van Signal-informatie",
+                "fr": "Retravail des notifications de Signal",
+                "it": "Rielaborazione delle notifiche di Signal",
+                "es": "Rework of Signal notifications",
+                "pl": "Rework of Signal powiadomienia",
+                "uk": "Відновлення сигналів",
+                "zh-cn": "更改签署通知的工作"
+            },
+            "2.2.2": {
+                "en": "Send No-Token-Error as a notification",
+                "de": "No-Token-Error als Benachrichtigung senden",
+                "ru": "Отправить No-Token-Error как уведомление",
+                "pt": "Enviar No-Token-Error como uma notificação",
+                "nl": "Stuur No-Token-Error als een bericht",
+                "fr": "Envoyer No-Token-Error comme une notification",
+                "it": "Invia No-Token-Error come notifica",
+                "es": "Enviar No-Token-Error como notificación",
+                "pl": "Send No-Token-Error jako notyfikacja",
+                "uk": "Надіслати повідомлення",
+                "zh-cn": "通知"
+            },
             "2.2.1": {
                 "en": "Timer established for token refresh",
                 "de": "Timer etabliert für Tokenauffrischung",
@@ -93,97 +119,6 @@
                 "pl": "Dodatkowe informacje dodane do kart admina",
                 "zh-cn": "添加到管理选项卡的附加信息",
                 "uk": "Додаткова інформація додана до карток вкладок адміністратора"
-            },
-            "1.3.0": {
-                "en": "Change thermostat mode functionality added to thermostat card",
-                "de": "Funktion zum Ändern des Thermostatmodus zur Thermostatkarte hinzugefügt",
-                "ru": "В карточку термостата добавлена функция изменения режима термостата.",
-                "pt": "Alterar a funcionalidade do modo termostato adicionada ao cartão do termostato",
-                "nl": "Functie van thermostaatmodus wijzigen toegevoegd aan thermostaatkaart",
-                "fr": "Modifier la fonctionnalité du mode thermostat ajoutée à la carte du thermostat",
-                "it": "Funzionalità Modifica modalità termostato aggiunta alla scheda termostato",
-                "es": "Cambiar la funcionalidad del modo de termostato agregada a la tarjeta del termostato",
-                "pl": "Funkcja zmiany trybu termostatu dodana do karty termostatu",
-                "zh-cn": "更改恒温器模式功能添加到恒温器卡",
-                "uk": "На картку термостата додано функцію зміни режиму термостата"
-            },
-            "1.2.5": {
-                "en": "switchhomeschedule added to cards",
-                "de": "switchhomeschedule zu Karten hinzugefügt",
-                "ru": "расписание switchhome добавлено в карточки",
-                "pt": "switchhomeschedule adicionado aos cartões",
-                "nl": "switchhomeschedule toegevoegd aan kaarten",
-                "fr": "switchhomeschedule ajouté aux cartes",
-                "it": "switchhomeschedule aggiunto alle carte",
-                "es": "switchhomeschedule agregado a las tarjetas",
-                "pl": "harmonogram przełączania dodany do kart",
-                "zh-cn": "switchhomeschedule 添加到卡片",
-                "uk": "switchhomeschedule додано до карток"
-            },
-            "1.2.4": {
-                "en": "i18n files for npm added",
-                "de": "i18n-Dateien für npm hinzugefügt",
-                "ru": "Добавлены файлы i18n для npm",
-                "pt": "Arquivos i18n para npm adicionados",
-                "nl": "i18n-bestanden voor npm toegevoegd",
-                "fr": "fichiers i18n pour npm ajoutés",
-                "it": "Aggiunti i file i18n per npm",
-                "es": "Archivos i18n para npm agregados",
-                "pl": "Dodano pliki i18n dla npm",
-                "zh-cn": "添加了 npm 的 i18n 文件",
-                "uk": "Додано файли i18n для npm"
-            },
-            "1.2.3": {
-                "en": "Added status icons to plug",
-                "de": "Statussymbole zum Stecker hinzugefügt",
-                "ru": "Добавлены значки состояния для плагина",
-                "pt": "Adicionados ícones de status para conectar",
-                "nl": "Statuspictogrammen toegevoegd om aan te sluiten",
-                "fr": "Ajout d'icônes d'état à brancher",
-                "it": "Aggiunte icone di stato da collegare",
-                "es": "Se agregaron íconos de estado para conectar",
-                "pl": "Dodano ikony stanu do wtyczki",
-                "zh-cn": "添加了状态图标以插入",
-                "uk": "До розетки додано значки стану"
-            },
-            "1.2.2": {
-                "en": "Added a slider to each valve to change the temperature and added some API requests to admin tab to transfer changes to the cloud",
-                "de": "Es wurde jedem Ventil ein Schieberegler hinzugefügt, um die Temperatur zu ändern, und einige API-Anforderungen zum Admin-Tab hinzugefügt, um Änderungen in die Cloud zu übertragen",
-                "ru": "Добавлен ползунок для каждого клапана для изменения температуры и добавлены некоторые запросы API на вкладку администратора для передачи изменений в облако.",
-                "pt": "Adicionou um controle deslizante para cada válvula para alterar a temperatura e adicionou algumas solicitações de API à guia de administração para transferir as alterações para a nuvem",
-                "nl": "Een schuifregelaar toegevoegd aan elke klep om de temperatuur te wijzigen en enkele API-verzoeken toegevoegd aan het beheerderstabblad om wijzigingen naar de cloud over te brengen",
-                "fr": "Ajout d'un curseur à chaque vanne pour modifier la température et ajout de quelques requêtes API à l'onglet admin pour transférer les modifications vers le cloud",
-                "it": "Aggiunto un dispositivo di scorrimento a ciascuna valvola per modificare la temperatura e aggiunte alcune richieste API alla scheda amministratore per trasferire le modifiche al cloud",
-                "es": "Se agregó un control deslizante a cada válvula para cambiar la temperatura y se agregaron algunas solicitudes de API a la pestaña de administración para transferir los cambios a la nube.",
-                "pl": "Dodano suwak do każdego zaworu, aby zmienić temperaturę i dodano kilka żądań API do zakładki administratora, aby przenieść zmiany do chmury",
-                "zh-cn": "为每个阀门添加了一个滑块以更改温度，并向管理选项卡添加了一些 API 请求以将更改传输到云",
-                "uk": "Додано повзунок до кожного клапана для зміни температури та додано деякі запити API на вкладку адміністратора для передачі змін у хмару"
-            },
-            "1.2.1": {
-                "en": "Messages for specific events created",
-                "de": "Nachrichten für bestimmte Ereignisse erstellt",
-                "ru": "Созданы сообщения для определенных событий",
-                "pt": "Mensagens para eventos específicos criados",
-                "nl": "Berichten voor specifieke evenementen aangemaakt",
-                "fr": "Messages pour des événements spécifiques créés",
-                "it": "Messaggi per eventi specifici creati",
-                "es": "Mensajes para eventos específicos creados",
-                "pl": "Wiadomości dla określonych wydarzeń utworzonych",
-                "zh-cn": "为特定事件创建的消息",
-                "uk": "Створено повідомлення для конкретних подій"
-            },
-            "1.2.0": {
-                "en": "Close message functionality added on admin tab",
-                "de": "Funktion zum Schließen von Nachrichten auf der Registerkarte „Admin“ hinzugefügt",
-                "ru": "Добавлена функция закрытия сообщений на вкладке администратора",
-                "pt": "Fechar funcionalidade de mensagem adicionada na guia de administração",
-                "nl": "Sluit berichtfunctionaliteit toegevoegd op het beheerderstabblad",
-                "fr": "Fermer la fonctionnalité de message ajoutée sur l'onglet admin",
-                "it": "Funzionalità di chiusura del messaggio aggiunta nella scheda amministratore",
-                "es": "Cerrar funcionalidad de mensaje agregada en la pestaña de administración",
-                "pl": "Dodano funkcję zamykania wiadomości na karcie administratora",
-                "zh-cn": "在管理选项卡上添加了关闭消息功能",
-                "uk": "Функцію закриття повідомлень додано на вкладку адміністратора"
             }
         },
         "title": "Netatmo Energy",
