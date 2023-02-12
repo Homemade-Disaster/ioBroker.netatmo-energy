@@ -21,7 +21,7 @@
     "API settings": "Paramètres de l'API",
     "API-Request done!": "Demande d'API terminée !",
     "API-getmeasure request is missing parameters": "La requête API-getmeasure n'a pas de paramètres",
-    "API-getroosmeasure request is missing parameters": "La requête API-getroosmeasure n'a pas de paramètres",
+    "API-getroommeasure request is missing parameters": "La requête API-getroommeasure n'a pas de paramètres",
     "API-synchomeschedule request is missing parameters": "La requête API-synchomeschedule manque de paramètres",
     "Actual payload:": "Charge utile réelle:",
     "Actual plan:": "Plan réel :",

@@ -95,7 +95,7 @@ class NetatmoEnergy extends utils.Adapter {
 			if (fs.existsSync(`${this.dataDir}/tokens.json`)) {
 				const tokens = JSON.parse(fs.readFileSync(`${this.dataDir}/tokens.json`, 'utf8'));
 				if (tokens.client_id !== this.config.ClientId) {
-					this.log.info(mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
+					this.log.error(mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
 					await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
 					fs.unlinkSync(`${this.dataDir}/tokens.json`);
 				} else {
@@ -109,10 +109,9 @@ class NetatmoEnergy extends utils.Adapter {
 						this.globalNetatmo_AccessToken = tokens.access_token;
 						this.globalRefreshToken        = tokens.refresh_token;
 						this.scope                     = tokens.scope;
-						this.log.info(mytools.tl('Using stored tokens to initialize ... ', this.systemLang) + JSON.stringify(tokens));
-						await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', 'Test of mee');
+						this.log.debug(mytools.tl('Using stored tokens to initialize ... ', this.systemLang) + JSON.stringify(tokens));
 						if (tokens.scope !== this.scope) {
-							this.log.info(mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
+							this.log.warn(mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
 							await this.sendRequestNotification(null, glob.WarningNotification, 'Get Token', mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
 						}
 					}
@@ -490,7 +489,6 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalRoomIdArray   = [];
 				this.globalDeviceIdArray = [];
 			}
-			this.log.info('Token:' + this.globalNetatmo_AccessToken);
 			this.log.info(mytools.tl('Start API-request:', this.systemLang) + glob.blank + APIRequest);
 			await this.getAPIRequest(API_URI, APIRequest,setpayload, this.config.NewOAuthMethode)
 				.then(async (response) => {
@@ -593,7 +591,7 @@ class NetatmoEnergy extends utils.Adapter {
 			measure_payload = measure_payload +	await this.getValuefromDatapoint(glob.payload_real_time,  this._getDP([this.globalAPIChannel, glob.Channel_getroommeasure, glob.Channel_parameters, glob.State_real_time]));
 			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, measure_payload, norefresh, true);
 		} else {
-			this.log.error(mytools.tl('API-getroosmeasure request is missing parameters', this.systemLang));
+			this.log.error(mytools.tl('API-getroommeasure request is missing parameters', this.systemLang));
 			await this.sendRequestNotification(null, glob.WarningNotification, APIRequest, mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
 		}
 	}
@@ -615,7 +613,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, APIRequest, measure_payload, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-getmeasure request is missing parameters', this.systemLang));
-			await this.sendRequestNotification(null, glob.WarningNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
+			await this.sendRequestNotification(null, glob.ErrorNotification, APIRequest + '\n', mytools.tl('Request is missing parameters', this.systemLang) + mytools.tl('Actual payload:', this.systemLang) + glob.blank + measure_payload);
 		}
 	}
 
@@ -682,7 +680,6 @@ class NetatmoEnergy extends utils.Adapter {
 						break;
 
 					case glob.APIRequest_switchhomeschedule:
-						that.log.info('API-Home:' + glob.payload_schedule_id + mode);
 						createAPIasync(NetatmoRequest, glob.payload_schedule_id + mode, that);
 						break;
 
@@ -785,7 +782,7 @@ class NetatmoEnergy extends utils.Adapter {
 			await this.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, syncmode, norefresh, true);
 		} else {
 			this.log.error(mytools.tl('API-synchomeschedule request is missing parameters', this.systemLang));
-			await this.sendRequestNotification(null, glob.WarningNotification, NetatmoRequest, 'Request is missing parameters' + 'Actual payload: ' + syncmode);
+			await this.sendRequestNotification(null, glob.ErrorNotification, NetatmoRequest, 'Request is missing parameters' + 'Actual payload: ' + syncmode);
 		}
 	}
 
@@ -1532,8 +1529,6 @@ class NetatmoEnergy extends utils.Adapter {
 			}
 		} else {
 			// The state was deleted
-			//this.log.info(`state ${id} deleted`);
-
 			if (id.lastIndexOf(glob.dot) >= 0) {
 				const actStateDel = id.substring(id.lastIndexOf(glob.dot) + 1);
 				switch(actStateDel) {

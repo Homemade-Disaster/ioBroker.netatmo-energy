@@ -21,7 +21,7 @@
     "API settings": "API-instellingen",
     "API-Request done!": "API-verzoek gedaan!",
     "API-getmeasure request is missing parameters": "API-getmeasure-verzoek mist parameters",
-    "API-getroosmeasure request is missing parameters": "API-getroosmeasure-verzoek mist parameters",
+    "API-getroommeasure request is missing parameters": "API-getroommeasure-verzoek mist parameters",
     "API-synchomeschedule request is missing parameters": "API-synchronisatieschema-verzoek mist parameters",
     "Actual payload:": "Werkelijke laadvermogen:",
     "Actual plan:": "Werkelijk plan:",

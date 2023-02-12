@@ -21,7 +21,7 @@
     "API settings": "Настройки API",
     "API-Request done!": "API-запрос выполнен!",
     "API-getmeasure request is missing parameters": "В запросе API-getmeasure отсутствуют параметры",
-    "API-getroosmeasure request is missing parameters": "В запросе API-getroosmeasure отсутствуют параметры",
+    "API-getroommeasure request is missing parameters": "В запросе API-getroommeasure отсутствуют параметры",
     "API-synchomeschedule request is missing parameters": "В запросе API-synchomeschedule отсутствуют параметры",
     "Actual payload:": "Фактическая полезная нагрузка:",
     "Actual plan:": "Фактический план:",

@@ -21,7 +21,7 @@
     "API settings": "API设定",
     "API-Request done!": "API-请求完成！",
     "API-getmeasure request is missing parameters": "API-getmeasure请求缺少参数",
-    "API-getroosmeasure request is missing parameters": "API-getroosmeasure请求缺少参数",
+    "API-getroommeasure request is missing parameters": "API-getroommeasure请求缺少参数",
     "API-synchomeschedule request is missing parameters": "API-synchomeschedule 请求缺少参数",
     "Actual payload:": "实际有效载荷：",
     "Actual plan:": "实际计划：",

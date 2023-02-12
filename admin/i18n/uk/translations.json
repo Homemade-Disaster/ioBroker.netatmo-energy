@@ -21,7 +21,7 @@
     "API settings": "... Якщо ви пропустили дані, пройдіть повторну автентифікацію!8",
     "API-Request done!": "... Якщо ви пропустили дані, пройдіть повторну автентифікацію!9",
     "API-getmeasure request is missing parameters": "API Request - оновити все0",
-    "API-getroosmeasure request is missing parameters": "API Request - оновити все1",
+    "API-getroommeasure request is missing parameters": "API Request - оновити все1",
     "API-synchomeschedule request is missing parameters": "API Request - оновити все2",
     "Actual payload:": "API Request - оновити все3",
     "Actual plan:": "API Request - оновити все4",

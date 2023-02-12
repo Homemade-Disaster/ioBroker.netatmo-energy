@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.3.0",
+        "version": "2.3.1",
         "news": {
+            "2.3.1": {
+                "en": "Redesign coding",
+                "de": "Redesign Codierung",
+                "ru": "Редизайн кодирование",
+                "pt": "Codificação de rede",
+                "nl": "Vertaling:",
+                "fr": "Redesign coding",
+                "it": "Codifica di ridisegna",
+                "es": "Rediseño de codificación",
+                "pl": "Przeprojektowanie kodu",
+                "uk": "Дизайн-студія",
+                "zh-cn": "辞职"
+            },
             "2.3.0": {
                 "en": "Rework of Signal notifications",
                 "de": "Nacharbeiten von Signal Meldungen",
