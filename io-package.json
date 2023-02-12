@@ -1,9 +1,9 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.1.1",
+        "version": "2.2.1",
         "news": {
-            "2.1.1": {
+            "2.2.1": {
                 "en": "Timer established for token refresh",
                 "de": "Timer etabliert für Tokenauffrischung",
                 "ru": "Таймер создан для обновления токенов",
