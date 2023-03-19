@@ -218,5 +218,22 @@
     "Create a thermostat weekly schedule": "Створення термостату щотижневий графік",
     "API-createnewhomeschedule request is missing parameters": "Запит API-createnewhomeschedule відсутні параметри",
     "API Request createnewhomeschedule:": "Контакти Заявка на створення новоїмоделі:",
-    "Name of the schedule": "Назва графіка"
+    "Name of the schedule": "Назва графіка",
+    "No temperature stored in sensor tab! ": "Немає температури, що зберігається в сенсорній вкладці!",
+    "Sensor actions": "Дії датчика",
+    "Check window status": "Перевірка стану вікна",
+    "Object id of window sensor": "Об'єкт id віконного датчика",
+    "Check value from window sensor": "Перевірити значення з датчика вікон",
+    "Actor to set temperature": "Актор для встановлення температури",
+    "Window sensor": "Датчик вікна",
+    "Value": "Ціна",
+    "Actor": "Актор",
+    "Action": "Дія",
+    "Action to perform": "Дія виконання",
+    "set temp": "час",
+    "set home mode": "встановити режим будинку",
+    "Target temperature": "Мета",
+    "Set temperature of actor": "Встановити температуру актора",
+    "Immediately": "Відправити",
+    "Synchronize temperature immediately": "Синхронізація температури відразу"
 }

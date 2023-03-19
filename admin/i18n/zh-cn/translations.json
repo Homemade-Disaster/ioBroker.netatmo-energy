@@ -218,5 +218,22 @@
     "Create a thermostat weekly schedule": "每周设立动荡情况",
     "API-createnewhomeschedule request is missing parameters": "API-增聘时间表是遗漏的参数。",
     "API Request createnewhomeschedule:": "导 言 3. 请求设立新的表格:",
-    "Name of the schedule": "附表姓名"
+    "Name of the schedule": "附表姓名",
+    "No temperature stored in sensor tab! ": "未在传感器上储存的温度!",
+    "Sensor actions": "补偿行动",
+    "Check window status": "检查窗口",
+    "Object id of window sensor": "反对电传感器",
+    "Check value from window sensor": "窗口传感器的贴光价值",
+    "Actor to set temperature": "确定温度的代理",
+    "Window sensor": "温得传感器",
+    "Value": "价值",
+    "Actor": "代理",
+    "Action": "行动",
+    "Action to perform": "采取行动",
+    "set temp": "固定时间",
+    "set home mode": "建 议",
+    "Target temperature": "目标诱因",
+    "Set temperature of actor": "基调温度",
+    "Immediately": "立即",
+    "Synchronize temperature immediately": "温度立即同步"
 }

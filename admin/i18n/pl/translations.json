@@ -218,5 +218,22 @@
     "Create a thermostat weekly schedule": "Stworzona jest cotygodniowo cotygodniowy plan",
     "API-createnewhomeschedule request is missing parameters": "Żądanie API-createnewhomeschedule jest zaniedbaniem parametrów",
     "API Request createnewhomeschedule:": "API Request - Request - Complex (ang.)",
-    "Name of the schedule": "Nazwa harmonogramu"
+    "Name of the schedule": "Nazwa harmonogramu",
+    "No temperature stored in sensor tab! ": "Nie przechowywano temperatury w tabeli czujnikowej!",
+    "Sensor actions": "Akcje Sensora",
+    "Check window status": "Strona internetowa",
+    "Object id of window sensor": "Obiekt z czujnika okna",
+    "Check value from window sensor": "Wartość z czujnika okna",
+    "Actor to set temperature": "Aktor ustanawiający temperaturę",
+    "Window sensor": "Window sensor",
+    "Value": "Value",
+    "Actor": "Rektor",
+    "Action": "Akcja",
+    "Action to perform": "Wziąć udział w operacji",
+    "set temp": "tempo",
+    "set home mode": "domowy tryb",
+    "Target temperature": "Target",
+    "Set temperature of actor": "Temperatura aktora",
+    "Immediately": "Natychmiast",
+    "Synchronize temperature immediately": "Temperatura synchroniczna"
 }

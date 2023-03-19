@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.3.1",
+        "version": "2.4.0",
         "news": {
+            "2.4.0": {
+                "en": "Implement actions for window sensors",
+                "de": "Implementierung von Aktionen für Fenstersensoren",
+                "ru": "Реализовать действия для оконных датчиков",
+                "pt": "Implementar ações para sensores de janela",
+                "nl": "Vertaling:",
+                "fr": "Mettre en œuvre des actions pour les capteurs de fenêtre",
+                "it": "Azioni di implementazione per sensori di finestra",
+                "es": "Implementar acciones para sensores de ventanas",
+                "pl": "Implementacje dla czujników okiennych",
+                "uk": "Реалізація дій для датчиків вікон",
+                "zh-cn": "对窗口传感器采取行动"
+            },
             "2.3.1": {
                 "en": "Redesign coding",
                 "de": "Redesign Codierung",
@@ -323,7 +336,8 @@
         "notify_heating_power_request": true,
         "notify_heating_power_request_txt": "",
         "notify_anticipating": true,
-        "notify_anticipating_txt": ""
+        "notify_anticipating_txt": "",
+        "sensors": []
     },
     "objects": [],
     "instanceObjects": [

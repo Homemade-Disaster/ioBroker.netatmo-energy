@@ -218,5 +218,22 @@
     "Create a thermostat weekly schedule": "Creare un programma settimanale di termostato",
     "API-createnewhomeschedule request is missing parameters": "API-createnewhomeschedule richiesta è parametri mancanti",
     "API Request createnewhomeschedule:": "API Richiesta crearenewhomeschedule:",
-    "Name of the schedule": "Nome del programma"
+    "Name of the schedule": "Nome del programma",
+    "No temperature stored in sensor tab! ": "Nessuna temperatura memorizzata nella scheda del sensore!",
+    "Sensor actions": "Azioni sensoriali",
+    "Check window status": "Controlla lo stato della finestra",
+    "Object id of window sensor": "Oggetti id del sensore di finestra",
+    "Check value from window sensor": "Verifica il valore dal sensore di finestra",
+    "Actor to set temperature": "Attore per impostare la temperatura",
+    "Window sensor": "Sensore di finestra",
+    "Value": "Valore",
+    "Actor": "Attore",
+    "Action": "Azione",
+    "Action to perform": "Azione per eseguire",
+    "set temp": "set",
+    "set home mode": "modalità home",
+    "Target temperature": "Obiettivo",
+    "Set temperature of actor": "Impostare la temperatura dell'attore",
+    "Immediately": "Immediatamente",
+    "Synchronize temperature immediately": "Sincronizzare la temperatura immediatamente"
 }

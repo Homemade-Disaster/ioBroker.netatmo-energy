@@ -846,25 +846,32 @@ class NetatmoEnergy extends utils.Adapter {
 			});
 	}
 
+	//Store old values
+	async _storeOldValue(id) {
+		let oldValue = null;
+		let index = -1;
+
+		index = this.mySubscribedStates.findIndex(element => {
+			return element.id === id;
+		});
+		if (index >= 0) this.mySubscribedStates.splice(index, 1);
+
+		oldValue = await this.getStateAsync(id);
+
+		this.mySubscribedStates.push({ id: id, state: (oldValue) ? oldValue.val : null });
+	}
+
 	//Subscribe specific state
 	async _subscribeStates(id){
 		const actId = mytools.splitID(id);
 
-		let oldValue = null;
-		let index = -1;
 		if ((actId.state == glob.state_anticipating && actId.folder == glob.Channel_status) ||			//check anticipating
 			(actId.state == glob.state_open_window && actId.folder == glob.Channel_status) ||			//check window open
 			(actId.state == glob.state_reachable && actId.folder == glob.Channel_modulestatus) ||		//check module reachable
 			(actId.state == glob.state_battery_state && actId.folder == glob.Channel_modulestatus) ||	//check battery status
 			(actId.state == glob.state_heating_power_request && actId.folder == glob.Channel_status)) {	//check heating request
 
-			index = this.mySubscribedStates.findIndex(element => {
-				return element.id === id;
-			});
-			if (index >= 0) this.mySubscribedStates.splice(index,1);
-
-			oldValue = await this.getStateAsync(id);
-			this.mySubscribedStates.push({id: id, state: (oldValue) ? oldValue.val : null});
+			await this._storeOldValue(id);
 
 			await this.unsubscribeStatesAsync(id);
 			await this.subscribeStatesAsync(id);
@@ -1246,11 +1253,11 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	//set trigger after comparing
-	async compareValues(id, id_mode, state, idtoset) {
+	async compareValues(id, id_mode, value, idtoset) {
 		const adapterstates         = await this.getStateAsync(id);
 		const adapterstates_mode    = await this.getStateAsync(id_mode);
 		//const adapterstates_endtime = await this.getStateAsync(id_endtime);
-		if((adapterstates && adapterstates.val != state.val) || (adapterstates_mode && adapterstates_mode.val != '')) {
+		if((adapterstates && adapterstates.val != value) || (adapterstates_mode && adapterstates_mode.val != '')) {
 			this.setState(idtoset, true, true);
 		} else {
 			this.setState(idtoset, false, true);
@@ -1277,7 +1284,7 @@ class NetatmoEnergy extends utils.Adapter {
 			if (trigger && trigger.val == true) await this.setState(trigger_id, false, true);
 			await this.applySingleActualTemp(state,actId.parent,glob.APIRequest_setroomthermpoint,glob.APIRequest_setroomthermpoint_manual,false);
 		} else {
-			await this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state, this._getDP([actId.path, glob.State_TempChanged]));
+			await this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state.val, this._getDP([actId.path, glob.State_TempChanged]));
 		}
 	}
 	//analyse datapoint for payload
@@ -1324,45 +1331,122 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
-	//State changed - ack not checked
-	_onStateChanged(id,state) {
-		if (id.lastIndexOf(glob.dot) >= 0) {
-			const actId = mytools.splitID(id);
+	//Set sensor fields
+	async _setSensorFields(id, sensor_attribs) {
+		const myHomeFolder = id.substring(0, id.substring(0, id.lastIndexOf('status')).length - 1);
+		let somethingChanged = 0;
 
-			switch(actId.state) {
-				//Reaction of states
-				//anticipating
-				case glob.state_anticipating:
-					if (this.config.notify_anticipating_txt && this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actId.parent + '.name', this.config.notify_heating_power_request_txt);
-					break;
-				//Window open
-				case glob.state_open_window:
-					if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actId.parent + '.name', this.config.notify_window_open_txt);
-					break;
-				//No Connection
-				case glob.state_reachable:
-					if (this.config.notify_connection_no_txt && this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actId.parent + '.name', this.config.notify_connection_no_txt);
-					break;
-				//Battery state
-				case glob.state_battery_state:
-					if (state.val == glob.battery_low) {
-						if (this.config.notify_bat_low_txt && this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actId.parent + '.name', this.config.notify_bat_low_txt);
-						break;
-					}
-					if (state.val == glob.battery_medium) {
-						if (this.config.notify_bat_medium_txt && this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actId.parent + '.name', this.config.notify_bat_medium_txt);
-						break;
-					}
-					break;
-				//Heating request
-				case glob.state_heating_power_request:
-					if (this.config.notify_heating_power_request_txt && this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '' && state.val != this._getOldValue(id)) this.sendMessage(actId.parent + '.name', this.config.notify_heating_power_request_txt);
-					break;
+		if (sensor_attribs.action == glob.Action_home) {
+			await this.setState(this._getDP([myHomeFolder, glob.Channel_settings, glob.Trigger_SetHome]), true, false);
+			somethingChanged += 1;
+		}
+
+		if (sensor_attribs.action == glob.Action_temp) {
+			const NewTemp = Number(sensor_attribs.set_value);
+
+			if (!isNaN(NewTemp)) {
+				// @ts-ignore
+				await this.setState(this._getDP([myHomeFolder, glob.Channel_settings, glob.Trigger_SetTemp]), NewTemp, false);
+				await this.compareValues(this._getDP([myHomeFolder, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([myHomeFolder, glob.Channel_status, glob.State_TempChanged_Mode]), sensor_attribs.set_value, this._getDP([myHomeFolder, glob.Channel_settings, glob.State_TempChanged]));
+				somethingChanged += 2;
+			} else {
+				this.log.warn('No temperature stored in sensor tab! ' + sensor_attribs.window_sensor);
 			}
+		}
+		if (!this.config.applyimmediately && sensor_attribs.immediately == true && somethingChanged > 0) {
+			return true;
 		}
 	}
 
-	//React on al subsribed fields
+	//Trace sensors
+	async _traceSensors(id, oldValue) {
+		let ChangesDone = false;
+		let sensor_attribs = {};
+
+		for (sensor_attribs of this.config.sensors) {
+			if (sensor_attribs.window_sensor == id) {
+				const sensorvalue = await this.getStateAsync(id);
+				if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
+					if ((sensor_attribs.window_sensor_value == true && sensorvalue.val == true) || (sensor_attribs.window_sensor_value != true && sensorvalue.val == false)) {
+						if (await this._setSensorFields(id, sensor_attribs)) {
+							ChangesDone = true;
+						}
+					}
+				}
+			}
+		}
+		return ChangesDone;
+	}
+
+	//Make sensor changes
+	async _sensorChanges(id,oldValue) {
+		const that = this;
+		return new Promise(
+			function (resolve) {
+				const traceSensors = async function (id, oldValue, that) {
+					const ChangesDone = await that._traceSensors(id, oldValue);
+					resolve(ChangesDone);
+				};
+				traceSensors(id, oldValue, that);
+			});
+	}
+
+	//State changed - ack not checked
+	async _onStateChanged(id,state) {
+		if (id.lastIndexOf(glob.dot) >= 0) {
+			const actId = mytools.splitID(id);
+			if (actId.state == glob.state_anticipating || actId.state == glob.state_open_window || actId.state == glob.state_reachable || actId.state == glob.state_battery_state || actId.state == glob.state_heating_power_request ) {
+				const oldValue = this._getOldValue(id);
+
+				switch(actId.state) {
+					//Reaction of states
+					//anticipating
+					case glob.state_anticipating:
+						if (this.config.notify_anticipating_txt && this.config.notify_anticipating == true && this.config.notify_anticipating_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_heating_power_request_txt);
+						await this._storeOldValue(id);
+						break;
+					//Window open
+					case glob.state_open_window:
+						await this._sensorChanges(id, oldValue)
+							.then(async startSyncAPI => {
+								if (startSyncAPI) {
+									await this._storeOldValue(id);
+									await this.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang));
+								}
+
+								if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_window_open_txt);
+							})
+							.catch( );
+						break;
+					//No Connection
+					case glob.state_reachable:
+						if (this.config.notify_connection_no_txt && this.config.notify_connection_no == true && this.config.notify_connection_no_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_connection_no_txt);
+						break;
+					//Battery state
+					case glob.state_battery_state:
+						if (state.val == glob.battery_low) {
+							if (this.config.notify_bat_low_txt && this.config.notify_bat_low == true && this.config.notify_bat_low_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_bat_low_txt);
+						} else {
+							if (state.val == glob.battery_medium) {
+								if (this.config.notify_bat_medium_txt && this.config.notify_bat_medium == true && this.config.notify_bat_medium_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_bat_medium_txt);
+							}
+						}
+						await this._storeOldValue(id);
+						break;
+					//Heating request
+					case glob.state_heating_power_request:
+						if (this.config.notify_heating_power_request_txt && this.config.notify_heating_power_request == true && this.config.notify_heating_power_request_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_heating_power_request_txt);
+						await this._storeOldValue(id);
+						break;
+
+				}
+
+			}
+
+		}
+	}
+
+	//React on al subscribed fields
 	/**
 	* Is called if a subscribed state changes
 	* @param {string} id
@@ -1437,7 +1521,7 @@ class NetatmoEnergy extends utils.Adapter {
 								if (this.config.applyimmediately) {
 									this.applySingleActualTemp(state,actId.parent,glob.APIRequest_setroomthermpoint,glob.APIRequest_setroomthermpoint_manual,true);
 								} else {
-									this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state, this._getDP([actId.path, glob.State_TempChanged]));
+									this.compareValues(this._getDP([actId.parent, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([actId.parent, glob.Channel_status, glob.State_TempChanged_Mode]), state.val, this._getDP([actId.path, glob.State_TempChanged]));
 								}
 							} else {
 								this.log.debug(mytools.tl('SetTemp: ', this.systemLang) + mytools.tl('No Number', this.systemLang) + glob.blank + state.val);
@@ -1514,7 +1598,7 @@ class NetatmoEnergy extends utils.Adapter {
 							break;
 
 						default:
-							this._onStateChanged(id,state);
+							this._onStateChanged(id, state);
 					}
 					if (actId.state.search(glob.APIRequest_switchhomeschedule) == 0) {
 						if (state.val === true) {
@@ -1629,6 +1713,30 @@ class NetatmoEnergy extends utils.Adapter {
 		);
 	}
 
+	// Get bool sensors
+	_getSensors(searchBoolSensors, PathToObjects) {
+		const that = this;
+
+		return new Promise(
+			// eslint-disable-next-line no-unused-vars
+			function (resolve, reject) {
+				// @ts-ignore
+				that.getStates(that.namespace + PathToObjects, async function (error, states) {
+					const BoolArray = [{ label: '', value: '' }];
+					if (states && !error) {
+						for (const id in states) {
+							if (id.search(searchBoolSensors) >= 0) {
+								BoolArray.push({ label: id, value: id });
+							}
+						}
+						resolve(BoolArray);
+					} else {
+						resolve(BoolArray);
+					}
+				});
+			}
+		);
+	}
 	// Get API Requests
 	_getAllAPIRequests(channel, API_Request, conv_name_list) {
 		const searchModes = this._getDP([this.globalAPIChannel, channel, API_Request]) + '*';
@@ -2161,6 +2269,32 @@ class NetatmoEnergy extends utils.Adapter {
 						} catch (e) {
 							this.sendTo(obj.from, obj.command, [{label: 'Not available', value: ''}], obj.callback);
 						}
+					}
+					break;
+
+				//Get all sensors for Window open
+				case glob.GetWindowOpenSensors:
+					if (obj.callback) {
+						this._getSensors('homes\\.\\d+\\.rooms\\.\\d+\\.status.open_window', '.homes.*.rooms.*.status.open_window')
+							.then(MySensorsArray => {
+								this.sendTo(obj.from, obj.command, MySensorsArray, obj.callback);
+							})
+							.catch(() => {
+								//error during searching sensors);
+							});
+					}
+					break;
+
+				//Get all sensors for Set Temperature
+				case glob.GetSetTempSensors:
+					if (obj.callback) {
+						this._getSensors('homes\\.\\d+\\.rooms\\.\\d+\\.settings.SetTemp', '.homes.*.rooms.*.settings.SetTemp')
+							.then(MySensorsArray => {
+								this.sendTo(obj.from, obj.command, MySensorsArray, obj.callback);
+							})
+							.catch(() => {
+								//error during searching sensors);
+							});
 					}
 					break;
 

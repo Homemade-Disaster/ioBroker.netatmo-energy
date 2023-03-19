@@ -218,5 +218,22 @@
     "Create a thermostat weekly schedule": "Creëer een thermostaat wekelijks schema",
     "API-createnewhomeschedule request is missing parameters": "API-createnewhomeschedule verzoek is ontbrekende parameters",
     "API Request createnewhomeschedule:": "API Verzoek crenewhomeschedule:",
-    "Name of the schedule": "Naam van het schema"
+    "Name of the schedule": "Naam van het schema",
+    "No temperature stored in sensor tab! ": "Geen temperatuur opgeslagen in sensoren!",
+    "Sensor actions": "Sensor acties",
+    "Check window status": "Controleer de ramen",
+    "Object id of window sensor": "Vertaling",
+    "Check value from window sensor": "Controleer waarde van ramensensor",
+    "Actor to set temperature": "Acteur om de temperatuur te starten",
+    "Window sensor": "Window sensor",
+    "Value": "Value",
+    "Actor": "Actor",
+    "Action": "Actie",
+    "Action to perform": "Actie",
+    "set temp": "in de tijd",
+    "set home mode": "een thuismodus",
+    "Target temperature": "Doelwit temperatuur",
+    "Set temperature of actor": "Zet de temperatuur van acteur",
+    "Immediately": "Onmiddellijk",
+    "Synchronize temperature immediately": "Vertaling"
 }

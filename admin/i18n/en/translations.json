@@ -218,5 +218,22 @@
     "Create a thermostat weekly schedule": "Create a thermostat weekly schedule",
     "API-createnewhomeschedule request is missing parameters": "API-createnewhomeschedule request is missing parameters",
     "API Request createnewhomeschedule:": "API Request createnewhomeschedule:",
-    "Name of the schedule": "Name of the schedule"
+    "Name of the schedule": "Name of the schedule",
+    "No temperature stored in sensor tab! ": "No temperature stored in sensor tab! ",
+    "Sensor actions": "Sensor actions",
+    "Check window status": "Check window status",
+    "Object id of window sensor": "Object id of window sensor",
+    "Check value from window sensor": "Check value from window sensor",
+    "Actor to set temperature": "Actor to set temperature",
+    "Window sensor": "Window sensor",
+    "Value": "Value",
+    "Actor": "Actor",
+    "Action": "Action",
+    "Action to perform": "Action to perform",
+    "set temp": "set temp",
+    "set home mode": "set home mode",
+    "Target temperature": "Target temperature",
+    "Set temperature of actor": "Set temperature of actor",
+    "Immediately": "Immediately",
+    "Synchronize temperature immediately": "Synchronize temperature immediately"
 }
