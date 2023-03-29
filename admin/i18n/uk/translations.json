@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Немає температури, що зберігається в сенсорній вкладці!",
     "Sensor actions": "Дії датчика",
     "Check window status": "Перевірка стану вікна",
-    "Object id of window sensor": "Об'єкт id віконного датчика",
+    "Window sensor (role = indicator.window)": "Датчик вікна (role = indicator.window)",
     "Check value from window sensor": "Перевірити значення з датчика вікон",
     "Actor to set temperature": "Актор для встановлення температури",
     "Window sensor": "Датчик вікна",

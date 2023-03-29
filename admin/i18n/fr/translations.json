@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Aucune température stockée dans l'onglet capteur !",
     "Sensor actions": "Actions de capteur",
     "Check window status": "Vérifier le statut de la fenêtre",
-    "Object id of window sensor": "Object id of window sensor",
+    "Window sensor (role = indicator.window)": "Capteur de fenêtre (role = indicator.window)",
     "Check value from window sensor": "Vérifier la valeur du capteur de fenêtre",
     "Actor to set temperature": "Acteur pour fixer la température",
     "Window sensor": "Capteur de fenêtre",

@@ -292,10 +292,10 @@
                         {
                             "type": "selectSendTo",
                             "attr": "window_sensor",
-                            "width": "40%",
+                            "width": "20%",
                             "command": "GetWindowOpenSensors",
                             "title": "Window sensor",
-                            "help": "Object id of window sensor",
+                            "help": "Window sensor (role = indicator.window)",
                             "filter": true,
                             "sort": true
                         },

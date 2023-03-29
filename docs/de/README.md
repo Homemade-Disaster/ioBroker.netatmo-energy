@@ -107,7 +107,7 @@ Bitte geben sie für den von ihnen gewählten Benachrichtigungsdienst die notwen
 
 ## Sensorik
 
-In der Tabelle können Sie auf das "window_open" attribut pro Raum reagieren. Der Status der jeweiligen Fnstersensoren kann beim Ändern eine Aktion auslösen, welche hier einzutragen ist. Entweder kann eine dezidierte Temparatur eingestellt werden oder es kann wieder aufe den Home Mode geschaltet werden. Somit kann beim Öffnen oder beim Schließen eines Fensters die Temparatur eines Ventils eingestellt werden.
+In der Tabelle können Sie auf das "window_open" attribut pro Raum reagieren. Der Status der jeweiligen Fnstersensoren kann beim Ändern eine Aktion auslösen, welche hier einzutragen ist. Entweder kann eine dezidierte Temparatur eingestellt werden oder es kann wieder aufe den Home Mode geschaltet werden. Somit kann beim Öffnen oder beim Schließen eines Fensters die Temparatur eines Ventils eingestellt werden. Zusätzlich ist es möglich hier alle Sensoren auzuwählen, welche als Rolle 'indicator.window' aufweisen. Somit können auch externe Sensoren eingebunden werden.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/sensors_de.png" alt="sensors" width="70%"/>
 

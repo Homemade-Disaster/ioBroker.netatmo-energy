@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Keine Temperatur in der Sensor-Tab gespeichert!",
     "Sensor actions": "Sensorik",
     "Check window status": "Fensterstatus prüfen",
-    "Object id of window sensor": "Objekt-ID des Fenstersensors",
+    "Window sensor (role = indicator.window)": "Fenstersensor (Rolle = indicator.window)",
     "Check value from window sensor": "Prüfwert vom Fenstersensor",
     "Actor to set temperature": "Aktor um die Temperatur zu setzen",
     "Window sensor": "Fenstersensor",

@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Nie przechowywano temperatury w tabeli czujnikowej!",
     "Sensor actions": "Akcje Sensora",
     "Check window status": "Strona internetowa",
-    "Object id of window sensor": "Obiekt z czujnika okna",
+    "Window sensor (role = indicator.window)": "Window sensory (role = indicator.window)",
     "Check value from window sensor": "Wartość z czujnika okna",
     "Actor to set temperature": "Aktor ustanawiający temperaturę",
     "Window sensor": "Window sensor",

@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Nenhuma temperatura armazenada na aba do sensor!",
     "Sensor actions": "Acções do sensor",
     "Check window status": "Verificar o estado da janela",
-    "Object id of window sensor": "Id do objeto do sensor da janela",
+    "Window sensor (role = indicator.window)": "Sensor de janela (role = indicator.window)",
     "Check value from window sensor": "Verificar o valor do sensor da janela",
     "Actor to set temperature": "Ator para definir a temperatura",
     "Window sensor": "Sensor de janela",

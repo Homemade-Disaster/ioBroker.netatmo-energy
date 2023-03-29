@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "No temperature stored in sensor tab! ",
     "Sensor actions": "Sensor actions",
     "Check window status": "Check window status",
-    "Object id of window sensor": "Object id of window sensor",
+    "Window sensor (role = indicator.window)": "Window sensor (role = indicator.window)",
     "Check value from window sensor": "Check value from window sensor",
     "Actor to set temperature": "Actor to set temperature",
     "Window sensor": "Window sensor",

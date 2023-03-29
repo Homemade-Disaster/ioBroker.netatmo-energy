@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Geen temperatuur opgeslagen in sensoren!",
     "Sensor actions": "Sensor acties",
     "Check window status": "Controleer de ramen",
-    "Object id of window sensor": "Vertaling",
+    "Window sensor (role = indicator.window)": "Window sensor (role = indicator.window)",
     "Check value from window sensor": "Controleer waarde van ramensensor",
     "Actor to set temperature": "Acteur om de temperatuur te starten",
     "Window sensor": "Window sensor",
