@@ -181,41 +181,61 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalAPIChannelTrigger	= this._getDP([this.namespace, glob.Device_APIRequests, glob.Channel_trigger]);
 		this.globalAPIChannelStatus		= this._getDP([this.namespace, glob.Device_APIRequests, glob.Channel_Status_API_running]);
 
-		this.signal = {
-			type: 'message',
-			instance: this.config.signalInstance,
-			systemLang
-		};
+		try {
+			this.signal = {
+				type: 'message',
+				instance: this.config.signalInstance,
+				systemLang
+			};
+		} catch(error) {
+			//Config error
+		}
 
-		this.telegram = {
-			type: 'message',
-			instance: this.config.telegramInstance,
-			SilentNotice: this.config.telegramSilentNotice,
-			User: this.config.telegramUser,
-			systemLang
-		};
+		try {
+			this.telegram = {
+				type: 'message',
+				instance: this.config.telegramInstance,
+				SilentNotice: this.config.telegramSilentNotice,
+				User: this.config.telegramUser,
+				systemLang
+			};
+		} catch (error) {
+			//Config error
+		}
 
-		this.whatsapp = {
-			type: 'message',
-			instance: this.config.whatsappInstance,
-			systemLang
-		};
+		try {
+			this.whatsapp = {
+				type: 'message',
+				instance: this.config.whatsappInstance,
+				systemLang
+			};
+		} catch (error) {
+			//Config error
+		}
 
-		this.pushover = {
-			type: 'message',
-			instance: this.config.pushoverInstance,
-			SilentNotice: this.config.pushoverSilentNotice,
-			deviceID: this.config.pushoverDeviceID,
-			systemLang
-		};
+		try {
+			this.pushover = {
+				type: 'message',
+				instance: this.config.pushoverInstance,
+				SilentNotice: this.config.pushoverSilentNotice,
+				deviceID: this.config.pushoverDeviceID,
+				systemLang
+			};
+		} catch (error) {
+			//Config error
+		}
 
-		this.email = {
-			type: 'message',
-			instance: this.config.emailInstance,
-			emailReceiver: this.config.emailReceiver,
-			emailSender: this.config.emailSender,
-			systemLang
-		};
+		try {
+			this.email = {
+				type: 'message',
+				instance: this.config.emailInstance,
+				emailReceiver: this.config.emailReceiver,
+				emailSender: this.config.emailSender,
+				systemLang
+			};
+		} catch (error) {
+			//Config error
+		}
 
 		this._getWindowIndicatorFields()
 			.then(MyWindowIndicators => {
