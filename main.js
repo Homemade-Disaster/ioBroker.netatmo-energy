@@ -126,9 +126,7 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
 			}
 		} catch (err) {
-			// @ts-ignore
 			this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
-			// @ts-ignore
 			await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
 		}
 	}
@@ -156,9 +154,9 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		});
-		await this._initAdapter(this.systemLang);
+		await this.initAdapter(this.systemLang);
 		await this._subscribeForeign(this.namespace,false);
-		await this._startAdapter();
+		await this.startAdapter();
 	}
 
 	//Subscribe foreign Sensors
@@ -174,7 +172,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	// Start initialization adapter
-	async _initAdapter(systemLang) {
+	async initAdapter(systemLang) {
 		// define global constants
 		this.globalDevice				= this._getDP([this.namespace, glob.Device_APIRequests]);
 		this.globalAPIChannel			= this._getDP([this.namespace, glob.Device_APIRequests, glob.Channel_APIRequests]);
@@ -250,7 +248,7 @@ class NetatmoEnergy extends utils.Adapter {
 	}
 
 	// Start initialization
-	async _startAdapter() {
+	async startAdapter() {
 		// Check if it is neccessary
 		if (this.AdapterStarted == true) return;
 
@@ -494,7 +492,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this._setTokenIntervall(true);
 
 				this.log.debug(mytools.tl('Token OK:', this.systemLang) + glob.blank + this.globalNetatmo_AccessToken);
-				await this._startAdapter();
+				await this.startAdapter();
 			})
 			.catch(async (error) => {
 				this.globalNetatmo_AccessToken	= null;
