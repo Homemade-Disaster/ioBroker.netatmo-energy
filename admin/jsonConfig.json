@@ -294,8 +294,8 @@
                             "attr": "window_sensor",
                             "width": "20%",
                             "command": "GetWindowOpenSensors",
-                            "title": "Window sensor",
-                            "help": "Window sensor (role = indicator.window)",
+                            "title": "Window/Door sensor",
+                            "help": "Window/Door sensor (role = ###.window, ###.door)",
                             "filter": true,
                             "sort": true
                         },
@@ -304,29 +304,19 @@
                             "attr": "window_sensor_value",
                             "width": "5%",
                             "title": "Value",
-                            "help": "Check value from window sensor",
+                            "help": "Check value from window/door sensor",
                             "filter": true,
                             "sort": true
                         },
                         {
-                            "type": "select",
+                            "type": "selectSendTo",
                             "attr": "action",
                             "width": "10%",
+                            "command": "GetSensorActions",
                             "title": "Action",
                             "help": "Action to perform",
-                            "options": [
-                                {
-                                    "label": "set temp",
-                                    "value": "temp"
-                                },
-                                {
-                                    "label": "set home mode",
-                                    "value": "home"
-                                }
-                            ],
                             "filter": true,
-                            "sort": true,
-                            "default": "temp"
+                            "sort": true
                         },
                         {
                             "type": "selectSendTo",

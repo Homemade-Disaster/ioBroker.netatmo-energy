@@ -1379,13 +1379,14 @@ class NetatmoEnergy extends utils.Adapter {
 	//Set sensor fields
 	async _setSensorFields(id, sensor_attribs) {
 		const myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
+
 		let somethingChanged = 0;
 		if (sensor_attribs.action == glob.Action_home) {
 			await this.setState(this._getDP([myHomeFolder, glob.Channel_settings, glob.Trigger_SetHome]), true, false);
 			somethingChanged += 1;
 		}
 
-		if (sensor_attribs.action == glob.Action_temp) {
+		else if (sensor_attribs.action == glob.Action_temp) {
 			const NewTemp = Number(sensor_attribs.set_value);
 
 			if (!isNaN(NewTemp)) {
@@ -1394,9 +1395,21 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.compareValues(this._getDP([myHomeFolder, glob.Channel_status, glob.State_therm_setpoint_temperature]), this._getDP([myHomeFolder, glob.Channel_status, glob.State_TempChanged_Mode]), sensor_attribs.set_value, this._getDP([myHomeFolder, glob.Channel_settings, glob.State_TempChanged]));
 				somethingChanged += 2;
 			} else {
-				this.log.warn('No temperature stored in sensor tab! ' + sensor_attribs.window_sensor);
+				this.log.warn(mytools.tl('No temperature stored in sensor tab! ', this.systemLang) + sensor_attribs.window_sensor);
 			}
 		}
+		else if (sensor_attribs.action == glob.APIRequest_setthermmode_schedule || sensor_attribs.action == glob.APIRequest_setthermmode_hg || sensor_attribs.action == glob.APIRequest_setthermmode_away) {
+			this.log.debug(mytools.tl('API Request setthermmode:', this.systemLang) + glob.blank + sensor_attribs.action);
+			this.applySingleAPIRequest(glob.APIRequest_setthermmode, sensor_attribs.action, mytools.tl('Mode:', this.systemLang) + glob.blank + sensor_attribs.action);
+			somethingChanged += 4;
+		}
+
+		else if (sensor_attribs.action.search(glob.APIRequest_switchhomeschedule) >= 0) {
+			this.log.debug(mytools.tl('API Request swithhomeschedule:', this.systemLang) + glob.blank + sensor_attribs.action + ' : ' + mytools.tl('Heating Plan:', this.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
+			this.applySingleAPIRequest(glob.APIRequest_switchhomeschedule, this.globalScheduleObjects[sensor_attribs.action], mytools.tl('Heating Plan:', this.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
+			somethingChanged += 8;
+		}
+
 		if (!this.config.applyimmediately && sensor_attribs.immediately == true && somethingChanged > 0) {
 			return true;
 		}
@@ -1765,7 +1778,40 @@ class NetatmoEnergy extends utils.Adapter {
 		);
 	}
 
+	//Fixe Sensoren hinzufügen
+	_addStaticSensors(SensorActions) {
+		SensorActions.push({ label: mytools.tl('set temp', this.systemLang), value: 'temp' });
+		SensorActions.push({ label: mytools.tl('set home mode', this.systemLang), value: 'home' });
 
+		SensorActions.push({ label: mytools.tl('scheduled', this.systemLang), value: glob.APIRequest_setthermmode_schedule });
+		SensorActions.push({ label: mytools.tl('frost guardian', this.systemLang), value: glob.APIRequest_setthermmode_hg });
+		SensorActions.push({ label: mytools.tl('switchhomeschedule away from home', this.systemLang), value: glob.APIRequest_setthermmode_away });
+		return SensorActions;
+	}
+
+	// Get sensor actions
+	_getSensorActions() {
+		const that = this;
+
+		return new Promise(
+			function (resolve) {
+				let SensorActions = [];
+				const SwitchModeChanel = that._getDP([that.globalAPIChannel, glob.Channel_switchhomeschedule]) + '.*';
+				SensorActions = that._addStaticSensors(SensorActions);
+				that.getStates(SwitchModeChanel, async function (error, states) {
+					if (states && !error) {
+						for (const id in states) {
+							const value = id.substring(id.lastIndexOf(glob.Channel_switchhomeschedule) + glob.Channel_switchhomeschedule.length + 1).replace('_',' ');
+							if (value) SensorActions.push({ label: value, value: id });
+						}
+						resolve(SensorActions);
+					} else {
+						resolve(SensorActions);
+					}
+				});
+			}
+		);
+	}
 	// Get indicator.window
 	_getWindowIndicatorFields() {
 		const that = this;
@@ -1778,7 +1824,7 @@ class NetatmoEnergy extends utils.Adapter {
 						if (object && !error) {
 							for (const id in object) {
 								if (object[id] && object[id] != null && object[id] != undefined && object[id].common) {
-									if (object[id].common.type == 'boolean' && object[id].common.role == 'indicator.window') {
+									if (object[id].common.type == 'boolean' && (object[id].common.role == 'indicator.window' || object[id].common.role == 'indicator.door' || object[id].common.role == 'sensor.window' || object[id].common.role == 'sensor.door' || object[id].common.role == 'window' || object[id].common.role == 'door')) {
 										WindowIndicator.push({ label: id, value: id });
 									}
 								}
@@ -2352,6 +2398,19 @@ class NetatmoEnergy extends utils.Adapter {
 						} catch (e) {
 							this.sendTo(obj.from, obj.command, [{label: 'Not available', value: ''}], obj.callback);
 						}
+					}
+					break;
+
+				//Get all actions
+				case glob.GetSensorActions:
+					if (obj.callback) {
+						this._getSensorActions()
+							.then(MySensorActions => {
+								this.sendTo(obj.from, obj.command, MySensorActions, obj.callback);
+							})
+							.catch(() => {
+								//error during searching sensors);
+							});
 					}
 					break;
 
