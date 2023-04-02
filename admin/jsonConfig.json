@@ -409,7 +409,8 @@
                             "title": "Value",
                             "help": "Check value from window/door sensor",
                             "filter": true,
-                            "sort": true
+                            "sort": true,
+                            "default": false
                         },
                         {
                             "type": "selectSendTo",
@@ -419,7 +420,8 @@
                             "title": "Action",
                             "help": "Action to perform",
                             "filter": true,
-                            "sort": true
+                            "sort": true,
+                            "default": "temp"
                         },
                         {
                             "type": "selectSendTo",
@@ -429,8 +431,7 @@
                             "title": "Actor",
                             "help": "Actor to set temperature",
                             "filter": true,
-                            "sort": true,
-                            "default": false
+                            "sort": true
                         },
                         {
                             "type": "number",
@@ -449,7 +450,8 @@
                             "title": "Immediately",
                             "help": "Synchronize temperature immediately",
                             "filter": true,
-                            "sort": true
+                            "sort": true,
+                            "default": false
                         }
                     ]
                 }

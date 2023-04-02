@@ -3,6 +3,19 @@
         "name": "netatmo-energy",
         "version": "2.4.2",
         "news": {
+            "2.4.3": {
+                "en": "Default entries for sensor table",
+                "de": "Standardeinträge für Sensortabelle",
+                "ru": "По умолчанию записи для сенсорного стола",
+                "pt": "Entradas padrão para tabela de sensores",
+                "nl": "Vervalsing voor sensortafel",
+                "fr": "Entrées par défaut pour table de capteur",
+                "it": "Predefinite per la tabella dei sensori",
+                "es": "Entradas predeterminadas para la mesa del sensor",
+                "pl": "Wpisy ubezpieczeniowe dla tablic czujnych",
+                "uk": "Записи за замовчуванням для таблиці датчика",
+                "zh-cn": "传感表的识别物品"
+            },
             "2.4.2": {
                 "en": "Bug fix for Sentry errors",
                 "de": "Bugfix für Sentry Fehler",

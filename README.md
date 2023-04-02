@@ -37,6 +37,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.4.3 (2023-04-02)
+
+* (ioKlausi) Default entries for sensor table
+
 ### 2.4.2 (2023-04-02)
 
 * (ioKlausi) Bug fix for Sentry errors
