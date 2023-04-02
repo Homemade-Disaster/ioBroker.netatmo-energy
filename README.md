@@ -37,7 +37,11 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### 2.4.0 (2023-03-19)
+### 2.4.1 (2023-04-02)
+
+* (ioKlausi) Revice coding
+
+### 2.4.0 (2023-04-01)
 
 * (ioKlausi) Implement actions for window sensors
 

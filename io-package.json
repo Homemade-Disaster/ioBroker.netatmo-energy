@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.4.0",
+        "version": "2.4.1",
         "news": {
+            "2.4.1": {
+                "en": "Revise coding",
+                "de": "Überarbeite Codierung",
+                "ru": "Revise кодирование",
+                "pt": "Revise a codificação",
+                "nl": "Vertaling:",
+                "fr": "Codage révisible",
+                "it": "Codifica Revise",
+                "es": "Revise coding",
+                "pl": "Odnawianie kodu",
+                "uk": "Ревізити кодування",
+                "zh-cn": "修改编码"
+            },
             "2.4.0": {
                 "en": "Implement actions for window sensors",
                 "de": "Implementierung von Aktionen für Fenstersensoren",

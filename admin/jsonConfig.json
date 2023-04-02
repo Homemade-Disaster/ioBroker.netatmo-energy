@@ -278,80 +278,6 @@
                 }              
             }
         },
-        "tabSensors": {
-            "type": "panel",
-            "label": "Sensor actions",
-            "items": {
-                "sensors": {
-                    "type": "table",
-                    "sm": 12,
-                    "md": 12,
-                    "lg": 12,
-                    "label": "Check window status",
-                    "items": [
-                        {
-                            "type": "selectSendTo",
-                            "attr": "window_sensor",
-                            "width": "20%",
-                            "command": "GetWindowOpenSensors",
-                            "title": "Window/Door sensor",
-                            "help": "Window/Door sensor (role = ###.window, ###.door)",
-                            "filter": true,
-                            "sort": true
-                        },
-                        {
-                            "type": "checkbox",
-                            "attr": "window_sensor_value",
-                            "width": "5%",
-                            "title": "Value",
-                            "help": "Check value from window/door sensor",
-                            "filter": true,
-                            "sort": true
-                        },
-                        {
-                            "type": "selectSendTo",
-                            "attr": "action",
-                            "width": "10%",
-                            "command": "GetSensorActions",
-                            "title": "Action",
-                            "help": "Action to perform",
-                            "filter": true,
-                            "sort": true
-                        },
-                        {
-                            "type": "selectSendTo",
-                            "attr": "temp_sensor",
-                            "width": "35%",
-                            "command": "GetSetTempSensors",
-                            "title": "Actor",
-                            "help": "Actor to set temperature",
-                            "filter": true,
-                            "sort": true,
-                            "default": false
-                        },
-                        {
-                            "type": "number",
-                            "attr": "set_value",
-                            "width": "5%",
-                            "title": "Target temperature",
-                            "help": "Set temperature of actor",
-                            "filter": false,
-                            "sort": false,
-                            "default": "18"
-                        },
-                        {
-                            "type": "checkbox",
-                            "attr": "immediately",
-                            "width": "5%",
-                            "title": "Immediately",
-                            "help": "Synchronize temperature immediately",
-                            "filter": true,
-                            "sort": true
-                        }
-                    ]
-                }
-            }
-        },
         "tabSubscribes": {
             "type": "panel",
             "label": "Messages",
@@ -454,6 +380,80 @@
                     "lg": 4   
                 }
             }
-        }                
+        },
+        "tabSensors": {
+            "type": "panel",
+            "label": "Sensor actions",
+            "items": {
+                "sensors": {
+                    "type": "table",
+                    "sm": 12,
+                    "md": 12,
+                    "lg": 12,
+                    "label": "Check window status",
+                    "items": [
+                        {
+                            "type": "selectSendTo",
+                            "attr": "window_sensor",
+                            "width": "20%",
+                            "command": "GetWindowOpenSensors",
+                            "title": "Window/Door sensor",
+                            "help": "Window/Door sensor (role = ###.window, ###.door)",
+                            "filter": true,
+                            "sort": true
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "window_sensor_value",
+                            "width": "5%",
+                            "title": "Value",
+                            "help": "Check value from window/door sensor",
+                            "filter": true,
+                            "sort": true
+                        },
+                        {
+                            "type": "selectSendTo",
+                            "attr": "action",
+                            "width": "10%",
+                            "command": "GetSensorActions",
+                            "title": "Action",
+                            "help": "Action to perform",
+                            "filter": true,
+                            "sort": true
+                        },
+                        {
+                            "type": "selectSendTo",
+                            "attr": "temp_sensor",
+                            "width": "35%",
+                            "command": "GetSetTempSensors",
+                            "title": "Actor",
+                            "help": "Actor to set temperature",
+                            "filter": true,
+                            "sort": true,
+                            "default": false
+                        },
+                        {
+                            "type": "number",
+                            "attr": "set_value",
+                            "width": "5%",
+                            "title": "Target temperature",
+                            "help": "Set temperature of actor",
+                            "filter": false,
+                            "sort": false,
+                            "default": "18"
+                        },
+                        {
+                            "type": "checkbox",
+                            "attr": "immediately",
+                            "width": "5%",
+                            "title": "Immediately",
+                            "help": "Synchronize temperature immediately",
+                            "filter": true,
+                            "sort": true
+                        }
+                    ]
+                }
+            }
+        }                   
     }
 }
