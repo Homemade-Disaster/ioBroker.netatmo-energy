@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.4.2",
+        "version": "2.4.3",
         "news": {
             "2.4.3": {
                 "en": "Default entries for sensor table",
