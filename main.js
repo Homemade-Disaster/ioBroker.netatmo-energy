@@ -162,11 +162,13 @@ class NetatmoEnergy extends utils.Adapter {
 	//Subscribe foreign Sensors
 	async _subscribeForeign(own_namespace, only_unsubscribe) {
 		for (const sensor_attribs of this.config.sensors) {
-			if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
-				//nothing to do
-			} else {
-				await this.unsubscribeForeignStatesAsync(sensor_attribs.window_sensor);
-				if (!only_unsubscribe) await this.subscribeForeignStatesAsync(sensor_attribs.window_sensor);
+			if (sensor_attribs.window_sensor && sensor_attribs.window_sensor != null && sensor_attribs.window_sensor != undefined) {
+				if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
+					//nothing to do
+				} else {
+					await this.unsubscribeForeignStatesAsync(sensor_attribs.window_sensor);
+					if (!only_unsubscribe) await this.subscribeForeignStatesAsync(sensor_attribs.window_sensor);
+				}
 			}
 		}
 	}
@@ -1378,6 +1380,9 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Set sensor fields
 	async _setSensorFields(id, sensor_attribs) {
+		if (!sensor_attribs.window_sensor || sensor_attribs.window_sensor == null || sensor_attribs.window_sensor == undefined) {
+			return false;
+		}
 		const myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 
 		let somethingChanged = 0;
@@ -1412,6 +1417,8 @@ class NetatmoEnergy extends utils.Adapter {
 
 		if (!this.config.applyimmediately && sensor_attribs.immediately == true && somethingChanged > 0) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -1421,13 +1428,15 @@ class NetatmoEnergy extends utils.Adapter {
 		let sensor_attribs = {};
 
 		for (sensor_attribs of this.config.sensors) {
-			if (sensor_attribs.window_sensor == id) {
-				let sensorvalue = {};
-				((id.search(this.namespace) >= 0) ? (sensorvalue = await this.getStateAsync(id)) : (sensorvalue = await this.getForeignStateAsync(id)));
-				if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
-					if ((sensor_attribs.window_sensor_value == true && sensorvalue.val == true) || (sensor_attribs.window_sensor_value != true && sensorvalue.val == false)) {
-						if (await this._setSensorFields(id, sensor_attribs)) {
-							ChangesDone = true;
+			if (sensor_attribs.window_sensor && sensor_attribs.window_sensor != null && sensor_attribs.window_sensor != undefined) {
+				if (sensor_attribs.window_sensor == id) {
+					let sensorvalue = {};
+					((id.search(this.namespace) >= 0) ? (sensorvalue = await this.getStateAsync(id)) : (sensorvalue = await this.getForeignStateAsync(id)));
+					if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
+						if ((sensor_attribs.window_sensor_value == true && sensorvalue.val == true) || (sensor_attribs.window_sensor_value != true && sensorvalue.val == false)) {
+							if (await this._setSensorFields(id, sensor_attribs)) {
+								ChangesDone = true;
+							}
 						}
 					}
 				}
