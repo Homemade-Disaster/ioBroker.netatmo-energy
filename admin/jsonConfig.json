@@ -390,7 +390,7 @@
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
-                    "label": "Check window status",
+                    "label": "Check window/door status",
                     "items": [
                         {
                             "type": "selectSendTo",
@@ -398,7 +398,7 @@
                             "width": "20%",
                             "command": "GetWindowOpenSensors",
                             "title": "Window/Door sensor",
-                            "help": "Window/Door sensor (role = ###.window, ###.door)",
+                            "help": "Window/Door sensor (role = #.window, #.door)",
                             "filter": true,
                             "sort": true
                         },

@@ -105,17 +105,30 @@ Bitte geben sie für den von ihnen gewählten Benachrichtigungsdienst die notwen
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_de.png" alt="notifications" width="70%"/>
 
-## Sensorik
-
-In der Tabelle können Sie auf das "window_open" Attribut pro Raum reagieren. Der Status der jeweiligen Fenstersensoren kann beim Ändern eine Aktion auslösen, welche hier einzutragen ist. Entweder kann eine dezidierte Temperatur eingestellt werden oder es kann wieder auf den Home Mode geschaltet werden. Somit kann beim Öffnen oder beim Schließen eines Fensters die Temperatur eines Ventils eingestellt werden. Zusätzlich ist es möglich hier alle Sensoren auszuwählen, welche als Rolle 'indicator.window', 'sensor.window', 'window', 'indicator.door', 'sensor.door', 'door' aufweisen. Somit können auch externe Sensoren eingebunden werden.
-
-<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/sensors_de.png" alt="sensors" width="70%"/>
-
 ## Nachrichten
 
 Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslösen. Die gewünschte Nachricht können sie hinterlegen.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_de.png" alt="messages" width="70%"/>
+
+## Sensorik
+
+In der Tabelle können Sie auf das "Fenster-/Türsensor" Attribut pro Raum reagieren. Der Status der jeweiligen Fenstersensoren kann beim Ändern eine Aktion auslösen, welche hier einzutragen ist. Es ist möglich hier alle Sensoren auszuwählen, welche als Rolle 'indicator.window', 'sensor.window', 'window', 'indicator.door', 'sensor.door', 'door' aufweisen. Somit können auch externe Sensoren eingebunden werden.
+
+Folgende Aktionen können ausgelöst werden:
+
+- Temperatur eingestellen
+- Home Mode setzen
+- Heizmodus einstellen
+  - Frostwächter
+  - Nicht zu Hause
+  - Normalbetrieb
+- Heizplan aktivieren
+  - alle existierenden Heizpläne der Netatmo-Energy App werden angeboten
+
+Somit kann beim Öffnen oder beim Schließen eines Fensters / Tür die Temperatur eines Ventils eingestellt werden.
+
+<img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/sensors_de.png" alt="sensors" width="70%"/>
 
 ## Admin-Tab
 

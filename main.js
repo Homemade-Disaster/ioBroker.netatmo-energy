@@ -1780,11 +1780,11 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Fixe Sensoren hinzufügen
 	_addStaticSensors(SensorActions) {
-		SensorActions.push({ label: mytools.tl('set temp', this.systemLang), value: 'temp' });
-		SensorActions.push({ label: mytools.tl('set home mode', this.systemLang), value: 'home' });
+		SensorActions.push({ label: mytools.tl('Set temp', this.systemLang), value: 'temp' });
+		SensorActions.push({ label: mytools.tl('Set Home-Mode', this.systemLang), value: 'home' });
 
-		SensorActions.push({ label: mytools.tl('scheduled', this.systemLang), value: glob.APIRequest_setthermmode_schedule });
-		SensorActions.push({ label: mytools.tl('frost guardian', this.systemLang), value: glob.APIRequest_setthermmode_hg });
+		SensorActions.push({ label: mytools.tl('Scheduled', this.systemLang), value: glob.APIRequest_setthermmode_schedule });
+		SensorActions.push({ label: mytools.tl('Frost guardian', this.systemLang), value: glob.APIRequest_setthermmode_hg });
 		SensorActions.push({ label: mytools.tl('switchhomeschedule away from home', this.systemLang), value: glob.APIRequest_setthermmode_away });
 		return SensorActions;
 	}
