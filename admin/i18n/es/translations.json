@@ -235,5 +235,7 @@
     "Target temperature": "Temperatura de destino",
     "Set temperature of actor": "Temperatura del actor",
     "Immediately": "Inmediatamente",
-    "Synchronize temperature immediately": "Sincronizar la temperatura inmediatamente"
+    "Synchronize temperature immediately": "Sincronizar la temperatura inmediatamente",
+    "Delay": "Delay",
+    "Delay to perform action (seconds)": "Dilatación para actuar (segundos)"
 }

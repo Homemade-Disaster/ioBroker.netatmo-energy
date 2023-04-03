@@ -413,6 +413,16 @@
                             "default": false
                         },
                         {
+                            "type": "number",
+                            "attr": "sensor_delay",
+                            "width": "5%",
+                            "title": "Delay",
+                            "help": "Delay to perform action (seconds)",
+                            "filter": true,
+                            "sort": false,
+                            "default": 0
+                        },
+                        {
                             "type": "selectSendTo",
                             "attr": "action",
                             "width": "10%",
@@ -426,7 +436,7 @@
                         {
                             "type": "selectSendTo",
                             "attr": "temp_sensor",
-                            "width": "35%",
+                            "width": "30%",
                             "command": "GetSetTempSensors",
                             "title": "Actor",
                             "help": "Actor to set temperature",

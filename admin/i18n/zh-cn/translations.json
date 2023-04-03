@@ -235,5 +235,7 @@
     "Target temperature": "目标诱因",
     "Set temperature of actor": "基调温度",
     "Immediately": "立即",
-    "Synchronize temperature immediately": "温度立即同步"
+    "Synchronize temperature immediately": "温度立即同步",
+    "Delay": "拖延",
+    "Delay to perform action (seconds)": "推迟采取行动(二)"
 }

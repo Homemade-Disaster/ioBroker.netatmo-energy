@@ -235,5 +235,7 @@
     "Target temperature": "Целевой температур",
     "Set temperature of actor": "Установите температуру актера",
     "Immediately": "Сразу",
-    "Synchronize temperature immediately": "Синхронизируйте температуру немедленно"
+    "Synchronize temperature immediately": "Синхронизируйте температуру немедленно",
+    "Delay": "Задержка",
+    "Delay to perform action (seconds)": "Задержка для выполнения действий (в секундах)"
 }

@@ -235,5 +235,7 @@
     "Target temperature": "Zieltemperatur",
     "Set temperature of actor": "Einstelltemperatur des Aktors",
     "Immediately": "Sofort",
-    "Synchronize temperature immediately": "Temperatur sofort synchronisieren"
+    "Synchronize temperature immediately": "Temperatur sofort synchronisieren",
+    "Delay": "Verzögerung",
+    "Delay to perform action (seconds)": "Handlungsverzögerung (Sekunden)"
 }

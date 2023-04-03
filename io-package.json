@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.4.3",
+        "version": "2.4.4",
         "news": {
+            "2.4.4": {
+                "en": "Add delay time, to perform action",
+                "de": "Verzögerungszeit hinzufügen, um Aktion durchzuführen",
+                "ru": "Добавьте время задержки, чтобы выполнить действие",
+                "pt": "Adicionar tempo de atraso, para executar a ação",
+                "nl": "Vertraag de tijd",
+                "fr": "Ajouter le temps de retard, effectuer l'action",
+                "it": "Aggiungi il tempo di ritardo, per eseguire l'azione",
+                "es": "Añada tiempo de demora, para actuar",
+                "pl": "Add opóźniał czas wykonania akcji",
+                "uk": "Додайте час затримки, щоб виконати дію",
+                "zh-cn": "推迟采取行动"
+            },
             "2.4.3": {
                 "en": "Default entries for sensor table",
                 "de": "Standardeinträge für Sensortabelle",

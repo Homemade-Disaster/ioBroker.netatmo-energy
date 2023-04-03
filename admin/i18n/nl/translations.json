@@ -235,5 +235,7 @@
     "Target temperature": "Doelwit temperatuur",
     "Set temperature of actor": "Zet de temperatuur van acteur",
     "Immediately": "Onmiddellijk",
-    "Synchronize temperature immediately": "Vertaling"
+    "Synchronize temperature immediately": "Vertaling",
+    "Delay": "Vertaling",
+    "Delay to perform action (seconds)": "Vertraging om actie te ondernemen"
 }
