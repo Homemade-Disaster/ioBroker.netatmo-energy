@@ -395,7 +395,7 @@
                         {
                             "type": "selectSendTo",
                             "attr": "window_sensor",
-                            "width": "20%",
+                            "width": "30%",
                             "command": "GetWindowOpenSensors",
                             "title": "Window/Door sensor",
                             "help": "Window/Door sensor (role = #.window, #.door)",
@@ -405,7 +405,7 @@
                         {
                             "type": "checkbox",
                             "attr": "window_sensor_value",
-                            "width": "5%",
+                            "width": "10%",
                             "title": "Value",
                             "help": "Check value from window/door sensor",
                             "filter": true,
@@ -415,7 +415,7 @@
                         {
                             "type": "number",
                             "attr": "sensor_delay",
-                            "width": "5%",
+                            "width": "10%",
                             "title": "Delay",
                             "help": "Delay to perform action (seconds)",
                             "filter": true,
@@ -446,22 +446,12 @@
                         {
                             "type": "number",
                             "attr": "set_value",
-                            "width": "5%",
+                            "width": "10%",
                             "title": "Target temperature",
                             "help": "Set temperature of actor",
                             "filter": false,
                             "sort": false,
                             "default": "18"
-                        },
-                        {
-                            "type": "checkbox",
-                            "attr": "immediately",
-                            "width": "5%",
-                            "title": "Immediately",
-                            "help": "Synchronize temperature immediately",
-                            "filter": true,
-                            "sort": true,
-                            "default": false
                         }
                     ]
                 }

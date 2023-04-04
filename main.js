@@ -1330,7 +1330,7 @@ class NetatmoEnergy extends utils.Adapter {
 		}
 	}
 
-	//Set schedule mude
+	//Set schedule mode
 	async _setTempChangedMode(id, state) {
 		const actId = mytools.splitID(id);
 		this.log.debug(mytools.tl('Set room attributes', this.systemLang));
@@ -1393,11 +1393,16 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Delete Sensor intervalls
 	_deleteSensorInterval(id, actIdValue) {
-		const ActSensor = this.SensorIntervals.find(element => element.val == id && element.value == actIdValue);
+		//this.SensorIntervals.forEach(interval => this.log.warn('Start: ' + interval + ' : ' + interval.value + ' / ' + interval.id + ' # ' + interval.function));
+		const ActSensor = this.SensorIntervals.find(element => element.id == id && element.value == actIdValue);
+		//this.log.info('Delete Sensor: ' + ActSensor);
 		if (ActSensor) {
 			clearInterval(ActSensor.function);
+			//this.log.info('Delete Sensor Interval: ' + ActSensor.function);
 		}
-		this.SensorIntervals.filter(element => !(element.val == id && element.value == actIdValue));
+		const ActSensorIndex = this.SensorIntervals.findIndex(element => element.id == id && element.value == actIdValue);
+		if (ActSensorIndex) this.SensorIntervals.splice(ActSensorIndex, 1);
+		//this.SensorIntervals.forEach(interval => this.log.warn('Filter: ' + ActSensorIndex + ' ... ' + interval + ' : ' + interval.value + ' / ' + interval.id + ' # ' + interval.function));
 	}
 
 	//Set sensor fields
@@ -1405,68 +1410,63 @@ class NetatmoEnergy extends utils.Adapter {
 		if (!sensor_attribs.window_sensor || sensor_attribs.window_sensor == null || sensor_attribs.window_sensor == undefined) {
 			return false;
 		}
-		that._deleteSensorInterval(id, actIdValue);
+
 		const that = this;
+		that._deleteSensorInterval(id, actIdValue);
 		const myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 
-		//Internal Sensor
+		// Set home mode
 		const setSensorState = async function (id, actIdValue, that, myHomeFolder) {
 			that._deleteSensorInterval(id, actIdValue);
-			const valueNow = await that.getStateAsync(id);
+			const valueNow = await that.getForeignStateAsync(id);
+			that.log.warn('Value: ' + id + ' : ' + valueNow + ' - ' + actIdValue);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
 				await that.setState(that._getDP([myHomeFolder, glob.Channel_settings, glob.Trigger_SetHome]), true, false);
 				await that._storeOldValue(id);
-				if (!that.config.applyimmediately && sensor_attribs.immediately == true > 0) {
-					that.SensorRefreshImmeadiately = true;
-				}
 			}
 		};
 
 		//Set Temp
 		const setSensorTemp = async function (id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp) {
 			that._deleteSensorInterval(id, actIdValue);
-			const valueNow = await that.getStateAsync(id);
+			const valueNow = await that.getForeignStateAsync(id);
+			//that.log.warn('Value: ' + id + ' : ' + valueNow + ' - ' + actIdValue);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
 				await that.setState(sensor_attribs.temp_sensor, NewTemp, false);
 				await that._storeOldValue(id);
 				await that.compareValues(that._getDP([myHomeFolder, glob.Channel_status, glob.State_therm_setpoint_temperature]), that._getDP([myHomeFolder, glob.Channel_status, glob.State_TempChanged_Mode]), sensor_attribs.set_value, that._getDP([myHomeFolder, glob.Channel_settings, glob.State_TempChanged]));
-				if (!that.config.applyimmediately && sensor_attribs.immediately == true > 0) {
-					that.SensorRefreshImmeadiately = true;
-				}
+				await that.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang));
 			}
 		};
 
 		//Set Mode
 		const setSensorMode = async function (id, actIdValue, that, sensor_attribs) {
 			that._deleteSensorInterval(id, actIdValue);
-			const valueNow = await that.getStateAsync(id);
+			const valueNow = await that.getForeignStateAsync(id);
+			//that.log.warn('Value: ' + id + ' : ' + valueNow + ' - ' + actIdValue);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
 				that.log.debug(mytools.tl('API Request setthermmode:', that.systemLang) + glob.blank + sensor_attribs.action);
 				that.applySingleAPIRequest(glob.APIRequest_setthermmode, sensor_attribs.action, mytools.tl('Mode:', that.systemLang) + glob.blank + sensor_attribs.action);
-				if (!that.config.applyimmediately && sensor_attribs.immediately == true > 0) {
-					that.SensorRefreshImmeadiately = true;
-				}
 			}
 		};
 
 		//Set Plan
 		const setSensorPlan = async function (id, actIdValue, that, sensor_attribs) {
 			that._deleteSensorInterval(id, actIdValue);
-			const valueNow = await that.getStateAsync(id);
+			const valueNow = await that.getForeignStateAsync(id);
+			//that.log.warn('Value: ' + id + ' : ' + valueNow + ' - ' + actIdValue);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
 				that.log.debug(mytools.tl('API Request swithhomeschedule:', that.systemLang) + glob.blank + sensor_attribs.action + ' : ' + mytools.tl('Heating Plan:', that.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
 				that.applySingleAPIRequest(glob.APIRequest_switchhomeschedule, that.globalScheduleObjects[sensor_attribs.action], mytools.tl('Heating Plan:', that.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
-				if (!that.config.applyimmediately && sensor_attribs.immediately == true > 0) {
-					that.SensorRefreshImmeadiately = true;
-				}
 			}
 		};
-
+		//Internal Sensor
 		if (sensor_attribs.action == glob.Action_home) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
-				this.SensorIntervals.push(Object.assign({}, id,
+				this.SensorIntervals.push(Object.assign({},
+					{ id: id },
 					{ value: actIdValue },
-					{ function: setInterval(sensor_attribs.sensor_delay * 1000, setSensorState(id, actIdValue, that, myHomeFolder))}));
+					{ function: setInterval(setSensorState, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder) }));
 			} else {
 				setSensorState(id, actIdValue, that, myHomeFolder);
 			}
@@ -1478,9 +1478,10 @@ class NetatmoEnergy extends utils.Adapter {
 			if (!isNaN(NewTemp)) {
 				// @ts-ignore
 				if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
-					this.SensorIntervals.push(Object.assign({}, id,
+					this.SensorIntervals.push(Object.assign({},
+						{ id: id },
 						{ value: actIdValue },
-						{ function: setInterval(sensor_attribs.sensor_delay * 1000, setSensorTemp(id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp)) }));
+						{ function: setInterval(setSensorTemp, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp) }));
 				} else {
 					setSensorTemp(id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp);
 				}
@@ -1491,9 +1492,10 @@ class NetatmoEnergy extends utils.Adapter {
 
 		else if (sensor_attribs.action == glob.APIRequest_setthermmode_schedule || sensor_attribs.action == glob.APIRequest_setthermmode_hg || sensor_attribs.action == glob.APIRequest_setthermmode_away) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
-				this.SensorIntervals.push(Object.assign({}, id,
+				this.SensorIntervals.push(Object.assign({},
+					{ id: id },
 					{ value: actIdValue },
-					{ function: setInterval(sensor_attribs.sensor_delay * 1000, setSensorMode(id, actIdValue, that, sensor_attribs)) }));
+					{ function: setInterval(setSensorMode, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
 			} else {
 				setSensorMode(id, actIdValue, that, sensor_attribs);
 			}
@@ -1501,9 +1503,10 @@ class NetatmoEnergy extends utils.Adapter {
 
 		else if (sensor_attribs.action.search(glob.APIRequest_switchhomeschedule) >= 0) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
-				this.SensorIntervals.push(Object.assign({}, id,
+				this.SensorIntervals.push(Object.assign({},
+					{ id: id },
 					{ value: actIdValue },
-					{ function: setInterval(sensor_attribs.sensor_delay * 1000, setSensorPlan(id, actIdValue, that, sensor_attribs)) }));
+					{ function: setInterval(setSensorPlan, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
 			} else {
 				setSensorMode(id, actIdValue, that, sensor_attribs);
 			}
@@ -1564,7 +1567,6 @@ class NetatmoEnergy extends utils.Adapter {
 								.then(async startSyncAPI => {
 									if (startSyncAPI) {
 										this.SensorRefreshImmeadiately = false;
-										await this.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang));
 									}
 									if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_window_open_txt);
 								})
@@ -1598,7 +1600,6 @@ class NetatmoEnergy extends utils.Adapter {
 				.then(async startSyncAPI => {
 					if (startSyncAPI) {
 						this.SensorRefreshImmeadiately = false;
-						await this.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang));
 					}
 				})
 				.catch();
