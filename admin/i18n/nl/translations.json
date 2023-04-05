@@ -237,5 +237,6 @@
     "Immediately": "Onmiddellijk",
     "Synchronize temperature immediately": "Vertaling",
     "Delay": "Vertaling",
-    "Delay to perform action (seconds)": "Vertraging om actie te ondernemen"
+    "Delay to perform action (seconds)": "Vertraging om actie te ondernemen",
+    "Temperature sensor is missing in adapter configuration to perform action: ": "De temperatuursensor ontbreekt in adapter configuration om actie te voeren: "
 }

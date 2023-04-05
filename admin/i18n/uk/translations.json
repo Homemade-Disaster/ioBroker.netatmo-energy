@@ -237,5 +237,6 @@
     "Immediately": "Відправити",
     "Synchronize temperature immediately": "Синхронізація температури відразу",
     "Delay": "Делей",
-    "Delay to perform action (seconds)": "Затримувати дію (секунди)"
+    "Delay to perform action (seconds)": "Затримувати дію (секунди)",
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Датчик температури відсутній в конфігурації адаптера для виконання дії: "
 }

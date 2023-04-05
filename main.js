@@ -65,9 +65,6 @@ class NetatmoEnergy extends utils.Adapter {
 		this.storedOAuthData			= {};
 		this.storedOAuthStates			= {};
 		this.dataDir					= '';
-
-		//Refreshing Status
-		this.SensorRefreshImmeadiately 	= false;
 	}
 
 	// Decrypt password
@@ -270,19 +267,11 @@ class NetatmoEnergy extends utils.Adapter {
 			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + glob.blank + refreshtime + mytools.tl('sec', that.systemLang));
 			await that.RefreshWholeStructure(true);
 		};
-		const updateAPIStatusSensor = async function () {
-			that.log.debug(mytools.tl('API Request homestatus sent to API each', that.systemLang) + glob.blank + '15' + glob.blank + mytools.tl('sec', that.systemLang));
-			if (this.SensorRefreshImmeadiately) {
-				this.SensorRefreshImmeadiately = false;
-				await that.RefreshWholeStructure(true);
-			}
-		};
 		if (refreshtime && refreshtime > 0) {
 			that.log.info(mytools.tl('Refresh homestatus interval', that.systemLang) + glob.blank + refreshtime * 1000);
 			// Timer
 			that.adapterIntervals.push(setInterval(updateAPIStatus, refreshtime * 1000));
 		}
-		that.adapterIntervals.push(setInterval(updateAPIStatusSensor, 15000));
 
 		//Start initial requests for adapter
 		this.AdapterStarted = true;
@@ -1407,14 +1396,28 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Set sensor fields
 	async _setSensorFields(id, sensor_attribs, actIdValue) {
+		const that = this;
+
 		if (!sensor_attribs.window_sensor || sensor_attribs.window_sensor == null || sensor_attribs.window_sensor == undefined) {
 			return false;
 		}
+		if ((sensor_attribs.action == glob.Action_home || sensor_attribs.action == glob.Action_temp) && (!sensor_attribs.temp_sensor || sensor_attribs.temp_sensor == null && sensor_attribs.temp_sensor == undefined)) {
+			that.log.error(mytools.tl('Temperature sensor is missing in adapter configuration to perform action: ', this.systemLang) + id);
+			return false;
+		}
+		// Check if Sensor ist waiting to perform
+		let abortTimer = false;
+		for (const ActSensor in that.SensorIntervals) {
+			if (that.SensorIntervals[ActSensor].id == id) {
+				that._deleteSensorInterval(id, that.SensorIntervals[ActSensor].value);
+				abortTimer = true;
+			}
+		}
+		if (abortTimer) {
+			return false;
+		}
 
-		const that = this;
-		that._deleteSensorInterval(id, actIdValue);
 		const myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
-
 		// Set home mode
 		const setSensorState = async function (id, actIdValue, that, myHomeFolder) {
 			that._deleteSensorInterval(id, actIdValue);
@@ -1466,7 +1469,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.SensorIntervals.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
-					{ function: setInterval(setSensorState, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder) }));
+					{ function: setTimeout(setSensorState, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder) }));
 			} else {
 				setSensorState(id, actIdValue, that, myHomeFolder);
 			}
@@ -1481,7 +1484,7 @@ class NetatmoEnergy extends utils.Adapter {
 					this.SensorIntervals.push(Object.assign({},
 						{ id: id },
 						{ value: actIdValue },
-						{ function: setInterval(setSensorTemp, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp) }));
+						{ function: setTimeout(setSensorTemp, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp) }));
 				} else {
 					setSensorTemp(id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp);
 				}
@@ -1495,7 +1498,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.SensorIntervals.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
-					{ function: setInterval(setSensorMode, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
+					{ function: setTimeout(setSensorMode, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
 			} else {
 				setSensorMode(id, actIdValue, that, sensor_attribs);
 			}
@@ -1506,7 +1509,7 @@ class NetatmoEnergy extends utils.Adapter {
 				this.SensorIntervals.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
-					{ function: setInterval(setSensorPlan, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
+					{ function: setTimeout(setSensorPlan, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
 			} else {
 				setSensorMode(id, actIdValue, that, sensor_attribs);
 			}
@@ -1530,7 +1533,7 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		}
-		return this.SensorRefreshImmeadiately;
+		return true;
 	}
 
 	//Make sensor changes
@@ -1566,7 +1569,7 @@ class NetatmoEnergy extends utils.Adapter {
 							await this._sensorChanges(id, oldValue)
 								.then(async startSyncAPI => {
 									if (startSyncAPI) {
-										this.SensorRefreshImmeadiately = false;
+										//Nothing to do
 									}
 									if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_window_open_txt);
 								})
@@ -1596,13 +1599,15 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 			}
 		} else {
-			await this._sensorChanges(id, !state.val)
-				.then(async startSyncAPI => {
-					if (startSyncAPI) {
-						this.SensorRefreshImmeadiately = false;
-					}
-				})
-				.catch();
+			if (state.ack === true) {
+				await this._sensorChanges(id, !state.val)
+					.then(async startSyncAPI => {
+						if (startSyncAPI) {
+							//Nothing to do
+						}
+					})
+					.catch();
+			}
 		}
 	}
 

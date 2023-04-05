@@ -237,5 +237,6 @@
     "Immediately": "Natychmiast",
     "Synchronize temperature immediately": "Temperatura synchroniczna",
     "Delay": "Delay",
-    "Delay to perform action (seconds)": "Opóźnienie na działanie (drugie)"
+    "Delay to perform action (seconds)": "Opóźnienie na działanie (drugie)",
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Ciągłe czujniki nie występują w konfiguracji adapterowej do wykonywania czynności: czujnik uboczny "
 }

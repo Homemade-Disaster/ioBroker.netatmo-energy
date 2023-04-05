@@ -237,5 +237,6 @@
     "Immediately": "Imediatamente",
     "Synchronize temperature immediately": "Sincronizar a temperatura imediatamente",
     "Delay": "Delay",
-    "Delay to perform action (seconds)": "Atraso para executar ação (segundos)"
+    "Delay to perform action (seconds)": "Atraso para executar ação (segundos)",
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Sensor de temperatura está faltando na configuração do adaptador para executar a ação: "
 }
