@@ -124,7 +124,7 @@ The following actions can be triggered:
 - Activate heating plan
   - you can take each existing heating plan from your Netatmo-Energy App
 
-The temperature of a valve can thus be set when opening or closing a window/door.
+The temperature of a valve can thus be set when opening or closing a window/door. By entering a delay time (in seconds), the stored action is executed with a delay. If the triggering sensor is changed again within the delay time, the pending actions are not carried out.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/sensors_en.png" alt="sensors" width="70%"/>
 

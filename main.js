@@ -1384,13 +1384,16 @@ class NetatmoEnergy extends utils.Adapter {
 	_deleteSensorInterval(id, actIdValue) {
 		//this.SensorIntervals.forEach(interval => this.log.warn('Start: ' + interval + ' : ' + interval.value + ' / ' + interval.id + ' # ' + interval.function));
 		const ActSensor = this.SensorIntervals.find(element => element.id == id && element.value == actIdValue);
-		//this.log.info('Delete Sensor: ' + ActSensor);
 		if (ActSensor) {
 			clearInterval(ActSensor.function);
 			//this.log.info('Delete Sensor Interval: ' + ActSensor.function);
 		}
 		const ActSensorIndex = this.SensorIntervals.findIndex(element => element.id == id && element.value == actIdValue);
-		if (ActSensorIndex) this.SensorIntervals.splice(ActSensorIndex, 1);
+		//this.log.info('ActSensor-Index: ' + ActSensorIndex);
+		if (ActSensorIndex >= 0) {
+			this.SensorIntervals.splice(ActSensorIndex, 1);
+			//this.log.info('DelActSensor-Index: ' + ActSensorIndex);
+		}
 		//this.SensorIntervals.forEach(interval => this.log.warn('Filter: ' + ActSensorIndex + ' ... ' + interval + ' : ' + interval.value + ' / ' + interval.id + ' # ' + interval.function));
 	}
 
@@ -1405,24 +1408,12 @@ class NetatmoEnergy extends utils.Adapter {
 			that.log.error(mytools.tl('Temperature sensor is missing in adapter configuration to perform action: ', this.systemLang) + id);
 			return false;
 		}
-		// Check if Sensor ist waiting to perform
-		let abortTimer = false;
-		for (const ActSensor in that.SensorIntervals) {
-			if (that.SensorIntervals[ActSensor].id == id) {
-				that._deleteSensorInterval(id, that.SensorIntervals[ActSensor].value);
-				abortTimer = true;
-			}
-		}
-		if (abortTimer) {
-			return false;
-		}
 
 		const myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 		// Set home mode
 		const setSensorState = async function (id, actIdValue, that, myHomeFolder) {
 			that._deleteSensorInterval(id, actIdValue);
 			const valueNow = await that.getForeignStateAsync(id);
-			that.log.warn('Value: ' + id + ' : ' + valueNow + ' - ' + actIdValue);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
 				await that.setState(that._getDP([myHomeFolder, glob.Channel_settings, glob.Trigger_SetHome]), true, false);
 				await that._storeOldValue(id);
@@ -1539,13 +1530,28 @@ class NetatmoEnergy extends utils.Adapter {
 	//Make sensor changes
 	async _sensorChanges(id,oldValue) {
 		const that = this;
+
 		return new Promise(
 			function (resolve) {
 				const traceSensors = async function (id, oldValue, that) {
 					const ChangesDone = await that._traceSensors(id, oldValue);
 					resolve(ChangesDone);
 				};
-				traceSensors(id, oldValue, that);
+
+				// Check if Sensor ist waiting to perform
+				let abortTimer = false;
+				for (const ActSensor in that.SensorIntervals) {
+					if (that.SensorIntervals[ActSensor].id == id) {
+						that._deleteSensorInterval(id, that.SensorIntervals[ActSensor].value);
+						abortTimer = true;
+					}
+				}
+				if (abortTimer) {
+					resolve(false);
+				} else {
+					traceSensors(id, oldValue, that);
+				}
+
 			});
 	}
 

@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.4.4",
+        "version": "2.4.5",
         "news": {
+            "2.4.5": {
+                "en": "Implementation of sensor abort functionality",
+                "de": "Implementierung der Sensorabort-Funktionalität",
+                "ru": "Внедрение функции сенсорного аборта",
+                "pt": "Implementação da funcionalidade de abortamento do sensor",
+                "nl": "Implementering van sensor abortus functionaliteit",
+                "fr": "Mise en œuvre de la fonctionnalité d'arrêt de capteur",
+                "it": "Attuazione della funzionalità di abuso dei sensori",
+                "es": "Implementación de funcionalidad de abortar sensor",
+                "pl": "Implementacja funkcji przerwania czujnika",
+                "uk": "Реалізація функціональності датчика",
+                "zh-cn": "执行传感器功能"
+            },
             "2.4.4": {
                 "en": "Add delay time, to perform action",
                 "de": "Verzögerungszeit hinzufügen, um Aktion durchzuführen",

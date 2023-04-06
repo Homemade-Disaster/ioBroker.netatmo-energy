@@ -126,7 +126,7 @@ Folgende Aktionen können ausgelöst werden:
 - Heizplan aktivieren
   - alle existierenden Heizpläne der Netatmo-Energy App werden angeboten
 
-Somit kann beim Öffnen oder beim Schließen eines Fensters / Tür die Temperatur eines Ventils eingestellt werden.
+Somit kann beim Öffnen oder beim Schließen eines Fensters / Tür die Temperatur eines Ventils eingestellt werden. Durch eingeben einer Verzögerungszeit (in Sekunden) wird die hinterlegte Aktion verzögert ausgeführt. Wird innerhalb der Verzögerungszeit der auslösende Sensor wieder geändert, werden die noch austehenden Aktionen nicht durchgeführt.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/sensors_de.png" alt="sensors" width="70%"/>
 
