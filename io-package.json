@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.4.5",
+        "version": "2.5.0",
         "news": {
+            "2.5.0": {
+                "en": "Sensor changed to object ID type boolean",
+                "de": "Sensor geändert zum Objekt ID Typ boolean",
+                "ru": "Датчик изменен на объект ID тип boolean",
+                "pt": "Sensor alterado para objeto ID tipo booleano",
+                "nl": "Sensor veranderde in object ID type boolean",
+                "fr": "Senseur changé pour objet ID type boolean",
+                "it": "Sensore cambiato per oggetto ID tipo boolean",
+                "es": "Sensor cambiado para el tipo de identificación de objetos booleano",
+                "pl": "Sensor zmienił nazwę na obiektowy boolean typu ID",
+                "uk": "Датчик змінився на тип об'єкта boolean",
+                "zh-cn": "许可人改用原状"
+            }, 
             "2.4.5": {
                 "en": "Implementation of sensor abort functionality",
                 "de": "Implementierung der Sensorabort-Funktionalität",

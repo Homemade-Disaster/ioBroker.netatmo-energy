@@ -113,7 +113,7 @@ Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslöse
 
 ## Sensorik
 
-In der Tabelle können Sie auf das "Fenster-/Türsensor" Attribut pro Raum reagieren. Der Status der jeweiligen Fenstersensoren kann beim Ändern eine Aktion auslösen, welche hier einzutragen ist. Es ist möglich hier alle Sensoren auszuwählen, welche als Rolle 'indicator.window', 'sensor.window', 'window', 'indicator.door', 'sensor.door', 'door' aufweisen. Somit können auch externe Sensoren eingebunden werden.
+In der Tabelle können Sie auf das "Fenster-/Türsensor" Attribut pro Raum reagieren. Der Status der jeweiligen Fenstersensoren kann beim Ändern eine Aktion auslösen, welche hier einzutragen ist. Es ist möglich hier alle Sensoren auszuwählen, welche vom Typ bool sind. Somit können auch externe Sensoren eingebunden werden.
 
 Folgende Aktionen können ausgelöst werden:
 

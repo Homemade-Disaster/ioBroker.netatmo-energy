@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Geen temperatuur opgeslagen in sensoren!",
     "Sensor actions": "Sensor acties",
     "Check window/door status": "Controleer de ramen/door status",
-    "Window/Door sensor (role = #.window, #.door)": "Window/Door sensor (role = #.window, #.door)",
+    "Window/Door sensor (type = boolean)": "Window/Door sensor (type = boolean)",
     "Check value from window/door sensor": "Controleer waarde van ramen/door sensor",
     "Actor to set temperature": "Acteur om de temperatuur te starten",
     "Window/Door sensor": "Window sensor",
@@ -238,5 +238,10 @@
     "Synchronize temperature immediately": "Vertaling",
     "Delay": "Vertaling",
     "Delay to perform action (seconds)": "Vertraging om actie te ondernemen",
-    "Temperature sensor is missing in adapter configuration to perform action: ": "De temperatuursensor ontbreekt in adapter configuration om actie te voeren: "
+    "Temperature sensor is missing in adapter configuration to perform action: ": "De temperatuursensor ontbreekt in adapter configuration om actie te voeren: ",
+    "Wrong Sensor:": "Verkeerde Sensor:",
+    "You have to use a bool sensor!": "Je moet een bool sensor gebruiken!",
+    "Sensor action in": "Sensor actie",
+    "seconds!": "seconden!",
+    "Sensor action aborted for": "Sensor actie abortus voor"
 }

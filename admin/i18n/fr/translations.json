@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Aucune température stockée dans l'onglet capteur !",
     "Sensor actions": "Actions de capteur",
     "Check window/door status": "Vérifier le statut de fenêtre/porte",
-    "Window/Door sensor (role = #.window, #.door)": "Capteur de fenêtre/de porte (roule = #.window, #.door)",
+    "Window/Door sensor (type = boolean)": "Capteur de fenêtre/de porte (roule = #.window, #.door)",
     "Check value from window/door sensor": "Vérifier la valeur à partir du capteur de fenêtre/porte",
     "Actor to set temperature": "Acteur pour fixer la température",
     "Window/Door sensor": "Capteur de fenêtre",
@@ -238,5 +238,10 @@
     "Synchronize temperature immediately": "Synchroniser la température immédiatement",
     "Delay": "Delay",
     "Delay to perform action (seconds)": "Retard à l'action (secondes)",
-    "Temperature sensor is missing in adapter configuration to perform action: ": "Le capteur de température est absent dans la configuration de l'adaptateur pour effectuer l'action: "
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Le capteur de température est absent dans la configuration de l'adaptateur pour effectuer l'action: ",
+    "Wrong Sensor:": "Wrong Sensor:",
+    "You have to use a bool sensor!": "Il faut utiliser un capteur de l'alcool !",
+    "Sensor action in": "Action du capteur",
+    "seconds!": "secondes !",
+    "Sensor action aborted for": "Sensor action avortée pour"
 }

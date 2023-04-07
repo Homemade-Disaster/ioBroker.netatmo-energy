@@ -1457,6 +1457,7 @@ class NetatmoEnergy extends utils.Adapter {
 		//Internal Sensor
 		if (sensor_attribs.action == glob.Action_home) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
+				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
 				this.SensorIntervals.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
@@ -1472,6 +1473,7 @@ class NetatmoEnergy extends utils.Adapter {
 			if (!isNaN(NewTemp)) {
 				// @ts-ignore
 				if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
+					this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
 					this.SensorIntervals.push(Object.assign({},
 						{ id: id },
 						{ value: actIdValue },
@@ -1486,6 +1488,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		else if (sensor_attribs.action == glob.APIRequest_setthermmode_schedule || sensor_attribs.action == glob.APIRequest_setthermmode_hg || sensor_attribs.action == glob.APIRequest_setthermmode_away) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
+				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
 				this.SensorIntervals.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
@@ -1497,6 +1500,7 @@ class NetatmoEnergy extends utils.Adapter {
 
 		else if (sensor_attribs.action.search(glob.APIRequest_switchhomeschedule) >= 0) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
+				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
 				this.SensorIntervals.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
@@ -1514,11 +1518,16 @@ class NetatmoEnergy extends utils.Adapter {
 		for (sensor_attribs of this.config.sensors) {
 			if (sensor_attribs.window_sensor && sensor_attribs.window_sensor != null && sensor_attribs.window_sensor != undefined) {
 				if (sensor_attribs.window_sensor == id) {
-					let sensorvalue = {};
-					((id.search(this.namespace) >= 0) ? (sensorvalue = await this.getStateAsync(id)) : (sensorvalue = await this.getForeignStateAsync(id)));
-					if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
-						if ((sensor_attribs.window_sensor_value == true && sensorvalue.val == true) || (sensor_attribs.window_sensor_value != true && sensorvalue.val == false)) {
-							await this._setSensorFields(id, sensor_attribs, sensorvalue.val);
+					const sensorobject = await this.getForeignObjectAsync(id);
+					if (sensorobject.common.type != 'boolean')  {
+						this.log.warn(mytools.tl('Wrong Sensor:', this.systemLang) + glob.blank + '[' + id + ']' + glob.blank + mytools.tl('You have to use a bool sensor!', this.systemLang));
+					} else {
+						let sensorvalue = {};
+						((id.search(this.namespace) >= 0) ? (sensorvalue = await this.getStateAsync(id)) : (sensorvalue = await this.getForeignStateAsync(id)));
+						if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
+							if ((sensor_attribs.window_sensor_value == true && sensorvalue.val == true) || (sensor_attribs.window_sensor_value != true && sensorvalue.val == false)) {
+								await this._setSensorFields(id, sensor_attribs, sensorvalue.val);
+							}
 						}
 					}
 				}
@@ -1542,6 +1551,7 @@ class NetatmoEnergy extends utils.Adapter {
 				let abortTimer = false;
 				for (const ActSensor in that.SensorIntervals) {
 					if (that.SensorIntervals[ActSensor].id == id) {
+						this.log.debug(mytools.tl('Sensor action aborted for', this.systemLang) + glob.blank + id);
 						that._deleteSensorInterval(id, that.SensorIntervals[ActSensor].value);
 						abortTimer = true;
 					}

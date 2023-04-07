@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Немає температури, що зберігається в сенсорній вкладці!",
     "Sensor actions": "Дії датчика",
     "Check window/door status": "Перевірити стан вікна / дверей",
-    "Window/Door sensor (role = #.window, #.door)": "Вікно / Дор датчик (role = #.window, #.door)",
+    "Window/Door sensor (type = boolean)": "Вікно / Дор датчик (type = boolean)",
     "Check value from window/door sensor": "Перевірити значення з датчика віконного / дверцята",
     "Actor to set temperature": "Актор для встановлення температури",
     "Window/Door sensor": "Датчик вікна",
@@ -238,5 +238,10 @@
     "Synchronize temperature immediately": "Синхронізація температури відразу",
     "Delay": "Делей",
     "Delay to perform action (seconds)": "Затримувати дію (секунди)",
-    "Temperature sensor is missing in adapter configuration to perform action: ": "Датчик температури відсутній в конфігурації адаптера для виконання дії: "
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Датчик температури відсутній в конфігурації адаптера для виконання дії: ",
+    "Wrong Sensor:": "Датчик несправності:",
+    "You have to use a bool sensor!": "Ви повинні використовувати датчик кипіння!",
+    "Sensor action in": "Дія датчика в",
+    "seconds!": "час!",
+    "Sensor action aborted for": "Сенсорна дія для"
 }

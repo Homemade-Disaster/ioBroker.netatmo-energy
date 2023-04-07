@@ -393,12 +393,11 @@
                     "label": "Check window/door status",
                     "items": [
                         {
-                            "type": "selectSendTo",
+                            "type": "objectId",
                             "attr": "window_sensor",
-                            "width": "30%",
-                            "command": "GetWindowOpenSensors",
+                            "width": "35%",
                             "title": "Window/Door sensor",
-                            "help": "Window/Door sensor (role = #.window, #.door)",
+                            "help": "Window/Door sensor (type = boolean)",
                             "filter": true,
                             "sort": true
                         },
@@ -415,9 +414,11 @@
                         {
                             "type": "number",
                             "attr": "sensor_delay",
-                            "width": "10%",
+                            "width": "5%",
                             "title": "Delay",
                             "help": "Delay to perform action (seconds)",
+                            "min": 0,
+                            "max": 3600,
                             "filter": true,
                             "sort": false,
                             "default": 0
@@ -436,7 +437,7 @@
                         {
                             "type": "selectSendTo",
                             "attr": "temp_sensor",
-                            "width": "30%",
+                            "width": "35%",
                             "command": "GetSetTempSensors",
                             "title": "Actor",
                             "help": "Actor to set temperature",
@@ -446,9 +447,11 @@
                         {
                             "type": "number",
                             "attr": "set_value",
-                            "width": "10%",
+                            "width": "5%",
                             "title": "Target temperature",
                             "help": "Set temperature of actor",
+                            "min": 7,
+                            "max": 30,
                             "filter": false,
                             "sort": false,
                             "default": "18"

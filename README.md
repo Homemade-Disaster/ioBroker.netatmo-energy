@@ -37,6 +37,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.5.0 (2023-04-07)
+
+* (ioKlausi) Sensor changed to object ID type boolean
+
 ### 2.4.5 (2023-04-06)
 
 * (ioKlausi) Implementation of sensor abort functionality

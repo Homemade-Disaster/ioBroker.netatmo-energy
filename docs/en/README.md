@@ -111,7 +111,7 @@ You can send messages depending on status changes of specific states. The messag
 
 ## Sensor actions
 
-In the table, you can react to the "window_open" attribute per room. The status of the respective window sensors can trigger an action when changing, which is to be entered here. It is possible to select all sensors that have assigned the role 'indicator.window', 'sensor.window', 'window', 'indicator.door', 'sensor.door', 'door'. This means that external sensors can also be integrated.
+In the table, you can react to the "window_open" attribute per room. The status of the respective window sensors can trigger an action when changing, which is to be entered here. It is possible to select all sensors, which are boolean. This means that external sensors can also be integrated.
 
 The following actions can be triggered:
 

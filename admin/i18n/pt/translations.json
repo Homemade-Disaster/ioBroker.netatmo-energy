@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Nenhuma temperatura armazenada na aba do sensor!",
     "Sensor actions": "Acções do sensor",
     "Check window/door status": "Verificar o estado da janela/porta",
-    "Window/Door sensor (role = #.window, #.door)": "Sensor de janela/Door (role = #.window, #.door)",
+    "Window/Door sensor (type = boolean)": "Sensor de janela/Door (type = boolean)",
     "Check value from window/door sensor": "Verificar o valor do sensor de janela/porta",
     "Actor to set temperature": "Ator para definir a temperatura",
     "Window/Door sensor": "Sensor de janela",
@@ -238,5 +238,10 @@
     "Synchronize temperature immediately": "Sincronizar a temperatura imediatamente",
     "Delay": "Delay",
     "Delay to perform action (seconds)": "Atraso para executar ação (segundos)",
-    "Temperature sensor is missing in adapter configuration to perform action: ": "Sensor de temperatura está faltando na configuração do adaptador para executar a ação: "
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Sensor de temperatura está faltando na configuração do adaptador para executar a ação: ",
+    "Wrong Sensor:": "Sensor errado:",
+    "You have to use a bool sensor!": "Você tem que usar um sensor bool!",
+    "Sensor action in": "Ação do sensor em",
+    "seconds!": "segundos!",
+    "Sensor action aborted for": "Ação do sensor abortada para"
 }

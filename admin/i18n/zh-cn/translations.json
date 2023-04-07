@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "未在传感器上储存的温度!",
     "Sensor actions": "补偿行动",
     "Check window/door status": "检查站窗口/户籍状况",
-    "Window/Door sensor (role = #.window, #.door)": "Window/Door感器(role = #.window, #.door)",
+    "Window/Door sensor (type = boolean)": "Window/Door感器(role = #.window, #.door)",
     "Check value from window/door sensor": "窗户/室传感器的检查价值",
     "Actor to set temperature": "确定温度的代理",
     "Window/Door sensor": "温得传感器",
@@ -238,5 +238,10 @@
     "Synchronize temperature immediately": "温度立即同步",
     "Delay": "拖延",
     "Delay to perform action (seconds)": "推迟采取行动(二)",
-    "Temperature sensor is missing in adapter configuration to perform action: ": "变形组中缺乏帝国传感器,以采取行动: "
+    "Temperature sensor is missing in adapter configuration to perform action: ": "变形组中缺乏帝国传感器,以采取行动: ",
+    "Wrong Sensor:": "Wrong Sensor:",
+    "You have to use a bool sensor!": "你们必须使用一个手枪!",
+    "Sensor action in": "诉讼",
+    "seconds!": "第二!",
+    "Sensor action aborted for": "诉讼"
 }

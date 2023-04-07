@@ -222,7 +222,7 @@
     "No temperature stored in sensor tab! ": "Nie przechowywano temperatury w tabeli czujnikowej!",
     "Sensor actions": "Akcje Sensora",
     "Check window/door status": "Strona internetowa",
-    "Window/Door sensor (role = #.window, #.door)": "Window/Door sensor (role = #.window, #.door)",
+    "Window/Door sensor (type = boolean)": "Window/Door sensor (type = boolean)",
     "Check value from window/door sensor": "Wartość z okna/drzwiowego czujnika",
     "Actor to set temperature": "Aktor ustanawiający temperaturę",
     "Window/Door sensor": "Window sensor",
@@ -238,5 +238,10 @@
     "Synchronize temperature immediately": "Temperatura synchroniczna",
     "Delay": "Delay",
     "Delay to perform action (seconds)": "Opóźnienie na działanie (drugie)",
-    "Temperature sensor is missing in adapter configuration to perform action: ": "Ciągłe czujniki nie występują w konfiguracji adapterowej do wykonywania czynności: czujnik uboczny "
+    "Temperature sensor is missing in adapter configuration to perform action: ": "Ciągłe czujniki nie występują w konfiguracji adapterowej do wykonywania czynności: czujnik uboczny ",
+    "Wrong Sensor:": "Sensor:",
+    "You have to use a bool sensor!": "Musisz użyć czujnika!",
+    "Sensor action in": "Akcja w Sensorze",
+    "seconds!": "drugie!",
+    "Sensor action aborted for": "Akcje Sensora przerwały się dla Sensora"
 }
