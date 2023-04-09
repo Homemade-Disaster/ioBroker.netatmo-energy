@@ -18,22 +18,6 @@
 
 	<script type="text/javascript">
 
-	// Password de-/encrypt
-	function encrypt(key, value) {
-		var result = '';
-		for(var i = 0; i < value.length; ++i) {
-			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
-		}
-		return result;
-	}
-	function decrypt(key, value) {
-		var result = '';
-		for(var i = 0; i < value.length; ++i) {
-			result += String.fromCharCode(key[i % key.length].charCodeAt(0) ^ value.charCodeAt(i));
-		}
-		return result;
-	}
-
 	// This will be called by the admin adapter when the settings page loads
 	function load(settings, onChange) {
 		// example: select elements with id=key and class=value and insert value
@@ -49,9 +33,6 @@
 				});
 			} else {
 				var value = settings[id];
-				if (id === 'Password') {
-						value = value ? decrypt((typeof systemConfig !== 'undefined' && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM', value) : '';
-				}
 				// do not call onChange direct, because onChange could expect some arguments
 				$key.val(value).change(function() {
 					onChange();
@@ -128,9 +109,6 @@
 				obj[id] = $this.prop('checked');
 			} else {
 				var value = $this.val();
-				if (id === 'Password') {
-					value = value ? encrypt((typeof systemConfig !== 'undefined' && systemConfig.native && systemConfig.native.secret) || 'Zgfr56gFe87jJOM', value) : '';
-				}
 				obj[id] = value;
 			}
 		});
@@ -236,19 +214,6 @@
 							<input type="text" class="value" id="ClientSecretID" size="30" />
 							<label for="ClientSecretID" class="translate">Client-Secret-ID:</label>
 							<span class="translate">Client Secret ID from your Netatmo APP</span>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col s6 input-field">
-							<input type="text" class="value" id="User" size="30" />
-							<label for="User" class="translate">Username:</label>
-							<span class="translate">Username from your Netatmo Account</span>
-						</div>
-						<div class="col s6 input-field">
-							<input type="password" class="value" id="Password" size="30" />
-							<label for="Password" class="translate">Password:</label>
-							<span class="translate">Password from your Netatmo Account</span>
 						</div>
 					</div>
 

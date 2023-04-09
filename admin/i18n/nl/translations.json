@@ -243,5 +243,11 @@
     "You have to use a bool sensor!": "Je moet een bool sensor gebruiken!",
     "Sensor action in": "Sensor actie",
     "seconds!": "seconden!",
-    "Sensor action aborted for": "Sensor actie abortus voor"
+    "Sensor action aborted for": "Sensor actie abortus voor",
+    "This is a test message!": "Dit is een testbericht!",
+    "Test message has been sent!": "Er is een bericht gestuurd!",
+    "Send test notification": "Stuur een testverklaring",
+    "Temperature control": "Temperatuur controle",
+    "Update data structure": "Update data structuur",
+    "Message services": "Berichtdienst"
 }

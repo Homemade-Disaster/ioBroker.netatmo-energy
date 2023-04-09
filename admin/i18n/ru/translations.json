@@ -243,5 +243,11 @@
     "You have to use a bool sensor!": "Вы должны использовать датчик bool!",
     "Sensor action in": "Действие датчика в",
     "seconds!": "секунды!",
-    "Sensor action aborted for": "Действие датчика аборд для"
+    "Sensor action aborted for": "Действие датчика аборд для",
+    "This is a test message!": "Это тестовое сообщение!",
+    "Test message has been sent!": "Тестовое сообщение отправлено!",
+    "Send test notification": "Отправить тестовое уведомление",
+    "Temperature control": "Контроль температуры",
+    "Update data structure": "Обновить структуру данных",
+    "Message services": "Сообщения услуги"
 }

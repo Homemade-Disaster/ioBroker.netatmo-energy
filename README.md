@@ -37,6 +37,11 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.5.1 (2023-04-09)
+
+* (ioKlausi) Test message in config added
+* (ioKlausi) Revise ioBroker Netatmo-Energy APP
+
 ### 2.5.0 (2023-04-07)
 
 * (ioKlausi) Sensor changed to object ID type boolean

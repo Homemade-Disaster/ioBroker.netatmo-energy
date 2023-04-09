@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.0",
+        "version": "2.5.1",
         "news": {
+            "2.5.1": {
+                "en": "Test message in config added",
+                "de": "Testnachricht in config hinzugefügt",
+                "ru": "Тестовое сообщение в config добавлено",
+                "pt": "Mensagem de teste em config adicionado",
+                "nl": "Testbericht in config toegevoegd",
+                "fr": "Message d ' essai dans la configuration ajoutée",
+                "it": "Messaggio di prova in configurazione aggiunto",
+                "es": "Mensaje de prueba en config añadido",
+                "pl": "Wiadomość testowa",
+                "uk": "Тестове повідомлення в конфігурації додано",
+                "zh-cn": "黑暗中的试验信息"
+            },
             "2.5.0": {
                 "en": "Sensor changed to object ID type boolean",
                 "de": "Sensor geändert zum Objekt ID Typ boolean",
@@ -378,9 +391,6 @@
         "HomeId": "",
         "ClientId": "",
         "ClientSecretID": "",
-        "User": "",
-        "Password": "",
-        "NewOAuthMethode": true,
         "applyimmediately": false,
         "getchangesimmediately": true,
         "refreshstates": 180,

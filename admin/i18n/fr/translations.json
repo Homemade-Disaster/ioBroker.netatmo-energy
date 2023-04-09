@@ -243,5 +243,11 @@
     "You have to use a bool sensor!": "Il faut utiliser un capteur de l'alcool !",
     "Sensor action in": "Action du capteur",
     "seconds!": "secondes !",
-    "Sensor action aborted for": "Sensor action avortée pour"
+    "Sensor action aborted for": "Sensor action avortée pour",
+    "This is a test message!": "C'est un message de test !",
+    "Test message has been sent!": "Le message d'essai a été envoyé !",
+    "Send test notification": "Notification de l ' essai",
+    "Temperature control": "Contrôle de la température",
+    "Update data structure": "Mettre à jour la structure des données",
+    "Message services": "Services de messagerie"
 }

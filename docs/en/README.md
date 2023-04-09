@@ -30,7 +30,6 @@ Account at Netatmo Cloud
       - you will get a response including your home id
       - copy it to your adapter config
     - Start the Netatmo Energy Adapter and authenticate yourself to the Netatmo API
-      - Select the new authentication method (OAuth2)
       - Press the button "Authenticate with Netatmo"
       - Log into your account if necessary
       - Confirm 3rd party permissions for your Netatmo APP
@@ -40,6 +39,7 @@ Account at Netatmo Cloud
       - read API states immediately ... send API homestatus request after changing fields in API
       - Refresh states every x seconds ... permanent refresh of the API data. (0 = no permanent refresh)
   - As an option you can activate the notification assistant. Therefore, you must activate the option "Enable / disable notifications" in the "Logon information" menu and do the setup for the notification service in the menu "notifications". You can get information's, warnings and errors.
+  - It is also possible to config the sensors for Doors/Windows in the Sensorik tab. Please also maintain the action, you want to trigger.
 
 A detailed description is available on adapter wiki (<https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki>).
 
@@ -102,6 +102,8 @@ Following services are available.
 Please insert the necessary information's to connect to the service you choose.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/notification_en.png" alt="settingsAPI" width="70%"/>
+
+It is possible to test the connection to the notification service by pressing the button "SEND TEST NOTIFICATION". You have to save all notification configurations before you can use this function.
 
 ## Messages
 

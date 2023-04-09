@@ -243,5 +243,11 @@
     "You have to use a bool sensor!": "Ви повинні використовувати датчик кипіння!",
     "Sensor action in": "Дія датчика в",
     "seconds!": "час!",
-    "Sensor action aborted for": "Сенсорна дія для"
+    "Sensor action aborted for": "Сенсорна дія для",
+    "This is a test message!": "Це тестове повідомлення!",
+    "Test message has been sent!": "Тестове повідомлення відправлено!",
+    "Send test notification": "Надіслати повідомлення",
+    "Temperature control": "Контроль температури",
+    "Update data structure": "Структура даних",
+    "Message services": "Послуги"
 }

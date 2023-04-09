@@ -243,5 +243,11 @@
     "You have to use a bool sensor!": "你们必须使用一个手枪!",
     "Sensor action in": "诉讼",
     "seconds!": "第二!",
-    "Sensor action aborted for": "诉讼"
+    "Sensor action aborted for": "诉讼",
+    "This is a test message!": "这是一种试验信息!",
+    "Test message has been sent!": "发射了试验信息!",
+    "Send test notification": "简历",
+    "Temperature control": "示范控制",
+    "Update data structure": "最新数据结构",
+    "Message services": "邮件事务"
 }

@@ -30,7 +30,6 @@ Konto bei Netatmo Cloud
     - du wirst ein response erhalten in der du deine home-ID findest
     - Übernimm sie in die Adapter Konfiguration
     - Starte den Netatmo-Energy Adapter und authentifiziere dich bei Netatmo API
-      - Selektieren sie die neue Authentifizierungsmethode (OAuth2)
       - Bestätigen sie den Knopf "Authentifizieren Sie sich bei Netatmo"
       - Loggen sie sich in ihr Konto ein, sofern es notwendig ist
       - Bestätigen sie die Berechtigung für Drittanbieter für ihre Netatmo-APP
@@ -39,8 +38,10 @@ Konto bei Netatmo Cloud
     - Temperaturänderungen sofort übertragen ... sofortiges übertragen der Temperaturänderungen in State "SetTemp" an die API
     - API Zustände nach Änderung sofort lesen ... API Daten mittels homestatus sofort nach Aktualisierung der API abholen
     - Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
-  - Wenn gewünscht kann auch Benachrichtigungsdienst eingerichtet werden um bestimmte Statusänderungen zugesandt zu bekommen. Dabei ist es möglich sich Informationsmeldungen, Warnungen bzw. Fehlermeldungen zu erhalten. Hierfür ist es notwendig die Option "Benachrichtigungen aktivieren/deaktivieren" in den "Anmeldeinformationen" zu aktivieren und danach die Einstellungen im Menü "Benachrichtigungen" einzurichten.
-
+  - Wenn gewünscht kann auch Benachrichtigungsdienst eingerichtet werden um bestimmte Statusänderungen zugesandt zu bekommen. Dabei ist es möglich sich 
+  Informationsmeldungen, Warnungen bzw. Fehlermeldungen zu erhalten. Hierfür ist es notwendig die Option "Benachrichtigungen aktivieren/deaktivieren" in den "Anmeldeinformationen" zu aktivieren und danach die Einstellungen im Menü "Benachrichtigungen" einzurichten.
+  - Zusätzlich ist es möglich die Tür-/Fenstersensoren in der Sensorik einzutragen und die gewünschte Aktion zu hinterlegen
+  
 Eine detaillierte Beschreibung ist als wiki verfügbar (<https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki>).
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/settings_login_de.png" alt="settingsLogin" width="70%"/>
@@ -110,6 +111,8 @@ Bitte geben sie für den von ihnen gewählten Benachrichtigungsdienst die notwen
 Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslösen. Die gewünschte Nachricht können sie hinterlegen.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_de.png" alt="messages" width="70%"/>
+
+Durch Drücken des Knopfes " TESTMITTEILUNG SENDEN" ist es möglich das Nachrichtenservice zu testen. Vor dem Test ist es notwendig alle Einstellungen für das Nachrichten Service zu speichern.
 
 ## Sensorik
 

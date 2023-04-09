@@ -243,5 +243,11 @@
     "You have to use a bool sensor!": "Musisz użyć czujnika!",
     "Sensor action in": "Akcja w Sensorze",
     "seconds!": "drugie!",
-    "Sensor action aborted for": "Akcje Sensora przerwały się dla Sensora"
+    "Sensor action aborted for": "Akcje Sensora przerwały się dla Sensora",
+    "This is a test message!": "Jest to wiadomość testowa!",
+    "Test message has been sent!": "Wiadomość testowa została wysłana!",
+    "Send test notification": "Statystyka testowa",
+    "Temperature control": "Kontrola przejściowa",
+    "Update data structure": "Struktura danych",
+    "Message services": "Usługi Message"
 }

@@ -6,33 +6,9 @@
             "type": "panel",
             "label": "Logon information",
             "items": {
-                "NewOAuthMethode":{
-                    "newLine": true,
-                    "type": "checkbox",
-                    "label": "OAuth2 authentication methode",
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4                    
-                },
-                "authenticate": {
-                    "newLine": true,
-                    "variant": "contained",
-                    "color": "primary",
-                    "disabled": "!_alive || data.NewOAuthMethode != true",
-                    "type": "sendTo",
-                    "error": {
-                        "connect timeout": "Connection timeout"
-                    },
-                    "icon": "auth",
-                    "command": "getOAuthStartLink",
-                    "jsonData": "{\"client_id\": \"${data.ClientId}\",\"client_secret\": \"${data.ClientSecretID}\",\"redirect_uri_base\": \"${data._origin}\"}",
-                    "label": "Authenticate with Netatmo",
-                    "openUrl": true,
-                    "window": "Login with Netatmo"
-                },
                 "authinfo": {
                     "type": "header",
-                    "size": 4,
+                    "size": 2,
                     "style": {
                         "marginTop": 20
                     },
@@ -52,7 +28,7 @@
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
-                },  
+                },
                 "ClientSecretID":{
                     "type": "text",
                     "label": "Client-Secret-ID:",
@@ -60,29 +36,26 @@
                     "sm": 12,
                     "md": 6,
                     "lg": 4   
-                }, 
-                "User": {
-                    "newLine": true,
-                    "type": "text",
-                    "label": "Username:",
-                    "disabled": "data.NewOAuthMethode == true",
-                    "help": "Username from your Netatmo Account",
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4
                 },
-                "Password": {
-                    "type": "password",
-                    "label": "Password",
-                    "disabled": "data.NewOAuthMethode == true",
-                    "help": "Password from your Netatmo Account",
-                    "sm": 12,
-                    "md": 6,
-                    "lg": 4
+                "authenticate": {
+                    "newLine": true,
+                    "variant": "contained",
+                    "color": "primary",
+                    "disabled": "!_alive",
+                    "type": "sendTo",
+                    "error": {
+                        "connect timeout": "Connection timeout"
+                    },
+                    "icon": "auth",
+                    "command": "getOAuthStartLink",
+                    "jsonData": "{\"client_id\": \"${data.ClientId}\",\"client_secret\": \"${data.ClientSecretID}\",\"redirect_uri_base\": \"${data._origin}\"}",
+                    "label": "Authenticate with Netatmo",
+                    "openUrl": true,
+                    "window": "Login with Netatmo"
                 },
                 "Information":{
                     "type": "header",
-                    "size": "2",
+                    "size": "3",
                     "text": "Information"
                 },     
                 "notificationEnabled":{
@@ -95,12 +68,22 @@
             "type": "panel",
             "label": "General settings",
             "items": {   
+                "TempHeader": {
+                    "type": "header",
+                    "size": "3",
+                    "text": "Temperature control"
+                },
                 "applyimmediately":{
                     "type": "checkbox",
                     "label": "apply immediately",
                     "sm": 12,
                     "md": 6,
                     "lg": 4                    
+                },
+                "RefreshHeader": {
+                    "type": "header",
+                    "size": "3",
+                    "text": "Update data structure"
                 },
                 "getchangesimmediately":{
                     "newLine": true,
@@ -122,6 +105,11 @@
             "label": "Notifications",
             "disabled": "data.notificationEnabled !== true",
             "items": {   
+                "NotificationHeader": {
+                    "type": "header",
+                    "size": "3",
+                    "text": "Message services"
+                },
                 "notificationsType": {
                     "type": "select",
                     "noTranslation": true,
@@ -241,10 +229,23 @@
                     "md": 6,
                     "lg": 4
                 },
-                
+                "sendTestNotification": {
+                    "newLine": true,
+                    "variant": "outlined",
+                    "color": "primary",
+                    "disabled": "!_alive || data.notificationsType != originalData.notificationsType || data.telegramInstance != originalData.telegramInstance || data.telegramUser != originalData.telegramUser || data.telegramSilentNotice != originalData.telegramSilentNotice || data.whatsappInstance != originalData.whatsappInstance || data.signalInstance != originalData.signalInstance || data.pushoverInstance != originalData.pushoverInstance || data.pushoverDeviceID != originalData.pushoverDeviceID || data.pushoverSilentNotice != originalData.pushoverSilentNotice || data.emailInstance != originalData.emailInstance || data.emailReceiver != originalData.emailReceiver || data.emailSender != originalData.emailSender",
+                    "type": "sendTo",
+                    "error": {
+                        "connect timeout": "Connection timeout"
+                    },
+                    "icon": "send",
+                    "command": "SendTestNotification",
+                    "label": "Send test notification"
+                },
+
                 "genInfoHeader":{
                     "type": "header",
-                    "size": "2",
+                    "size": "3",
                     "text": "Allgemeine Einstellungen"          
                 },  
 
@@ -275,7 +276,7 @@
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
-                }              
+                }
             }
         },
         "tabSubscribes": {
