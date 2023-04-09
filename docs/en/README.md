@@ -19,7 +19,7 @@
 Netatmo Energy hardware (thermostat, valves)
 Account at Netatmo Cloud
 
-- Adapter is working with admin => 3 and nodejs >= 14
+- Adapter is working with admin >= 3 and nodejs >= 14
 - Create your own account at <https://auth.netatmo.com/de-de/access/signup>
 - Login in site <https://dev.netatmo.com/apidocumentation/energy>
 - Create your own APP by clicking your account (top left), and press button "Create"
