@@ -137,7 +137,7 @@
     "Silent Notice": "无声通知",
     "Somebody stopped": "有人停了下来",
     "Start API-request:": "启动API请求：",
-    "Start Token-Refresh:": "开始令牌刷新：",
+    "Start Token-Refresh": "开始令牌刷新",
     "Start Token-request:": "启动令牌请求：",
     "Start refresh request": "开始刷新请求",
     "Status": "状态",
@@ -249,5 +249,8 @@
     "Send test notification": "简历",
     "Temperature control": "示范控制",
     "Update data structure": "最新数据结构",
-    "Message services": "邮件事务"
+    "Message services": "邮件事务",
+    "Message texts": "文 件",
+    "Reactions to sensor status changes": "对感情状况的反应",
+    "Token saved": "幸免"
 }

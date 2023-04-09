@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.1",
+        "version": "2.5.2",
         "news": {
+            "2.5.2": {
+                "en": "Made some adjustments in the admin config",
+                "de": "Einige Anpassungen in der Admin-Konfiguration gemacht",
+                "ru": "Сделали некоторые корректировки в Config admin",
+                "pt": "Fez alguns ajustes na configuração admin",
+                "nl": "Maakte wat aanpassingen in de administratie",
+                "fr": "Réalisé quelques ajustements dans la configuration d'administration",
+                "it": "Ho fatto alcune modifiche nella configurazione di admin",
+                "es": "Hice algunos ajustes en el configuración de administración",
+                "pl": "Wykorzystał pewne zmiany w konfigurze admini",
+                "uk": "Виготовлено деякі налаштування в налаштуваннях адміністратора",
+                "zh-cn": "排减点方面的一些调整"
+            },
             "2.5.1": {
                 "en": "Test message in config added",
                 "de": "Testnachricht in config hinzugefügt",

@@ -137,7 +137,7 @@
     "Silent Notice": "Stille Benachrichtigung",
     "Somebody stopped": "Jemand hat den folgenden Adapter gestoppt",
     "Start API-request:": "API-Anfrage starten:",
-    "Start Token-Refresh:": "Token-Refresh starten:",
+    "Start Token-Refresh": "Token-Refresh starten",
     "Start Token-request:": "Token-Anfrage starten:",
     "Start refresh request": "Aktualisierungsanforderung starten",
     "Status": "Status",
@@ -249,5 +249,8 @@
     "Send test notification": "Testmitteilung senden",
     "Temperature control": "Temperaturregelung",
     "Update data structure": "Datenstruktur aktualisieren",
-    "Message services": "Nachrichtendienste"
+    "Message services": "Nachrichtendienste",
+    "Message texts": "Mitteilungstexte",
+    "Reactions to sensor status changes": "Reaktionen auf Sensorstatusänderungen",
+    "Token saved": "Token gespeichert"
 }

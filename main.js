@@ -164,7 +164,7 @@ class NetatmoEnergy extends utils.Adapter {
 		};
 		try {
 			fs.writeFileSync(`${this.dataDir}/tokens.json`, JSON.stringify(tokenData), 'utf8');
-			this.log.debug(`Token saved: ${this.dataDir}/tokens.json`);
+			this.log.debug(mytools.tl('Token saved', this.systemLang) + `: ${this.dataDir}/tokens.json`);
 		} catch (err) {
 			this.log.error(mytools.tl('Cannot write token file: ', this.systemLang) + err);
 		}
@@ -186,7 +186,7 @@ class NetatmoEnergy extends utils.Adapter {
 	//Authenticate refresh token
 	async _authenticate_refresh_token(redirect_uri, code) {
 		this._setTokenIntervall(false);
-		this.log.info(mytools.tl('Start Token-Refresh:', this.systemLang));
+		this.log.info(mytools.tl('Start Token-Refresh', this.systemLang));
 		await this._getToken(this.config.HomeId, this.config.ClientId, this.config.ClientSecretID, redirect_uri, code)
 			.then(async (tokenvalues) => {
 				this.globalNetatmo_AccessToken = tokenvalues.access_token;
@@ -1898,7 +1898,8 @@ class NetatmoEnergy extends utils.Adapter {
 					if (states && !error) {
 						for (const id in states) {
 							if (id.search(searchBoolSensors) >= 0) {
-								BoolArray.push({ label: id, value: id });
+								const SensorLabel = await that.getStateAsync(id.substring(0, id.substring(0, id.lastIndexOf('settings')).length - 1) + '.name');
+								(SensorLabel) ? (BoolArray.push({ label: SensorLabel.val + ' (' + id + ')', value: id })) : (BoolArray.push({ label: id, value: id }));
 							}
 						}
 						resolve(BoolArray);

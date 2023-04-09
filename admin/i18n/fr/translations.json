@@ -137,7 +137,7 @@
     "Silent Notice": "Notice silencieuse",
     "Somebody stopped": "Quelqu'un s'est arrêté",
     "Start API-request:": "Démarrez la requête API:",
-    "Start Token-Refresh:": "Démarrer l'actualisation du jeton :",
+    "Start Token-Refresh": "Démarrer l'actualisation du jeton",
     "Start Token-request:": "Démarrez la demande de jeton:",
     "Start refresh request": "Démarrer la demande d'actualisation",
     "Status": "Statut",
@@ -249,5 +249,8 @@
     "Send test notification": "Notification de l ' essai",
     "Temperature control": "Contrôle de la température",
     "Update data structure": "Mettre à jour la structure des données",
-    "Message services": "Services de messagerie"
+    "Message services": "Services de messagerie",
+    "Message texts": "Textes de message",
+    "Reactions to sensor status changes": "Réactions aux changements de statut de capteur",
+    "Token saved": "Token sauvé"
 }

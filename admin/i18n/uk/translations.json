@@ -137,7 +137,7 @@
     "Silent Notice": "Повідомлення, якщо клапан втратив з’єднання7",
     "Somebody stopped": "Хтось зупинився",
     "Start API-request:": "Почати API-запит:",
-    "Start Token-Refresh:": "Почати оновлення маркерів:",
+    "Start Token-Refresh": "Почати оновлення маркерів",
     "Start Token-request:": "Почати запит на маркер:",
     "Start refresh request": "Почати запит на оновлення",
     "Status": "Статус",
@@ -249,5 +249,8 @@
     "Send test notification": "Надіслати повідомлення",
     "Temperature control": "Контроль температури",
     "Update data structure": "Структура даних",
-    "Message services": "Послуги"
+    "Message services": "Послуги",
+    "Message texts": "Текст повідомлення",
+    "Reactions to sensor status changes": "Реакції до зміни стану датчика",
+    "Token saved": "Збережений токен"
 }

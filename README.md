@@ -37,6 +37,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.5.2 (2023-04-09)
+
+* (ioKlausi) Made some adjustments in the admin config
+
 ### 2.5.1 (2023-04-09)
 
 * (ioKlausi) Test message in config added

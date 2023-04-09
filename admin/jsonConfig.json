@@ -283,7 +283,12 @@
             "type": "panel",
             "label": "Messages",
             "disabled": "data.notificationEnabled !== true",
-            "items": {   
+            "items": {
+                "MessageTextHeader": {
+                    "type": "header",
+                    "size": "3",
+                    "text": "Message texts"
+                },
                 "notify_bat_low":{
                     "newLine": true,
                     "type": "checkbox",
@@ -386,6 +391,11 @@
             "type": "panel",
             "label": "Sensor actions",
             "items": {
+                "MessageTextHeader": {
+                    "type": "header",
+                    "size": "3",
+                    "text": "Reactions to sensor status changes"
+                },
                 "sensors": {
                     "type": "table",
                     "sm": 12,

@@ -137,7 +137,7 @@
     "Silent Notice": "Безмолвное уведомление",
     "Somebody stopped": "Кто-то остановился",
     "Start API-request:": "Запустить API-запрос:",
-    "Start Token-Refresh:": "Запустите токен-обновление:",
+    "Start Token-Refresh": "Запустите токен-обновление",
     "Start Token-request:": "Начать токен-запрос:",
     "Start refresh request": "Начать запрос на обновление",
     "Status": "Положение дел",
@@ -249,5 +249,8 @@
     "Send test notification": "Отправить тестовое уведомление",
     "Temperature control": "Контроль температуры",
     "Update data structure": "Обновить структуру данных",
-    "Message services": "Сообщения услуги"
+    "Message services": "Сообщения услуги",
+    "Message texts": "Тексты сообщений",
+    "Reactions to sensor status changes": "Реакция на изменение статуса датчика",
+    "Token saved": "Токен сохранен"
 }

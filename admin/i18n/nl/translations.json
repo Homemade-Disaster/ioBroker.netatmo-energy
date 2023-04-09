@@ -137,7 +137,7 @@
     "Silent Notice": "Stille opmerking",
     "Somebody stopped": "Iemand stopte",
     "Start API-request:": "Start API-aanvraag:",
-    "Start Token-Refresh:": "Token vernieuwen starten:",
+    "Start Token-Refresh": "Token vernieuwen starten",
     "Start Token-request:": "Start token-aanvraag:",
     "Start refresh request": "Vernieuwingsverzoek starten",
     "Status": "Toestand",
@@ -249,5 +249,8 @@
     "Send test notification": "Stuur een testverklaring",
     "Temperature control": "Temperatuur controle",
     "Update data structure": "Update data structuur",
-    "Message services": "Berichtdienst"
+    "Message services": "Berichtdienst",
+    "Message texts": "Bericht sms'en",
+    "Reactions to sensor status changes": "Reacties naar sensoren veranderen",
+    "Token saved": "Token"
 }
