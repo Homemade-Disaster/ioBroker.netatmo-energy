@@ -82,6 +82,10 @@ Wenn ein API Request Parameter benötigt, können sie diese im korrespondierende
 - setroomthermpoint     ... abhängig von den manuellen Änderungen im Channel "setting" werden die Änderungen an die Netatmo Energy APP übertragen. (entweder sofort oder selbst getriggert - "Temperaturänderungen sofort übertragen").
 - set_mode_to_home      ... Der Button "set_mode_to_home" im channel "setting" setzt den Ventil-mode "set_mode_to_home" auf "home". Außerdem wird der API Request sofort ausgelöst, um die Änderung zu übertragen.
 
+### Nachrichten
+
+- message_text          ... alle Nachrichten werden in diesem Datenpunkt übertragen
+
 ### Status
 
 - running               ... hier kann man erkenne ob derzeit ein API Request läuft
@@ -108,7 +112,7 @@ Bitte geben sie für den von ihnen gewählten Benachrichtigungsdienst die notwen
 
 ## Nachrichten
 
-Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslösen. Die gewünschte Nachricht können sie hinterlegen.
+Hier können sie bestimmte Nachrichten bei bestimmten Statusänderungen auslösen. Die gewünschte Nachricht können sie hinterlegen. Diese werden immer in den Datenpunkt "message_text" übertragen.
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_de.png" alt="messages" width="70%"/>
 

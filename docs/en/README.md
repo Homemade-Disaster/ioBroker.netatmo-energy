@@ -78,6 +78,10 @@ If an API request needs parameters, you can find these in the channel "parameter
 - setroomthermpoint     ... depending on the "setting" channel it sets the temperature of each room (immediately or by using the trigger "applychanges").
 - set_mode_to_home      ... In the channel "setting" you can use the button "set_mode_to_home" to set "home"-Mode for the valve. The API request to transfer the changes will start immediately.
 
+### Messages
+
+- message_text          ... all messages are transferred to this datapoint
+
 ### Status
 
 - running               ... here you can see if API Requests are running right now
@@ -107,7 +111,7 @@ It is possible to test the connection to the notification service by pressing th
 
 ## Messages
 
-You can send messages depending on status changes of specific states. The messages can be defined by yourself.
+You can send messages depending on status changes of specific states. The messages can be defined by yourself. These messages always transferred to datapoint "message_text".
 
 <img src="https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/raw/master/docs/img/messages_en.png" alt="settingsAPI" width="70%"/>
 

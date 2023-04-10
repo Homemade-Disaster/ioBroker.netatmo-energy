@@ -29,6 +29,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalDevice				= null;
 		this.globalAPIChannel			= '';
 		this.globalAPIChannelTrigger	= null;
+		this.globalAPIChannelMessages   = null;
 		this.globalAPIStatus			= null;
 		this.globalNetatmo_AccessToken  = null;
 		this.globalRefreshToken			= null;
@@ -215,6 +216,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.globalDevice 				= mytools.getDP([this.namespace, glob.Device_APIRequests]);
 		this.globalAPIChannel			= mytools.getDP([this.namespace, glob.Device_APIRequests, glob.Channel_APIRequests]);
 		this.globalAPIChannelTrigger	= mytools.getDP([this.namespace, glob.Device_APIRequests, glob.Channel_trigger]);
+		this.globalAPIChannelMessages   = mytools.getDP([this.namespace, glob.Device_APIRequests, glob.Channel_messages]);
 		this.globalAPIChannelStatus		= mytools.getDP([this.namespace, glob.Device_APIRequests, glob.Channel_Status_API_running]);
 
 		try {
@@ -389,17 +391,22 @@ class NetatmoEnergy extends utils.Adapter {
 		await this.subscribeStates(mytools.getDP([this.globalAPIChannel, glob.Channel_getmeasure, glob.APIRequest_getmeasure]));
 
 		// Channel trigger
-		await this.createMyChannel(this.globalAPIChannelTrigger, 'API setroomthermpoint');
+		await this.createMyChannel(this.globalAPIChannelTrigger, 'API trigger');
 		await this.createNetatmoStructure(mytools.getDP([this.globalAPIChannelTrigger, glob.Trigger_applychanges]), 'trigger to send changes to Netatmo Cloud', false, true, 'button', true, true, '', false, false);
 		await this.subscribeStates(mytools.getDP([this.globalAPIChannelTrigger, glob.Trigger_applychanges]));
 		await this.createNetatmoStructure(mytools.getDP([this.globalAPIChannelTrigger, glob.Trigger_refresh_all]), 'trigger to refresh homestructure from Netatmo Cloud', false, true, 'button', true, true, '', false, false);
 		await this.subscribeStates(mytools.getDP([this.globalAPIChannelTrigger, glob.Trigger_refresh_all]));
 		await this.createMyChannel(mytools.getDP([this.globalAPIChannelStatus]), 'API Request status');
 		await this.createNetatmoStructure(mytools.getDP([this.globalAPIChannelStatus, glob.State_Status_API_running]), 'API running status ', false, true, 'indicator', false, true, '', false, true);
+
+		// Channel message
+		await this.createMyChannel(this.globalAPIChannelMessages, 'API messages');
+		await this.createNetatmoStructure(mytools.getDP([this.globalAPIChannelMessages, glob.Messages_Text]), 'message from the Netatmo Energy APP', '', true, 'text', true, true, '', false, false);
+
 	}
 
 	//Send notifications
-	sendNotification(errortype, subject, messageText) {
+	async sendNotification(errortype, subject, messageText) {
 		let MesgText = '';
 		let Subject = '';
 
@@ -460,6 +467,12 @@ class NetatmoEnergy extends utils.Adapter {
 				}
 				break;
 		}
+
+		//Message to datapoint
+		if (MesgText && MesgText != '') {
+			await this.setState(mytools.getDP([this.globalAPIChannelMessages, glob.Messages_Text]), MesgText, true);
+		}
+
 	}
 
 	//Send notification after request

@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.2",
+        "version": "2.5.3",
         "news": {
+            "2.5.3": {
+                "en": "Added data point for message",
+                "de": "Datenpunkt für Nachricht hinzugefügt",
+                "ru": "Добавлена точка данных для сообщения",
+                "pt": "Adicionado ponto de dados para mensagem",
+                "nl": "Vertaling:",
+                "fr": "Point de données ajouté pour le message",
+                "it": "Data point aggiunto per messaggio",
+                "es": "Punto de datos añadido para el mensaje",
+                "pl": "Strona domowa",
+                "uk": "Додано точку даних для повідомлення",
+                "zh-cn": "增加信息资料点"
+            },
             "2.5.2": {
                 "en": "Made some adjustments in the admin config",
                 "de": "Einige Anpassungen in der Admin-Konfiguration gemacht",
