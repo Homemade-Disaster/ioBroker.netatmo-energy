@@ -1520,7 +1520,7 @@ class NetatmoEnergy extends utils.Adapter {
 				let abortTimer = false;
 				for (const ActSensor in that.SensorIntervals) {
 					if (that.SensorIntervals[ActSensor].id == id) {
-						that.log.debug(mytools.tl('Sensor action aborted for', this.systemLang) + glob.blank + id);
+						that.log.debug(mytools.tl('Sensor action aborted for', that.systemLang) + glob.blank + id);
 						that._deleteSensorInterval(id, that.SensorIntervals[ActSensor].value);
 						abortTimer = true;
 					}
