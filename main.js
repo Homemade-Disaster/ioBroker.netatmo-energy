@@ -122,7 +122,7 @@ class NetatmoEnergy extends utils.Adapter {
 				const tokens = JSON.parse(fs.readFileSync(`${this.dataDir}/tokens.json`, 'utf8'));
 				if (tokens.client_id !== this.config.ClientId) {
 					this.log.error(mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
-					await this.notify.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
+					await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Stored tokens belong to the different client ID', this.systemLang) + tokens.client_id + mytools.tl('and not to the configured ID ... deleting', this.systemLang));
 					fs.unlinkSync(`${this.dataDir}/tokens.json`);
 				} else {
 					if (!tokens.access_token || !tokens.refresh_token) {
@@ -130,7 +130,7 @@ class NetatmoEnergy extends utils.Adapter {
 						this.globalRefreshToken = null;
 						this.scope = '';
 						this.log.error(mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
-						await this.notify.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
+						await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
 					} else {
 						this.globalNetatmo_AccessToken = tokens.access_token;
 						this.globalRefreshToken = tokens.refresh_token;
@@ -138,7 +138,7 @@ class NetatmoEnergy extends utils.Adapter {
 						this.log.debug(mytools.tl('Using stored tokens to initialize ... ', this.systemLang) + JSON.stringify(tokens));
 						if (tokens.scope !== this.scope) {
 							this.log.warn(mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
-							await this.notify.sendRequestNotification(null, glob.WarningNotification, 'Get Token', mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
+							await this.sendRequestNotification(null, glob.WarningNotification, 'Get Token', mytools.tl('Stored tokens have different scope', this.systemLang) + tokens.scope + mytools.tl('and not the configured scope', this.systemLang) + this.scope + mytools.tl('... If you miss data please authenticate again!', this.systemLang));
 						}
 					}
 				}
@@ -147,11 +147,11 @@ class NetatmoEnergy extends utils.Adapter {
 				this.globalRefreshToken = null;
 				this.scope = '';
 				this.log.error(mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
-				await this.notify.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
+				await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('No tokens stored - Please use authentication in adapter config!', this.systemLang));
 			}
 		} catch (err) {
 			this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
-			await this.notify.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
+			await this.sendRequestNotification(null, glob.ErrorNotification, 'Get Token', mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
 		}
 	}
 
