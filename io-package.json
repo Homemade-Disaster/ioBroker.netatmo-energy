@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.6",
+        "version": "2.5.7",
         "news": {
+            "2.5.7": {
+                "en": "Bug fix of sensor actions",
+                "de": "Fehlerbehebung von Sensoraktionen",
+                "ru": "Исправление ошибок сенсорных действий",
+                "pt": "Correção de erros de ações do sensor",
+                "nl": "Bug fix of sensor acties",
+                "fr": "Correction des actions du capteur",
+                "it": "Correzione di bug delle azioni del sensore",
+                "es": "Corrección de errores del sensor",
+                "pl": "Utrzymanie akcji czujników",
+                "uk": "Виправлення помилок сенсорних дій",
+                "zh-cn": "Bug fix 传感器行动"
+            },
             "2.5.6": {
                 "en": "Translations and some changes in Admin Tab",
                 "de": "Übersetzungen und einige Änderungen in Admin Tab",

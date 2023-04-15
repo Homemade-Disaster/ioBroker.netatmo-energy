@@ -1386,7 +1386,6 @@ class NetatmoEnergy extends utils.Adapter {
 			return false;
 		}
 
-		const myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 		// Set home mode
 		const setSensorState = async function (id, actIdValue, that, myHomeFolder) {
 			that._deleteSensorInterval(id, actIdValue);
@@ -1428,8 +1427,11 @@ class NetatmoEnergy extends utils.Adapter {
 				that.applySingleAPIRequest(glob.APIRequest_switchhomeschedule, that.globalScheduleObjects[sensor_attribs.action], mytools.tl('Heating Plan:', that.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
 			}
 		};
-		//Internal Sensor
+
+		let myHomeFolder = '';
+		//Internal Sensor - Set to home
 		if (sensor_attribs.action == glob.Action_home) {
+			myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
 				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
 				this.SensorIntervals.push(Object.assign({},
@@ -1440,10 +1442,10 @@ class NetatmoEnergy extends utils.Adapter {
 				setSensorState(id, actIdValue, that, myHomeFolder);
 			}
 		}
-
+		//Internal Sensor - Set temp
 		else if (sensor_attribs.action == glob.Action_temp) {
+			myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 			const NewTemp = Number(sensor_attribs.set_value);
-
 			if (!isNaN(NewTemp)) {
 				// @ts-ignore
 				if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
