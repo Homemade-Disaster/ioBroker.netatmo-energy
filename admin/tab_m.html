@@ -309,10 +309,15 @@
         }
 
         //get boiler infos
-        function getBoilerCls(value) {
+        function getBoilerCls(value, value_request) {
             if (value != undefined && value != null) {
                 if (value == true) return 'style="background-color: #ebbe6c;"'; 
                 else return '';
+            } else {
+                if (value_request != undefined && value_request != null) {
+                    if (value_request > 0) return 'style="background-color: #f7e2ad;"';
+                    else return ''; 
+                }
             }
             return '';
         }
@@ -399,7 +404,7 @@
 
                     let firmware_revision           = valve.firmware_revision;   
                     let rf_strength                 = valve.rf_strength;       
-                    let BoilerStatus                = getBoilerCls(valve.boiler_status);
+                    let BoilerStatus                = getBoilerCls(valve.boiler_status, valve.heating_power_request);
                     let boiler_valve_comfort        = valve.boiler_valve_comfort_boost;
 
                     let wifi_strength               = valve.wifi_strength;
@@ -413,7 +418,15 @@
 
                     let setTemp                     = valve.Set_Temp;
                     let setMode                     = valve.Set_Mode;
-
+                    let setMode_Home                = '';
+                    let sub_menus_modes             = '';
+                    if (valve.type == 'NRV' && temp_mode != 'schedule') {
+                        setMode_Home                = valve.Set_Mode_Home;
+                        if (setMode_Home) {
+                            sub_menus_modes = sub_menus_modes + `<li><a href="#!" class="black-text text-darken-3 start-api-request-home-mode" data-api-request="${setMode_Home}"><i class="material-icons icon-orange translateT">room_service</i>Set to home mode</a></li>`;
+                        }
+                    }
+                    
                     let id_bridge = bridge;
                     if (valve.type == 'NAPlug') {
                         id_bridge = module_id;
@@ -446,7 +459,7 @@
                                                         </div>` : ''} 
                                                     ${boiler_valve_comfort != undefined && boiler_valve_comfort != null && boiler_valve_comfort == true ? `
                                                         <div id="${mod_id_internal}_boiler_valve_comfort" class="col el">
-                                                            <a id="mood_icon" class="tooltipped translateT" title="Comfort boost requested">
+                                                            <a id="boiler_valve_icon" class="tooltipped translateT" title="Comfort boost requested">
                                                                 <i class="material-icons icon-green" style="font-size: 24px;padding:left=5px">mood</i>
                                                             </a>
                                                         </div>` : ''}
@@ -458,37 +471,37 @@
                                                         </div>` : ''}
                                                     ${reachable != undefined ? `
                                                         <div id="${mod_id_internal}_network" class="col el">
-                                                            <a id="mood_icon" class="tooltipped translateT" title="${reachable_cls.text}">
+                                                            <a id="reachable_icon" class="tooltipped translateT" title="${reachable_cls.text}">
                                                                 <i class="material-icons ${reachable_cls.color}" style="font-size: 24px;padding:left=5px">${reachable_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}                                           
                                                     ${open_window != undefined ? `
                                                         <div id="${mod_id_internal}_window" class="col el">
-                                                            <a id="battery_icon" class="tooltipped translateT" title="${open_window_cls.text}">
+                                                            <a id="open_window_icon" class="tooltipped translateT" title="${open_window_cls.text}">
                                                                 <i class="material-icons ${open_window_cls.color}" style="font-size: 24px;padding:left=5px">${open_window_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}
                                                     ${anticipating != undefined ? `
                                                         <div id="${mod_id_internal}_antizipation" class="col el">
-                                                            <a id="battery_icon" class="tooltipped translateT" title="${anticipating_cls.text}">
+                                                            <a id="anticipating_icon" class="tooltipped translateT" title="${anticipating_cls.text}">
                                                                 <i class="material-icons ${anticipating_cls.color}" style="font-size: 24px;padding:left=5px">${anticipating_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}                                                      
                                                     ${heating_power_request != undefined ? `
                                                         <div id="${mod_id_internal}_heater" class="col el">
-                                                            <a id="battery_icon" class="tooltipped translateT" title="${heating_power_request_cls.text}">
+                                                            <a id="heating_power_icon" class="tooltipped translateT" title="${heating_power_request_cls.text}">
                                                                 <i class="material-icons ${heating_power_request_cls.color}" style="font-size: 24px;padding:left=5px">${heating_power_request_cls.icon}</i>
                                                             </a>
                                                         </div>` : ''}
                                                     ${boiler_cable != undefined ? `
                                                         <div id="${mod_id_internal}_boiler_cable" class="col el">
-                                                            <a id="battery_icon" class="tooltipped translateT" title="${boiler_cable.text}">
+                                                            <a id="boiler_cable_icon" class="tooltipped translateT" title="${boiler_cable.text}">
                                                                 <i class="material-icons ${boiler_cable.color}" style="font-size: 24px;padding:left=5px">${boiler_cable.icon}</i>
                                                             </a>
                                                         </div>` : ''}
                                                     ${plug_connected_boiler != undefined ? `
                                                         <div id="${mod_id_internal}_boiler_connected" class="col el">
-                                                            <a id="battery_icon" class="tooltipped translateT" title="${plug_connected_boiler.text}">
+                                                            <a id="plug_connected_boiler_icon" class="tooltipped translateT" title="${plug_connected_boiler.text}">
                                                                 <i class="material-icons ${plug_connected_boiler.color}" style="font-size: 24px;padding:left=5px">${plug_connected_boiler.icon}</i>
                                                             </a>
                                                         </div>` : ''}
@@ -529,7 +542,10 @@
                                         <div class="card-action">
                                             <div style="margin-left: auto;">
                                                 <span class="card-title activator grey-text text-darken-4">
-                                                    ${bridge_devicename}<i class="material-icons right">more_vert</i>
+                                                    <b class="tooltipped translateT" style="margin-right: 5px;" title="Bridge">${bridge_devicename}</b>
+                                                    <a id="footer_bridge" class="right tooltipped translateT" style="margin-right: 1px;" title="More details">
+                                                        <i class="material-icons icon-grey" style="margin-right: 1px;">more_vert</i>
+                                                    </a>
                                                 </span>
                                             </div>
                                         </div>                                        
@@ -613,7 +629,22 @@
                                                         <ul id="dropdown_schedule_${mod_id_internal}" class="dropdown-content">
                                                             ${sub_menus_schedules}
                                                         </ul>
-                                                    ` : ''}                                                 
+                                                    ` : ''}
+                                                    ${sub_menus_modes != '' ? `
+                                                        <div style="margin-left: auto; float: left;">
+                                                            <!-- Dropdown Trigger -->
+                                                            
+                                                                ${setMode_Home != undefined && setMode_Home != null ? `
+                                                                    <a href="#" class="dropdown-trigger grey-text text-darken-4 tooltipped" title="Home Mode" data-target="dropdown_homemode_${mod_id_internal}">
+                                                                        <i class="material-icons icon-grey">home</i>
+                                                                    </a>
+                                                                    ` : ``}
+                                                        </div>
+                                                        <!-- Dropdown Structure -->
+                                                        <ul id="dropdown_homemode_${mod_id_internal}" class="dropdown-content">
+                                                            ${sub_menus_modes}
+                                                        </ul>
+                                                    ` : ''}                                         
                                                 </div>
                                             </div>
                                         </div>
@@ -631,7 +662,25 @@
             
             if (M) M.Dropdown.init($('.dropdown-trigger'), {coverTrigger: false});
 
-            /* Open modal for device friendly name editing */
+           $(`a.start-api-request-home-mode`).click(function (event) {
+                const $trigger = $(event.target);
+                const id = $trigger.data('api-request');
+
+                sendTo(namespace, 'homeModeSingle', { id }, function (data) { });
+                var $sel = $('#messages');
+                let wait_html = '';
+                wait_html = `<div style="float: left">
+                                <img src="img/check.png" width="65px" onerror="this.onerror=null;this.src='img/noimage.png';">
+                            </div>
+                            <div class="col">    
+                                <h6 class="translate">Request was sent to Netatmo Cloud</h6>
+                            </div>`;
+                $sel.html(wait_html);
+                $('#netatmo_energy_close_all').show();
+                translateAll();
+            }); 
+
+            /* Start API Requests */
             $(`a.start-api-request`).click(function (event) {
                 const $trigger = $(event.target);
                 const id       = $trigger.data('api-request');

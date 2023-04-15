@@ -252,5 +252,7 @@
     "Message services": "Сообщения услуги",
     "Message texts": "Тексты сообщений",
     "Reactions to sensor status changes": "Реакция на изменение статуса датчика",
-    "Token saved": "Токен сохранен"
+    "Token saved": "Токен сохранен",
+    "Bridge": "Мост",
+    "More details": "Подробнее"
 }

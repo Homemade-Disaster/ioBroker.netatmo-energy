@@ -1414,7 +1414,7 @@ class NetatmoEnergy extends utils.Adapter {
 			that._deleteSensorInterval(id, actIdValue);
 			const valueNow = await that.getForeignStateAsync(id);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
-				that.log.debug(mytools.tl('API Request setthermmode:', that.systemLang) + glob.blank + sensor_attribs.action);
+				that.log.info(mytools.tl('API Request setthermmode:', that.systemLang) + glob.blank + sensor_attribs.action);
 				that.applySingleAPIRequest(glob.APIRequest_setthermmode, sensor_attribs.action, mytools.tl('Mode:', that.systemLang) + glob.blank + sensor_attribs.action);
 			}
 		};
@@ -1424,7 +1424,7 @@ class NetatmoEnergy extends utils.Adapter {
 			that._deleteSensorInterval(id, actIdValue);
 			const valueNow = await that.getForeignStateAsync(id);
 			if (valueNow && valueNow != null && valueNow != undefined && valueNow.val == actIdValue) {
-				that.log.debug(mytools.tl('API Request swithhomeschedule:', that.systemLang) + glob.blank + sensor_attribs.action + ' : ' + mytools.tl('Heating Plan:', that.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
+				that.log.info(mytools.tl('API Request swithhomeschedule:', that.systemLang) + glob.blank + sensor_attribs.action + ' : ' + mytools.tl('Heating Plan:', that.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
 				that.applySingleAPIRequest(glob.APIRequest_switchhomeschedule, that.globalScheduleObjects[sensor_attribs.action], mytools.tl('Heating Plan:', that.systemLang) + glob.blank + sensor_attribs.action.substring(sensor_attribs.action.lastIndexOf(glob.APIRequest_switchhomeschedule) + glob.APIRequest_switchhomeschedule.length + 1).replace('_', ' '));
 			}
 		};
@@ -2058,6 +2058,7 @@ class NetatmoEnergy extends utils.Adapter {
 									const heating_power_request      = await that.getStateAsync(mytools.getDP([myTargetName, glob.Channel_status, 'heating_power_request']));
 									const Set_Temp      			 = mytools.getDP([myTargetName, glob.Channel_settings, glob.Trigger_SetTemp]);
 									const Set_Mode      			 = myTargetName;
+									const Set_Mode_Home 			 = mytools.getDP([myTargetName, glob.Channel_settings, glob.Trigger_SetHome]);
 
 									const myHomeFolder = id.substring(0,id.substring(0,id.lastIndexOf('rooms')).length - 1);
 									myHome      = await that.getStateAsync(myHomeFolder  + '.name');
@@ -2079,6 +2080,7 @@ class NetatmoEnergy extends utils.Adapter {
 										room_id,
 										{Set_Temp: Set_Temp},
 										{Set_Mode: Set_Mode},
+										{Set_Mode_Home: Set_Mode_Home },
 										{ModuleName_ID: myModule.ModuleName_ID},
 										{schedule_programs: schedule_programs_local},
 										{active_schedule: myActiveSchedule_local},
@@ -2117,6 +2119,7 @@ class NetatmoEnergy extends utils.Adapter {
 									room_id,
 									{Set_Temp: null},
 									{Set_Mode: null},
+									{ Set_Mode_Home: null },
 									{ModuleName_ID: myModules[myModule].ModuleName_ID},
 									{schedule_programs: null},
 									{active_schedule: null},
@@ -2312,6 +2315,21 @@ class NetatmoEnergy extends utils.Adapter {
 						const myMessages = [];
 						const msgtxt = mytools.tl('Mode set to home mode!', this.systemLang);
 						myMessages.push(Object.assign({}, {msgtxt: msgtxt} ));
+
+						this.sendTo(obj.from, obj.command, myMessages, obj.callback);
+					}
+					break;
+
+				//Set Home Modeto single valve(Admin Tab)
+				case glob.HomeModeSingleValve:
+					if (obj.callback) {
+						let setData = {};
+						setData = obj.message;
+						this.setState(setData.id, true, false);
+
+						const myMessages = [];
+						const msgtxt = mytools.tl('Mode set to home mode!', this.systemLang);
+						myMessages.push(Object.assign({}, { msgtxt: msgtxt }));
 
 						this.sendTo(obj.from, obj.command, myMessages, obj.callback);
 					}

@@ -40,6 +40,8 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 ### 2.5.6 (2023-04-15)
 
 * (ioKlausi) Bug fix of Sentry errors
+* (ioKlausi) Home mode for individual rooms in admin tab established
+* (ioKlausi) Bug fix of translations
 
 ### 2.5.5 (2023-04-11)
 

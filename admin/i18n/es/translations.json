@@ -252,5 +252,7 @@
     "Message services": "Servicios de mensajería",
     "Message texts": "Textos del mensaje",
     "Reactions to sensor status changes": "Reacciones a cambios de estado de sensores",
-    "Token saved": "Token salvado"
+    "Token saved": "Token salvado",
+    "Bridge":  "Puente",
+    "More details":  "Más detalles"
 }
