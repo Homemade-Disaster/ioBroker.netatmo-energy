@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.5",
+        "version": "2.5.6",
         "news": {
+            "2.5.6": {
+                "en": "Translations and some changes in Admin Tab",
+                "de": "Übersetzungen und einige Änderungen in Admin Tab",
+                "ru": "Переводы и некоторые изменения в Admin Tab",
+                "pt": "Traduções e algumas mudanças no Admin Tab",
+                "nl": "Vertaling:",
+                "fr": "Traductions et certains changements dans l'onglet Admin",
+                "it": "Traduzioni e alcuni cambiamenti nella scheda Admin",
+                "es": "Traducciones y algunos cambios en la pestaña de Admin",
+                "pl": "Tłumaczenie i niektóre zmiany w Admin Tab",
+                "uk": "Переклади та деякі зміни у вкладці адміністратора",
+                "zh-cn": "翻译和阿德明·塔布的一些变化"
+            },
             "2.5.5": {
                 "en": "Bug fix of 'Sentry errors'",
                 "de": "Fehlerbehebung von 'Sentry Fehlern '",

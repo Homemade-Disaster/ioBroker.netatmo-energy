@@ -2,6 +2,46 @@
 
 ## Sumery of old changelog entries
 
+### 2.3.0 (2023-02-12)
+
+* (ioKlausi) Rework of signal notifications
+
+### 2.2.2 (2023-02-12)
+
+* (ioKlausi) Send No-Token-Error as a notification
+
+### 2.2.1 (2023-02-12)
+
+* (ioKlausi) Timer established for token refresh
+
+### 2.1.0 (2023-02-05)
+
+* (ioKlausi) Added new API request 'createnewhomeschedule'
+
+### 2.0.3 (2023-02-04)
+
+* (ioKlausi) Added Signal as a new message type
+
+### 2.0.2 (2023-01-07)
+
+* (ioKlausi) Revision of the documentation
+
+### 2.0.1 (2023-01-06)
+
+* (ioKlausi) Corrections for OAuth2
+
+### 2.0.0 (2023-01-06)
+
+* (ioKlausi) New authentication method established
+
+### 1.3.1 (2022-04-18)
+
+* (ioKlausi) Additional information added to admin tab cards
+
+### 1.3.0 (2022-04-17)
+
+* (ioKlausi) Change thermostat mode functionality added to thermostat card
+
 ### 1.2.5 (2022-04-16)
 
 * (ioKlausi) Dropdown menu to change heating plan added to the thermostat card in the admin page

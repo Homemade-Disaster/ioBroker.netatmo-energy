@@ -356,7 +356,7 @@
                     let sub_menus_schedules         = '';
                     if (schedules) {
                         for (let schedule of schedules) {
-                            sub_menus_schedules = sub_menus_schedules + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${schedule.request}"><i class="material-icons icon-orange">room_service</i>${schedule.name}</a></li>`;
+                            sub_menus_schedules = sub_menus_schedules + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${schedule.request}"><i class="material-icons icon-orange translateT">room_service</i>${schedule.name}</a></li>`;
                         }
                     }
                     
@@ -364,7 +364,7 @@
                     let sub_menus_thermmodes        = '';
                     if (thermmodes) {
                         for (let thermmode of thermmodes) {
-                            sub_menus_thermmodes = sub_menus_thermmodes + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${thermmode.request}"><i class="material-icons icon-green">room_service</i>${thermmode.name}</a></li>`;
+                            sub_menus_thermmodes = sub_menus_thermmodes + `<li><a href="#!" class="black-text text-darken-3 start-api-request" data-api-request="${thermmode.request}"><i class="material-icons icon-green translateT">room_service</i>${thermmode.name}</a></li>`;
                         }
                     }
 
@@ -691,9 +691,9 @@
 
 
 <body>
-    <div class="m adapter-container">
+    <div id="main" class="m adapter-container">
         <!-- Header -->
-        <div class="row navbar-fixed">
+        <div id="navbar" class="row navbar-fixed">
             <nav class="nav-extended" style="Background-color:#649470;">
                 <div class="nav-wrapper">
                     <div class="col" style="float: left">
@@ -703,7 +703,7 @@
                         <h5 class="translate">Netatmo Energy</h5>
                     </div>
                 </div>
-                <div class="nav-content">
+                <div class="nav-content" style="height: 48px;">
                     <ul id="nav-mobile" class="right">
                         <li>
                             <a id="netatmo_energy_close_all" class="btn-floating waves-effect waves-light red tooltipped center-align hoverable translateT" title="close">
@@ -723,7 +723,7 @@
                             </a>  
                         </li>
                     </ul> 
-                </div>    
+                </div>
             </nav>
         </div>   
         <div id="spacer" class="row"></div>

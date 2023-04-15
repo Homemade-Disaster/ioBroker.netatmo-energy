@@ -76,6 +76,11 @@ class NetatmoEnergy extends utils.Adapter {
 			this.setForeignState('system.adapter.' + this.namespace + '.alive', false);
 			return;
 		}
+		//Get settings
+		this.getForeignObject('system.config', (err, obj) => {
+			this.systemLang = obj.common.language;
+		});
+
 		await this.initAdapter(this.systemLang);
 		await this._subscribeForeign(this.namespace,false);
 		await this.startAdapter();

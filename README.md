@@ -37,6 +37,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.5.6 (2023-04-15)
+
+* (ioKlausi) Bug fix of Sentry errors
+
 ### 2.5.5 (2023-04-11)
 
 * (ioKlausi) Bug fix of Sentry errors
@@ -89,46 +93,6 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 ### 2.3.1 (2023-02-12)
 
 * (ioKlausi) Redesign coding
-
-### 2.3.0 (2023-02-12)
-
-* (ioKlausi) Rework of signal notifications
-
-### 2.2.2 (2023-02-12)
-
-* (ioKlausi) Send No-Token-Error as a notification
-
-### 2.2.1 (2023-02-12)
-
-* (ioKlausi) Timer established for token refresh
-
-### 2.1.0 (2023-02-05)
-
-* (ioKlausi) Added new API request 'createnewhomeschedule'
-
-### 2.0.3 (2023-02-04)
-
-* (ioKlausi) Added Signal as a new message type
-
-### 2.0.2 (2023-01-07)
-
-* (ioKlausi) Revision of the documentation
-
-### 2.0.1 (2023-01-06)
-
-* (ioKlausi) Corrections for OAuth2
-
-### 2.0.0 (2023-01-06)
-
-* (ioKlausi) New authentication method established
-
-### 1.3.1 (2022-04-18)
-
-* (ioKlausi) Additional information added to admin tab cards
-
-### 1.3.0 (2022-04-17)
-
-* (ioKlausi) Change thermostat mode functionality added to thermostat card
 
 ## License
 
