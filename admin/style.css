@@ -137,7 +137,7 @@ body > div:nth-child(2) {
 	margin: 0 -10px -10px -10px;
 }
 .m .valve .card.dcard .card-reveal .dropdown-content {
-	min-width: 220px;
+	min-width: 320px;
 }
 .m .valve .card.dcard .card-reveal .dropdown-content li {
 	min-height: 0;

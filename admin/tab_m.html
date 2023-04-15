@@ -422,8 +422,9 @@
                     let sub_menus_modes             = '';
                     if (valve.type == 'NRV' && temp_mode != 'schedule') {
                         setMode_Home                = valve.Set_Mode_Home;
+                        let setMode_Home_Text       = valve.Set_Mode_Home_Text;
                         if (setMode_Home) {
-                            sub_menus_modes = sub_menus_modes + `<li><a href="#!" class="black-text text-darken-3 start-api-request-home-mode" data-api-request="${setMode_Home}"><i class="material-icons icon-orange translateT">room_service</i>Set to home mode</a></li>`;
+                            sub_menus_modes = sub_menus_modes + `<li><a href="#!" class="black-text text-darken-3 start-api-request-home-mode" data-api-request="${setMode_Home}"><i class="material-icons icon-red">room_service</i>${setMode_Home_Text}</a></li>`;
                         }
                     }
                     

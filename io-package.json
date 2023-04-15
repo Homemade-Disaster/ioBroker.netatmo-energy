@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.7",
+        "version": "2.5.8",
         "news": {
+            "2.5.8": {
+                "en": "Bug fix of translations",
+                "de": "Fehlerbehebung von Übersetzungen",
+                "ru": "Исправление ошибок переводов",
+                "pt": "Correção de erros de traduções",
+                "nl": "Bug reparatie van vertaling",
+                "fr": "Correction des traductions",
+                "it": "Correzione di bug delle traduzioni",
+                "es": "Corrección de errores de las traducciones",
+                "pl": "Ulepszenie tłumaczenia",
+                "uk": "Виправлення помилок перекладів",
+                "zh-cn": "翻译的顺序"
+            },
             "2.5.7": {
                 "en": "Bug fix of sensor actions",
                 "de": "Fehlerbehebung von Sensoraktionen",

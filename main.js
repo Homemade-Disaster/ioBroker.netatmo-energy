@@ -2069,6 +2069,7 @@ class NetatmoEnergy extends utils.Adapter {
 									let myActiveSchedule_local	= myActiveSchedule;
 									let myActiveModes_local		= myActiveModes;
 									let myActiveThermMode_local	= myActiveThermMode;
+									const myMode_Home_Text 		= mytools.tl('Set home mode', that.systemLang);
 
 									if (myModule.type != glob.APIRequest_homesdata_NAPTherm1) {
 										schedule_programs_local = null;
@@ -2083,6 +2084,7 @@ class NetatmoEnergy extends utils.Adapter {
 										{Set_Temp: Set_Temp},
 										{Set_Mode: Set_Mode},
 										{Set_Mode_Home: Set_Mode_Home },
+										{Set_Mode_Home_Text: myMode_Home_Text },
 										{ModuleName_ID: myModule.ModuleName_ID},
 										{schedule_programs: schedule_programs_local},
 										{active_schedule: myActiveSchedule_local},
@@ -2122,6 +2124,7 @@ class NetatmoEnergy extends utils.Adapter {
 									{Set_Temp: null},
 									{Set_Mode: null},
 									{ Set_Mode_Home: null },
+									{ Set_Mode_Home_Text: null },
 									{ModuleName_ID: myModules[myModule].ModuleName_ID},
 									{schedule_programs: null},
 									{active_schedule: null},
