@@ -1558,14 +1558,16 @@ class NetatmoEnergy extends utils.Adapter {
 							break;
 						//Window open
 						case glob.state_open_window:
-							await this._sensorChanges(id, oldValue)
-								.then(async startSyncAPI => {
-									if (startSyncAPI) {
-										//Nothing to do
-									}
-									if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_window_open_txt);
-								})
-								.catch( );
+							if (this.config.sensorsEnabled && this.config.sensorsEnabled == true) {
+								await this._sensorChanges(id, oldValue)
+									.then(async startSyncAPI => {
+										if (startSyncAPI) {
+											//Nothing to do
+										}
+										if (this.config.notify_window_open_txt && this.config.notify_window_open == true && this.config.notify_window_open_txt != '' && state.val != oldValue) this.sendMessage(actId.parent + '.name', this.config.notify_window_open_txt);
+									})
+									.catch( );
+							}
 							break;
 						//No Connection
 						case glob.state_reachable:
@@ -1592,13 +1594,15 @@ class NetatmoEnergy extends utils.Adapter {
 			}
 		} else {
 			if (state.ack === true) {
-				await this._sensorChanges(id, !state.val)
-					.then(async startSyncAPI => {
-						if (startSyncAPI) {
-							//Nothing to do
-						}
-					})
-					.catch();
+				if (this.config.sensorsEnabled && this.config.sensorsEnabled == true) {
+					await this._sensorChanges(id, !state.val)
+						.then(async startSyncAPI => {
+							if (startSyncAPI) {
+								//Nothing to do
+							}
+						})
+						.catch();
+				}
 			}
 		}
 	}

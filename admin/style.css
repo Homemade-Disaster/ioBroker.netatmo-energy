@@ -285,6 +285,7 @@ i.icon-grey {
 
 .myslider {
 	-webkit-appearance: none;
+	appearance: auto;
     width: 100%;
     height: 25px;    
 	background: #d3d3d3;

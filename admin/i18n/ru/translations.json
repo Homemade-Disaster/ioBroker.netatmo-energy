@@ -255,5 +255,7 @@
     "Token saved": "Токен сохранен",
     "Bridge": "Мост",
     "More details": "Подробнее",
-    "Set home mode": "Установите домашний режим"
+    "Set home mode": "Установите домашний режим",
+    "Enable / Disable sensor actions":  "Включить / Отключить действия датчика",
+    "Additional functions":  "Дополнительные функции"
 }

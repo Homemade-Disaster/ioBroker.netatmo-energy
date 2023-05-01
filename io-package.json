@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.5.8",
+        "version": "2.6.0",
         "news": {
+            "2.6.0": {
+                "en": "Enable / Disable sensor actions",
+                "de": "Ermöglichen / Deaktivieren von Sensoraktionen",
+                "ru": "Включить / Отключить действия датчика",
+                "pt": "Habilitar / Desativar ações do sensor",
+                "nl": "Enable/ Disable sensor acties",
+                "fr": "Activer / Désactiver les actions du capteur",
+                "it": "Attiva / disattiva le azioni del sensore",
+                "es": "Activar / Desactivar las acciones del sensor",
+                "pl": "Wykorzystywanie czujników / urządzenie nieodpowiednich czujników",
+                "uk": "Увімкнути / вимкнути дії датчика",
+                "zh-cn": "易感染感情行动"
+            },
             "2.5.8": {
                 "en": "Bug fix of translations",
                 "de": "Fehlerbehebung von Übersetzungen",
@@ -370,6 +383,7 @@
         "refreshstates": 180,
         "notifications": "000",
         "notificationEnabled": false,
+        "sensorsEnabled": true,
         "notificationsType": "telegram",
         "telegramInstance": "telegram.0",
         "telegramUser": "All Receiver",

@@ -255,5 +255,7 @@
     "Token saved": "Token salvo",
     "Bridge": "Ponte",
     "More details": "Mais detalhes",
-    "Set home mode": "Definir modo de casa"
+    "Set home mode": "Definir modo de casa",
+    "Enable / Disable sensor actions":  "Habilitar / Desativar ações do sensor",
+    "Additional functions":  "Funções adicionais" 
 }

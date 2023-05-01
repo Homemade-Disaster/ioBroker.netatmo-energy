@@ -255,5 +255,7 @@
     "Token saved": "Збережений токен",
     "Bridge": "Міста",
     "More details": "Детальніше",
-    "Set home mode": "Налаштування домашнього режиму"
+    "Set home mode": "Налаштування домашнього режиму",
+    "Enable / Disable sensor actions":  "Увімкнути / вимкнути дії датчика",
+    "Additional functions":  "Додаткові функції"
 }

@@ -56,12 +56,16 @@
                 "Information":{
                     "type": "header",
                     "size": "3",
-                    "text": "Information"
+                    "text": "Additional functions"
                 },     
                 "notificationEnabled":{
                     "type": "checkbox",
                     "label": "Enable / Disable Notifications"
-                }       
+                },    
+                "sensorsEnabled":{
+                    "type": "checkbox",
+                    "label": "Enable / Disable sensor actions"
+                }   
             }
         },
         "tabAPI": {
@@ -390,6 +394,7 @@
         "tabSensors": {
             "type": "panel",
             "label": "Sensor actions",
+            "disabled": "data.sensorsEnabled !== true",
             "items": {
                 "MessageTextHeader": {
                     "type": "header",

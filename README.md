@@ -37,6 +37,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 2.6.0 (2023-05-01)
+
+* (ioKlausi) Enable / Disable sensor actions
+
 ### 2.5.8 (2023-04-16)
 
 * (ioKlausi) Bug fix of translations

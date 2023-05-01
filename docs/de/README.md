@@ -40,7 +40,7 @@ Konto bei Netatmo Cloud
     - Aktualisierung der API-states nach x Sekunden ... Permanentes Aktualisieren der API Daten. (0 = Keine Aktualisierung)  
   - Wenn gewünscht kann auch Benachrichtigungsdienst eingerichtet werden um bestimmte Statusänderungen zugesandt zu bekommen. Dabei ist es möglich sich 
   Informationsmeldungen, Warnungen bzw. Fehlermeldungen zu erhalten. Hierfür ist es notwendig die Option "Benachrichtigungen aktivieren/deaktivieren" in den "Anmeldeinformationen" zu aktivieren und danach die Einstellungen im Menü "Benachrichtigungen" einzurichten.
-  - Zusätzlich ist es möglich die Tür-/Fenstersensoren in der Sensorik einzutragen und die gewünschte Aktion zu hinterlegen
+  - Zusätzlich ist es möglich die Tür-/Fenstersensoren in der Sensorik einzutragen und die gewünschte Aktion zu hinterlegen. Diese Funktionen können auf der Loginseite generell aktiviert bzw. deaktiviert werden.
   
 Eine detaillierte Beschreibung ist als wiki verfügbar (<https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/wiki>).
 
