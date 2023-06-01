@@ -1,6 +1,6 @@
 {
   "name": "iobroker.netatmo-energy",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -62,7 +62,9 @@
     "test": "npm run test:js && npm run test:package",
     "check": "tsc --noEmit -p tsconfig.check.json",
     "lint": "eslint",
-    "release": "release-script"
+    "release": "release-script",
+    "translate": "translate-adapter",
+    "build": "build-adapter"
   },
   "bugs": {
     "url": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy/issues"
