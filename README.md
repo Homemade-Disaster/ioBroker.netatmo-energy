@@ -33,10 +33,11 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 ## Changelog
 
 [Older changes](CHANGELOG_OLD.md)
-<!--
-    Placeholder for the next version (at the beginning of the line):
-    ### **WORK IN PROGRESS**
--->
+<!-- ### **WORK IN PROGRESS** -->
+### 2.6.1 (2023-06-01)
+
+* (ioKlausi) Correct some adapter check issues
+
 ### 2.6.0 (2023-05-01)
 
 * (ioKlausi) Enable / Disable sensor actions

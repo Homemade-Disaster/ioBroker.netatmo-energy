@@ -59,7 +59,7 @@ class NetatmoEnergy extends utils.Adapter {
 		this.adapterIntervals			= [];
 		this.mySubscribedStates			= [];
 		this.AdapterStarted				= false;
-		this.SensorIntervals 			= [];
+		this.SensorTimeouts 			= [];
 
 		//Authentication
 		this.scope 						= '';
@@ -1352,7 +1352,7 @@ class NetatmoEnergy extends utils.Adapter {
 			this.FetchAbortController.abort();
 			this._setTokenIntervall(false);
 			Object.keys(this.adapterIntervals).forEach(interval => clearInterval(this.adapterIntervals[interval]));
-			Object.keys(this.SensorIntervals).forEach(interval => clearInterval(this.SensorIntervals[interval].function));
+			Object.keys(this.SensorTimeouts).forEach(interval => clearTimeout(this.SensorTimeouts[interval].function));
 			this._subscribeForeign(this.namespace, true);
 			this.log.debug(mytools.tl('cleaned everything up...', this.systemLang));
 			this.sendRequestNotification(null, glob.WarningNotification, mytools.tl('Status', this.systemLang) + ':' + mytools.tl('Adapter stopped', this.systemLang), mytools.tl('Somebody stopped', this.systemLang) + glob.blank + this.namespace);
@@ -1364,13 +1364,13 @@ class NetatmoEnergy extends utils.Adapter {
 
 	//Delete Sensor intervalls
 	_deleteSensorInterval(id, actIdValue) {
-		const ActSensor = this.SensorIntervals.find(element => element.id == id && element.value == actIdValue);
+		const ActSensor = this.SensorTimeouts.find(element => element.id == id && element.value == actIdValue);
 		if (ActSensor) {
 			clearInterval(ActSensor.function);
 		}
-		const ActSensorIndex = this.SensorIntervals.findIndex(element => element.id == id && element.value == actIdValue);
+		const ActSensorIndex = this.SensorTimeouts.findIndex(element => element.id == id && element.value == actIdValue);
 		if (ActSensorIndex >= 0) {
-			this.SensorIntervals.splice(ActSensorIndex, 1);
+			this.SensorTimeouts.splice(ActSensorIndex, 1);
 		}
 	}
 
@@ -1434,7 +1434,7 @@ class NetatmoEnergy extends utils.Adapter {
 			myHomeFolder = sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.substring(0, sensor_attribs.temp_sensor.lastIndexOf('settings')).length - 1);
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
 				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
-				this.SensorIntervals.push(Object.assign({},
+				this.SensorTimeouts.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
 					{ function: setTimeout(setSensorState, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder) }));
@@ -1450,7 +1450,7 @@ class NetatmoEnergy extends utils.Adapter {
 				// @ts-ignore
 				if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
 					this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
-					this.SensorIntervals.push(Object.assign({},
+					this.SensorTimeouts.push(Object.assign({},
 						{ id: id },
 						{ value: actIdValue },
 						{ function: setTimeout(setSensorTemp, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, myHomeFolder, sensor_attribs, NewTemp) }));
@@ -1465,7 +1465,7 @@ class NetatmoEnergy extends utils.Adapter {
 		else if (sensor_attribs.action == glob.APIRequest_setthermmode_schedule || sensor_attribs.action == glob.APIRequest_setthermmode_hg || sensor_attribs.action == glob.APIRequest_setthermmode_away) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
 				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
-				this.SensorIntervals.push(Object.assign({},
+				this.SensorTimeouts.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
 					{ function: setTimeout(setSensorMode, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
@@ -1477,7 +1477,7 @@ class NetatmoEnergy extends utils.Adapter {
 		else if (sensor_attribs.action.search(glob.APIRequest_switchhomeschedule) >= 0) {
 			if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
 				this.log.debug(mytools.tl('Sensor action in', this.systemLang) + glob.blank + sensor_attribs.sensor_delay + glob.blank + mytools.tl('seconds!', this.systemLang) + glob.blank + id);
-				this.SensorIntervals.push(Object.assign({},
+				this.SensorTimeouts.push(Object.assign({},
 					{ id: id },
 					{ value: actIdValue },
 					{ function: setTimeout(setSensorPlan, sensor_attribs.sensor_delay * 1000, id, actIdValue, that, sensor_attribs) }));
@@ -1525,10 +1525,10 @@ class NetatmoEnergy extends utils.Adapter {
 
 				// Check if Sensor ist waiting to perform
 				let abortTimer = false;
-				for (const ActSensor in that.SensorIntervals) {
-					if (that.SensorIntervals[ActSensor].id == id) {
+				for (const ActSensor in that.SensorTimeouts) {
+					if (that.SensorTimeouts[ActSensor].id == id) {
 						that.log.debug(mytools.tl('Sensor action aborted for', that.systemLang) + glob.blank + id);
-						that._deleteSensorInterval(id, that.SensorIntervals[ActSensor].value);
+						that._deleteSensorInterval(id, that.SensorTimeouts[ActSensor].value);
 						abortTimer = true;
 					}
 				}

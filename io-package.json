@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.6.0",
+        "version": "2.6.1",
         "news": {
+            "2.6.1": {
+                "en": "Correct some adapter check issues",
+                "de": "Korrektur einiger Adapter-Check-Probleme",
+                "ru": "Исправьте некоторые проблемы проверки адаптера",
+                "pt": "Corrigir alguns problemas de verificação do adaptador",
+                "nl": "Vertaling:",
+                "fr": "Correction des problèmes de contrôle de l'adaptateur",
+                "it": "Correggere alcuni problemi di controllo dell'adattatore",
+                "es": "Corregir algunos problemas de control de adaptador",
+                "pl": "Poprawka",
+                "uk": "Користувати деякі проблеми перевірки адаптера",
+                "zh-cn": "处理一些适应问题"
+            },
             "2.6.0": {
                 "en": "Enable / Disable sensor actions",
                 "de": "Ermöglichen / Deaktivieren von Sensoraktionen",
