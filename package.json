@@ -2,7 +2,7 @@
   "name": "iobroker.netatmo-energy",
   "version": "2.6.1",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "description": "Get and set data using Netatmo Energy API",
   "author": "ioKlausi <nii@gmx.at>",
