@@ -1404,7 +1404,7 @@ class NetatmoEnergy extends utils.Adapter {
 				await that.setState(sensor_attribs.temp_sensor, NewTemp, false);
 				await that._storeOldValue(id);
 				await that.compareValues(mytools.getDP([myHomeFolder, glob.Channel_status, glob.State_therm_setpoint_temperature]), mytools.getDP([myHomeFolder, glob.Channel_status, glob.State_TempChanged_Mode]), sensor_attribs.set_value, mytools.getDP([myHomeFolder, glob.Channel_settings, glob.State_TempChanged]));
-				await that.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', this.systemLang));
+				await that.applySingleAPIRequest(glob.APIRequest_setroomthermpoint, glob.APIRequest_setroomthermpoint_manual, mytools.tl('changed manually', that.systemLang));
 			}
 		};
 
