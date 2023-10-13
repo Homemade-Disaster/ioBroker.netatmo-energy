@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.6.1",
+        "version": "2.6.2",
         "news": {
+            "2.6.2": {
+                "en": "Bug fix of 'Sentry errors'",
+                "de": "Fehlerbehebung von 'Sentry Fehlern '",
+                "ru": "Исправление ошибки 'Sentry error « »",
+                "pt": "Correção de bugs de erros 'Sentry '",
+                "nl": "Bug fix of 'Sentry fouten' '",
+                "fr": "Correction des erreurs de 'Sentry '",
+                "it": "Correzione di bug di 'Sentry errori '",
+                "es": "Corrección de errores de entrada '",
+                "pl": "Bug naprawa błędów „Sentry errors”. '",
+                "uk": "Виправлення помилок Р",
+                "zh-cn": "Bug fix Sentry错误 评 注"
+            },
             "2.6.1": {
                 "en": "Correct some adapter check issues",
                 "de": "Korrektur einiger Adapter-Check-Probleme",
