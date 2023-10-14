@@ -158,7 +158,7 @@
                 "pl": "Sensor zmienił nazwę na obiektowy boolean typu ID",
                 "uk": "Датчик змінився на тип об'єкта boolean",
                 "zh-cn": "许可人改用原状"
-            }, 
+            },
             "2.4.5": {
                 "en": "Implementation of sensor abort functionality",
                 "de": "Implementierung der Sensorabort-Funktionalität",
