@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.6.2",
+        "version": "2.6.3",
         "news": {
+            "2.6.3": {
+                "en": "Adapt GULP",
+                "de": "Anpassung GULP",
+                "ru": "Адаптация GULP",
+                "pt": "Adaptar GULP",
+                "nl": "Adap GULP",
+                "fr": "Adapt GULP",
+                "it": "Adapt GULP",
+                "es": "Adaptar GULP",
+                "pl": "Adapt GULP",
+                "uk": "Адаптація GULP",
+                "zh-cn": "备选案文GULP"
+            },
             "2.6.2": {
                 "en": "Bug fix of 'Sentry errors'",
                 "de": "Fehlerbehebung von 'Sentry Fehlern '",
