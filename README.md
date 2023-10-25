@@ -34,6 +34,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 [Older changes](CHANGELOG_OLD.md)
 <!-- ### **WORK IN PROGRESS** -->
+### 2.6.4 (2023-10-25)
+
+* (ioKlausi) Change value only if changes are detected
+
 ### 2.6.3 (2023-10-14)
 
 * (ioKlausi) Adapt GULP

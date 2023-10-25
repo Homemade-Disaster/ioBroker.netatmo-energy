@@ -1262,15 +1262,23 @@ class NetatmoEnergy extends utils.Adapter {
 				// @ts-ignore
 				await this.setObjectAsync(id, myObject);
 				if (!norefresh) {
-					await this._subscribeStates(id);
-					await this.setState(id, value, ack);
+					const actvalue = await this.getStateAsync(id);
+					if (actvalue != null && actvalue.val != value) {
+						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + actvalue.val + ' --> ' + value);
+						await this._subscribeStates(id);
+						await this.setState(id, value, ack);
+					}
 				}
 			} else {
 				// @ts-ignore
 				await this.setObjectNotExistsAsync(id, myObject);
 				if (!norefresh) {
-					await this._subscribeStates(id);
-					await this.setState(id, value, ack);
+					const actvalue = await this.getStateAsync(id);
+					if (actvalue != null && actvalue.val != value) {
+						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + actvalue.val + ' --> ' + value);
+						await this._subscribeStates(id);
+						await this.setState(id, value, ack);
+					}
 				}
 			}
 		} catch(error) {

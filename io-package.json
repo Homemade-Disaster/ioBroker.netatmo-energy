@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.6.3",
+        "version": "2.6.4",
         "news": {
+            "2.6.4": {
+                "en": "Change value only if changes are detected",
+                "de": "Nur ändern, wenn Änderungen erkannt werden",
+                "ru": "Изменить значение только при обнаружении изменений",
+                "pt": "Alterar valor somente se as alterações forem detectadas",
+                "nl": "Veranderingswaarde alleen als veranderingen worden ontdekt",
+                "fr": "Valeur de changement seulement si des changements sont détectés",
+                "it": "Cambia il valore solo se vengono rilevate le modifiche",
+                "es": "Valor de cambio sólo si se detectan cambios",
+                "pl": "Wartość zmian tylko wtedy, gdy wykrywa się zmiany",
+                "uk": "Зміна значення тільки при виявленні змін",
+                "zh-cn": "只有发现变化,变化才具有变化价值"
+            },
             "2.6.3": {
                 "en": "Adapt GULP",
                 "de": "Anpassung GULP",
