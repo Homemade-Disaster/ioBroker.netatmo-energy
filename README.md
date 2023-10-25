@@ -93,34 +93,6 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 * (ioKlausi) Sensor changed to object ID type boolean
 
-### 2.4.5 (2023-04-06)
-
-* (ioKlausi) Implementation of sensor abort functionality
-
-### 2.4.4 (2023-04-03)
-
-* (ioKlausi) Add delay time, to perform action
-
-### 2.4.3 (2023-04-02)
-
-* (ioKlausi) Default entries for sensor table
-
-### 2.4.2 (2023-04-02)
-
-* (ioKlausi) Bug fix for Sentry errors
-
-### 2.4.1 (2023-04-02)
-
-* (ioKlausi) Revice coding
-
-### 2.4.0 (2023-04-01)
-
-* (ioKlausi) Implement actions for window sensors
-
-### 2.3.1 (2023-02-12)
-
-* (ioKlausi) Redesign coding
-
 ## License
 
 MIT License
