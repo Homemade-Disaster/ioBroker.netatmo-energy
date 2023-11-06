@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.6.4",
+        "version": "2.6.5",
         "news": {
+            "2.6.5": {
+                "en": "New options in the adapter configuration for updating datapoints",
+                "de": "Neue Optionen in der Adapterkonfiguration zur Aktualisierung von Datenpunkten",
+                "ru": "Новые опции в конфигурации адаптера для обновления данных точек",
+                "pt": "Novas opções na configuração do adaptador para atualizar datapoints",
+                "nl": "Nieuwe opties in de adapter configuratie voor het verminderen van gegevens",
+                "fr": "Nouvelles options dans la configuration de l'adaptateur pour la mise à jour des points de données",
+                "it": "Nuove opzioni nella configurazione dell'adattatore per l'aggiornamento dei datapoint",
+                "es": "Nuevas opciones en la configuración del adaptador para actualizar los puntos de datos",
+                "pl": "Nowe opcje w konfiguracji adapterowej dla updating datapoints",
+                "uk": "Нові параметри в конфігурації адаптера для оновлення точок даних",
+                "zh-cn": "更新数据点的适应组合的新选择"
+            },
             "2.6.4": {
                 "en": "Change value only if changes are detected",
                 "de": "Nur ändern, wenn Änderungen erkannt werden",

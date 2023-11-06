@@ -257,5 +257,7 @@
     "More details": "Szczegóły",
     "Set home mode": "Tryb domowy",
     "Enable / Disable sensor actions":  "Wykorzystywanie czujników / urządzenie nieodpowiednich czujników",
-    "Additional functions":  "Funkcja dodatkowa"
+    "Additional functions":  "Funkcja dodatkowa",
+    "Only update datapoints if changes are detected": "Tylko aktualizacje danych jeśli zmiany są wykryte",
+    "Change temperature states every time": "Wartość zmian w temperaturze"
 }

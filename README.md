@@ -34,6 +34,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 [Older changes](CHANGELOG_OLD.md)
 <!-- ### **WORK IN PROGRESS** -->
+### 2.6.5 (2023-11-05)
+
+* (ioKlausi) New options in the adapter configuration for updating datapoints
+
 ### 2.6.4 (2023-10-25)
 
 * (ioKlausi) Change value only if changes are detected

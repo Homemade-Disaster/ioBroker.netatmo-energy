@@ -257,5 +257,7 @@
     "More details": "Подробнее",
     "Set home mode": "Установите домашний режим",
     "Enable / Disable sensor actions":  "Включить / Отключить действия датчика",
-    "Additional functions":  "Дополнительные функции"
+    "Additional functions":  "Дополнительные функции",
+    "Only update datapoints if changes are detected": "Только обновление данных точек, если изменения обнаружены",
+    "Change temperature states every time": "Изменить температуру каждый раз"
 }

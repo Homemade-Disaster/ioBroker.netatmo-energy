@@ -1263,8 +1263,8 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.setObjectAsync(id, myObject);
 				if (!norefresh) {
 					const actvalue = await this.getStateAsync(id);
-					if (actvalue != null && actvalue.val != value) {
-						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + actvalue.val + ' --> ' + value);
+					if (this.config.UpdateStatesIfChanged == false || (this.config.UpdateStatesIfChanged == true && ((actvalue && actvalue != null && actvalue.val != value) || (this.config.UpdateStatesIfChangedTemp == true && role == 'value.temperature')))) {
+						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + ((actvalue) ? ' (' + actvalue.val + ')' : 'NULL') + ' --> ' + value);
 						await this._subscribeStates(id);
 						await this.setState(id, value, ack);
 					}
@@ -1274,8 +1274,8 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.setObjectNotExistsAsync(id, myObject);
 				if (!norefresh) {
 					const actvalue = await this.getStateAsync(id);
-					if (actvalue != null && actvalue.val != value) {
-						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + actvalue.val + ' --> ' + value);
+					if (this.config.UpdateStatesIfChanged == false || (this.config.UpdateStatesIfChanged == true && ((actvalue && actvalue != null && actvalue.val != value) || (this.config.UpdateStatesIfChangedTemp == true && role == 'value.temperature')))) {
+						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + ((actvalue) ? ' (' + actvalue.val + ')' : 'NULL') + ' --> ' + value);
 						await this._subscribeStates(id);
 						await this.setState(id, value, ack);
 					}

@@ -101,6 +101,25 @@
                     "newLine": true,
                     "type": "number",
                     "help": "Refresh states every x seconds"
+                },
+                "UpdateStatesIfChanged": {
+                    "newLine": true,
+                    "type": "checkbox",
+                    "label": "Only update datapoints if changes are detected",
+                    "default": true,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
+                },
+                "UpdateStatesIfChangedTemp": {
+                    "newLine": false,
+                    "type": "checkbox",
+                    "label": "Change temperature states every time",
+                    "hidden": "data.UpdateStatesIfChanged !== true",
+                    "default": false,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4
                 }
             }
         },

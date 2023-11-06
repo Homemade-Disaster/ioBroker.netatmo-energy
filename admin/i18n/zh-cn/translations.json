@@ -257,5 +257,7 @@
     "More details": "详情",
     "Set home mode": "建 议",
     "Enable / Disable sensor actions": "易感染感情行动",
-    "Additional functions": "其他职能"
+    "Additional functions": "其他职能",
+    "Only update datapoints if changes are detected": "只有在发现变化时才更新数据点",
+    "Change temperature states every time": "变化温度"
 }

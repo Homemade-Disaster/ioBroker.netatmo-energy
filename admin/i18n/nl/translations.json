@@ -257,5 +257,7 @@
     "More details": "Meer details",
     "Set home mode": "Zet thuis modus",
     "Enable / Disable sensor actions":  "Enable/ Disable sensor acties",
-    "Additional functions":  "Additionele functies"
+    "Additional functions":  "Additionele functies",
+    "Only update datapoints if changes are detected": "Alleen updates als veranderingen worden ontdekt",
+    "Change temperature states every time": "Veranderde temperatuur staat elke keer"
 }

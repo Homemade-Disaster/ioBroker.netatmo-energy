@@ -257,5 +257,7 @@
     "More details":  "Más detalles",
     "Set home mode": "Modo de inicio",
     "Enable / Disable sensor actions":  "Activar / Desactivar las acciones del sensor",
-    "Additional functions":  "Funciones adicionales"
+    "Additional functions":  "Funciones adicionales",
+    "Only update datapoints if changes are detected": "Sólo actualizar los puntos de datos si se detectan cambios",
+    "Change temperature states every time": "Cambiar los estados de temperatura cada vez"
 }
