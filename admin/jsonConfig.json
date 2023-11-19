@@ -111,7 +111,7 @@
                     "md": 6,
                     "lg": 4
                 },
-                "UpdateStatesIfChangedTemp": {
+                "UpdateStatesChangedTempEveryTime": {
                     "newLine": false,
                     "type": "checkbox",
                     "label": "Change temperature states every time",

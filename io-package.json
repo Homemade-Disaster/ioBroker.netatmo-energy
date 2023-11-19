@@ -3,6 +3,19 @@
         "name": "netatmo-energy",
         "version": "2.6.5",
         "news": {
+            "2.7.0": {
+                "en": "Adjust default value for parameters",
+                "de": "Standardwert anpassen für Parameter",
+                "ru": "Отрегулируйте значение по умолчанию для параметров",
+                "pt": "Ajuste o valor padrão para parâmetros",
+                "nl": "Aanpassen default waarde voor parameters",
+                "fr": "Valeur par défaut de réglage des paramètres",
+                "it": "Regolare il valore predefinito per i parametri",
+                "es": "Ajuste el valor predeterminado de los parámetros",
+                "pl": "Domyślna wartość parametrów dla parametrów",
+                "uk": "Налаштування значення за замовчуванням для параметрів",
+                "zh-cn": "参数的合理违约率"
+            },
             "2.6.5": {
                 "en": "New options in the adapter configuration for updating datapoints",
                 "de": "Neue Optionen in der Adapterkonfiguration zur Aktualisierung von Datenpunkten",

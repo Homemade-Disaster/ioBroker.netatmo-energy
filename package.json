@@ -1,6 +1,6 @@
 {
   "name": "iobroker.netatmo-energy",
-  "version": "2.6.5",
+  "version": "2.7.0",
   "engines": {
     "node": ">=16.0.0"
   },
