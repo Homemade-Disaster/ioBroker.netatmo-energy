@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.6.5",
+        "version": "2.7.0",
         "news": {
             "2.7.0": {
                 "en": "Adjust default value for parameters",
