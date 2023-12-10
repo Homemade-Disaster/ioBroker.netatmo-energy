@@ -3,6 +3,19 @@
         "name": "netatmo-energy",
         "version": "2.7.0",
         "news": {
+            "2.7.1": {
+                "en": "Remove GULP support",
+                "de": "GULP-Unterstützung entfernen",
+                "ru": "Удалить поддержку GULP",
+                "pt": "Remover suporte GULP",
+                "nl": "Verwijder GULP steun",
+                "fr": "Supprimer le soutien de GULP",
+                "it": "Rimuovere il supporto GULP",
+                "es": "Eliminar soporte GULP",
+                "pl": "Remove GULP",
+                "uk": "Видалити GULP підтримки",
+                "zh-cn": "D. 取消GULP的支助"
+            },
             "2.7.0": {
                 "en": "Adjust default value for parameters",
                 "de": "Standardwert anpassen für Parameter",
@@ -261,7 +274,7 @@
         },
         "loglevel": "info",
         "restartAdapters": [
-            "vis"
+            "vis-2"
         ],
         "mode": "daemon",
         "type": "climate-control",

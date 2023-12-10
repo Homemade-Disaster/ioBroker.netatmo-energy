@@ -1,6 +1,6 @@
 {
   "name": "iobroker.netatmo-energy",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "engines": {
     "node": ">=16.0.0"
   },
@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.0.4",
-    "axios": "^1.5.1",
     "abort-controller": "^3.0.0",
+    "axios": "^1.5.1",
     "fetch": "^1.1.0",
     "flat": "^5.0.2",
     "is-plain-obj": "^4.0.0",
@@ -38,9 +38,8 @@
     "@tsconfig/node16": "^16.1.1",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
-    "eslint": "^8.49.0",
     "chai": "^4.3.10",
-    "gulp": "^4.0.2",
+    "eslint": "^8.49.0",
     "mocha": "^10.2.0",
     "sinon": "^13.0.1",
     "sinon-chai": "^3.7.0",
@@ -56,14 +55,13 @@
     "release": "release-script",
     "release-patch": "release-script patch --yes",
     "release-minor": "release-script minor --yes",
-    "release-major": "release-script major --yes",   
+    "release-major": "release-script major --yes",
     "check": "tsc --noEmit -p tsconfig.check.json",
     "lint": "eslint",
     "translate": "translate-adapter",
     "build": "build-adapter",
     "test:rule": "mocha test/rule --exit",
     "test:gui": "mocha test/*.gui.js --exit",
-    "prepublishOnly": "node node_modules/gulp/bin/gulp.js",
     "update-packages": "ncu --upgrade && cd src && ncu --upgrade && cd ..",
     "npm": "npm i && cd src && npm i -f && cd .."
   },
