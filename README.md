@@ -37,6 +37,7 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 ### 2.7.1 (2023-12-10)
 
 * (ioKlausi) Remove GULP support
+* (ioKlausi) Support dark mode
 
 ### 2.7.0 (2023-11-19)
 

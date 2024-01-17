@@ -274,7 +274,7 @@
         },
         "loglevel": "info",
         "restartAdapters": [
-            "vis-2"
+            "vis"
         ],
         "mode": "daemon",
         "type": "climate-control",
@@ -306,7 +306,8 @@
         "dependencies": [
             {
                 "js-controller": ">=3.0.0"
-            }
+            },
+            "vis"
         ],
         "plugins": {
             "sentry": {

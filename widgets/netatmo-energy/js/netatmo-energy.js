@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-var */
-/* eslint-disable no-undef */
 /*
 	ioBroker.vis netatmo-energy Widget-Set
 
@@ -8,8 +5,9 @@
 
 	Copyright 2021 ioKlausi nii@gmx.at
 */
-/* global vis, systemDictionary */
 'use strict';
+
+/* global $, vis, systemDictionary */
 
 // Netetmo Energy global Functions / Code
 

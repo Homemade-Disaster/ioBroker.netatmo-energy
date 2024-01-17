@@ -180,7 +180,9 @@ body > div:nth-child(2) {
 .m .valve .card.dcard ul > li > div.state > div.switch {
 	padding-top: 2px;
 }
-
+.m.react-dark .card-reveal  {
+	background-color: #272727 !important;
+}
 /* */
 /* .m .valve .card.dcard div.control,
 .m .valve .card.dcard div.value {
@@ -273,14 +275,37 @@ body > div:nth-child(2) {
 i.icon-red {
 	color: red;
 }
+.m.react-dark i.icon-red {
+	color: red !important;
+}
 i.icon-orange {
 	color: orange;
+}
+.m.react-dark i.icon-orange {
+	color: orange !important;
 }
 i.icon-green {
 	color: green;
 }
+.m.react-dark i.icon-green {
+	color: green !important;
+}
 i.icon-grey {
 	color: grey;
+}
+.m.react-dark i.icon-grey {
+	color: grey !important;
+}
+.m.react-dark .switch label input[type="checkbox"]:checked+.lever {
+	background-color: #436a93;
+}
+
+.m.react-dark .switch label .lever {
+	background-color: #4dabf5;
+}
+
+.m.react-dark .switch label .lever:after {
+	background-color: #436a93;
 }
 
 .myslider {

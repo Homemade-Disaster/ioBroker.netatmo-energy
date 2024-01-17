@@ -36,6 +36,7 @@
     "@iobroker/legacy-testing": "^0.3.7",
     "@iobroker/testing": "^4.1.0",
     "@tsconfig/node16": "^16.1.1",
+    "@types/jquery": "^3.5.29",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "chai": "^4.3.10",
