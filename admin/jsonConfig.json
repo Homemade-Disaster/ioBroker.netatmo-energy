@@ -37,7 +37,7 @@
                     "md": 6,
                     "lg": 4   
                 },
-                "authenticate": {
+                "_authenticate": {
                     "newLine": true,
                     "variant": "contained",
                     "color": "primary",
@@ -50,8 +50,7 @@
                     "command": "getOAuthStartLink",
                     "jsonData": "{\"client_id\": \"${data.ClientId}\",\"client_secret\": \"${data.ClientSecretID}\",\"redirect_uri_base\": \"${data._origin}\"}",
                     "label": "Authenticate with Netatmo",
-                    "openUrl": true,
-                    "window": "Login with Netatmo"
+                    "openUrl": true
                 },
                 "Information":{
                     "type": "header",
