@@ -34,6 +34,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 [Older changes](CHANGELOG_OLD.md)
 <!-- ### **WORK IN PROGRESS** -->
+### 2.7.2 (2024-01-18)
+
+* (ioKlausi) Adjust attributes of the adapter
+
 ### 2.7.1 (2023-12-10)
 
 * (ioKlausi) Remove GULP support

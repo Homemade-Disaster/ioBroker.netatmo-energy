@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.7.1",
+        "version": "2.7.2",
         "news": {
+            "2.7.2": {
+                "en": "Adjust attributes of the adapter",
+                "de": "Attribute des Adapters anpassen",
+                "ru": "Настройка атрибутов адаптера",
+                "pt": "Ajustar atributos do adaptador",
+                "nl": "Attributen van de adapter aanpassen",
+                "fr": "Régler les attributs de l'adaptateur",
+                "it": "Regolare gli attributi dell'adattatore",
+                "es": "Ajuste los atributos del adaptador",
+                "pl": "Dostosuj atrybuty adaptera",
+                "uk": "Налаштування атрибутів адаптера",
+                "zh-cn": "调整适配器的属性"
+            },
             "2.7.1": {
                 "en": "Remove GULP support",
                 "de": "GULP-Unterstützung entfernen",
@@ -283,6 +296,8 @@
         "dataSource": "poll",
         "materialize": true,
         "materializeTab": true,
+        "stopBeforeUpdate": true,
+        "tier": 2,
         "adminTab": {
             "ignoreConfigUpdate": true,
             "singleton": false,
@@ -370,6 +385,7 @@
                 }
             }
         ],
+        "jsonConfig": true,
         "adminUI": {
             "config": "json"
         }

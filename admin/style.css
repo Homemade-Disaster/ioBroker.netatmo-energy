@@ -183,6 +183,9 @@ body > div:nth-child(2) {
 .m.react-dark .card-reveal  {
 	background-color: #272727 !important;
 }
+.m.react-dark .card-reveal {
+	background-color: #272727 !important;
+}
 /* */
 /* .m .valve .card.dcard div.control,
 .m .valve .card.dcard div.value {
