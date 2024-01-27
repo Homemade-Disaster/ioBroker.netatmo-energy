@@ -1258,12 +1258,13 @@ class NetatmoEnergy extends utils.Adapter {
 			myObject.common.states = list;
 		}
 		try {
+
 			if (forced) {
 				// @ts-ignore
 				await this.setObjectAsync(id, myObject);
 				if (!norefresh) {
 					const actvalue = await this.getStateAsync(id);
-					if (this.config.UpdateStatesIfChanged == false || (this.config.UpdateStatesIfChanged == true && ((actvalue && actvalue != null && actvalue.val != value) || (this.config.UpdateStatesChangedTempEveryTime == true && role == 'value.temperature')))) {
+					if (this.config.UpdateStatesIfChanged == false || (this.config.UpdateStatesIfChanged == true && ((!actvalue || actvalue == null || (actvalue && actvalue != null && actvalue.val != value)) || (this.config.UpdateStatesChangedTempEveryTime == true && role == 'value.temperature')))) {
 						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + ((actvalue) ? ' (' + actvalue.val + ')' : 'NULL') + ' --> ' + value);
 						await this._subscribeStates(id);
 						await this.setState(id, value, ack);
@@ -1274,7 +1275,7 @@ class NetatmoEnergy extends utils.Adapter {
 				await this.setObjectNotExistsAsync(id, myObject);
 				if (!norefresh) {
 					const actvalue = await this.getStateAsync(id);
-					if (this.config.UpdateStatesIfChanged == false || (this.config.UpdateStatesIfChanged == true && ((actvalue && actvalue != null && actvalue.val != value) || (this.config.UpdateStatesChangedTempEveryTime == true && role == 'value.temperature')))) {
+					if (this.config.UpdateStatesIfChanged == false || (this.config.UpdateStatesIfChanged == true && ((!actvalue || actvalue == null || (actvalue && actvalue != null && actvalue.val != value)) || (this.config.UpdateStatesChangedTempEveryTime == true && role == 'value.temperature')))) {
 						this.log.debug(mytools.tl('Event triggered:', this.systemLang) + glob.blank + id + ': ' + ((actvalue) ? ' (' + actvalue.val + ')' : 'NULL') + ' --> ' + value);
 						await this._subscribeStates(id);
 						await this.setState(id, value, ack);
