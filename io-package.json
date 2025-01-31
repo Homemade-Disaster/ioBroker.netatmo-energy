@@ -106,7 +106,6 @@
             "temperature"
         ],
         "platform": "Javascript/Node.js",
-        "main": "main.js",
         "icon": "netatmo-energy.png",
         "enabled": true,
         "extIcon": "https://raw.githubusercontent.com/Homemade-Disaster/ioBroker.netatmo-energy/master/admin/netatmo-energy.png",
