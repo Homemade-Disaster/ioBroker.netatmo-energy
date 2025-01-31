@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-param-description */
 'use strict';
 
 // Load modules
@@ -81,7 +82,7 @@ class NetatmoEnergy extends utils.Adapter {
         }
         //Get settings
         this.getForeignObject('system.config', (err, obj) => {
-            if(obj) {
+            if (obj) {
                 this.systemLang = obj.common.language;
             }
         });
@@ -94,13 +95,13 @@ class NetatmoEnergy extends utils.Adapter {
     //Subscribe foreign Sensors
     async _subscribeForeign(own_namespace, only_unsubscribe) {
         for (const sensor_attribs of this.config.sensors) {
-
-            if (// @ts-expect-error Window_sensor is available
-                sensor_attribs.window_sensor && 
+            if (
                 // @ts-expect-error Window_sensor is available
-                sensor_attribs.window_sensor != null && 
+                sensor_attribs.window_sensor &&
                 // @ts-expect-error Window_sensor is available
-                sensor_attribs.window_sensor != undefined 
+                sensor_attribs.window_sensor != null &&
+                // @ts-expect-error Window_sensor is available
+                sensor_attribs.window_sensor != undefined
             ) {
                 // @ts-expect-error Window_sensor is available
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
@@ -3112,6 +3113,7 @@ class NetatmoEnergy extends utils.Adapter {
             } else {
                 setSensorState(id, actIdValue, that, myHomeFolder);
             }
+            // eslint-disable-next-line brace-style
         }
         //Internal Sensor - Set temp
         else if (sensor_attribs.action == glob.Action_temp) {
@@ -3756,7 +3758,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     );
                                 } catch (e) {
                                     //no JSON
-                                    that.log.error('No JSON');
+                                    that.log.error(`No JSON ${e}`);
                                 }
                             }
                         }
@@ -3852,7 +3854,7 @@ class NetatmoEnergy extends utils.Adapter {
 
         const that = this._getThat();
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             that.getStates(searchModes, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -3862,6 +3864,7 @@ class NetatmoEnergy extends utils.Adapter {
                             converted_name = mytools.tl(JSON.parse(conv_name_list)[name], that.systemLang);
                         } catch (e) {
                             //no JSON
+                            that.log.error(`No JSON ${e}`);
                         }
                         if (converted_name && converted_name != '') {
                             myAPIRequests.push(
@@ -4165,7 +4168,7 @@ class NetatmoEnergy extends utils.Adapter {
     }
 
     //Rename valve
-    async _renameValve(from, command, message, callback) {
+    async _renameValve(from, command, message) {
         const { id, object: common } = message;
         const _object = await this.getForeignObjectAsync(id);
 
@@ -4324,6 +4327,7 @@ class NetatmoEnergy extends utils.Adapter {
                         this.setState(mytools.getDP([this.globalAPIChannel, local_command, obj.command]), true, false);
                     } catch (e) {
                         //Error
+                        this.log.warn(`Error ${e}`);
                     }
                     break;
 
@@ -4395,6 +4399,7 @@ class NetatmoEnergy extends utils.Adapter {
                             msgtxt = mytools.tl('Room temperature changed to ', this.systemLang) + Number(setData.temp);
                             myMessages.push(Object.assign({}, { msgtxt: msgtxt }));
                         } catch (e) {
+                            this.log.warn(`Error ${e}`);
                             msgtxt = mytools.tl('Could not change room temperature!', this.systemLang);
                             myMessages.push(Object.assign({}, { msgtxt: msgtxt }));
                         }
@@ -4454,7 +4459,6 @@ class NetatmoEnergy extends utils.Adapter {
                 case glob.NotificationTelegramUser:
                     if (obj.callback) {
                         try {
-                            
                             const inst =
                                 obj.message && obj.message.config.instance
                                     ? obj.message.config.instance
@@ -4470,7 +4474,6 @@ class NetatmoEnergy extends utils.Adapter {
                                 this.getForeignState(`${inst}.communicate.users`, (err, state) => {
                                     err && this.log.error(err.message);
                                     if (state && state.val) {
-                                        
                                         const userList = JSON.parse(String(state.val));
                                         try {
                                             const UserArray = [{ label: 'All Receiver', value: 'allTelegramUsers' }];
@@ -4481,7 +4484,8 @@ class NetatmoEnergy extends utils.Adapter {
                                                 });
                                             }
                                             this.sendTo(obj.from, obj.command, UserArray, obj.callback);
-                                        } catch (err) {
+                                        } catch (e) {
+                                            this.log.error(`Error ${e}`);
                                             this.log.error(
                                                 mytools.tl(
                                                     'Cannot parse stored user IDs from Telegram!',
@@ -4493,6 +4497,7 @@ class NetatmoEnergy extends utils.Adapter {
                                 });
                             }
                         } catch (e) {
+                            this.log.warn(`Error ${e}`);
                             this.sendTo(
                                 obj.from,
                                 obj.command,
@@ -4511,7 +4516,6 @@ class NetatmoEnergy extends utils.Adapter {
                 case glob.NotificationEmail:
                     if (obj.callback) {
                         try {
-                            
                             this.getObjectView(
                                 'system',
                                 'instance',
@@ -4519,7 +4523,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     startkey: `system.adapter.${obj.command}${glob.dot}`,
                                     endkey: `system.adapter.${obj.command}.\u9999`,
                                 },
-                                
+
                                 (err, instances) => {
                                     if (instances && instances.rows) {
                                         this.sendTo(
@@ -4542,6 +4546,7 @@ class NetatmoEnergy extends utils.Adapter {
                                 },
                             );
                         } catch (e) {
+                            this.log.warn(`Error ${e}`);
                             this.sendTo(obj.from, obj.command, [{ label: 'Not available', value: '' }], obj.callback);
                         }
                     }
@@ -4597,7 +4602,7 @@ class NetatmoEnergy extends utils.Adapter {
                 //Get starter link for OAuth2
                 case glob.GetOAuthStartLink: {
                     let auth_args = {};
-                    
+
                     auth_args = obj.message;
 
                     this.log.debug(
