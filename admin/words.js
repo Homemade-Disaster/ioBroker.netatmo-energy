@@ -263,7 +263,8 @@ const _systemDictionary = {
 	"Only update datapoints if changes are detected": { 							"en": "Only update datapoints if changes are detected", 							"de": "Nur Datenpunkte aktualisieren, wenn Änderungen erkannt werden", 							"ru": "Только обновление данных точек, если изменения обнаружены", 							"pt": "Apenas atualize datapoints se as alterações forem detectadas", 							"nl": "Alleen updates als veranderingen worden ontdekt", 								"fr": "Seulement mettre à jour les points de données si des changements sont détectés", 						"it": "Aggiorna solo i datapoint se vengono rilevate le modifiche", 									"es": "Sólo actualizar los puntos de datos si se detectan cambios", 								"pl": "Tylko aktualizacje danych jeśli zmiany są wykryte", 													"uk": "Виявлено лише оновлення точок даних, якщо виявлені зміни", 					"zh-cn": "只有在发现变化时才更新数据点" },
 	"Change temperature states every time": { 										"en": "Change temperature states every time", 										"de": "Temperaturzustände jedes Mal ändern", 													"ru": "Изменить температуру каждый раз", 													"pt": "Alterar estados de temperatura sempre", 													"nl": "Veranderde temperatuur staat elke keer", 										"fr": "La température change chaque fois", 																		"it": "Cambiare gli stati di temperatura ogni volta", 													"es": "Cambiar los estados de temperatura cada vez", 												"pl": "Wartość zmian w temperaturze", 																		"uk": "Зміна температурних станів кожного разу", 									"zh-cn": "变化温度" }
 };
-// @ts-ignore
+
+// @ts-expect-error Export Module
 if (typeof module !== 'undefined' && module.parent) {
 	module.exports = _systemDictionary;
 } else {

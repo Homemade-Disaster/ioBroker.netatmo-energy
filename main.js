@@ -1416,7 +1416,7 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
 
         return new Promise(function (resolve, reject) {
-            // @ts-ignore
+            
             that.getStates(`${that.namespace}.homes.*.rooms.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -1454,7 +1454,7 @@ class NetatmoEnergy extends utils.Adapter {
         let device_id = null;
 
         return new Promise(function (resolve, reject) {
-            // @ts-ignore
+            
             that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -1883,7 +1883,7 @@ class NetatmoEnergy extends utils.Adapter {
             const createAPIapplyAsync_syncrequest = async function (NetatmoRequest, mode, that) {
                 const searchstring = `rooms\\.\\d+\\.${glob.Channel_settings}\\.${glob.State_TempChanged}`;
                 let changesmade = false;
-                // @ts-ignore
+                
                 that.getStates(
                     `${that.namespace}.homes.*.rooms.*.${glob.Channel_settings}.${glob.State_TempChanged}`,
                     async function (error, states) {
@@ -2221,7 +2221,7 @@ class NetatmoEnergy extends utils.Adapter {
                     },
                 );
             } catch (err) {
-                // @ts-ignore
+                // @ts-expect-error Abbort Error
                 if (err.name == 'AbortError') {
                     that.log.debug(mytools.tl('Netatmo API request aborted', that.systemLang));
                 } else {
@@ -2356,8 +2356,8 @@ class NetatmoEnergy extends utils.Adapter {
         this.globalScheduleListArray = [];
 
         //schedules
-        // @ts-ignore
-        // @ts-ignore
+        
+        
         this.getStates(`${that.namespace}.homes.*.schedules.*`, async function (error, states) {
             await that.createMyChannel(
                 mytools.getDP([that.globalAPIChannel, glob.Channel_switchhomeschedule]),
@@ -2369,7 +2369,7 @@ class NetatmoEnergy extends utils.Adapter {
                     if (schedule_id) {
                         schedule_name = await that.getStateAsync(`${id.substring(0, id.length - 3)}.name`);
                         if (schedule_name && schedule_name.val != null) {
-                            // @ts-ignore
+                            
                             that.globalScheduleObjects[
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2380,7 +2380,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     )}`,
                                 ])
                             ] = schedule_id.val;
-                            // @ts-ignore
+                            
                             await that.createNetatmoStructure(
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2400,7 +2400,7 @@ class NetatmoEnergy extends utils.Adapter {
                                 false,
                                 false,
                             );
-                            // @ts-ignore
+                            
                             await that.subscribeStates(
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2451,8 +2451,8 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
         const that = this._getThat();
 
-        // @ts-ignore
-        // @ts-ignore
+        
+        
         that.getStates(`${that.namespace}.homes.*.rooms.*`, async function (error, states) {
             for (const id in states) {
                 if (id.search(searchRooms) >= 0) {
@@ -2611,8 +2611,8 @@ class NetatmoEnergy extends utils.Adapter {
         let module_id = null;
         const that = this._getThat();
 
-        // @ts-ignore
-        // @ts-ignore
+        
+        
         that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
             for (const id in states) {
                 if (id.search(searchModules) >= 0) {
@@ -2793,14 +2793,13 @@ class NetatmoEnergy extends utils.Adapter {
             native: {},
         };
         if (list != '' && (typeof list === 'string' || list instanceof String)) {
-            // @ts-ignore
-            myObject.common.states = JSON.parse(list);
+            myObject.common.states = JSON.parse(String(list));
         } else if (typeof list === 'object') {
             myObject.common.states = list;
         }
         try {
             if (forced) {
-                // @ts-ignore
+                // @ts-expect-error Object is ok
                 await this.setObjectAsync(id, myObject);
                 if (!norefresh) {
                     const actvalue = await this.getStateAsync(id);
@@ -2822,7 +2821,7 @@ class NetatmoEnergy extends utils.Adapter {
                     }
                 }
             } else {
-                // @ts-ignore
+                // @ts-expect-error Object is ok
                 await this.setObjectNotExistsAsync(id, myObject);
                 if (!norefresh) {
                     const actvalue = await this.getStateAsync(id);
@@ -3125,7 +3124,7 @@ class NetatmoEnergy extends utils.Adapter {
             );
             const NewTemp = Number(sensor_attribs.set_value);
             if (!isNaN(NewTemp)) {
-                // @ts-ignore
+                
                 if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
                     this.log.debug(
                         mytools.tl('Sensor action in', this.systemLang) +
@@ -3244,7 +3243,8 @@ class NetatmoEnergy extends utils.Adapter {
             ) {
                 if (sensor_attribs.window_sensor == id) {
                     const sensorobject = await this.getForeignObjectAsync(id);
-                    // @ts-ignore
+                    
+                    // @ts-expect-error Type is part of common
                     if (sensorobject && sensorobject.common.type != 'boolean') {
                         this.log.warn(
                             `${mytools.tl('Wrong Sensor:', this.systemLang) + glob.blank}[${id}]${
@@ -3507,7 +3507,7 @@ class NetatmoEnergy extends utils.Adapter {
 
                         case glob.Trigger_SetTemp:
                             this.log.debug(mytools.tl('Set room attributes', this.systemLang));
-                            // @ts-ignore
+                            
                             if (!isNaN(state.val)) {
                                 if (this.config.applyimmediately) {
                                     this.applySingleActualTemp(
@@ -3713,9 +3713,9 @@ class NetatmoEnergy extends utils.Adapter {
         const searchSchedule = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
         const that = this._getThat();
 
-        // @ts-ignore
+        
         return new Promise(function (resolve, reject) {
-            // @ts-ignore
+            
             let myActiveSchedule = mytools.tl('Can not get active heating plan!', that.systemLang);
             that.getStates(`${that.namespace}.homes.*.schedules.*.id`, async function (error, states) {
                 if (states && !error) {
@@ -3744,9 +3744,9 @@ class NetatmoEnergy extends utils.Adapter {
         const searchHomeID = 'homes\\.\\d+\\.id';
         const that = this._getThat();
 
-        // @ts-ignore
+        
         return new Promise(function (resolve, reject) {
-            // @ts-ignore
+            
             let myActiveThermMode = mytools.tl('Can not get active therm mode!', that.systemLang);
             that.getStates(`${that.namespace}.homes.*.id`, async function (error, states) {
                 if (states && !error) {
@@ -3831,9 +3831,9 @@ class NetatmoEnergy extends utils.Adapter {
     _getSensors(searchBoolSensors, PathToObjects) {
         const that = this._getThat();
 
-        // @ts-ignore
+        
         return new Promise(function (resolve, reject) {
-            // @ts-ignore
+            
             that.getStates(that.namespace + PathToObjects, async function (error, states) {
                 const BoolArray = [];
                 if (states && !error) {
@@ -3861,7 +3861,7 @@ class NetatmoEnergy extends utils.Adapter {
         const myAPIRequests = [];
 
         const that = this._getThat();
-        // @ts-ignore
+        
         return new Promise(function (resolve, reject) {
             that.getStates(searchModes, async function (error, states) {
                 if (states && !error) {
@@ -3902,7 +3902,7 @@ class NetatmoEnergy extends utils.Adapter {
         let module_id = null;
         const that = this._getThat();
         return new Promise(function (resolve, reject) {
-            // @ts-ignore
+            
             that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -4176,7 +4176,7 @@ class NetatmoEnergy extends utils.Adapter {
     }
 
     //Rename valve
-    // @ts-ignore
+    
     async _renameValve(from, command, message, callback) {
         const { id, object: common } = message;
         const _object = await this.getForeignObjectAsync(id);
@@ -4190,7 +4190,7 @@ class NetatmoEnergy extends utils.Adapter {
                         from: `system.adapter.${this.namespace}`,
                         ts: Date.now(),
                     },
-                    // @ts-ignore
+                    // @ts-expect-error Object ist ok
                     { common: Object.assign(_object.common, common) },
                 ),
             );
@@ -4466,7 +4466,7 @@ class NetatmoEnergy extends utils.Adapter {
                 case glob.NotificationTelegramUser:
                     if (obj.callback) {
                         try {
-                            // @ts-ignore
+                            
                             const inst =
                                 obj.message && obj.message.config.instance
                                     ? obj.message.config.instance
@@ -4482,8 +4482,8 @@ class NetatmoEnergy extends utils.Adapter {
                                 this.getForeignState(`${inst}.communicate.users`, (err, state) => {
                                     err && this.log.error(err.message);
                                     if (state && state.val) {
-                                        // @ts-ignore
-                                        const userList = JSON.parse(state.val);
+                                        
+                                        const userList = JSON.parse(String(state.val));
                                         try {
                                             const UserArray = [{ label: 'All Receiver', value: 'allTelegramUsers' }];
                                             for (const i in userList) {
@@ -4494,8 +4494,6 @@ class NetatmoEnergy extends utils.Adapter {
                                             }
                                             this.sendTo(obj.from, obj.command, UserArray, obj.callback);
                                         } catch (err) {
-                                            // @ts-ignore
-                                            err && this.log.error(err);
                                             this.log.error(
                                                 mytools.tl(
                                                     'Cannot parse stored user IDs from Telegram!',
@@ -4525,7 +4523,7 @@ class NetatmoEnergy extends utils.Adapter {
                 case glob.NotificationEmail:
                     if (obj.callback) {
                         try {
-                            // @ts-ignore
+                            
                             this.getObjectView(
                                 'system',
                                 'instance',
@@ -4533,7 +4531,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     startkey: `system.adapter.${obj.command}${glob.dot}`,
                                     endkey: `system.adapter.${obj.command}.\u9999`,
                                 },
-                                // @ts-ignore
+                                
                                 (err, instances) => {
                                     if (instances && instances.rows) {
                                         this.sendTo(
@@ -4611,7 +4609,7 @@ class NetatmoEnergy extends utils.Adapter {
                 //Get starter link for OAuth2
                 case glob.GetOAuthStartLink: {
                     let auth_args = {};
-                    // @ts-ignore
+                    
                     auth_args = obj.message;
 
                     this.log.debug(
@@ -4690,7 +4688,7 @@ class NetatmoEnergy extends utils.Adapter {
     }
 }
 
-// @ts-ignore parent is a valid property on module
+// @ts-expect-error Export Module
 if (module.parent) {
     // Export the constructor in compact mode
     /**
