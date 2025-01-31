@@ -95,7 +95,11 @@ class NetatmoEnergy extends utils.Adapter {
     async _subscribeForeign(own_namespace, only_unsubscribe) {
         for (const sensor_attribs of this.config.sensors) {
             // @ts-expect-error Window_sensor is available
-            if (sensor_attribs.window_sensor && sensor_attribs.window_sensor != null && sensor_attribs.window_sensor != undefined) {
+            if (sensor_attribs.window_sensor && 
+                // @ts-expect-error Window_sensor is available
+                sensor_attribs.window_sensor != null && 
+                // @ts-expect-error Window_sensor is available
+                sensor_attribs.window_sensor != undefined) {
                 // @ts-expect-error Window_sensor is available
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
                     //nothing to do
@@ -1414,7 +1418,6 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
 
         return new Promise(function (resolve, reject) {
-
             that.getStates(`${that.namespace}.homes.*.rooms.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -1452,7 +1455,6 @@ class NetatmoEnergy extends utils.Adapter {
         let device_id = null;
 
         return new Promise(function (resolve, reject) {
-
             that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -2366,7 +2368,6 @@ class NetatmoEnergy extends utils.Adapter {
                     if (schedule_id) {
                         schedule_name = await that.getStateAsync(`${id.substring(0, id.length - 3)}.name`);
                         if (schedule_name && schedule_name.val != null) {
-
                             that.globalScheduleObjects[
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2943,6 +2944,7 @@ class NetatmoEnergy extends utils.Adapter {
             );
             callback();
         } catch (e) {
+            this.log.debug(mytools.tl('cleaned everything up...', this.systemLang) + e);
             callback();
         }
     }
@@ -3235,7 +3237,7 @@ class NetatmoEnergy extends utils.Adapter {
             ) {
                 if (sensor_attribs.window_sensor == id) {
                     const sensorobject = await this.getForeignObjectAsync(id);
-                    
+
                     // @ts-expect-error Type is part of common
                     if (sensorobject && sensorobject.common.type != 'boolean') {
                         this.log.warn(
