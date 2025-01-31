@@ -81,7 +81,9 @@ class NetatmoEnergy extends utils.Adapter {
         }
         //Get settings
         this.getForeignObject('system.config', (err, obj) => {
-            if(obj) this.systemLang = obj.common.language;
+            if(obj) {
+                this.systemLang = obj.common.language;
+            }
         });
 
         await this.initAdapter(this.systemLang);
@@ -92,18 +94,13 @@ class NetatmoEnergy extends utils.Adapter {
     //Subscribe foreign Sensors
     async _subscribeForeign(own_namespace, only_unsubscribe) {
         for (const sensor_attribs of this.config.sensors) {
-            if (
-                // @ts-expect-error
-                // Window_sensor is available
-                sensor_attribs.window_sensor && sensor_attribs.window_sensor != null && sensor_attribs.window_sensor != undefined
-            ) {
-                // @ts-expect-error
-                // Window_sensor is available
+            // @ts-expect-error Window_sensor is available
+            if (sensor_attribs.window_sensor && sensor_attribs.window_sensor != null && sensor_attribs.window_sensor != undefined) {
+                // @ts-expect-error Window_sensor is available
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
                     //nothing to do
                 } else {
-                    // @ts-expect-error
-                    // Window_sensor is available                    
+                    // @ts-expect-error Window_sensor is available                    
                     await this.unsubscribeForeignStatesAsync(sensor_attribs.window_sensor);
                     if (!only_unsubscribe) {
                         // @ts-ignore
