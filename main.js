@@ -100,10 +100,10 @@ class NetatmoEnergy extends utils.Adapter {
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
                     //nothing to do
                 } else {
-                    // @ts-expect-error Window_sensor is available                    
+                    // @ts-expect-error Window_sensor is available
                     await this.unsubscribeForeignStatesAsync(sensor_attribs.window_sensor);
                     if (!only_unsubscribe) {
-                        // @ts-ignore
+                        // @ts-expect-error Window_sensor is available
                         await this.subscribeForeignStatesAsync(sensor_attribs.window_sensor);
                     }
                 }
