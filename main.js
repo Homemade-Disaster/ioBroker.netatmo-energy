@@ -14,8 +14,8 @@ const glob = require('./lib/globals');
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
     /**
-    * @param {Partial<utils.AdapterOptions>} [options={}]
-    */
+     * @param [options]
+     */
     //Class Constructor
     constructor(options) {
         super(
@@ -226,8 +226,8 @@ class NetatmoEnergy extends utils.Adapter {
             let _errormessage = 'Error';
             if (err instanceof Error) {
                 _errormessage = err.message;
-            } 
-            
+            }
+
             this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + _errormessage);
             await this.sendRequestNotification(
                 null,
@@ -3259,7 +3259,7 @@ class NetatmoEnergy extends utils.Adapter {
                         id.search(this.namespace) >= 0
                             ? (sensorvalue = await this.getStateAsync(id))
                             : (sensorvalue = await this.getForeignStateAsync(id));
-                        
+
                         if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
                             if (
                                 (sensor_attribs.window_sensor_value == true && sensorvalue.val == true) ||
@@ -4181,11 +4181,13 @@ class NetatmoEnergy extends utils.Adapter {
     //Rename valve
     // @ts-ignore
     async _renameValve(from, command, message, callback) {
-        const {id, object: common} = message;
+        const { id, object: common } = message;
         const _object = await this.getForeignObjectAsync(id);
 
         if (_object != undefined && common != undefined) {
-            await this.setForeignObjectAsync(id, Object.assign(
+            await this.setForeignObjectAsync(
+                id,
+                Object.assign(
                     _object,
                     {
                         from: `system.adapter.${this.namespace}`,
