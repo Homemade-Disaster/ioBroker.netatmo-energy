@@ -219,7 +219,12 @@
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Silent Notice",
-                    "hidden": "data.notificationsType !== 'telegram'"
+                    "hidden": "data.notificationsType !== 'telegram'",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                       
                 },
 
                 "whatsappInstance":{
@@ -326,7 +331,12 @@
                     },
                     "icon": "send",
                     "command": "SendTestNotification",
-                    "label": "Send test notification"
+                    "label": "Send test notification",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4  
                 },
 
                 "genInfoHeader":{
