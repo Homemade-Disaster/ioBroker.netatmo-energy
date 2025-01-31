@@ -110,12 +110,10 @@ class NetatmoEnergy extends utils.Adapter {
             }
         }
     }
-    
     //Get THAT
     _getThat() {
         return this;
     }
-    
     //Tocken intervall to refresh
     _setTokenIntervall(setTimer) {
         const that = this._getThat();
@@ -1416,7 +1414,7 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
 
         return new Promise(function (resolve, reject) {
-            
+
             that.getStates(`${that.namespace}.homes.*.rooms.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -1454,7 +1452,7 @@ class NetatmoEnergy extends utils.Adapter {
         let device_id = null;
 
         return new Promise(function (resolve, reject) {
-            
+
             that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -1883,7 +1881,7 @@ class NetatmoEnergy extends utils.Adapter {
             const createAPIapplyAsync_syncrequest = async function (NetatmoRequest, mode, that) {
                 const searchstring = `rooms\\.\\d+\\.${glob.Channel_settings}\\.${glob.State_TempChanged}`;
                 let changesmade = false;
-                
+
                 that.getStates(
                     `${that.namespace}.homes.*.rooms.*.${glob.Channel_settings}.${glob.State_TempChanged}`,
                     async function (error, states) {
@@ -2001,6 +1999,7 @@ class NetatmoEnergy extends utils.Adapter {
                     }
                 } catch (error) {
                     //No Number
+                    this.log.error(mytools.tl('Temperature controll', this.systemLang) + ': ' + error);
                 }
             }
             //mode
