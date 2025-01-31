@@ -99,7 +99,8 @@ class NetatmoEnergy extends utils.Adapter {
                 // @ts-expect-error Window_sensor is available
                 sensor_attribs.window_sensor != null && 
                 // @ts-expect-error Window_sensor is available
-                sensor_attribs.window_sensor != undefined) {
+                sensor_attribs.window_sensor != undefined) 
+                {
                 // @ts-expect-error Window_sensor is available
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
                     //nothing to do
@@ -3754,6 +3755,9 @@ class NetatmoEnergy extends utils.Adapter {
                                     );
                                 } catch (e) {
                                     //no JSON
+                                    if(e) {
+                                        that.log.error('No JSON');
+                                    }
                                 }
                             }
                         }
@@ -3820,7 +3824,7 @@ class NetatmoEnergy extends utils.Adapter {
     _getSensors(searchBoolSensors, PathToObjects) {
         const that = this._getThat();
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             that.getStates(that.namespace + PathToObjects, async function (error, states) {
                 const BoolArray = [];
                 if (states && !error) {
@@ -3848,7 +3852,7 @@ class NetatmoEnergy extends utils.Adapter {
         const myAPIRequests = [];
 
         const that = this._getThat();
-        
+
         return new Promise(function (resolve, reject) {
             that.getStates(searchModes, async function (error, states) {
                 if (states && !error) {
