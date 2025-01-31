@@ -17,6 +17,7 @@ export default [
             'admin/build', 
             'admin/words.js',
             'admin/admin.d.ts',
+            'widgets/netatmo-energy/js/*.js',
             '**/adapter-config.d.ts'     
         ] 
     },
