@@ -9,15 +9,13 @@ const fs = require('fs');
 const fetch = require('fetch');
 const mytools = require('./lib/mytools');
 const glob = require('./lib/globals');
-// @ts-ignore
-const { error } = require('console');
+//const { error } = require('console');
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
     /**
     * @param {Partial<utils.AdapterOptions>} [options={}]
     */
-
     //Class Constructor
     constructor(options) {
         super(
