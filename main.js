@@ -94,13 +94,14 @@ class NetatmoEnergy extends utils.Adapter {
     //Subscribe foreign Sensors
     async _subscribeForeign(own_namespace, only_unsubscribe) {
         for (const sensor_attribs of this.config.sensors) {
+
             if (// @ts-expect-error Window_sensor is available
                 sensor_attribs.window_sensor && 
                 // @ts-expect-error Window_sensor is available
                 sensor_attribs.window_sensor != null && 
                 // @ts-expect-error Window_sensor is available
-                sensor_attribs.window_sensor != undefined) 
-                {
+                sensor_attribs.window_sensor != undefined 
+            ) {
                 // @ts-expect-error Window_sensor is available
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
                     //nothing to do
@@ -3755,9 +3756,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     );
                                 } catch (e) {
                                     //no JSON
-                                    if(e) {
-                                        that.log.error('No JSON');
-                                    }
+                                    that.log.error('No JSON');
                                 }
                             }
                         }
