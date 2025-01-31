@@ -67,201 +67,6 @@
                 "pl": "Domyślna wartość parametrów dla parametrów",
                 "uk": "Налаштування значення за замовчуванням для параметрів",
                 "zh-cn": "参数的合理违约率"
-            },
-            "2.6.5": {
-                "en": "New options in the adapter configuration for updating datapoints",
-                "de": "Neue Optionen in der Adapterkonfiguration zur Aktualisierung von Datenpunkten",
-                "ru": "Новые опции в конфигурации адаптера для обновления данных точек",
-                "pt": "Novas opções na configuração do adaptador para atualizar datapoints",
-                "nl": "Nieuwe opties in de adapter configuratie voor het verminderen van gegevens",
-                "fr": "Nouvelles options dans la configuration de l'adaptateur pour la mise à jour des points de données",
-                "it": "Nuove opzioni nella configurazione dell'adattatore per l'aggiornamento dei datapoint",
-                "es": "Nuevas opciones en la configuración del adaptador para actualizar los puntos de datos",
-                "pl": "Nowe opcje w konfiguracji adapterowej dla updating datapoints",
-                "uk": "Нові параметри в конфігурації адаптера для оновлення точок даних",
-                "zh-cn": "更新数据点的适应组合的新选择"
-            },
-            "2.6.4": {
-                "en": "Change value only if changes are detected",
-                "de": "Nur ändern, wenn Änderungen erkannt werden",
-                "ru": "Изменить значение только при обнаружении изменений",
-                "pt": "Alterar valor somente se as alterações forem detectadas",
-                "nl": "Veranderingswaarde alleen als veranderingen worden ontdekt",
-                "fr": "Valeur de changement seulement si des changements sont détectés",
-                "it": "Cambia il valore solo se vengono rilevate le modifiche",
-                "es": "Valor de cambio sólo si se detectan cambios",
-                "pl": "Wartość zmian tylko wtedy, gdy wykrywa się zmiany",
-                "uk": "Зміна значення тільки при виявленні змін",
-                "zh-cn": "只有发现变化,变化才具有变化价值"
-            },
-            "2.6.3": {
-                "en": "Adapt GULP",
-                "de": "Anpassung GULP",
-                "ru": "Адаптация GULP",
-                "pt": "Adaptar GULP",
-                "nl": "Adap GULP",
-                "fr": "Adapt GULP",
-                "it": "Adapt GULP",
-                "es": "Adaptar GULP",
-                "pl": "Adapt GULP",
-                "uk": "Адаптація GULP",
-                "zh-cn": "备选案文GULP"
-            },
-            "2.6.2": {
-                "en": "Bug fix of 'Sentry errors'",
-                "de": "Fehlerbehebung von 'Sentry Fehlern '",
-                "ru": "Исправление ошибки 'Sentry error « »",
-                "pt": "Correção de bugs de erros 'Sentry '",
-                "nl": "Bug fix of 'Sentry fouten' '",
-                "fr": "Correction des erreurs de 'Sentry '",
-                "it": "Correzione di bug di 'Sentry errori '",
-                "es": "Corrección de errores de entrada '",
-                "pl": "Bug naprawa błędów „Sentry errors”. '",
-                "uk": "Виправлення помилок Р",
-                "zh-cn": "Bug fix Sentry错误 评 注"
-            },
-            "2.6.1": {
-                "en": "Correct some adapter check issues",
-                "de": "Korrektur einiger Adapter-Check-Probleme",
-                "ru": "Исправьте некоторые проблемы проверки адаптера",
-                "pt": "Corrigir alguns problemas de verificação do adaptador",
-                "nl": "Vertaling:",
-                "fr": "Correction des problèmes de contrôle de l'adaptateur",
-                "it": "Correggere alcuni problemi di controllo dell'adattatore",
-                "es": "Corregir algunos problemas de control de adaptador",
-                "pl": "Poprawka",
-                "uk": "Користувати деякі проблеми перевірки адаптера",
-                "zh-cn": "处理一些适应问题"
-            },
-            "2.6.0": {
-                "en": "Enable / Disable sensor actions",
-                "de": "Ermöglichen / Deaktivieren von Sensoraktionen",
-                "ru": "Включить / Отключить действия датчика",
-                "pt": "Habilitar / Desativar ações do sensor",
-                "nl": "Enable/ Disable sensor acties",
-                "fr": "Activer / Désactiver les actions du capteur",
-                "it": "Attiva / disattiva le azioni del sensore",
-                "es": "Activar / Desactivar las acciones del sensor",
-                "pl": "Wykorzystywanie czujników / urządzenie nieodpowiednich czujników",
-                "uk": "Увімкнути / вимкнути дії датчика",
-                "zh-cn": "易感染感情行动"
-            },
-            "2.5.8": {
-                "en": "Bug fix of translations",
-                "de": "Fehlerbehebung von Übersetzungen",
-                "ru": "Исправление ошибок переводов",
-                "pt": "Correção de erros de traduções",
-                "nl": "Bug reparatie van vertaling",
-                "fr": "Correction des traductions",
-                "it": "Correzione di bug delle traduzioni",
-                "es": "Corrección de errores de las traducciones",
-                "pl": "Ulepszenie tłumaczenia",
-                "uk": "Виправлення помилок перекладів",
-                "zh-cn": "翻译的顺序"
-            },
-            "2.5.7": {
-                "en": "Bug fix of sensor actions",
-                "de": "Fehlerbehebung von Sensoraktionen",
-                "ru": "Исправление ошибок сенсорных действий",
-                "pt": "Correção de erros de ações do sensor",
-                "nl": "Bug fix of sensor acties",
-                "fr": "Correction des actions du capteur",
-                "it": "Correzione di bug delle azioni del sensore",
-                "es": "Corrección de errores del sensor",
-                "pl": "Utrzymanie akcji czujników",
-                "uk": "Виправлення помилок сенсорних дій",
-                "zh-cn": "Bug fix 传感器行动"
-            },
-            "2.5.6": {
-                "en": "Translations and some changes in Admin Tab",
-                "de": "Übersetzungen und einige Änderungen in Admin Tab",
-                "ru": "Переводы и некоторые изменения в Admin Tab",
-                "pt": "Traduções e algumas mudanças no Admin Tab",
-                "nl": "Vertaling:",
-                "fr": "Traductions et certains changements dans l'onglet Admin",
-                "it": "Traduzioni e alcuni cambiamenti nella scheda Admin",
-                "es": "Traducciones y algunos cambios en la pestaña de Admin",
-                "pl": "Tłumaczenie i niektóre zmiany w Admin Tab",
-                "uk": "Переклади та деякі зміни у вкладці адміністратора",
-                "zh-cn": "翻译和阿德明·塔布的一些变化"
-            },
-            "2.5.5": {
-                "en": "Bug fix of 'Sentry errors'",
-                "de": "Fehlerbehebung von 'Sentry Fehlern '",
-                "ru": "Исправление ошибки 'Sentry error « »",
-                "pt": "Correção de bugs de erros 'Sentry '",
-                "nl": "Bug fix of 'Sentry fouten' '",
-                "fr": "Correction des erreurs de 'Sentry '",
-                "it": "Correzione di bug di 'Sentry errori '",
-                "es": "Corrección de errores de entrada '",
-                "pl": "Bug naprawa błędów „Sentry errors”. '",
-                "uk": "Виправлення помилок Р",
-                "zh-cn": "Bug fix Sentry错误 评 注"
-            },
-            "2.5.4": {
-                "en": "Bug fix of 'Sentry errors'",
-                "de": "Fehlerbehebung von 'Sentry Fehlern '",
-                "ru": "Исправление ошибки 'Sentry error « »",
-                "pt": "Correção de bugs de erros 'Sentry '",
-                "nl": "Bug fix of 'Sentry fouten' '",
-                "fr": "Correction des erreurs de 'Sentry '",
-                "it": "Correzione di bug di 'Sentry errori '",
-                "es": "Corrección de errores de entrada '",
-                "pl": "Bug naprawa błędów „Sentry errors”. '",
-                "uk": "Виправлення помилок Р",
-                "zh-cn": "Bug fix Sentry错误 评 注"
-            },
-            "2.5.3": {
-                "en": "Added data point for message",
-                "de": "Datenpunkt für Nachricht hinzugefügt",
-                "ru": "Добавлена точка данных для сообщения",
-                "pt": "Adicionado ponto de dados para mensagem",
-                "nl": "Vertaling:",
-                "fr": "Point de données ajouté pour le message",
-                "it": "Data point aggiunto per messaggio",
-                "es": "Punto de datos añadido para el mensaje",
-                "pl": "Strona domowa",
-                "uk": "Додано точку даних для повідомлення",
-                "zh-cn": "增加信息资料点"
-            },
-            "2.5.2": {
-                "en": "Made some adjustments in the admin config",
-                "de": "Einige Anpassungen in der Admin-Konfiguration gemacht",
-                "ru": "Сделали некоторые корректировки в Config admin",
-                "pt": "Fez alguns ajustes na configuração admin",
-                "nl": "Maakte wat aanpassingen in de administratie",
-                "fr": "Réalisé quelques ajustements dans la configuration d'administration",
-                "it": "Ho fatto alcune modifiche nella configurazione di admin",
-                "es": "Hice algunos ajustes en el configuración de administración",
-                "pl": "Wykorzystał pewne zmiany w konfigurze admini",
-                "uk": "Виготовлено деякі налаштування в налаштуваннях адміністратора",
-                "zh-cn": "排减点方面的一些调整"
-            },
-            "2.5.1": {
-                "en": "Test message in config added",
-                "de": "Testnachricht in config hinzugefügt",
-                "ru": "Тестовое сообщение в config добавлено",
-                "pt": "Mensagem de teste em config adicionado",
-                "nl": "Testbericht in config toegevoegd",
-                "fr": "Message d ' essai dans la configuration ajoutée",
-                "it": "Messaggio di prova in configurazione aggiunto",
-                "es": "Mensaje de prueba en config añadido",
-                "pl": "Wiadomość testowa",
-                "uk": "Тестове повідомлення в конфігурації додано",
-                "zh-cn": "黑暗中的试验信息"
-            },
-            "2.5.0": {
-                "en": "Sensor changed to object ID type boolean",
-                "de": "Sensor geändert zum Objekt ID Typ boolean",
-                "ru": "Датчик изменен на объект ID тип boolean",
-                "pt": "Sensor alterado para objeto ID tipo booleano",
-                "nl": "Sensor veranderde in object ID type boolean",
-                "fr": "Senseur changé pour objet ID type boolean",
-                "it": "Sensore cambiato per oggetto ID tipo boolean",
-                "es": "Sensor cambiado para el tipo de identificación de objetos booleano",
-                "pl": "Sensor zmienił nazwę na obiektowy boolean typu ID",
-                "uk": "Датчик змінився на тип об'єкта boolean",
-                "zh-cn": "许可人改用原状"
             }
         },
         "titleLang": {
@@ -299,12 +104,10 @@
             "thermostat",
             "climate",
             "temperature",
-            "ioBroker"
+            "iobroker",
+            "adapter", 
+            "smart home"
         ],
-        "licenseInformation": {
-            "license": "MIT",
-            "type": "free"
-          },
         "platform": "Javascript/Node.js",
         "main": "main.js",
         "icon": "netatmo-energy.png",
@@ -324,8 +127,6 @@
         "compact": true,
         "connectionType": "cloud",
         "dataSource": "poll",
-        "materialize": true,
-        "materializeTab": true,
         "stopBeforeUpdate": true,
         "tier": 2,
         "adminTab": {
@@ -359,6 +160,10 @@
               "admin": ">=6.13.16"
             }
           ],        
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
         "plugins": {
             "sentry": {
                 "dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
@@ -422,7 +227,8 @@
         ],
         "jsonConfig": true,
         "adminUI": {
-            "config": "json"
+            "config": "json",
+            "tab": "materialize"
         }
     },
     "native": {
