@@ -7,10 +7,7 @@
   "description": "Get and set data using Netatmo Energy API",
   "author": "ioKlausi <nii@gmx.at>",
   "homepage": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy",
-  "licenseInformation": {
-    "license": "MIT",
-    "type": "free"
-  },
+  "license": "MIT",
   "keywords": [
     "netatmo",
     "energy",
