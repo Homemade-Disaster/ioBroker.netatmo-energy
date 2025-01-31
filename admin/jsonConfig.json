@@ -18,13 +18,20 @@
                 "HomeId":{
                     "type": "text",
                     "label": "Home-ID:",
-                    "help": "Home ID from your Netatmo Energy installation"
+                    "help": "Home ID from your Netatmo Energy installation",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                      
                 },  
                 "ClientId":{
                     "newLine": true,
                     "type": "text",
                     "label": "Client-ID:",
                     "help": "Client ID from your Netatmo APP",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
@@ -33,6 +40,8 @@
                     "type": "text",
                     "label": "Client-Secret-ID:",
                     "help": "Client Secret ID from your Netatmo APP",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4   
@@ -50,20 +59,40 @@
                     "command": "getOAuthStartLink",
                     "jsonData": "{\"client_id\": \"${data.ClientId}\",\"client_secret\": \"${data.ClientSecretID}\",\"redirect_uri_base\": \"${data._origin}\"}",
                     "label": "Authenticate with Netatmo",
-                    "openUrl": true
+                    "openUrl": true,
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                      
                 },
                 "Information":{
                     "type": "header",
                     "size": "3",
-                    "text": "Additional functions"
+                    "text": "Additional functions",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                      
                 },     
                 "notificationEnabled":{
                     "type": "checkbox",
-                    "label": "Enable / Disable Notifications"
+                    "label": "Enable / Disable Notifications",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                      
                 },    
                 "sensorsEnabled":{
                     "type": "checkbox",
-                    "label": "Enable / Disable sensor actions"
+                    "label": "Enable / Disable sensor actions",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4                      
                 }   
             }
         },
@@ -79,9 +108,11 @@
                 "applyimmediately":{
                     "type": "checkbox",
                     "label": "apply immediately",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4                    
+                    "lg": 4                     
                 },
                 "RefreshHeader": {
                     "type": "header",
@@ -92,6 +123,8 @@
                     "newLine": true,
                     "type": "checkbox",
                     "label": "read API states immediately",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4                    
@@ -99,16 +132,23 @@
                 "refreshstates":{
                     "newLine": true,
                     "type": "number",
-                    "help": "Refresh states every x seconds"
+                    "help": "Refresh states every x seconds",
+                    "xs": 12,
+                    "xl": 4,
+                    "sm": 12,
+                    "md": 6,
+                    "lg": 4  
                 },
                 "UpdateStatesIfChanged": {
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Only update datapoints if changes are detected",
                     "default": true,
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4
+                    "lg": 4  
                 },
                 "UpdateStatesChangedTempEveryTime": {
                     "newLine": false,
@@ -116,9 +156,11 @@
                     "label": "Change temperature states every time",
                     "hidden": "data.UpdateStatesIfChanged !== true",
                     "default": false,
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4
+                    "lg": 4  
                 }
             }
         },
@@ -143,9 +185,11 @@
                       {"label": "Signal", "value": "signal-cmb"}
                     ],
                     "label": "notifications type",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4
+                    "lg": 4  
                   },
 
                 "telegramInstance":{
@@ -154,6 +198,8 @@
                     "command": "telegram",
                     "label": "Telegram instance",
                     "hidden": "data.notificationsType !== 'telegram'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
@@ -163,9 +209,11 @@
                     "command": "getTelegramUser",
                     "label": "Telegram Receiver",
                     "hidden": "data.notificationsType !== 'telegram'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4            
+                    "lg": 4             
                 },
                 "telegramSilentNotice":{
                     "newLine": true,
@@ -180,9 +228,11 @@
                     "command": "whatsapp-cmb",
                     "label": "WhatsApp instance",
                     "hidden": "data.notificationsType !== 'whatsapp-cmb'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4            
+                    "lg": 4             
                 },
                 
                 "signalInstance":{
@@ -191,6 +241,8 @@
                     "command": "signal-cmb",
                     "label": "Signal instance",
                     "hidden": "data.notificationsType !== 'signal-cmb'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
@@ -202,26 +254,32 @@
                     "command": "pushover",
                     "label": "Pushover instance",
                     "hidden": "data.notificationsType !== 'pushover'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4
+                    "lg": 4  
                 },  
                 "pushoverDeviceID":{
                     "type": "text",
                     "label": "device ID (optional)",
                     "hidden": "data.notificationsType !== 'pushover'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4            
+                    "lg": 4             
                 },
                 "pushoverSilentNotice":{
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Silent Notice",
                     "hidden": "data.notificationsType !== 'pushover'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4            
+                    "lg": 4             
                 },  
 
                 "emailInstance":{
@@ -230,15 +288,19 @@
                     "command": "email",
                     "label": "email instance",
                     "hidden": "data.notificationsType !== 'email'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4
+                    "lg": 4  
                 },                   
                 "emailReceiver":{
                     "newLine": true,
                     "type": "text",
                     "label": "email receiver",
                     "hidden": "data.notificationsType !== 'email'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
@@ -247,9 +309,11 @@
                     "type": "text",
                     "label": "email sender",
                     "hidden": "data.notificationsType !== 'email'",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4
+                    "lg": 4  
                 },
                 "sendTestNotification": {
                     "newLine": true,
@@ -278,6 +342,8 @@
                       {"label": "Short Notifications", "value": "shortNotice"}
                     ],                    
                     "label": "Notification Style",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
@@ -295,9 +361,11 @@
                       {"label": "errors", "value": "00e"}                                                                  
                     ],                    
                     "label": "message type",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4            
+                    "lg": 4             
                 }
             }
         },
@@ -315,14 +383,18 @@
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Low battery",
+                    "xs": 6,
+                    "xl": 2,
                     "sm": 6,
                     "md": 3,
-                    "lg": 2                    
+                    "lg": 2                   
                 },
                 "notify_bat_low_txt":{
                     "type": "text",
                     "label": "Message",
                     "help": "Message if battery goes low",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4            
@@ -331,14 +403,18 @@
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Medium battery",
+                    "xs": 6,
+                    "xl": 2,
                     "sm": 6,
                     "md": 3,
-                    "lg": 2                    
+                    "lg": 2                  
                 },
                 "notify_bat_medium_txt":{
                     "type": "text",
                     "label": "Message",
                     "help": "Message if battery goes medium",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
                     "lg": 4                                
@@ -347,38 +423,48 @@
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Connection",
+                    "xs": 6,
+                    "xl": 2,
                     "sm": 6,
                     "md": 3,
-                    "lg": 2                    
+                    "lg": 2                   
                 },
                 "notify_connection_no_txt":{
                     "type": "text",
                     "label": "Message",
                     "help": "Message if valve lost connection",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4   
+                    "lg": 4    
                 },
                 "notify_window_open":{
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Window open",
+                    "xs": 6,
+                    "xl": 2,
                     "sm": 6,
                     "md": 3,
-                    "lg": 2                    
+                    "lg": 2                   
                 },
                 "notify_window_open_txt":{
                     "type": "text",
                     "label": "Message",
                     "help": "Message if window is open",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4   
+                    "lg": 4    
                 },
                 "notify_heating_power_request":{
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Heating request",
+                    "xs": 6,
+                    "xl": 2,
                     "sm": 6,
                     "md": 3,
                     "lg": 2                    
@@ -387,14 +473,18 @@
                     "type": "text",
                     "label": "Message",
                     "help": "Message if valve creates a heating request",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4   
+                    "lg": 4    
                 },
                 "notify_anticipating":{
                     "newLine": true,
                     "type": "checkbox",
                     "label": "Anticipating",
+                    "xs": 6,
+                    "xl": 2,
                     "sm": 6,
                     "md": 3,
                     "lg": 2                    
@@ -403,9 +493,11 @@
                     "type": "text",
                     "label": "Message",
                     "help": "Message if boiler anticipates",
+                    "xs": 12,
+                    "xl": 4,
                     "sm": 12,
                     "md": 6,
-                    "lg": 4   
+                    "lg": 4  
                 }
             }
         },
@@ -421,6 +513,8 @@
                 },
                 "sensors": {
                     "type": "table",
+                    "xs": 12,
+                    "xl": 12,
                     "sm": 12,
                     "md": 12,
                     "lg": 12,
