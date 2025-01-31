@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.7.3",
+        "version": "2.8.0",
         "news": {
+            "2.8.0": {
+                "en": "Update dependencies",
+                "de": "Abhängigkeiten aktualisieren",
+                "ru": "Зависимости обновления",
+                "pt": "Dependências de atualização",
+                "nl": "Afhankelijkheden bijwerken",
+                "fr": "Mise à jour des dépendances",
+                "it": "Dipendenze di aggiornamento",
+                "es": "Actualizar las dependencias",
+                "pl": "Aktualizuj zależności",
+                "uk": "Оновлення залежності",
+                "zh-cn": "更新依赖关系"
+            },
             "2.7.3": {
                 "en": "Option 'Only update datapoints if changes are detected' corrected",
                 "de": "Option 'Datenpunkte nur aktualisieren, wenn Änderungen erkannt werden' korrigiert",
@@ -333,10 +346,15 @@
         "messagebox": true,
         "dependencies": [
             {
-                "js-controller": ">=3.0.0"
+                "js-controller": ">=5.0.19"
             },
             "vis"
         ],
+        "globalDependencies": [
+            {
+              "admin": ">=6.13.16"
+            }
+          ],        
         "plugins": {
             "sentry": {
                 "dsn": "https://7b86270a45984ed495445739467e6de3@o496760.ingest.sentry.io/6201758"
