@@ -2354,7 +2354,8 @@ class NetatmoEnergy extends utils.Adapter {
         let schedule_id = null;
         let schedule_name = null;
 
-        await that.deleteChannel(that.globalAPIChannel, glob.Channel_switchhomeschedule);
+        //await that.deleteChannel(that.globalAPIChannel, glob.Channel_switchhomeschedule);
+        await that.delObject(mytools.getDP([that.globalAPIChannel, glob.Channel_switchhomeschedule]));
         this.globalScheduleObjects = {};
         this.globalScheduleList = {};
         this.globalScheduleListArray = [];
