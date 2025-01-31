@@ -390,7 +390,7 @@ class NetatmoEnergy extends utils.Adapter {
 
         // Set polling intervall
         const refreshtime = this.config.refreshstates;
-        const that = this;
+        const that = this._getThat();
 
         if (this.globalNetatmo_AccessToken == null || this.globalRefreshToken == null) {
             return;
@@ -1405,7 +1405,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //get room name from ID
     async getNameofRoom(statevalue) {
-        const that = this;
+        const that = this._getThat();
         const nummer = /^[0-9]*$/i;
         if (!nummer.test(statevalue)) {
             return statevalue;
@@ -1443,7 +1443,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //get room name from ID
     async getNameofDevice(statevalue) {
-        const that = this;
+        const that = this._getThat();
         const macadress = /^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/i;
         if (!macadress.test(statevalue)) {
             return statevalue;
@@ -1863,7 +1863,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //Send Changes to API
     async applyAPIRequest(NetatmoRequest, mode) {
-        const that = this;
+        const that = this._getThat();
         return new Promise(function (resolve, reject) {
             const createAPIasync = async function (NetatmoRequest, mode, that) {
                 await that.sendAPIRequest(glob.Netatmo_APIrequest_URL, NetatmoRequest, mode, false, true);
@@ -1951,7 +1951,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //Send Changes to API and create API status request
     async applySingleAPIRequest(NetatmoRequest, mode, info) {
-        const that = this;
+        const that = this._getThat();
         await this.applyAPIRequest(NetatmoRequest, mode)
             .then(async () => {
                 await that.sendRequestNotification(NetatmoRequest, glob.InfoNotification, info, '');
@@ -2186,7 +2186,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //fetch API request
     _myFetch(url, payload) {
-        const that = this;
+        const that = this._getThat();
         return new Promise(function (resolve, reject) {
             if (!url) {
                 reject({
@@ -2345,7 +2345,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     // insert Schedule requests
     async searchSchedule() {
-        const that = this;
+        const that = this._getThat();
         const searchSchedules = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
         let schedule_id = null;
         let schedule_name = null;
@@ -2449,7 +2449,7 @@ class NetatmoEnergy extends utils.Adapter {
     async searchAllRooms(statevalue, ObjStatus, norefresh) {
         const searchRooms = 'homes\\.\\d+\\.rooms\\.\\d+\\.id';
         let room_id = null;
-        const that = this;
+        const that = this._getThat();
 
         // @ts-ignore
         // @ts-ignore
@@ -2609,7 +2609,7 @@ class NetatmoEnergy extends utils.Adapter {
     async searchAllModules(statevalue, ObjStatus) {
         const searchModules = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
         let module_id = null;
-        const that = this;
+        const that = this._getThat();
 
         // @ts-ignore
         // @ts-ignore
@@ -2971,7 +2971,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //Set sensor fields
     async _setSensorFields(id, sensor_attribs, actIdValue) {
-        const that = this;
+        const that = this._getThat();
 
         if (
             !sensor_attribs.window_sensor ||
@@ -3274,7 +3274,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //Make sensor changes
     async _sensorChanges(id, oldValue) {
-        const that = this;
+        const that = this._getThat();
 
         return new Promise(function (resolve) {
             const traceSensors = async function (id, oldValue, that) {
@@ -3711,7 +3711,7 @@ class NetatmoEnergy extends utils.Adapter {
     // Get activ schedule
     _getActiveSchedule() {
         const searchSchedule = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
-        const that = this;
+        const that = this._getThat();
 
         // @ts-ignore
         return new Promise(function (resolve, reject) {
@@ -3742,7 +3742,7 @@ class NetatmoEnergy extends utils.Adapter {
     // Get activ thermmode
     _getActiveThermMode(conv_name_list) {
         const searchHomeID = 'homes\\.\\d+\\.id';
-        const that = this;
+        const that = this._getThat();
 
         // @ts-ignore
         return new Promise(function (resolve, reject) {
@@ -3799,7 +3799,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     // Get sensor actions
     _getSensorActions() {
-        const that = this;
+        const that = this._getThat();
 
         return new Promise(function (resolve) {
             let SensorActions = [];
@@ -3829,7 +3829,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     // Get bool sensors
     _getSensors(searchBoolSensors, PathToObjects) {
-        const that = this;
+        const that = this._getThat();
 
         // @ts-ignore
         return new Promise(function (resolve, reject) {
@@ -3860,7 +3860,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchModes = `${mytools.getDP([this.globalAPIChannel, channel, API_Request])}*`;
         const myAPIRequests = [];
 
-        const that = this;
+        const that = this._getThat();
         // @ts-ignore
         return new Promise(function (resolve, reject) {
             that.getStates(searchModes, async function (error, states) {
@@ -3900,7 +3900,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchModules = 'homes\\.\\d+\\.modules\\.\\d+\\.id';
 
         let module_id = null;
-        const that = this;
+        const that = this._getThat();
         return new Promise(function (resolve, reject) {
             // @ts-ignore
             that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
@@ -3992,7 +3992,7 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
         const myRooms = [];
 
-        const that = this;
+        const that = this._getThat();
         return new Promise(function (resolve, reject) {
             that.getStates(`${that.namespace}.homes.*.rooms.*.module_ids.*`, async function (error, states) {
                 if (states && !error) {
