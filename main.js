@@ -94,8 +94,8 @@ class NetatmoEnergy extends utils.Adapter {
     //Subscribe foreign Sensors
     async _subscribeForeign(own_namespace, only_unsubscribe) {
         for (const sensor_attribs of this.config.sensors) {
-            // @ts-expect-error Window_sensor is available
-            if (sensor_attribs.window_sensor && 
+            if (// @ts-expect-error Window_sensor is available
+                sensor_attribs.window_sensor && 
                 // @ts-expect-error Window_sensor is available
                 sensor_attribs.window_sensor != null && 
                 // @ts-expect-error Window_sensor is available
@@ -2001,7 +2001,7 @@ class NetatmoEnergy extends utils.Adapter {
                     }
                 } catch (error) {
                     //No Number
-                    this.log.error(mytools.tl('Temperature controll', this.systemLang) + ': ' + error);
+                    this.log.error(mytools.tl('Temperature controll', this.systemLang) + error);
                 }
             }
             //mode
@@ -3501,7 +3501,6 @@ class NetatmoEnergy extends utils.Adapter {
 
                         case glob.Trigger_SetTemp:
                             this.log.debug(mytools.tl('Set room attributes', this.systemLang));
-                            
                             if (!isNaN(state.val)) {
                                 if (this.config.applyimmediately) {
                                     this.applySingleActualTemp(
@@ -3707,7 +3706,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchSchedule = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
         const that = this._getThat();
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             let myActiveSchedule = mytools.tl('Can not get active heating plan!', that.systemLang);
             that.getStates(`${that.namespace}.homes.*.schedules.*.id`, async function (error, states) {
                 if (states && !error) {
@@ -3736,7 +3735,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchHomeID = 'homes\\.\\d+\\.id';
         const that = this._getThat();
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve) {
             let myActiveThermMode = mytools.tl('Can not get active therm mode!', that.systemLang);
             that.getStates(`${that.namespace}.homes.*.id`, async function (error, states) {
                 if (states && !error) {
