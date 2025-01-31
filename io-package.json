@@ -266,6 +266,8 @@
         "notify_heating_power_request_txt": "",
         "notify_anticipating": true,
         "notify_anticipating_txt": "",
+        "UpdateStatesIfChanged": true,
+        "UpdateStatesChangedTempEveryTime": false,
         "sensors": []
     },
     "objects": [],

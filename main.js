@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use strict';
 
 // Load modules
@@ -6,12 +5,19 @@ const utils = require('@iobroker/adapter-core');
 const abort = require('abort-controller');
 const fs = require('fs');
 // @ts-ignore
+// @ts-ignore
 const fetch = require('fetch');
 const mytools = require('./lib/mytools');
 const glob = require('./lib/globals');
+// @ts-ignore
+const { error } = require('console');
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
+    /**
+    * @param {Partial<utils.AdapterOptions>} [options={}]
+    */
+
     //Class Constructor
     constructor(options) {
         super(
@@ -78,7 +84,9 @@ class NetatmoEnergy extends utils.Adapter {
             return;
         }
         //Get settings
+        // @ts-ignore
         this.getForeignObject('system.config', (err, obj) => {
+            // @ts-ignore
             this.systemLang = obj.common.language;
         });
 
@@ -91,15 +99,21 @@ class NetatmoEnergy extends utils.Adapter {
     async _subscribeForeign(own_namespace, only_unsubscribe) {
         for (const sensor_attribs of this.config.sensors) {
             if (
+                // @ts-ignore
                 sensor_attribs.window_sensor &&
+                // @ts-ignore
                 sensor_attribs.window_sensor != null &&
+                // @ts-ignore
                 sensor_attribs.window_sensor != undefined
             ) {
+                // @ts-ignore
                 if (sensor_attribs.window_sensor.search(own_namespace) >= 0) {
                     //nothing to do
                 } else {
+                    // @ts-ignore
                     await this.unsubscribeForeignStatesAsync(sensor_attribs.window_sensor);
                     if (!only_unsubscribe) {
+                        // @ts-ignore
                         await this.subscribeForeignStatesAsync(sensor_attribs.window_sensor);
                     }
                 }
@@ -211,12 +225,17 @@ class NetatmoEnergy extends utils.Adapter {
                 );
             }
         } catch (err) {
-            this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message);
+            let _errormessage = 'Error';
+            if (err instanceof Error) {
+                _errormessage = err.message;
+            } 
+            
+            this.log.error(mytools.tl('Error reading stored tokens: ', this.systemLang) + _errormessage);
             await this.sendRequestNotification(
                 null,
                 glob.ErrorNotification,
                 'Get Token',
-                mytools.tl('Error reading stored tokens: ', this.systemLang) + err.message,
+                mytools.tl('Error reading stored tokens: ', this.systemLang) + _errormessage,
             );
         }
     }
@@ -238,6 +257,7 @@ class NetatmoEnergy extends utils.Adapter {
     }
 
     //Get token from Netatmo
+    // @ts-ignore
     _getToken(HomeId, ClientId, ClientSecretID, redirect_uri, code) {
         this.globalNetatmo_AccessToken = null;
         let payload = '';
@@ -2342,6 +2362,7 @@ class NetatmoEnergy extends utils.Adapter {
 
         //schedules
         // @ts-ignore
+        // @ts-ignore
         this.getStates(`${that.namespace}.homes.*.schedules.*`, async function (error, states) {
             await that.createMyChannel(
                 mytools.getDP([that.globalAPIChannel, glob.Channel_switchhomeschedule]),
@@ -2352,13 +2373,13 @@ class NetatmoEnergy extends utils.Adapter {
                     schedule_id = await that.getStateAsync(id);
                     if (schedule_id) {
                         schedule_name = await that.getStateAsync(`${id.substring(0, id.length - 3)}.name`);
-                        if (schedule_name) {
+                        if (schedule_name && schedule_name.val != null) {
                             // @ts-ignore
                             that.globalScheduleObjects[
                                 mytools.getDP([
                                     that.globalAPIChannel,
                                     glob.Channel_switchhomeschedule,
-                                    `${glob.APIRequest_switchhomeschedule}_${schedule_name.val.replace(
+                                    `${glob.APIRequest_switchhomeschedule}_${String(schedule_name.val).replace(
                                         /[\s[\]*,;'"&`<>\\?.^$()/]/g,
                                         '_',
                                     )}`,
@@ -2369,7 +2390,7 @@ class NetatmoEnergy extends utils.Adapter {
                                 mytools.getDP([
                                     that.globalAPIChannel,
                                     glob.Channel_switchhomeschedule,
-                                    `${glob.APIRequest_switchhomeschedule}_${schedule_name.val.replace(
+                                    `${glob.APIRequest_switchhomeschedule}_${String(schedule_name.val).replace(
                                         /[\s[\]*,;'"&`<>\\?.^$()/]/g,
                                         '_',
                                     )}`,
@@ -2389,7 +2410,7 @@ class NetatmoEnergy extends utils.Adapter {
                                 mytools.getDP([
                                     that.globalAPIChannel,
                                     glob.Channel_switchhomeschedule,
-                                    `${glob.APIRequest_switchhomeschedule}_${schedule_name.val.replace(
+                                    `${glob.APIRequest_switchhomeschedule}_${String(schedule_name.val).replace(
                                         /[\s[\]*,;'"&`<>\\?.^$()/]/g,
                                         '_',
                                     )}`,
@@ -2435,6 +2456,7 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
         const that = this;
 
+        // @ts-ignore
         // @ts-ignore
         that.getStates(`${that.namespace}.homes.*.rooms.*`, async function (error, states) {
             for (const id in states) {
@@ -2594,6 +2616,7 @@ class NetatmoEnergy extends utils.Adapter {
         let module_id = null;
         const that = this;
 
+        // @ts-ignore
         // @ts-ignore
         that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
             for (const id in states) {
@@ -2891,8 +2914,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //Message because of state changes
     async sendMessage(id, message) {
-        let name = '';
-        name = await this.getStateAsync(id);
+        const name = await this.getStateAsync(id);
 
         this.log.info(mytools.tl('SendMessage: ', this.systemLang) + (name ? ` (${name.val})` : ''));
         await this.sendRequestNotification(
@@ -3227,17 +3249,19 @@ class NetatmoEnergy extends utils.Adapter {
             ) {
                 if (sensor_attribs.window_sensor == id) {
                     const sensorobject = await this.getForeignObjectAsync(id);
-                    if (sensorobject.common.type != 'boolean') {
+                    // @ts-ignore
+                    if (sensorobject && sensorobject.common.type != 'boolean') {
                         this.log.warn(
                             `${mytools.tl('Wrong Sensor:', this.systemLang) + glob.blank}[${id}]${
                                 glob.blank
                             }${mytools.tl('You have to use a bool sensor!', this.systemLang)}`,
                         );
                     } else {
-                        let sensorvalue = {};
+                        var sensorvalue;
                         id.search(this.namespace) >= 0
                             ? (sensorvalue = await this.getStateAsync(id))
                             : (sensorvalue = await this.getForeignStateAsync(id));
+                        
                         if (sensorvalue != undefined && sensorvalue != null && sensorvalue.val != oldValue) {
                             if (
                                 (sensor_attribs.window_sensor_value == true && sensorvalue.val == true) ||
@@ -3694,6 +3718,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchSchedule = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
         const that = this;
 
+        // @ts-ignore
         return new Promise(function (resolve, reject) {
             // @ts-ignore
             let myActiveSchedule = mytools.tl('Can not get active heating plan!', that.systemLang);
@@ -3724,6 +3749,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchHomeID = 'homes\\.\\d+\\.id';
         const that = this;
 
+        // @ts-ignore
         return new Promise(function (resolve, reject) {
             // @ts-ignore
             let myActiveThermMode = mytools.tl('Can not get active therm mode!', that.systemLang);
@@ -3810,6 +3836,7 @@ class NetatmoEnergy extends utils.Adapter {
     _getSensors(searchBoolSensors, PathToObjects) {
         const that = this;
 
+        // @ts-ignore
         return new Promise(function (resolve, reject) {
             // @ts-ignore
             that.getStates(that.namespace + PathToObjects, async function (error, states) {
@@ -3839,6 +3866,7 @@ class NetatmoEnergy extends utils.Adapter {
         const myAPIRequests = [];
 
         const that = this;
+        // @ts-ignore
         return new Promise(function (resolve, reject) {
             that.getStates(searchModes, async function (error, states) {
                 if (states && !error) {
@@ -4153,19 +4181,19 @@ class NetatmoEnergy extends utils.Adapter {
     }
 
     //Rename valve
-    async _renameValve(from, command, message) {
-        const { id, object: common } = message;
+    // @ts-ignore
+    async _renameValve(from, command, message, callback) {
+        const {id, object: common} = message;
         const _object = await this.getForeignObjectAsync(id);
 
         if (_object != undefined && common != undefined) {
-            await this.setForeignObjectAsync(
-                id,
-                Object.assign(
+            await this.setForeignObjectAsync(id, Object.assign(
                     _object,
                     {
                         from: `system.adapter.${this.namespace}`,
                         ts: Date.now(),
                     },
+                    // @ts-ignore
                     { common: Object.assign(_object.common, common) },
                 ),
             );
@@ -4508,6 +4536,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     startkey: `system.adapter.${obj.command}${glob.dot}`,
                                     endkey: `system.adapter.${obj.command}.\u9999`,
                                 },
+                                // @ts-ignore
                                 (err, instances) => {
                                     if (instances && instances.rows) {
                                         this.sendTo(

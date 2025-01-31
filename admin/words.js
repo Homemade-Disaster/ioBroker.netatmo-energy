@@ -1,5 +1,3 @@
-/* eslint quotes: 0, no-unused-vars: 0 */
-/*global systemDictionary:true */
 'use strict';
 
 const _systemDictionary = {
