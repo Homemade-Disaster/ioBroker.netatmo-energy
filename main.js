@@ -113,7 +113,7 @@ class NetatmoEnergy extends utils.Adapter {
 
     //Tocken intervall to refresh
     _setTokenIntervall(setTimer) {
-        const that = this;
+        let that = this;
         const refreshTokenbyTimer = function () {
             that._authenticate_refresh_token(that.storedOAuthData.redirect_uri, that.storedOAuthData.code);
         };
@@ -247,7 +247,6 @@ class NetatmoEnergy extends utils.Adapter {
     }
 
     //Get token from Netatmo
-    // @ts-ignore
     _getToken(HomeId, ClientId, ClientSecretID, redirect_uri, code) {
         this.globalNetatmo_AccessToken = null;
         let payload = '';
@@ -323,7 +322,7 @@ class NetatmoEnergy extends utils.Adapter {
                 systemLang,
             };
         } catch (error) {
-            //Config error
+            this.log.error(mytools.tl('Signal: ', this.systemLang) + error);
         }
 
         try {
@@ -335,7 +334,7 @@ class NetatmoEnergy extends utils.Adapter {
                 systemLang,
             };
         } catch (error) {
-            //Config error
+            this.log.error(mytools.tl('Telegram: ', this.systemLang) + error);
         }
 
         try {
@@ -345,7 +344,7 @@ class NetatmoEnergy extends utils.Adapter {
                 systemLang,
             };
         } catch (error) {
-            //Config error
+            this.log.error(mytools.tl('WhatsApp: ', this.systemLang) + error);
         }
 
         try {
@@ -357,7 +356,7 @@ class NetatmoEnergy extends utils.Adapter {
                 systemLang,
             };
         } catch (error) {
-            //Config error
+            this.log.error(mytools.tl('Pushover: ', this.systemLang) + error);
         }
 
         try {
@@ -369,7 +368,7 @@ class NetatmoEnergy extends utils.Adapter {
                 systemLang,
             };
         } catch (error) {
-            //Config error
+            this.log.error(mytools.tl('E-Mail: ', this.systemLang) + error);
         }
 
         //Get stored token
