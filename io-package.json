@@ -103,10 +103,7 @@
             "energy",
             "thermostat",
             "climate",
-            "temperature",
-            "iobroker",
-            "adapter", 
-            "smart home"
+            "temperature"
         ],
         "platform": "Javascript/Node.js",
         "main": "main.js",
