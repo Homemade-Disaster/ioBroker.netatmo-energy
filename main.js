@@ -2355,8 +2355,6 @@ class NetatmoEnergy extends utils.Adapter {
         this.globalScheduleListArray = [];
 
         //schedules
-        
-        
         this.getStates(`${that.namespace}.homes.*.schedules.*`, async function (error, states) {
             await that.createMyChannel(
                 mytools.getDP([that.globalAPIChannel, glob.Channel_switchhomeschedule]),
@@ -2368,7 +2366,7 @@ class NetatmoEnergy extends utils.Adapter {
                     if (schedule_id) {
                         schedule_name = await that.getStateAsync(`${id.substring(0, id.length - 3)}.name`);
                         if (schedule_name && schedule_name.val != null) {
-                            
+
                             that.globalScheduleObjects[
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2379,7 +2377,7 @@ class NetatmoEnergy extends utils.Adapter {
                                     )}`,
                                 ])
                             ] = schedule_id.val;
-                            
+
                             await that.createNetatmoStructure(
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2399,7 +2397,7 @@ class NetatmoEnergy extends utils.Adapter {
                                 false,
                                 false,
                             );
-                            
+
                             await that.subscribeStates(
                                 mytools.getDP([
                                     that.globalAPIChannel,
@@ -2450,8 +2448,6 @@ class NetatmoEnergy extends utils.Adapter {
         let room_id = null;
         const that = this._getThat();
 
-        
-        
         that.getStates(`${that.namespace}.homes.*.rooms.*`, async function (error, states) {
             for (const id in states) {
                 if (id.search(searchRooms) >= 0) {
@@ -2610,8 +2606,6 @@ class NetatmoEnergy extends utils.Adapter {
         let module_id = null;
         const that = this._getThat();
 
-        
-        
         that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
             for (const id in states) {
                 if (id.search(searchModules) >= 0) {
@@ -3123,7 +3117,6 @@ class NetatmoEnergy extends utils.Adapter {
             );
             const NewTemp = Number(sensor_attribs.set_value);
             if (!isNaN(NewTemp)) {
-                
                 if (sensor_attribs.sensor_delay && sensor_attribs.sensor_delay > 0) {
                     this.log.debug(
                         mytools.tl('Sensor action in', this.systemLang) +
@@ -3712,9 +3705,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchSchedule = 'homes\\.\\d+\\.schedules\\.\\d+\\.id';
         const that = this._getThat();
 
-        
         return new Promise(function (resolve, reject) {
-            
             let myActiveSchedule = mytools.tl('Can not get active heating plan!', that.systemLang);
             that.getStates(`${that.namespace}.homes.*.schedules.*.id`, async function (error, states) {
                 if (states && !error) {
@@ -3743,9 +3734,7 @@ class NetatmoEnergy extends utils.Adapter {
         const searchHomeID = 'homes\\.\\d+\\.id';
         const that = this._getThat();
 
-        
         return new Promise(function (resolve, reject) {
-            
             let myActiveThermMode = mytools.tl('Can not get active therm mode!', that.systemLang);
             that.getStates(`${that.namespace}.homes.*.id`, async function (error, states) {
                 if (states && !error) {
@@ -3830,9 +3819,7 @@ class NetatmoEnergy extends utils.Adapter {
     _getSensors(searchBoolSensors, PathToObjects) {
         const that = this._getThat();
 
-        
         return new Promise(function (resolve, reject) {
-            
             that.getStates(that.namespace + PathToObjects, async function (error, states) {
                 const BoolArray = [];
                 if (states && !error) {
@@ -3901,7 +3888,6 @@ class NetatmoEnergy extends utils.Adapter {
         let module_id = null;
         const that = this._getThat();
         return new Promise(function (resolve, reject) {
-            
             that.getStates(`${that.namespace}.homes.*.modules.*`, async function (error, states) {
                 if (states && !error) {
                     for (const id in states) {
@@ -4175,7 +4161,6 @@ class NetatmoEnergy extends utils.Adapter {
     }
 
     //Rename valve
-    
     async _renameValve(from, command, message, callback) {
         const { id, object: common } = message;
         const _object = await this.getForeignObjectAsync(id);
