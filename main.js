@@ -110,10 +110,16 @@ class NetatmoEnergy extends utils.Adapter {
             }
         }
     }
-
+    
+    //Get THAT
+    _getThat() {
+        return this;
+    }
+    
     //Tocken intervall to refresh
     _setTokenIntervall(setTimer) {
-        let that = this;
+        const that = this._getThat();
+
         const refreshTokenbyTimer = function () {
             that._authenticate_refresh_token(that.storedOAuthData.redirect_uri, that.storedOAuthData.code);
         };
