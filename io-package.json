@@ -298,9 +298,13 @@
             "energy",
             "thermostat",
             "climate",
-            "temperature"
+            "temperature",
+            "ioBroker"
         ],
-        "license": "MIT",
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+          },
         "platform": "Javascript/Node.js",
         "main": "main.js",
         "icon": "netatmo-energy.png",

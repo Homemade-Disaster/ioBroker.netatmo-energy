@@ -7,13 +7,17 @@
   "description": "Get and set data using Netatmo Energy API",
   "author": "ioKlausi <nii@gmx.at>",
   "homepage": "https://github.com/Homemade-Disaster/ioBroker.netatmo-energy",
-  "license": "MIT",
+  "licenseInformation": {
+    "license": "MIT",
+    "type": "free"
+  },
   "keywords": [
     "netatmo",
     "energy",
     "thermostat",
     "climate",
-    "temperature"
+    "temperature",
+    "ioBroker"
   ],
   "repository": {
     "type": "git",
@@ -30,7 +34,7 @@
     "cloneextend": "^0.0.3",
     "json-schema": "^0.4.0",
     "node-ical": "^0.20.1",
-    "rrule": "2.8.1"
+    "rrule": "^2.8.1"
 
   },
   "devDependencies": {
