@@ -34,6 +34,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 [Older changes](CHANGELOG_OLD.md)
 <!-- ### **WORK IN PROGRESS** -->
+### 2.8.1 (2025-04-24)
+
+* (ioKlausi) Update dependencies
+
 ### 2.8.0 (2025-01-31)
 
 * (ioKlausi) Update dependencies
