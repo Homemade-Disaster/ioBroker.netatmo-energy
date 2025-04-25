@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.8.0",
+        "version": "2.8.1",
         "news": {
+            "2.8.1": {
+                "en": "Update dependencies",
+                "de": "Abhängigkeiten aktualisieren",
+                "ru": "Зависимости обновления",
+                "pt": "Dependências de atualização",
+                "nl": "Afhankelijkheden bijwerken",
+                "fr": "Mise à jour des dépendances",
+                "it": "Dipendenze di aggiornamento",
+                "es": "Actualizar las dependencias",
+                "pl": "Aktualizuj zależności",
+                "uk": "Оновлення залежності",
+                "zh-cn": "更新依赖关系"
+            },
             "2.8.0": {
                 "en": "Update dependencies",
                 "de": "Abhängigkeiten aktualisieren",
@@ -153,7 +166,7 @@
         ],
         "globalDependencies": [
             {
-              "admin": ">=6.13.16"
+              "admin": ">=7.4.10"
             }
           ],        
         "licenseInformation": {
