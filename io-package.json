@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.8.1",
+        "version": "2.8.2",
         "news": {
             "2.8.2": {
                 "en": "Update dependencies",
