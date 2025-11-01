@@ -54,58 +54,6 @@
                 "pl": "Aktualizuj zależności",
                 "uk": "Оновлення залежності",
                 "zh-cn": "更新依赖关系"
-            },
-            "2.7.3": {
-                "en": "Option 'Only update datapoints if changes are detected' corrected",
-                "de": "Option 'Datenpunkte nur aktualisieren, wenn Änderungen erkannt werden' korrigiert",
-                "ru": "Опция «Только обновление точек данных при обнаружении изменений»",
-                "pt": "Opção 'Apenas atualize datapoints se as alterações forem detectadas' corrigido",
-                "nl": "Optie 'Alleen gegevenspunten bijwerken als wijzigingen worden gedetecteerd' gecorrigeerd",
-                "fr": "Option « Mettre à jour uniquement les points de données si des changements sont détectés » corrigée",
-                "it": "Opzione 'Solo aggiornare i datapoint se le modifiche vengono rilevate' corretto",
-                "es": "Opción 'Sólo actualizar los puntos de datos si se detectan cambios' corregido",
-                "pl": "Opcja \"Aktualizacja punktów danych tylko w przypadku wykrycia zmian\" poprawiona",
-                "uk": "Опція «Навколо оновлення точок даних при виправленні змін»",
-                "zh-cn": "选项“ 只有发现变化时更新数据点” 更正"
-            },
-            "2.7.2": {
-                "en": "Adjust attributes of the adapter",
-                "de": "Attribute des Adapters anpassen",
-                "ru": "Настройка атрибутов адаптера",
-                "pt": "Ajustar atributos do adaptador",
-                "nl": "Attributen van de adapter aanpassen",
-                "fr": "Régler les attributs de l'adaptateur",
-                "it": "Regolare gli attributi dell'adattatore",
-                "es": "Ajuste los atributos del adaptador",
-                "pl": "Dostosuj atrybuty adaptera",
-                "uk": "Налаштування атрибутів адаптера",
-                "zh-cn": "调整适配器的属性"
-            },
-            "2.7.1": {
-                "en": "Remove GULP support",
-                "de": "GULP-Unterstützung entfernen",
-                "ru": "Удалить поддержку GULP",
-                "pt": "Remover suporte GULP",
-                "nl": "Verwijder GULP steun",
-                "fr": "Supprimer le soutien de GULP",
-                "it": "Rimuovere il supporto GULP",
-                "es": "Eliminar soporte GULP",
-                "pl": "Remove GULP",
-                "uk": "Видалити GULP підтримки",
-                "zh-cn": "D. 取消GULP的支助"
-            },
-            "2.7.0": {
-                "en": "Adjust default value for parameters",
-                "de": "Standardwert anpassen für Parameter",
-                "ru": "Отрегулируйте значение по умолчанию для параметров",
-                "pt": "Ajuste o valor padrão para parâmetros",
-                "nl": "Aanpassen default waarde voor parameters",
-                "fr": "Valeur par défaut de réglage des paramètres",
-                "it": "Regolare il valore predefinito per i parametri",
-                "es": "Ajuste el valor predeterminado de los parámetros",
-                "pl": "Domyślna wartość parametrów dla parametrów",
-                "uk": "Налаштування значення за замовчуванням для параметрів",
-                "zh-cn": "参数的合理违约率"
             }
         },
         "titleLang": {
