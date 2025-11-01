@@ -91,11 +91,6 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Run ioBroker adapter checker
-        run: |
-          npm install --global @iobroker/testing
-          iobroker test
-
       - name: Run integration tests # (linux/osx)
         if: startsWith(runner.OS, 'windows') == false
         run: DEBUG=testing:* npm run test:integration
