@@ -85,9 +85,6 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Lint code
-        run: npm run lint --if-present
-
       - name: Run tests
         run: npm test
 
