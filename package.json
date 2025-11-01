@@ -1,6 +1,6 @@
 {
   "name": "iobroker.netatmo-energy",
-  "version": "2.8.6",
+  "version": "2.8.7",
   "engines": {
     "node": ">=20"
   },
@@ -81,7 +81,7 @@
     "main.js"
   ],
   "scripts": {
-    "test": "npm run test:js && npm run test:package",
+    "test": "npm run test:package && npm run test:js",
     "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
     "test:package": "mocha test/package --exit",
     "test:unit": "mocha test/unit --exit",
@@ -93,7 +93,7 @@
     "check": "tsc --noEmit -p tsconfig.check.json",
     "lint": "eslint -c eslint.config.mjs .",
     "translate": "translate-adapter",
-    "build": "build-adapter",
+    "build": "build-adapter all",
     "test:rule": "mocha test/rule --exit",
     "test:gui": "mocha test/*.gui.js --exit",
     "update-packages": "ncu --upgrade && cd src && ncu --upgrade && cd ..",

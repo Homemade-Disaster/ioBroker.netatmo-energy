@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.8.6",
+        "version": "2.8.7",
         "news": {
+            "2.8.7": {
+                "en": "Trusted publishing for npm packages",
+                "de": "Trusted Publishing für npm-Pakete",
+                "ru": "Надежная публикация для пакетов npm",
+                "pt": "Publicação confiável para pacotes npm",
+                "nl": "Vertrouwd publiceren voor npm pakketten",
+                "fr": "Publication fiable pour paquets npm",
+                "it": "Pubblicazione attendibile per npm",
+                "es": "Publicación confiada para paquetes npm",
+                "pl": "Zaufane publikacje dla pakietów npm",
+                "uk": "Довірене видання для пакетів npm",
+                "zh-cn": "Npm 软件包的可信发布"
+            },
             "2.8.6": {
                 "en": "Trusted publishing for npm packages",
                 "de": "Trusted Publishing für npm-Pakete",
@@ -17,71 +30,6 @@
                 "zh-cn": "Npm 软件包的可信发布"
             },
             "2.8.5": {
-                "en": "Update dependencies",
-                "de": "Abhängigkeiten aktualisieren",
-                "ru": "Зависимости обновления",
-                "pt": "Dependências de atualização",
-                "nl": "Afhankelijkheden bijwerken",
-                "fr": "Mise à jour des dépendances",
-                "it": "Dipendenze di aggiornamento",
-                "es": "Actualizar las dependencias",
-                "pl": "Aktualizuj zależności",
-                "uk": "Оновлення залежності",
-                "zh-cn": "更新依赖关系"
-            },
-            "2.8.4": {
-                "en": "Update dependencies",
-                "de": "Abhängigkeiten aktualisieren",
-                "ru": "Зависимости обновления",
-                "pt": "Dependências de atualização",
-                "nl": "Afhankelijkheden bijwerken",
-                "fr": "Mise à jour des dépendances",
-                "it": "Dipendenze di aggiornamento",
-                "es": "Actualizar las dependencias",
-                "pl": "Aktualizuj zależności",
-                "uk": "Оновлення залежності",
-                "zh-cn": "更新依赖关系"
-            },
-            "2.8.3": {
-                "en": "Update dependencies",
-                "de": "Abhängigkeiten aktualisieren",
-                "ru": "Зависимости обновления",
-                "pt": "Dependências de atualização",
-                "nl": "Afhankelijkheden bijwerken",
-                "fr": "Mise à jour des dépendances",
-                "it": "Dipendenze di aggiornamento",
-                "es": "Actualizar las dependencias",
-                "pl": "Aktualizuj zależności",
-                "uk": "Оновлення залежності",
-                "zh-cn": "更新依赖关系"
-            },
-            "2.8.2": {
-                "en": "Update dependencies",
-                "de": "Abhängigkeiten aktualisieren",
-                "ru": "Зависимости обновления",
-                "pt": "Dependências de atualização",
-                "nl": "Afhankelijkheden bijwerken",
-                "fr": "Mise à jour des dépendances",
-                "it": "Dipendenze di aggiornamento",
-                "es": "Actualizar las dependencias",
-                "pl": "Aktualizuj zależności",
-                "uk": "Оновлення залежності",
-                "zh-cn": "更新依赖关系"
-            },
-            "2.8.1": {
-                "en": "Update dependencies",
-                "de": "Abhängigkeiten aktualisieren",
-                "ru": "Зависимости обновления",
-                "pt": "Dependências de atualização",
-                "nl": "Afhankelijkheden bijwerken",
-                "fr": "Mise à jour des dépendances",
-                "it": "Dipendenze di aggiornamento",
-                "es": "Actualizar las dependencias",
-                "pl": "Aktualizuj zależności",
-                "uk": "Оновлення залежності",
-                "zh-cn": "更新依赖关系"
-            },
-            "2.8.0": {
                 "en": "Update dependencies",
                 "de": "Abhängigkeiten aktualisieren",
                 "ru": "Зависимости обновления",

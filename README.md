@@ -34,6 +34,10 @@ Mittels der Netatmo-Energy API werden die aktuellen Einstellungen abgeholt bzw. 
 
 [Older changes](CHANGELOG_OLD.md)
 <!-- ### **WORK IN PROGRESS** -->
+### 2.8.7 (2025-11-01)
+
+* (ioKlausi) Trusted publishing for npm packages
+
 ### 2.8.6 (2025-11-01)
 
 * (ioKlausi) Trusted publishing for npm packages
