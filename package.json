@@ -51,8 +51,7 @@
     "chai-string": "^1.6.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",
-    "luxon": "^3.7.2",
-    "mocha": "^11.7.4",    
+    "luxon": "^3.7.2", 
     "typescript": "~5.9.3"
   },
   "main": "main.js",
