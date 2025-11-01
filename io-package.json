@@ -208,7 +208,6 @@
                 }
             }
         ],
-        "jsonConfig": true,
         "adminUI": {
             "config": "json",
             "tab": "materialize"
