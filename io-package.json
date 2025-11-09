@@ -1,22 +1,22 @@
 {
     "common": {
         "name": "netatmo-energy",
-        "version": "2.8.8",
+        "version": "3.0.0",
         "news": {
+            "3.0.0": {
+                "en": "Added additional tests",
+                "de": "Zusätzliche Tests",
+                "ru": "Добавлены дополнительные тесты",
+                "pt": "Ensaios adicionais adicionados",
+                "nl": "Aanvullende tests toegevoegd",
+                "fr": "Ajout d'essais supplémentaires",
+                "it": "Ulteriori test",
+                "es": "Se agregaron pruebas adicionales",
+                "pl": "Dodano dodatkowe badania",
+                "uk": "Додаткові тести",
+                "zh-cn": "新增测试"
+                },
             "2.8.8": {
-                "en": "Trusted publishing for npm packages",
-                "de": "Trusted Publishing für npm-Pakete",
-                "ru": "Надежная публикация для пакетов npm",
-                "pt": "Publicação confiável para pacotes npm",
-                "nl": "Vertrouwd publiceren voor npm pakketten",
-                "fr": "Publication fiable pour paquets npm",
-                "it": "Pubblicazione attendibile per npm",
-                "es": "Publicación confiada para paquetes npm",
-                "pl": "Zaufane publikacje dla pakietów npm",
-                "uk": "Довірене видання для пакетів npm",
-                "zh-cn": "Npm 软件包的可信发布"
-            },
-            "2.8.7": {
                 "en": "Trusted publishing for npm packages",
                 "de": "Trusted Publishing für npm-Pakete",
                 "ru": "Надежная публикация для пакетов npm",
