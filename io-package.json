@@ -103,7 +103,7 @@
         },
         "loglevel": "info",
         "restartAdapters": [
-            "vis"
+            "vis-2"
         ],
         "mode": "daemon",
         "type": "climate-control",
