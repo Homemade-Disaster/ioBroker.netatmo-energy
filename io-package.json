@@ -128,8 +128,7 @@
                 "uk": "Netatmo Energy",
                 "zh-cn": "Netatmo Energy"
             },
-            "link": "",
-            "fa-icon": "</i><img style='width: 20px; margin-bottom: -4px;' src='/adapter/netatmo-energy/netatmo-energy.png'><i>"
+            "link": ""
         },
         "messagebox": true,
         "dependencies": [
