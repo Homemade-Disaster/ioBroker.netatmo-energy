@@ -48,7 +48,6 @@
     "@types/sizzle": "^2.3.10",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
-    "chai-string": "^1.6.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.5.0",
     "luxon": "^3.7.2",
