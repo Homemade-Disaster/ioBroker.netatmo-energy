@@ -4,11 +4,11 @@
 // Load modules
 const utils = require('@iobroker/adapter-core');
 const abort = require('abort-controller');
-const fs = require('fs');
+const fs = require('node:fs');
 const fetch = require('fetch');
 const mytools = require('./lib/mytools');
 const glob = require('./lib/globals');
-//const { error } = require('console');
+//const { error } = require('node:console');
 
 // Main Class
 class NetatmoEnergy extends utils.Adapter {
